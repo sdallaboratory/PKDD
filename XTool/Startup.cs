@@ -4,8 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using XTool.Data;
+using XTool.Models.Roles;
 
 namespace XTool
 {
@@ -21,7 +25,18 @@ namespace XTool
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("DefaultString");
+            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connectionString));
+            services.AddIdentity<XToolUser, XToolRole>();
+
+            string authorPath = "/Authorization/Login";
+            services.AddAuthentication()
+                .AddCookie(options => {
+                    options.LoginPath = authorPath;
+                    });
+
             services.AddMvc();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +52,7 @@ namespace XTool
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
