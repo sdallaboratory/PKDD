@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Models.Roles;
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
+
 namespace XTool.Controllers
 {
-    public class Authorization
+    public class Authorization : Controller
     {
         private RoleManager<XToolRole> _roleManager;
 
@@ -17,8 +26,22 @@ namespace XTool.Controllers
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _roleManager;
-            _userManager.
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async void Login()
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
         }
     }
 }
