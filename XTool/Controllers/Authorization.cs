@@ -12,7 +12,8 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using XTool.Models.TransferModels;
+using XTool.Data;
 
 namespace XTool.Controllers
 {
@@ -22,10 +23,13 @@ namespace XTool.Controllers
 
         private UserManager<XToolUser> _userManager;
 
-        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager)
+        private XToolDBContext _dBcontext; 
+
+        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, XToolDBContext dBContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _dBcontext = dBContext;
         }
 
         [HttpGet]
@@ -36,11 +40,13 @@ namespace XTool.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async void Login()
+        public async void Login(LoginModel login)
         {
             if(ModelState.IsValid)
             {
 
+                ClaimsPrincipal claim = new ClaimsPrincipal();
+               // HttpContext.SignInAsync()
             }
         }
     }

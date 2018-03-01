@@ -25,8 +25,8 @@ namespace XTool
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultString");
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connectionString));
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<XToolDBContext>(options => options.UseSqlServer(connectionString));
             services.AddIdentity<XToolUser, XToolRole>();
 
             string authorPath = "/Authorization/Login";
