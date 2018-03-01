@@ -40,14 +40,28 @@ namespace XTool.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async void Login(LoginModel login)
+        public async Task<IActionResult> Login(LoginModel login)
         {
+            IActionResult result;
             if(ModelState.IsValid)
             {
-
-                ClaimsPrincipal claim = new ClaimsPrincipal();
-               // HttpContext.SignInAsync()
+                XToolUser user = _dBcontext.XToolUsers.FirstOrDefault( x => x.WithLogin(login));
+                if(user != null)
+                {
+                    ClaimsPrincipal claim = new ClaimsPrincipal();
+                    await HttpContext.SignInAsync(claim);
+                    result = Redirect("~/Home/Index");
+                }
+                else
+                {
+                    result = Forbid();
+                }
             }
+            else
+            {
+                result = View();
+            }
+            return result;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Models.TransferModels;
 
 namespace XTool.Models.Roles
 {
@@ -10,9 +11,11 @@ namespace XTool.Models.Roles
     {
         public DateTime Birthday { get; set; }
 
-        /// <summary>
-        /// Должность и место работы.
-        /// </summary>
         public string Position { get; set; }
+
+        public bool WithLogin(LoginModel loginModel)
+        {
+            return Email == loginModel.Email & PasswordHash == loginModel.Password.GetHashCode().ToString();
+        }
     }
 }

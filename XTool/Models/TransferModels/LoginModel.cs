@@ -10,7 +10,7 @@ namespace XTool.Models.TransferModels
     {
         [Required(ErrorMessage = "Введите e-mail")]
         [EmailAddress]
-        public string EMail { get; set; }
+        public string Email { get; set; }
 
         public string Password { get; set; }
     }

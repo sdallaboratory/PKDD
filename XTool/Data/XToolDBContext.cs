@@ -16,7 +16,7 @@ namespace XTool.Data
 
         public DbSet<XToolRole> XToolRoles { get; set; }
 
-        public DbSet<XToolUser> MyProperty { get; set; }
+        public DbSet<XToolUser> XToolUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
