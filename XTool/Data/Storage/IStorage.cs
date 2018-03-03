@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ namespace XTool.Data.Storage
 {
     public interface IStorage<TKey>
     {
-        XToolDBContext Context { get; }
 
         IEnumerable<T> FindItems<T>() where T : class;
 

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using XTool.Data.Storage;
 
@@ -8,9 +10,9 @@ namespace XTool.Data
 {
     public abstract class EntityStorage<TKey> : IStorage<TKey>
     {
-        public XToolDBContext Context { get; }
+        public DbContext Context { get; }
 
-        public EntityStorage(XToolDBContext context)
+        public EntityStorage(DbContext context)
         {
             Context = context;
         }
@@ -27,7 +29,7 @@ namespace XTool.Data
             return result;
         }
 
-        public T DeleteItemById<T>(TKey id) where T : class
+        public virtual T DeleteItemById<T>(TKey id) where T : class
         {
 
             var item = Context.Find<T>(typeof(T), id);
@@ -39,17 +41,17 @@ namespace XTool.Data
             return item;
         }
 
-        public T FindItemById<T>(TKey id) where T : class
+        public virtual T FindItemById<T>(TKey id) where T : class
         {
             return Context.Find<T>(typeof(T), id);
         }
 
-        public IEnumerable<T> FindItems<T>() where T : class
+        public virtual IEnumerable<T> FindItems<T>() where T : class
         {
-            return new List<T>();
+            return FindDBSet<T>().AsEnumerable();
         }
 
-        public T UpdateItem<T>(TKey id, Func<T, T, T> updater, T newValue) where T : class
+        public virtual T UpdateItem<T>(TKey id, Func<T, T, T> updater, T newValue) where T : class
         {
             T item = Context.Find<T>(id);
             if (item != null)
@@ -59,6 +61,15 @@ namespace XTool.Data
                 Context.SaveChanges();
             }
             return item;
+        }
+        private DbSet<T> FindDBSet<T>() where T : class
+        {
+            var dbSet =  Context.GetType()
+                .GetProperties()
+                .Where( x => x.PropertyType == typeof(DbSet<T>))
+                ?.FirstOrDefault()
+                .GetValue(Context);
+            return dbSet as DbSet<T>;       
         }
     }
 }

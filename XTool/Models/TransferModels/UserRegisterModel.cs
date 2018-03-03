@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace XTool.Models.TransferModels
 {
-    public class UserRegisterModel
+    public class UserRegisterModel : IUpdateble
     {
+        public IUpdateble Update(IUpdateble model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

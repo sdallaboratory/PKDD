@@ -9,7 +9,7 @@ namespace XTool.Models.DBModels
     /// <summary>
     /// Представляет класс персоны, вынесенной админом на оценку экспертам. 
     /// </summary>
-    public class Person : IModel
+    public class Person : IUpdateble
     {
         public int Id { get; set; }
 
@@ -52,7 +52,7 @@ namespace XTool.Models.DBModels
 
         public DateTime Published { get; set; }
 
-        public IModel Update(IModel source) 
+        public IUpdateble Update(IUpdateble source) 
         {
             Person temp = null;
             if(source != null && source is Person)

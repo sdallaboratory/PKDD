@@ -7,11 +7,16 @@ using XTool.Models.TransferModels;
 
 namespace XTool.Models.Roles
 {
-    public class XToolUser : IdentityUser<int>
+    public class XToolUser : IdentityUser<int>, IUpdateble
     {
         public DateTime Birthday { get; set; }
 
         public string Position { get; set; }
+
+        public virtual IUpdateble Update(IUpdateble model)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool WithLogin(LoginModel loginModel)
         {

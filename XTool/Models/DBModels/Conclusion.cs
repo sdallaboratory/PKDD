@@ -47,7 +47,7 @@ namespace XTool.Models.DBModels
         public virtual XToolUser Expert { get; set; }
         #endregion
 
-        public override IModel Update(IModel conclusion)
+        public override IUpdateble Update(IUpdateble conclusion)
         {
             Conclusion temp = conclusion as Conclusion;
             Comment = temp.Comment;

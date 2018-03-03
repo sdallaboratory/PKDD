@@ -10,7 +10,7 @@ namespace XTool.Models.DBModels
     /// <summary>
     /// Представляет обёртку над десятью показателдями при оценивании персоны
     /// </summary>
-    public class Evaluation : IModel
+    public class Evaluation : IUpdateble
     {
         [NotMapped]
         public byte[] Values = new byte [10];
@@ -54,7 +54,7 @@ namespace XTool.Models.DBModels
             return result;
         }
 
-        public virtual IModel Update(IModel model)
+        public virtual IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();
         }
