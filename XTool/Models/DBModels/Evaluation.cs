@@ -10,7 +10,7 @@ namespace XTool.Models.DBModels
     /// <summary>
     /// Представляет обёртку над десятью показателдями при оценивании персоны
     /// </summary>
-    public class Evaluation
+    public class Evaluation : IModel
     {
         [NotMapped]
         public byte[] Values = new byte [10];
@@ -52,6 +52,11 @@ namespace XTool.Models.DBModels
                     break;             
             }
             return result;
+        }
+
+        public virtual IModel Update(IModel model)
+        {
+            throw new NotImplementedException();
         }
 
         public byte Hypochondriasis

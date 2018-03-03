@@ -9,7 +9,7 @@ namespace XTool.Models.DBModels
     /// <summary>
     /// Представляет класс персоны, вынесенной админом на оценку экспертам. 
     /// </summary>
-    public class Person
+    public class Person : IModel
     {
         public int Id { get; set; }
 
@@ -52,20 +52,26 @@ namespace XTool.Models.DBModels
 
         public DateTime Published { get; set; }
 
-        public void Update(Person source)
+        public IModel Update(IModel source) 
         {
-            if (!string.IsNullOrWhiteSpace(source.Name))
-                Name = source.Name;
-            Birthday = source.Birthday;
-            Position = source.Position;
-            Photo = source.Photo;
-            Publish = source.Publish;
-            Video = source.Video;
-            Biography = source.Biography;
-            Career = source.Career;
-            ReligiousViews = source.ReligiousViews;
-            Quotations = source.Quotations;
-            SocialActivity = source.SocialActivity;
+            Person temp = null;
+            if(source != null && source is Person)
+            {
+                temp = source as Person;
+                if (!string.IsNullOrWhiteSpace(temp.Name))
+                    Name = temp.Name;
+                Birthday = temp.Birthday;
+                Position = temp.Position;
+                Photo = temp.Photo;
+                Publish = temp.Publish;
+                Video = temp.Video;
+                Biography = temp.Biography;
+                Career = temp.Career;
+                ReligiousViews = temp.ReligiousViews;
+                Quotations = temp.Quotations;
+                SocialActivity = temp.SocialActivity;
+            }
+            return temp;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace XTool.Models.DBModels
                 ExpertId = expertId;
         }
 
+        #region properties
         public int Id { get; set; }
 
         public string Comment { get; set; }
@@ -44,12 +45,15 @@ namespace XTool.Models.DBModels
         public int ExpertId { get; set; }
         /// Эксперт, сформировавший оценку.
         public virtual XToolUser Expert { get; set; }
+        #endregion
 
-        public void Update(Conclusion conclusion)
+        public override IModel Update(IModel conclusion)
         {
-            Comment = conclusion.Comment;
+            Conclusion temp = conclusion as Conclusion;
+            Comment = temp.Comment;
             for (int i =0; i < 10; i++)
-                Values[i] = conclusion.Values[i];
+                Values[i] = temp.Values[i];
+            return this;
         }
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.Storage;
 
-namespace XTool.Data
+namespace XTool.Data.Storage
 {
     public interface IStorage<TKey>
     {

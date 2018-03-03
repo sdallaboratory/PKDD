@@ -13,7 +13,14 @@ namespace XTool.Data
 
         public override int AddItem<T>(T item)
         {
-            return base.AddItem(item);
+            int result = -1);
+            if (item != null)
+            {
+                var temp = Context.Add(item);
+                Context.SaveChanges();
+                result = temp.GetDatabaseValues().GetValue<int>("Id");
+            }
+            return result;
         }
 
     }
