@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using XTool.Models.TransferModels;
 using XTool.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace XTool.Controllers
 {
@@ -48,13 +49,12 @@ namespace XTool.Controllers
                 XToolUser user = _dBcontext.XToolUsers.FirstOrDefault( x => x.WithLogin(login));
                 if(user != null)
                 {
-                    ClaimsPrincipal claim = new ClaimsPrincipal();
-                    await HttpContext.SignInAsync(claim);
-                    result = Redirect("~/Home/Index");
+                    await Authorize(user.Email);
+                    result = Redirect("~Home/Index");
                 }
                 else
                 {
-                    result = Forbid();
+                    result = RedirectToAction("Login");
                 }
             }
             else
@@ -62,6 +62,23 @@ namespace XTool.Controllers
                 result = View();
             }
             return result;
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public async Task Register([FromForm] UserRegisterModel model)
+        {
+
+        }
+
+        private async Task Authorize(string login)
+        {
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, login)
+             };
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
     }
 }

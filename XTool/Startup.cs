@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,13 +29,20 @@ namespace XTool
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<XToolDBContext>(options => options.UseSqlServer(connectionString));
-            services.AddIdentity<XToolUser, XToolRole>();
+
+            services.AddIdentity<XToolUser, XToolRole>()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<XToolDBContext>();
 
             string authorPath = "/Authorization/Login";
-            services.AddAuthentication()
-                .AddCookie(options => {
-                    options.LoginPath = authorPath;
-                    });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = new PathString(authorPath);
+            });
+
+            services.AddStorage();
 
             services.AddMvc();
             

@@ -8,6 +8,11 @@ namespace XTool.Models.Roles
 {
     public class ExpertRole : XToolRole
     {
+        public ExpertRole(string name = "expert") : base(name)
+        {
+
+        }
+
         /// <summary>
         /// Оценки, выставленная экспертом.
         /// </summary>

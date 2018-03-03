@@ -7,5 +7,8 @@ namespace XTool.Models.Roles
 {
     public class AdminRole : XToolRole
     {
+        public AdminRole(string roleName = "admin") : base(roleName)
+        {
+        }
     }
 }

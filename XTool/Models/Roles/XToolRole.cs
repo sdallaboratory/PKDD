@@ -8,5 +8,8 @@ namespace XTool.Models.Roles
 {
     public abstract class XToolRole : IdentityRole<int>
     {
+        public XToolRole(string roleName) : base(roleName)
+        {
+        }
     }
 }
