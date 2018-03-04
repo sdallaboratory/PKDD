@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace XTool.Models.EvaluationModels
 {
-    public class Scales
+   [ComplexType]
+    public class Scales : IEnumerable<int>
     {
         [NotMapped]
         public static IReadOnlyList<string> ScalesNames { get; }
 
         static Scales() => ScalesNames = typeof(Scales).GetProperties().Select(prop => prop.Name).ToList();
 
-        private readonly int[] _values = new int[ScalesNames.Count];
+        private readonly int[] _values = new int[ScalesNames.Count]; // м.б. перенести в обычной конструктор
 
         private int IndexOf(string name) => ScalesNames.Select((n, i) => new { curName = n, index = i })
             .FirstOrDefault(pair => pair.curName == name).index;
+
+        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
 
         [NotMapped]
         public int this[int i]

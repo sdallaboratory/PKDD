@@ -1,11 +1,10 @@
-﻿namespace XTool.Models.ActorModels
+﻿using System.ComponentModel.DataAnnotations;
+using XTool.Models.ActorModels.BaseTypes;
+
+namespace XTool.Models.ActorModels
 {
-    public class Photo
+    public class Photo : Media
     {
-        public string Url { get; set; }
-
-        public string Description { get; set; }
-
-        public string Comment { get; set; }
+        public int ActorId { get; set; }
     }
 }

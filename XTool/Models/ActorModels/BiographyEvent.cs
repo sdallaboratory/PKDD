@@ -3,10 +3,8 @@ using XTool.Models.ActorModels.BaseTypes;
 
 namespace XTool.Models.ActorModels
 {
-    public class Video : Media
+    public class BiographyEvent : Event
     {
         public int ActorId { get; set; }
-
-        //string GetHost();
     }
 }

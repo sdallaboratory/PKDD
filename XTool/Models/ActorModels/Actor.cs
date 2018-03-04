@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Models.EvaluationModels;
+using XTool.Models.Shared;
 
 namespace XTool.Models.ActorModels
 {
     public class Actor
     {
+        public int Id { get; set; }
+
         #region Key Info
 
         /// <summary>
         /// ФИО актора
         /// </summary>
+        [Required, StringLength(200)]
         public string Name { get; set; }
 
         /// <summary>
@@ -27,6 +33,7 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Перечисление текущих мест работы и соответсвующих должностей
         /// </summary>
+        [StringLength(500)]
         public string Position { get; set; }
 
         #endregion
@@ -51,21 +58,23 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Список событий в биографии актора
         /// </summary>
-        public virtual List<Event> BiograpphyEvents { get; set; }
+        public virtual List<BiographyEvent> BiograpphyEvents { get; set; }
 
         /// <summary>
         /// Список периодов с событиями в карьере актора
         /// </summary>
-        public virtual List<TimePeriod> CareerPeriods { get; set; }
+        public virtual List<CareerPeriod> CareerPeriods { get; set; }
 
         /// <summary>
         /// Описание религиозных взглядов актора
         /// </summary>
+        [StringLength(10000)]
         public string ReligionViews { get; set; }
 
         /// <summary>
         /// Описание социальной активности актора
         /// </summary>
+        [StringLength(10000)]
         public string SocialActivity { get; set; } 
 
         #endregion
@@ -78,5 +87,11 @@ namespace XTool.Models.ActorModels
         public virtual List<CustomSection> CustomSection { get; set; }
 
         #endregion
+
+        //public XToolUser Technologist { get; set; }
+
+        //public int TechnologistId { get; set; }
+
+        public virtual List<Evaluation> Evaluations { get; set; }
     }
 }
