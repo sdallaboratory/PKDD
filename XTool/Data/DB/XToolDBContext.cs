@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XTool.Models.DBModels;
 using XTool.Models.Roles;
 
 namespace XTool.Data
@@ -14,12 +13,6 @@ namespace XTool.Data
         public XToolDBContext(DbContextOptions options) : base(options)
         {
         }
-
-        public DbSet<Conclusion> Conclusions { get; set; }
-
-        public DbSet<Evaluation> Evaluations { get; set; }
-
-        public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace XTool.Models.Roles
 {
-    public class ExpertRole : XToolRole
+    public class TechnologistRole : XToolRole
     {
-        public ExpertRole(string name = "expert") : base(name)
+        public TechnologistRole(string roleName) : base(roleName)
         {
-
         }
-
     }
 }

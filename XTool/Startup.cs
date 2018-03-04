@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XTool.Data;
 using XTool.Models.Roles;
+using XTool.Data.Validations.ApiValidator;
 
 namespace XTool
 {
@@ -43,6 +40,7 @@ namespace XTool
             });
 
             services.AddStorage();
+            services.AddApiTypesValidator();
 
             services.AddMvc();
             

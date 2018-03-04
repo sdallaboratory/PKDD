@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using XTool.Models.TransferModels;
 using XTool.Data;
+using XTool.Data.Validations;
 using Microsoft.AspNetCore.Authorization;
 
 namespace XTool.Controllers
@@ -24,18 +25,23 @@ namespace XTool.Controllers
 
         private UserManager<XToolUser> _userManager;
 
-        private XToolDBContext _dBcontext; 
+        private XToolDBContext _dBcontext;
 
-        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, XToolDBContext dBContext)
+        private IValidator _valid;
+
+        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, XToolDBContext dBContext, IValidator valid)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _dBcontext = dBContext;
+            _valid = valid;
         }
 
         [HttpGet]
         public IActionResult Login()
         {
+            var a = _valid.ServiceTypes;
+            var b = _valid.IsInService("IdentityUserRole");
             return View();
         }
 

@@ -19,6 +19,11 @@ namespace XTool.Data
 
         public virtual TKey AddItem<T>(T item) where T : class
         {
+            return AddItem(typeof(T), item);
+        }
+
+        public virtual TKey AddItem(Type type, object item)
+        {
             TKey result = default(TKey);
             if (item != null)
             {
@@ -31,18 +36,10 @@ namespace XTool.Data
 
         public virtual T DeleteItemById<T>(TKey id) where T : class
         {
-            DeleteItemById(typeof(T), id);
-
-            //var item = Context.Find<T>(typeof(T), id);
-            //if (item != null)
-            //{
-            //    Context.Remove(item);
-            //    Context.SaveChanges();
-            //}
-            //return item;
+            return DeleteItemById(typeof(T), id) as T;
         }
 
-        public virtual void DeleteItemById(Type type, TKey id) 
+        public virtual object DeleteItemById(Type type, TKey id) 
         {
             var item = Context.Find(type, id);
             if (item != null)
@@ -56,6 +53,11 @@ namespace XTool.Data
         public virtual T FindItemById<T>(TKey id) where T : class
         {
             return Context.Find<T>(typeof(T), id);
+        }
+
+        public virtual object FindItemById(Type type, TKey id)
+        {
+            return Context.Find(type, id);
         }
 
         public virtual IEnumerable<T> FindItems<T>() where T : class
@@ -74,8 +76,21 @@ namespace XTool.Data
             }
             return item;
         }
-        private DbSet<T> FindDBSet<T>() where T : class
+
+        public virtual object UpdateItem(Type type, TKey id, Func<object, object, object> updater, object newValue)
         {
+            object item = Context.Find(type, id);
+            if (item != null)
+            {
+                item = updater(item, newValue);
+                Context.Update(item);
+                Context.SaveChanges();
+            }
+            return item;
+        }
+
+        private DbSet<T> FindDBSet<T>() where T : class
+        { 
             var dbSet =  Context.GetType()
                 .GetProperties()
                 .Where( x => x.PropertyType == typeof(DbSet<T>))

@@ -2,39 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using XTool.Data;
-using XTool.Data.Storage;
-using XTool.Models.DBModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace XTool.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
-    public class PersonController : Controller
+    public class EntitiesController : Controller
     {
-        private IStorage<int> _storage;
-
-        public PersonController(IStorage<int> storage)
-        {
-            _storage = storage;
-        }
-
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Person> Get()
+        public IEnumerable<string> Get()
         {
-            return new List<Person>();
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Person Get(int id)
+        public string Get(int id)
         {
-            return new Person();
+            return "value";
         }
 
         // POST api/<controller>
