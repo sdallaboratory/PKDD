@@ -31,8 +31,20 @@ namespace XTool.Data
 
         public virtual T DeleteItemById<T>(TKey id) where T : class
         {
+            DeleteItemById(typeof(T), id);
 
-            var item = Context.Find<T>(typeof(T), id);
+            //var item = Context.Find<T>(typeof(T), id);
+            //if (item != null)
+            //{
+            //    Context.Remove(item);
+            //    Context.SaveChanges();
+            //}
+            //return item;
+        }
+
+        public virtual void DeleteItemById(Type type, TKey id) 
+        {
+            var item = Context.Find(type, id);
             if (item != null)
             {
                 Context.Remove(item);

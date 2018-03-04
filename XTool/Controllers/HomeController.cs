@@ -33,6 +33,10 @@ namespace XTool.Controllers
             return View();
         }
 
-        
+        public IActionResult Error()
+        {
+            return Json("asd");
+            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

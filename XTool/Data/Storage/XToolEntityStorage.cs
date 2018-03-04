@@ -13,7 +13,7 @@ namespace XTool.Data
 
         public override int AddItem<T>(T item)
         {
-            int result = -1);
+            int result = -1;
             if (item != null)
             {
                 var temp = Context.Add(item);

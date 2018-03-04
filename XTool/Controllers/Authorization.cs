@@ -46,7 +46,7 @@ namespace XTool.Controllers
             IActionResult result;
             if(ModelState.IsValid)
             {
-                XToolUser user = _dBcontext.XToolUsers.FirstOrDefault( x => x.WithLogin(login));
+                XToolUser user = _dBcontext.Users.FirstOrDefault( x => x.WithLogin(login));
                 if(user != null)
                 {
                     await Authorize(user.Email);

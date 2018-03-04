@@ -27,14 +27,14 @@ namespace XTool.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            return _storage.Persons.AsEnumerable();
+            return new List<Person>();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public Person Get(int id)
         {
-            return _storage.Persons.Find(id);
+            return new Person();
         }
 
         // POST api/<controller>
