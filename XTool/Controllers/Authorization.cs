@@ -41,7 +41,7 @@ namespace XTool.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel login)
         {
             IActionResult result;
@@ -65,7 +65,7 @@ namespace XTool.Controllers
             return result;
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpGet]
         public async Task Register([FromForm] UserRegisterModel model)
         {

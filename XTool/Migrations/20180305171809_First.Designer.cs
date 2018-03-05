@@ -13,8 +13,8 @@ using XTool.Models.Shared;
 namespace XTool.Migrations
 {
     [DbContext(typeof(XToolDBContext))]
-    [Migration("20180305170246_XToolDbContextAlmosEdition")]
-    partial class XToolDbContextAlmosEdition
+    [Migration("20180305171809_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

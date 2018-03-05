@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.DB;
 using XTool.Models;
 using XTool.Models.ActorModels;
 using XTool.Models.ActorModels.BaseTypes;
@@ -17,7 +18,9 @@ namespace XTool.Data
     {
         public XToolDBContext(DbContextOptions options) : base(options)
         {
+            XToolDbContextInitializer.Init(this);
         }
+
         public DbSet<Actor> Actors { get; set; }
 
         public DbSet<Photo> Photos { get; set; }

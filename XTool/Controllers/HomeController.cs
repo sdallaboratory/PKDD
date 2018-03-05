@@ -10,12 +10,16 @@ using XTool.Models;
 
 namespace XTool.Controllers
 {
-    [Authorize]
+    //[Authorize]
     //[Route("[action]")]
     public class HomeController : Controller
     {
+        public IActionResult Actors()
+        {
+            return View();
+        }
 
-        public IActionResult Index()
+        public IActionResult Actor(int id)
         {
             return View();
         }
