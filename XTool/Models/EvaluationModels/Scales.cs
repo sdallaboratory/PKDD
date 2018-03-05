@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace XTool.Models.EvaluationModels
 {
-    [ComplexType]
-    public class Scales : IEnumerable<int>
+    public class Scales // : IEnumerable<int>
     {
         public int Id { get; set; }
 
@@ -23,11 +22,12 @@ namespace XTool.Models.EvaluationModels
         private int IndexOf(string name) => ScalesNames.Select((n, i) => new { curName = n, index = i })
             .FirstOrDefault(pair => pair.curName == name).index;
 
-        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
+        //  public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
+        // IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
 
-        [NotMapped]
+        public IEnumerable<int> Values => _values;
+
         public int this[int i]
         {
             get => _values[ScalesNames.Count()];

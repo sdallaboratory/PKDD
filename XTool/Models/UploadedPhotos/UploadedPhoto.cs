@@ -18,7 +18,7 @@ namespace XTool.Models
         /// <summary>
         /// Пользователь, который загрузил фотографию
         /// </summary>
-        public XToolUser User { get; set; }
+        public virtual XToolUser User { get; set; }
 
         public int UserId { get; set; }
     }

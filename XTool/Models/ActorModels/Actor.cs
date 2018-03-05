@@ -89,7 +89,7 @@ namespace XTool.Models.ActorModels
 
         #endregion
 
-        public XToolUser Technologist { get; set; }
+        public virtual XToolUser Technologist { get; set; }
 
         public int TechnologistId { get; set; }
 

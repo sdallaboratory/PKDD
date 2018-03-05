@@ -8,6 +8,8 @@ namespace XTool.Models.EvaluationModels
 {
     public class Evaluation
     {
+        public int Id { get; set; }
+
         public int ScalesId { get; set; }
 
         public virtual Scales Scales { get; set; }
@@ -20,11 +22,11 @@ namespace XTool.Models.EvaluationModels
 
         public int ActorId { get; set; }
 
-        public Actor Actor { get; set; }
+        public virtual Actor Actor { get; set; }
 
 
         public int ExpertId { get; set; }
 
-        public XToolUser Expert { get; set; }
+        public virtual XToolUser Expert { get; set; }
     }
 }
