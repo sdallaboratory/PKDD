@@ -8,6 +8,8 @@ namespace XTool.Models.ActorModels.BaseTypes
 {
     public abstract class Media
     {
+        public int Id { get; set; }
+        
         [Required, StringLength(4096)]
         public string Url { get; set; }
 

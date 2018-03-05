@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace XTool.Models.EvaluationModels
 {
-   [ComplexType]
     public class Scales : IEnumerable<int>
     {
+        public int Id { get; set; }
+        
         [NotMapped]
         public static IReadOnlyList<string> ScalesNames { get; }
 

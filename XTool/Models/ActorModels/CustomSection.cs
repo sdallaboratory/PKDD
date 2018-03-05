@@ -4,6 +4,8 @@ namespace XTool.Models.ActorModels
 {
     public class CustomSection
     {
+        public int Id { get; set; }
+
         public int ActorId { get; set; }
 
         [Required, StringLength(200)]

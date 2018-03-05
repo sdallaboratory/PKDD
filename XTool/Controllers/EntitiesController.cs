@@ -2,45 +2,107 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using XTool.Models.TransferModels;
+using XTool.Models.TransferModels.TypesToEntityApi;
+using Newtonsoft.Json;
+using XTool.Data.Storage;
+using XTool.Data.Validations;
+using XTool.Data;
+using XTool.Models;
 
 namespace XTool.Controllers
 {
-    [Route("api/[controller]")]
+    //[Authorize]
+    [Route("api/entities")]
     public class EntitiesController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private XToolEntityStorage storage;
+
+        private IValidator validator;
+
+        public EntitiesController(IStorage<int> storage, IValidator validator)
         {
-            return new string[] { "value1", "value2" };
+            this.storage = storage as XToolEntityStorage;
+            this.validator = validator;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public IActionResult Get(string typeName)
         {
-            return "value";
+            IActionResult result = NoContent();
+            Type type = validator.IsInService(typeName);
+            if (type != null)
+            {
+                result = Json(storage.FindItems(type));
+            }
+            return result;
         }
+
+        [HttpGet]
+        public IActionResult Get(string typeName, int id)
+        {
+            IActionResult result = NoContent();
+            Type type = validator.IsInService(typeName);
+            if (type != null)
+            {
+                result = Json(storage.FindItemById(type, id));
+            }
+            return result;
+        }
+
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]RequestModel model)
         {
+            Type type = validator.IsInService(model.Name);
+            if (type != null)
+            {
+                object newItem = TryToDeserialize(model.Body);
+                if(newItem != null )
+                {
+                    storage.AddItem(type, newItem);
+                }
+            }
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put([FromBody]RequestModel model)
         {
+            Type type = validator.IsInService(model.Name);
+            if (type != null)
+            {
+                object newItem = TryToDeserialize(model.Body);
+                if (newItem != null && model.Ids.Count > 0)
+                {
+                    var item = storage.FindItemById(type, model.Ids.First());
+                    (item as IUpdateble).Update(newItem as IUpdateble);
+                    storage.UpdateItem(type, model.Ids.First(), item);
+                }
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [NonAction]
+        private object TryToDeserialize(string content)
+        {
+            object result = null;
+            try
+            {
+                result = JsonConvert.DeserializeObject(content);
+            }
+            catch (Exception)
+            {
+            }
+            return result;            
         }
     }
 }

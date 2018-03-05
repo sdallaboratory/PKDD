@@ -8,6 +8,8 @@ namespace XTool.Models.ActorModels.BaseTypes
 {
     public abstract class Event
     {
+        public int Id { get; set; }
+
         [Required, StringLength(2000)]
         public string Description { get; set; }
 

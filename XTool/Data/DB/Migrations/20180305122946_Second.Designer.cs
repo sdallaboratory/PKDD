@@ -13,9 +13,10 @@ using XTool.Models.Shared;
 namespace XTool.Migrations
 {
     [DbContext(typeof(XToolDBContext))]
-    partial class XToolDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180305122946_Second")]
+    partial class Second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

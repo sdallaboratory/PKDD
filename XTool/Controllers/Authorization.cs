@@ -27,21 +27,16 @@ namespace XTool.Controllers
 
         private XToolDBContext _dBcontext;
 
-        private IValidator _valid;
-
-        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, XToolDBContext dBContext, IValidator valid)
+        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, XToolDBContext dBContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _dBcontext = dBContext;
-            _valid = valid;
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            var a = _valid.ServiceTypes;
-            var b = _valid.IsInService("IdentityUserRole");
             return View();
         }
 

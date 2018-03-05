@@ -10,6 +10,6 @@ namespace XTool.Data.Validations
 
         bool IsInService(Type type);
 
-        bool IsInService(string typeName);
+        Type IsInService(string typeName);
     }
 }

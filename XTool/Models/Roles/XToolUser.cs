@@ -9,14 +9,14 @@ namespace XTool.Models.Roles
 {
     public class XToolUser : IdentityUser<int>, IUpdateble
     {
-        public DateTime Birthday { get; set; }
-
-        public string Position { get; set; }
-
-        public virtual IUpdateble Update(IUpdateble model)
+        public IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();
         }
+    
+        public DateTime Birthday { get; set; }
+
+        public string Position { get; set; }
 
         public bool WithLogin(LoginModel loginModel)
         {

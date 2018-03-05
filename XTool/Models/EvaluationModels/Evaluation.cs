@@ -8,7 +8,7 @@ namespace XTool.Models.EvaluationModels
     {
         public int Id { get; set; }
 
-        public Scales Scales { get; set; }
+        public int ScalesId { get; set; }
 
         [StringLength(2000)]
         public string Comment { get; set; }

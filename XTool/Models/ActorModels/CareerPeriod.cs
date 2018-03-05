@@ -5,6 +5,8 @@ namespace XTool.Models.ActorModels
 {
     public class CareerPeriod
     {
+        public int Id { get; set; }
+        
         public int ActorId { get; set; }
 
         [StringLength(20)] // Добавить бы RegularExpression

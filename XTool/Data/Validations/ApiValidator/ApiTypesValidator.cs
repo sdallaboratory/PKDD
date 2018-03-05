@@ -23,10 +23,10 @@ namespace XTool.Data.Validations.ApiValidator
             return _context.Model.FindEntityType(type) != null ? true : false;
         }
 
-        public bool IsInService(string typeName)
+        public Type IsInService(string typeName)
         {
-
-            return ServiceTypes.FirstOrDefault((x) => ProcessTypeName(x.Name.ToLower()) == typeName.ToLower()) != null ? true : false;
+            //Needs to cache the result
+            return ServiceTypes.FirstOrDefault((x) => ProcessTypeName(x.Name.ToLower()) == typeName.ToLower());
         }
 
         private List<Type> FindSets()
