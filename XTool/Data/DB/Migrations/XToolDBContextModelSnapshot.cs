@@ -158,8 +158,7 @@ namespace XTool.Migrations
 
             modelBuilder.Entity("XTool.Models.ActorModels.BaseTypes.Media", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
 
                     b.Property<string>("Comment")
                         .HasMaxLength(2000);
@@ -432,7 +431,7 @@ namespace XTool.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("Photo");
+                    b.ToTable("Media");
 
                     b.HasDiscriminator().HasValue("Photo");
                 });
@@ -446,7 +445,7 @@ namespace XTool.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("Video");
+                    b.ToTable("Media");
 
                     b.HasDiscriminator().HasValue("Video");
                 });

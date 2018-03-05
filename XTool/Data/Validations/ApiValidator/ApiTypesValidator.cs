@@ -31,7 +31,7 @@ namespace XTool.Data.Validations.ApiValidator
 
         private List<Type> FindSets()
         {
-            return _context.GetType().GetProperties().ToList().ConvertAll((x) => x.PropertyType.GetGenericArguments().FirstOrDefault());
+            return _context.Model.GetEntityTypes().ToList().ConvertAll(x => x.ClrType);//.GetType().GetProperties().ToList().ConvertAll((x) => x.PropertyType.GetGenericArguments().FirstOrDefault());
         }
 
         private string ProcessTypeName(string typeName)
