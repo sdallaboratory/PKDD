@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
 using XTool.Data.Storage;
+using XTool.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
 
 namespace XTool.Data
 {
@@ -29,9 +32,11 @@ namespace XTool.Data
             TKey result = default(TKey);
             if (item != null)
             {
-                var temp = Context.Add(item);
+                var set = GetDBSet(type);
+                var setMethod = set.PropertyType.GetMethods().FirstOrDefault(x => x.Name == "Add");
+                Convert.ChangeType(item, type);
+                var a = setMethod.Invoke(set.GetValue(Context), new object[] {item}); 
                 Context.SaveChanges();
-                result = temp.GetDatabaseValues().GetValue<TKey>("Id");
             }
             return result;
         }
@@ -43,7 +48,7 @@ namespace XTool.Data
 
         public virtual object DeleteItemById(Type type, TKey id) 
         {
-            var item = Context.Find(type, id);
+            var item = FindItemById(type, id);
             if (item != null)
             {
                 Context.Remove(item);
@@ -54,12 +59,15 @@ namespace XTool.Data
 
         public virtual T FindItemById<T>(TKey id) where T : class
         {
-            return Context.Find<T>(typeof(T), id);
+            return FindItemById(typeof(T), id) as T;
         }
 
         public virtual object FindItemById(Type type, TKey id)
         {
-            return Context.Find(type, id);
+            var set = GetDBSet(type);
+            var setMethod = set.PropertyType.GetMethods().FirstOrDefault(x => x.Name == "Find");
+            var item = setMethod.Invoke(set.GetValue(Context), new object[] { id });
+            return item;
         }
 
         public virtual IEnumerable<T> FindItems<T>() where T : class
@@ -70,12 +78,12 @@ namespace XTool.Data
 
         public virtual IEnumerable<object> FindItems(Type type)
         {
-            var dbSet = Context.GetType()
+            var dbSetValue = Context.GetType()
                 .GetProperties()
-                .Where(x => x.PropertyType == typeof(DbSet<>).MakeGenericType(type))
+                .Where(x => x.PropertyType.Name == typeof(DbSet<>).MakeGenericType(type).Name)
                ?.FirstOrDefault()
                .GetValue(Context);
-            var enumerable = (IEnumerable)dbSet;
+            var enumerable = (IEnumerable)dbSetValue;
             var result = enumerable.Cast<object>().ToList();
             return result;
         }
@@ -106,7 +114,12 @@ namespace XTool.Data
 
         public virtual T UpdateItem<T>(TKey id, T newValue) where T : class
         {
-            T item = Context.Find<T>(id);
+            return UpdateItem(typeof(T), id, newValue) as T;
+        }
+
+        public virtual object UpdateItem(Type type, TKey id, object newValue)
+        {
+            var item = FindItemById(type, id);
             if (item != null)
             {
                 Context.Update(item);
@@ -115,15 +128,29 @@ namespace XTool.Data
             return item;
         }
 
-        public virtual object UpdateItem(Type type, TKey id, object newValue)
+        public PropertyInfo GetDBSet(Type type)
         {
-            object item = Context.Find(type, id);
-            if (item != null)
+            var dbSets = Context.GetType()
+                .GetProperties();
+            Type currType = type;
+            List<Type> types = new List<Type>();
+            while (currType != null)
             {
-                Context.Update(item);
-                Context.SaveChanges();
+                types.Add(currType);
+                currType = currType.BaseType;
             }
-            return item;
+            types.Reverse();
+            bool goOn = true;
+            PropertyInfo set = null ;
+            for(int i = 0; i < types.Count && goOn; i++)
+            {
+                set = dbSets.FirstOrDefault(x => x.PropertyType == typeof(DbSet<>).MakeGenericType(types[i]));
+                if (set != null)
+                {
+                    goOn = false;
+                }
+            }
+            return set;
         }
 
     }

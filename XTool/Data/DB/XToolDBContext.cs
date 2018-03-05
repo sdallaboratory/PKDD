@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Models;
@@ -17,8 +18,8 @@ namespace XTool.Data
         public XToolDBContext(DbContextOptions options) : base(options)
         {
         }
-
         public DbSet<Media> Media { get; set; }
+
         public DbSet<Event> Events { get; set; }
 
         public DbSet<Actor> Actors { get; set; }
@@ -40,9 +41,8 @@ namespace XTool.Data
             builder.Entity<BiographyEvent>();
             builder.Entity<CareerEvent>();
 
-            builder.Entity<Photo>();
-            builder.Entity<Video>();
-
+            builder.Entity<Photo>().ToTable("Media");
+            builder.Entity<Video>().ToTable("Media");
             base.OnModelCreating(builder);
         }
     }

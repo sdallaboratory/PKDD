@@ -11,6 +11,8 @@ using XTool.Data.Storage;
 using XTool.Data.Validations;
 using XTool.Data;
 using XTool.Models;
+using XTool.Models.ActorModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace XTool.Controllers
 {
@@ -22,13 +24,16 @@ namespace XTool.Controllers
 
         private IValidator validator;
 
-        public EntitiesController(IStorage<int> storage, IValidator validator)
+        private XToolDBContext cont;
+
+        public EntitiesController(IStorage<int> storage, IValidator validator, XToolDBContext con)
         {
             this.storage = storage as XToolEntityStorage;
             this.validator = validator;
+            cont = con;
         }
 
-        [HttpGet]
+        [HttpGet("{typeName}")]
         public IActionResult Get(string typeName)
         {
             IActionResult result = NoContent();
@@ -60,7 +65,7 @@ namespace XTool.Controllers
             Type type = validator.IsInService(model.Name);
             if (type != null)
             {
-                object newItem = TryToDeserialize(model.Body);
+                var newItem = model.Body.ToObject(type);
                 if(newItem != null )
                 {
                     storage.AddItem(type, newItem);
@@ -75,7 +80,7 @@ namespace XTool.Controllers
             Type type = validator.IsInService(model.Name);
             if (type != null)
             {
-                object newItem = TryToDeserialize(model.Body);
+                object newItem = model.Body;
                 if (newItem != null && model.Ids.Count > 0)
                 {
                     var item = storage.FindItemById(type, model.Ids.First());
