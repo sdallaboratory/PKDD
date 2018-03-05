@@ -18,17 +18,23 @@ namespace XTool.Data
         public XToolDBContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Media> Media { get; set; }
-
-        public DbSet<Event> Events { get; set; }
-
         public DbSet<Actor> Actors { get; set; }
-        public DbSet<CareerPeriod> CareerPeriods { get; set; }
+
+        public DbSet<Photo> Photos { get; set; }
+
         public DbSet<Publication> Publications { get; set; }
+
+        public DbSet<Video> Videos { get; set; }
+
+        public DbSet<BiographyEvent> BiographyEvents { get; set; }
+
+        public DbSet<CareerPeriod> CareerPeriods { get; set; }
+
+        public DbSet<CareerEvent> CareerEvents { get; set; }
+
         public DbSet<CustomSection> CustomSections { get; set; }
 
         public DbSet<Evaluation> Evaluations { get; set; }
-        public DbSet<Scales> Scales { get; set; }
 
         public DbSet<UploadedPhoto> UploadedPhotos { get; set; }
 
@@ -38,11 +44,6 @@ namespace XTool.Data
             builder.Entity<ExpertRole>();
             builder.Entity<TechnologistRole>();
 
-            builder.Entity<BiographyEvent>();
-            builder.Entity<CareerEvent>();
-
-            builder.Entity<Photo>().ToTable("Media");
-            builder.Entity<Video>().ToTable("Media");
             base.OnModelCreating(builder);
         }
     }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Models.EvaluationModels;
+using XTool.Models.Roles;
 using XTool.Models.Shared;
 
 namespace XTool.Models.ActorModels
@@ -88,9 +89,9 @@ namespace XTool.Models.ActorModels
 
         #endregion
 
-        //public XToolUser Technologist { get; set; }
+        public XToolUser Technologist { get; set; }
 
-        //public int TechnologistId { get; set; }
+        public int TechnologistId { get; set; }
 
         public virtual List<Evaluation> Evaluations { get; set; }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Models.Roles;
 
 namespace XTool.Models
 {
@@ -17,8 +18,8 @@ namespace XTool.Models
         /// <summary>
         /// Пользователь, который загрузил фотографию
         /// </summary>
-        //public XToolUser User { get; set; }
-        
-        //public int UserId { get; set; }
+        public XToolUser User { get; set; }
+
+        public int UserId { get; set; }
     }
 }
