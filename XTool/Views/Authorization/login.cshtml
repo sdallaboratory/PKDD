@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link type="text/css" rel="stylesheet" href="~/css/base.css">
+    <link type="text/css" rel="stylesheet" href="~/css/checkbox.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <section class="login-window flex-container">
+            <div class="login-art">
+                <img class="logo" src="~/img/logo.png" alt="logo">
+                <br> Инструмент, обеспечивающий эффективное взаимодействие технологов и экспертов.
+            </div>
+            <div class="login">
+                <h2>Вход</h2>
+                <form class="login-form" action="login" method="post">
+                    <div>Email или номер телефона</div>
+                    <input type="email" class="" name="" required >
+                    <div>Пароль<a class="login-forgot" href="forgot.html">Забыли?</a></div>
+                    <input type="password" class="" name="" required >
+                    <div>
+                        <input class="checkbox" id="remember" type="checkbox" name="remember">
+                        <label for="remember">Запомнить</label>
+                        <input class="login-submit" type="submit" value="Войти">
+                        <div class="clear"></div>
+                    </div>
+                </form>
+                <div class="login-links">
+                    <a class="login-register" href="register.html">
+                        Регистрация
+                    </a>
+                    <a class="login-info" href="https://www.google.com">
+                        Информация
+                    </a>
+                </div>
+            </div>
+    </section>
+    <footer>
+        &copy XTool, 2018
+        <br> Website by Batin & Solovev
+        <br> sergey.soloviev@inbox.ru
+        <br>
+    </footer>
+
+    </div>
+    <script src="~/scripts/mobile.js"></script>
+</body>
+
+</html>

@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\img\cliparts\" />
-    <Folder Include="wwwroot\img\logo\" />
-    <Folder Include="wwwroot\js\" />
     <Folder Include="Scss\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Authorization\login.cshtml" />
   </ItemGroup>
 
 </Project>

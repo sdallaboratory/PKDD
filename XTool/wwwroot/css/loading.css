@@ -1,0 +1,19 @@
+.loading {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 5px solid rgb(248, 248, 248);  /* полупрозрачный цвет ставить не стоит, появляются ненужные линии */
+    border-top-color: rgb(160, 240, 240);
+    border-radius: 100%;
+    -webkit-animation: loadingg linear .7s infinite;
+    animation: loading linear .7s infinite;
+    box-shadow: 0 0 20px   rgba(0, 0, 0, 0.2);
+  }
+
+  @-webkit-keyframes loading {
+    100% {-webkit-transform: rotate(360deg);}
+  }
+
+  @keyframes loading {
+    100% {transform: rotate(360deg);}
+  }

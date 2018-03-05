@@ -1,0 +1,596 @@
+/* Imports */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+/* Common */
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border-radius: 0 !important;
+    line-height: 1.7em;
+}
+
+/* Special */
+
+.clear {
+    clear: both;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+/* Base */
+
+a {
+    color: inherit;
+    text-decoration: none;
+    color: rgb(65, 223, 223);
+}
+
+a:hover {
+    text-decoration: underline;
+    /* color: rgb(185, 255, 147) */
+}
+
+input, button, select, textarea {
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="email"], input[type="password"], input[type="text"], select, textarea {
+    border: none;
+    border-bottom: 1px solid rgb(76, 72, 83);
+    background: none;
+    outline: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    font-size: inherit;
+    color: inherit;
+    transition: 0.25s;
+}
+
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, textarea:focus {
+    border-color: rgb(65, 223, 223);
+}
+
+input[type="submit"], input[type="button"], input[type="clear"], a.button, button {
+    background:none;
+    border: 1px solid rgb(76, 72, 83);
+    border-radius: 4px;
+    padding: 2px 7px;
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.01);
+    font-size: inherit;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover, input[type="clear"]:hover, a.button:hover, button:hover {
+    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    border-color: transparent;
+    color: rgb(248, 248, 248);
+    box-shadow: none;
+}
+
+textarea.card-textbox {
+    min-width: 100%;
+    max-width: 100%;
+    padding: 3%;
+    font-size: inherit;
+    border: none;
+    background: rgb(248, 248, 248);
+    /* height: 200px; */
+}
+
+/* Layout */
+
+html {
+    min-height: 100%;
+}
+
+b {
+    color: black;
+}
+
+body {
+    background: rgb(209, 209, 209); 
+    color: rgb(12, 12, 12);
+    /* color: rgb(76, 72, 83); */
+    
+    font-size: 20px;
+    font-family: 'Ubuntu', 'Open Sans', sans-serif;
+    min-height: 100%;
+    min-width: 320px;
+}
+
+.page-wrapper {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Header */
+
+header {
+    height: 120px;
+}
+
+.main-menu {
+    list-style-type: none;
+}
+
+/* Menu */
+
+
+
+/* Section */
+
+section {
+    margin: 0 3%;
+    margin-bottom: 10px;
+}
+
+/* Footer */
+
+footer {
+    margin-top: 50px;
+    padding-top: 50px;
+    font-size: 0.8em;
+    text-align: center;
+    margin-bottom: 80px;
+}
+/* 
+.arrow-right {
+    transform: rotate(-90deg)
+}
+
+.arrow {
+    width: 25px;
+    filter: invert(100%);
+    vertical-align: middle;
+    margin: 10px;
+}
+
+.arrow-button {
+    align-self: stretch;
+}
+
+.arrow-button:hover {
+    background: #4c4853
+}
+
+.person-preview {
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    align-self: center;
+    border-radius: 4px;
+    margin: 10px;
+}
+.person {
+    background: #3f3b47;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.person-info {
+    margin: 5px;
+}
+
+span {
+    color: #757379;
+    vertical-align: bottom;
+}
+
+span.very-important {
+    color: yellow;
+}
+span.important {
+    color: green;
+}
+span.super-important {
+    color: red;
+} */
+
+
+
+
+/* Login-page */
+
+.login-window {
+    margin-top: 100px;
+    min-height: 700px;
+    box-shadow: 0 10px 60px 5px rgba(0, 0, 0, 0.2);
+    background: rgb(248, 248, 248);
+    /* border-radius: 4px; */
+}
+
+.login-art {
+
+    background:  linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%),linear-gradient(34deg, rgba(233, 231, 231, 0.3), rgba(229, 228, 231, 0.6)), url(http://www.letsintern.com/blog/wp-content/uploads/2015/09/Start-Your-Career-With-Financial-Analyst-Certification.jpg) center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    text-align: center;
+    padding: 0 8%;
+    padding-bottom: 35px;
+    width: 70%;
+    /* border-top-left-radius: 4px; */
+    /* border-bottom-left-radius: 4px; */
+}
+
+.logo {
+    margin-top: 250px;
+    margin-bottom: 40px;
+    width: 200px;
+}
+
+.login {
+    display: block;
+    position: relative;
+    background: rgb(248, 248, 248);
+    padding: 70px 35px 40px 35px;
+    width: 700px;
+    max-width:100%;
+    min-width: 300px; 
+    text-align: center;
+    flex-grow: 300;
+
+}
+
+.login-form {
+    margin-top: 55px;
+    margin-bottom: 50px;
+    /* padding: 0px 35px; */
+    text-align: left;
+}
+
+.login-form > div {
+    margin-top: 35px;
+    margin-bottom: 7px;
+}
+
+.login-submit {
+    float: right;
+}
+
+.login-register, .login-forgot, .login-login {
+    float: right;
+}
+
+.login-info {
+    float: left;
+}
+
+.login-links {
+    position: absolute; 
+    bottom: 35px; 
+    left: 35px;
+    right:35px;
+    vertical-align: bottom;
+}
+
+/* Card */
+
+.section-title {
+    font-size: 2.25em;
+    font-weight: bold;
+    width: 84%;
+    width: 100%;
+    /* width: 85%; */
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-align: center;
+    /* margin-bottom: 7%; */
+    word-wrap: break-word;
+    
+}
+
+
+.section-hider {
+    margin: auto;
+    display: block;
+    border-color: transparent;
+    /* width: 100%; */
+    /* float: right;  */
+    /* width: 10%; */
+    font-style: italic;
+    font-size: 0.4em;
+    color: rgb(110, 110, 110);
+    background: none !important;
+
+}
+
+.section-content {
+    margin-bottom: 15%;
+    opacity: 1; 
+    transition: opacity 0.5s, transform ease-in-out 0.5s, margin 0.5s;
+    transform-origin: center top;
+
+
+}
+
+.card-link {
+    color: inherit;
+    width: 10%;
+    text-align: center;
+    align-self: stretch;
+    text-decoration: none !important;
+    transition: 0.3s;
+    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    
+}
+
+.card-link:hover {
+    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+}
+
+
+
+/* 
+.card-content-wrapper:hover {
+    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);} 
+*/
+
+.card-content-wrapper {
+    display: flex;
+    z-index: 2000;
+}
+
+.card-content-wrapper .card-content {
+    display: inline-block;
+    width: 90%;
+}
+
+.with-extension {
+    box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.4);
+    
+}
+
+.hidden {
+    opacity: 0;
+    max-height: 0px;
+    transform: scaleY(0.0002);
+    margin: 0px;
+    /* display: none; */
+}
+
+.card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10%;
+    margin-top: 20px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.card {
+    border-radius: 4px;
+    background: rgb(248, 248, 248);
+    box-shadow: 0 10px 60px 5px rgba(0, 0, 0, 0.2);
+    margin: 4% 0 0 0;
+    line-height: 0px;
+}
+
+.card-empty {
+    margin: 4% 0 0 0;
+    box-shadow: 0 10px 60px 5px rgba(0, 0, 0, 0.2);
+    line-height: 0px;
+}
+
+.card-content {
+    padding: 3%;
+    z-index: 1000;
+}
+
+.card-extension {
+    z-index: 200;  
+    font-size: 0.9em;  
+    color: rgb(110, 110, 110);
+    padding: 3%;
+    background: rgba(235, 235, 235, 0.8) !important;
+}
+
+.card-waiter {
+    margin: 10px;
+    font-size: 1.4cm;
+    text-align: center;
+}
+
+.card-subtitle {
+    text-align: center;
+    margin-top: 5%;
+    /* font-weight: bold; */
+    font-size: 1.5em;
+}
+
+.inner-card-item {
+    width: 50%;
+}
+
+
+
+.inner-card-number, .inner-card-number > br {
+    padding: 10px 0;
+    font-weight: bold;
+    line-height: 1.1em;
+    text-indent: 0;
+}
+
+.inner-card-line {
+    height: 0.2vh;
+    margin: 0 1vw;
+    color: black;
+    background: black;
+    border: none;
+}
+/* Video */
+
+.video-wrapper {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    width:100%;
+}
+
+.video-wrapper:first-child {
+    margin-top: 0;
+}
+
+.video-wrapper > div {
+    position:relative;
+    width:100%;
+    padding-bottom:50%;
+}
+
+.video-wrapper > div > * {
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+/* Actor */
+
+.photo {
+    width: 100%;
+}
+
+
+/* Arrow */
+
+.arrow-box-wrapper {
+    display: table;
+    width: 100%;
+    height: 100%;
+    transition: .3s;
+}
+
+.arrow-box {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;     
+}
+
+.arrow-box-wrapper:hover {
+    filter: invert(180%)
+    
+}
+
+.graph {
+    position: relative;
+    display: flex; /*отнаследоваться от флекс - контейнера*/
+    justify-content: space-around;
+    min-height: 100px;
+    height: 70vh;
+    align-items: flex-start;
+    margin: 4%;
+    margin-bottom: 15%;
+    user-select: none;
+}
+
+.graph * {
+    /* border: 2px solid red; */
+}
+
+.graph-column {
+    width: 9%;
+    margin: 0px;
+    display: inline-block;
+    /* height: 97%; */
+    height: 100%;
+    /* background: rgb(209, 209, 209); */
+    position: relative;
+    /* width: 9%; */
+    transition: margin ease-out .3s;
+}
+
+.column-name {
+    position: absolute;
+    bottom: -15%;
+    left: 0px;
+}
+
+.selected-column {
+    /* margin: 0 100px; */
+}
+
+.graph-vertex {
+    display: block;
+    width: 30px;
+    height:30px;
+    border: 5px solid rgb(248, 248, 248);
+    border-radius: 50% !important;
+    background: black;
+    z-index: 50000;
+    position: absolute;
+    top: 50%;
+    transition: border-color ease-in-out 0.5s, transform ease-out 0.3s ,background ease-out 0.3s;
+}
+
+.graph-vertex:hover {
+    background: rgb(160, 240, 240);
+}
+
+
+.selected-vertex {
+    border-color: rgb(160, 240, 240);
+    background: black !important ; /*linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    transform: scale(2.5);
+}
+
+.vertex-value {
+    position: absolute;
+    top: 20px;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    font-weight: bold;
+    display: inline;
+    min-width: 30px;
+    text-align: center;
+    left: -5px;
+    /* background: rgba(255,255,255,0.7);   */
+}
+
+.polyline-canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;   
+    z-index: 1000;
+}
+
+.polyline {
+    stroke: gray;
+    /* stroke: url(#linear-gradient); */
+    stroke-width: 5px;
+    fill: transparent;
+}
+
+
+
+.graph-axis {
+    width: 6px;
+    height: 100%;
+    background: black;
+}
+
+.horizontal {
+    left: 5%;
+    width: 95%;
+    position: absolute;
+    height: 3px;
+    background: lightgray;
+    z-index: 2;
+}
+
+.graph-grid {
+    position: absolute;
+    top: 15px;
+    width: 100%;
+    height: 100%;
+}
