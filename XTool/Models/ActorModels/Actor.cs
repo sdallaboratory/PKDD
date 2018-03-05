@@ -7,6 +7,8 @@ using XTool.Models.EvaluationModels;
 using XTool.Models.Roles;
 using XTool.Models.Shared;
 
+// ДОБАВИТЬ ПРИОРИТЕТНОСТЬ И ВРЕМЯ СОЗДАНИЯ
+
 namespace XTool.Models.ActorModels
 {
     public class Actor

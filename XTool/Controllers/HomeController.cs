@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using XTool.Models;
+using XTool.Data;
 
 namespace XTool.Controllers
 {
@@ -14,8 +15,16 @@ namespace XTool.Controllers
     //[Route("[action]")]
     public class HomeController : Controller
     {
+        private readonly XToolDBContext _context;
+
+        public HomeController(XToolDBContext context) // тут поставить Сторадж
+        {
+            _context = context;
+        }
+
         public IActionResult Actors()
         {
+            ViewBag.Actors = _context.Actors.Take(3);
             return View();
         }
 
