@@ -18,7 +18,6 @@ namespace XTool.Data
     {
         public XToolDBContext(DbContextOptions options) : base(options)
         {
-            XToolDbContextInitializer.Init(this);
         }
 
         public DbSet<Actor> Actors { get; set; }

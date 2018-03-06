@@ -10,7 +10,7 @@ namespace XTool.Data.DB
 {
     public static class XToolDbContextInitializer
     {
-        public static void Init(XToolDBContext context)
+        public static XToolDBContext Init( this XToolDBContext context)
         {
             if (context.Actors.Count() == 0)
             {
@@ -62,6 +62,7 @@ namespace XTool.Data.DB
                 });
                 context.SaveChanges();
             }
+                return context;
         }
     }
 }

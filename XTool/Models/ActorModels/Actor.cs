@@ -91,9 +91,9 @@ namespace XTool.Models.ActorModels
 
         #endregion
 
-        public virtual XToolUser Technologist { get; set; }
+        //public virtual XToolUser Technologist { get; set; }
 
-        public int TechnologistId { get; set; }
+        //public int TechnologistId { get; set; }
 
         public virtual List<Evaluation> Evaluations { get; set; }
     }
