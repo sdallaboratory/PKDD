@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace XTool.Data
     {
         public XToolDBContext(DbContextOptions options) : base(options)
         {
+            this.Init();
         }
+
 
         public DbSet<Actor> Actors { get; set; }
 
@@ -40,12 +43,12 @@ namespace XTool.Data
 
         public DbSet<UploadedPhoto> UploadedPhotos { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<AdminRole>();
             builder.Entity<ExpertRole>();
             builder.Entity<TechnologistRole>();
-
             base.OnModelCreating(builder);
         }
     }

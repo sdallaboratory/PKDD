@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Models;
 using XTool.Models.ActorModels;
 using XTool.Models.Roles;
 using XTool.Models.Shared;
@@ -60,9 +61,28 @@ namespace XTool.Data.DB
                 },
                     ReligionViews = "Ничего толком сказать нельзя"
                 });
-                context.SaveChanges();
             }
-                return context;
+            if(context.Roles.Count() == 0)
+            {
+                context.Roles.Add(new AdminRole());
+                context.Roles.Add(new TechnologistRole());
+                context.Roles.Add(new ExpertRole());
+            }
+            //if(context.Users.Count() == 0)
+            //{
+            //    string password = "123456";
+            //    XToolUser user = new XToolUser()
+            //    {
+
+            //        Email = "admin@email.io",
+            //        UserName = "admin@email.io",
+            //    };
+            //    user.PasswordHash = Handler.HashPassword(user, password);
+            //    context.Users.Add(user);
+                
+            //}
+            context.SaveChanges();
+            return context;
         }
     }
 }

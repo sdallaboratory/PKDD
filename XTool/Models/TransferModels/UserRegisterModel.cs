@@ -7,6 +7,10 @@ namespace XTool.Models.TransferModels
 {
     public class UserRegisterModel : IUpdateble
     {
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
         public IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();
