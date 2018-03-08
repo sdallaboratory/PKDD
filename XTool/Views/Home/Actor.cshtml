@@ -2,406 +2,323 @@
     Actor actor = ViewBag.Actor as Actor;
 }
 
-<div class="page-wrapper">
-    <header>
-        <nav class="top-menu">
-            <ul>
-                <li class="menu-item">
 
-                </li>
-            </ul>
-        </nav>
+<section class="card-group">
+    <div class="section-title">
+        @actor.Name
+        <button class="section-hider" onclick="change_section_content_state(event)">
+            скрыть
+        </button>
+    </div>
 
-        <div class="menu">
-
+    <div class="clear"></div>
+    <div class="section-content">
+        <div class="card-title">
+            Основная информация
         </div>
-    </header>
-
-    <section class="card-group">
-        <div class="section-title">
-            @actor.Name
-            <button class="section-hider" onclick="change_section_content_state(event)">
-                скрыть
-            </button>
-        </div>
-
-        <div class="clear"></div>
-        <div class="section-content">
-            <div class="card-title">
-                Основная информация
-            </div>
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <div class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-
+        <div class="card">
+            <div class="card-content-wrapper">
+                <div class="card-link" href="https://www.google.com">
+                    <div class="arrow-box-wrapper">
+                        <div class="arrow-box">
+                            @if (actor.Sex == Sexes.Male)
+                            {
                                 <img class="inner-card-item" src="~/img/clip-art/sex/male.png" alt="">
-                            </div>
+                            }
+                            else if (actor.Sex == Sexes.Female)
+                            {
+                                <img class="inner-card-item" src="~/img/clip-art/sex/female.png" alt="">
+                            }
                         </div>
                     </div>
-                    <div class="card-content">
-                        ФИО:
-                        <b>@actor.Name</b>
-                        <br> Дата рождения:
-                        <b>@(actor.Birthday.ToShortDateString()) (@actor.Age года)</b>
-                        <br> Место работы и должность:
-                        <b>@actor.Position</b>
-                        <br>
+                </div>
+                <div class="card-content">
+                    ФИО:
+                    <b>@actor.Name</b>
+                    <br> Дата рождения:
+                    <b>@(actor.Birthday.ToShortDateString()) (@actor.Age года)</b>
+                    <br> Место работы и должность:
+                    <b>@actor.Position</b>
+                    <br>
 
 
-                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Фотографии -->
-            @if(actor.Photos.Count > 0)
-             {
-                <div class="card-title">
-                    Фотографии
-                </div>
+        <!-- Фотографии -->
+        @if (actor.Photos.Count > 0)
+        {
+            <div class="card-title">
+                Фотографии
+            </div>
 
                 @foreach (Photo photo in actor.Photos)
-                 {
-                     @Html.Partial("../Partial/PhotoCard", photo);
-                 }
-             }
+                {
+                    @Html.Partial("../Partial/PhotoCard", photo);
+                }
+        }
 
-                <!-- Публикации и выступления -->
-            @if (actor.Publications.Count > 0)
+        <!-- Публикации и выступления -->
+        @if (actor.Publications.Count > 0)
             {
-                <div class="card-title">
-                    Публикации и выступления
-                </div>
+            <div class="card-title">
+                Публикации и выступления
+            </div>
                 @foreach (Publication publication in actor.Publications)
                 {
-                     @Html.Partial("../Partial/PublicationCard", publication);
+                    @Html.Partial("../Partial/PublicationCard", publication);
                 }
-            }
+        }
 
-            <!-- Видео -->
+        <!-- Видео -->
 
-            @if(actor.Videos.Count > 0)
-            {
-                <div class="card-title">
-                    Видео
-                </div>
+        @if (actor.Videos.Count > 0)
+        {
+            <div class="card-title">
+                Видео
+            </div>
 
                 @foreach (Video video in actor.Videos)
                 {
                     @Html.Partial("../Partial/VideoCard", video);
                 }
-            }
+        }
 
+        <!-- Цитаты -->
 
-            @*<div class="card">
-                <div class="video-wrapper">
-                    <div style="padding-bottom: 56.28%">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/y266ydiyICY?rel=0&amp;showinfo=0" frameborder="0" allow="encrypted-media"
-                                allowfullscreen></iframe>
+        <div class="card-title">Цитаты</div>
+
+        <div class="card">
+            <div class="card-content-wrapper">
+                <div class="card-link" href="https://www.google.com">
+                    <div class="arrow-box-wrapper">
+                        <div class="arrow-box">
+                            <img src="~/img/clip-art/quote.png" alt="quotation" class="inner-card-item">
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
-                    Как прошли антикоррупционные акции 12 июня
+                    У каждого должны быть 15 минут борьбы с режимом в день.
                 </div>
             </div>
+        </div>
 
-            <div class="card">
-                <div class="video-wrapper">
-                    <div style="padding-bottom: 56.28%">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZOo36NuY364?rel=0&amp;showinfo=0" frameborder="0" allow="encrypted-media"
-                                allowfullscreen></iframe>
-                    </div>
-                </div>
-
-                <div class="card-content with-extension">
-                    Речь Навального на митинге 6 мая на болотной HD крупный план
-                </div>
-                <div class="card-extension">
-                    Для начала рассмотрим самый простой вариант, когда ширина левой колонки жестко задана в пикселах, а ширина правой колонки
-                    варьируется в зависимости от размеров окна браузера. Для этого требуется задать общую ширину всей
-                    таблицы в процентах через атрибут width тега и для первой ячейки установить ее ширину в пикселах
-                    или процентах также с помощью атрибута width, но уже для тега.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <div class="card-content">
-
-                        Они простили — мы заплатили. Речь Навального на Болотной 6 мая
-                    </div>
-                    <a class="card-link" href="https://www.youtube.com/watch?v=GhIiAz9XKx4" target="blank">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <img src="img/clip-art/video.png" alt="movie" class="inner-card-item">
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content-wrapper with-extension">
-                    <div class="card-content">
-
-                        Речь Навального на Болотной 6 мая
-                    </div>
-                    <a class="card-link" href="https://www.youtube.com/watch?v=GhIiAz9XKx4" target="blank">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <img src="img/clip-art/video.png" alt="movie" class="inner-card-item">
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="card-extension">
-                    В CSS есть всего несколько техник центрирования элементов. Если их знать, то большинство задач решаются просто.
-                </div>
-            </div>*@
-
-            <!-- Цитаты -->
-
-            <div class="card-title">Цитаты</div>
-
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <div class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <img src="~/img/clip-art/quote.png" alt="quotation" class="inner-card-item">
-                            </div>
+        <div class="card">
+            <div class="card-content-wrapper with-extension">
+                <div class="card-link" href="https://www.google.com">
+                    <div class="arrow-box-wrapper">
+                        <div class="arrow-box">
+                            <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
                         </div>
                     </div>
-                    <div class="card-content">
-                        У каждого должны быть 15 минут борьбы с режимом в день.
-                    </div>
                 </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper with-extension">
-                    <div class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        Союз должен был развалиться, большинству людей он казался обузой. Было бы прекрасно, если бы у нас была такая страна, но
-                        к тому времени это было уже нежизнеспособное образование. Было огромное число негативных последствий:
-                        русские — крупнейший разделенный народ Европы; в республиках произошли гражданские войны. Но
-                        это было логично с исторической точки зрения. Его развалили не демократы, а коммунисты, комсомольцы,
-                        ГКЧП. Сейчас стало модно говорить, какая это ужасная «главная геополитическая катастрофа двадцатого
-                        века».
-
-                    </div>
-                </div>
-                <div class="card-extension">
-                    Цитата из книги «Алексей Навальный. Гроза жуликов и воров»
+                <div class="card-content">
+                    Союз должен был развалиться, большинству людей он казался обузой. Было бы прекрасно, если бы у нас была такая страна, но
+                    к тому времени это было уже нежизнеспособное образование. Было огромное число негативных последствий:
+                    русские — крупнейший разделенный народ Европы; в республиках произошли гражданские войны. Но
+                    это было логично с исторической точки зрения. Его развалили не демократы, а коммунисты, комсомольцы,
+                    ГКЧП. Сейчас стало модно говорить, какая это ужасная «главная геополитическая катастрофа двадцатого
+                    века».
 
                 </div>
             </div>
+            <div class="card-extension">
+                Цитата из книги «Алексей Навальный. Гроза жуликов и воров»
 
-            <!-- Биография -->
+            </div>
+        </div>
 
-            @if(actor.BiograpphyEvents.Count > 0)
-            {
-                <div class="card-title">Биография</div>
+        <!-- Биография -->
+
+        @if (actor.BiograpphyEvents.Count > 0)
+        {
+            <div class="card-title">Биография</div>
                 @foreach (BiographyEvent biographyEvent in actor.BiograpphyEvents)
                 {
                     @Html.Partial("../Partial/EventCard", biographyEvent)
                 }
-            }
+        }
 
-            <div class="card-subtitle">
-                1993-2000
-            </div>
-
-
-            <!-- Дополнительные блоки -->
-
-            <div class="card-title">Религиозные взгляды</div>
-
-            <div class="card">
-                <div class="card-content">
-
-
-                    Церковь и религия: я, к своему стыду, типичный постсоветский верующий – посты соблюдаю, на церкви крещусь, но в церкви бываю
-                    достаточно редко. Когда мои друзья, подсмеивающиеся над моим очередным «мне овощной салат – сейчас
-                    пост», пытаются меня «потроллить» и требуют, чтобы я объяснил, чему именно посвящен тот или иной
-                    пост, то они достаточно быстро ставят меня в тупик и дразнят «липовым православным, не знакомым с
-                    матчастью». Я действительно с матчастью знаком меньше, чем хотелось бы, работаю над этим.
-                    <br>
-                    <br> Не думаю, что мою религиозность можно конвертировать в политический капитал – это будет выглядеть
-                    просто смешно. Я её не выпячиваю и не прячу, какая есть, такая есть. Я верую, мне нравится быть христианином
-                    и православным, мне нравится ощущать себя частью чего-то большого и общего. Нравится, что есть специальная
-                    этика и самоограничения. При этом меня совершенно не напрягает, что существую я в преимущественно
-                    атеистической среде – лет до 25, до рождения ребёнка, я и сам был таким ярым атеистом, что был готов
-                    вцепиться в бороду любому попу. Нормально, когда люди религиозны, нормально, когда некоторые люди
-                    смеются над религиозностью. Шутки над религиозностью в «Симпсонах» или «Южном парке» совершенно прекрасны
-                    и не оскорбляют меня нисколько.
-                    <br>
-                    <br> Когда мы говорим о роли РПЦ, то тут нужно выделить несколько аксиом: Мы живём в светском государстве.
-                    Религия от государства отделена. Никто не может быть дискриминирован по религиозному принципу. Православие
-                    – главная религия России и не нужно самих себя обманывать, пытаясь стоять на позициях абсолютного
-                    равенства. Особая роль РПЦ объяснима и разумна. Больше 80% граждан считают себя православными (пусть
-                    при этом они в церковь не ходят). Рождество – государственный праздник. Понятно, что попытка дать
-                    буддистам России столько же внимания, сколько православным, обречена на провал. Если буддисты хотят,
-                    то их религия и священнослужители должны играть особую роль в местах компактного и традиционного
-                    проживания буддистов – Калмыкии или Бурятии.
-                    <br>
-                    <br> Прекрасно, что в Татарии и Башкирии есть выходные, связанные с исламскими праздниками. Однако мы
-                    не должны отрицать очевидное: религия России - православное христианство. Ещё раз: никакой дискриминации
-                    это, в принципе, предполагать не может. Ограничение представителей других конфессий или атеистов
-                    должно неотвратимо преследоваться по закону. Тема «сращивания» патриархии и власти – тема болезненная.
-                    Позиция РПЦ – всякая власть от Бога, они будут поддерживать любую власть. Нужно относится к этому
-                    философски. Не вижу здесь никаких оригинальных рецептов, только закон. Эти взаимоотношения должны
-                    быть формализованы. Если кто-то захотел поддержать РПЦ через квоты на поставки сигарет, то светская
-                    власть должна привлечь этого чиновника к ответственности в установленном порядке. Его «контрагентом»
-                    в РПЦ пусть занимается сама РПЦ, обсуждая, допустимо ли это. На днях читал любопытную статью в «Ведомостях»,
-                    там описывался опыт мирного ухода диктаторов от власти. Любопытно, что почти везде главным посредником
-                    между диктатором и протестующими была Церковь. Возможно ли это сейчас у нас? Вряд ли. Но я бы очень
-                    хотел, чтобы РПЦ заняла такое положение в обществе, чтобы все конфликтующие искали и принимали её
-                    посредничество.
-                </div>
-            </div>
-
-
-            <div class="card-title">Мнение Медведева</div>
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <!-- <div class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                    <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="card-content">
-                        В России необходимо усилить ответственность за неисполнение решения судов. С таким заявлением выступил Дмитрий Медведев.
-                        Премьер-министр отказался комментировать фильм Алексея Навального о нём и назвал оппозиционера
-                        обормотом. Чем больше комментируешь всяких обормотов и проходимцев, тем для них лучше. Они, собственно,
-                        на это и рассчитывают, — сказал глава правительства, напомнив о решении суда, согласно которому
-                        снятые ранее Навальным ленты необходимо изъять. По мнению премьера, в России необходимо усилить
-                        ответственность за неисполнение решения судов. Ранее отмечалось, что суд обязал Навального опровергнуть
-                        заявления о часах бизнесмена Михайлова и удалить эту информацию из фильма "Чайка".
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <section class="card-group">
-        <div class="section-title">
-            Экспертная оценка
-            <button class="section-hider" onclick="change_section_content_state(event)">
-                скрыть
-            </button>
+        <div class="card-subtitle">
+            1993-2000
         </div>
 
 
-        <div class="section-content">
+        <!-- Дополнительные блоки -->
 
-            <!-- Колличественная оценка -->
+        <div class="card-title">Религиозные взгляды</div>
 
-            <div class="card-title">
-                Шкалы
+        <div class="card">
+            <div class="card-content">
+
+
+                Церковь и религия: я, к своему стыду, типичный постсоветский верующий – посты соблюдаю, на церкви крещусь, но в церкви бываю
+                достаточно редко. Когда мои друзья, подсмеивающиеся над моим очередным «мне овощной салат – сейчас
+                пост», пытаются меня «потроллить» и требуют, чтобы я объяснил, чему именно посвящен тот или иной
+                пост, то они достаточно быстро ставят меня в тупик и дразнят «липовым православным, не знакомым с
+                матчастью». Я действительно с матчастью знаком меньше, чем хотелось бы, работаю над этим.
+                <br>
+                <br> Не думаю, что мою религиозность можно конвертировать в политический капитал – это будет выглядеть
+                просто смешно. Я её не выпячиваю и не прячу, какая есть, такая есть. Я верую, мне нравится быть христианином
+                и православным, мне нравится ощущать себя частью чего-то большого и общего. Нравится, что есть специальная
+                этика и самоограничения. При этом меня совершенно не напрягает, что существую я в преимущественно
+                атеистической среде – лет до 25, до рождения ребёнка, я и сам был таким ярым атеистом, что был готов
+                вцепиться в бороду любому попу. Нормально, когда люди религиозны, нормально, когда некоторые люди
+                смеются над религиозностью. Шутки над религиозностью в «Симпсонах» или «Южном парке» совершенно прекрасны
+                и не оскорбляют меня нисколько.
+                <br>
+                <br> Когда мы говорим о роли РПЦ, то тут нужно выделить несколько аксиом: Мы живём в светском государстве.
+                Религия от государства отделена. Никто не может быть дискриминирован по религиозному принципу. Православие
+                – главная религия России и не нужно самих себя обманывать, пытаясь стоять на позициях абсолютного
+                равенства. Особая роль РПЦ объяснима и разумна. Больше 80% граждан считают себя православными (пусть
+                при этом они в церковь не ходят). Рождество – государственный праздник. Понятно, что попытка дать
+                буддистам России столько же внимания, сколько православным, обречена на провал. Если буддисты хотят,
+                то их религия и священнослужители должны играть особую роль в местах компактного и традиционного
+                проживания буддистов – Калмыкии или Бурятии.
+                <br>
+                <br> Прекрасно, что в Татарии и Башкирии есть выходные, связанные с исламскими праздниками. Однако мы
+                не должны отрицать очевидное: религия России - православное христианство. Ещё раз: никакой дискриминации
+                это, в принципе, предполагать не может. Ограничение представителей других конфессий или атеистов
+                должно неотвратимо преследоваться по закону. Тема «сращивания» патриархии и власти – тема болезненная.
+                Позиция РПЦ – всякая власть от Бога, они будут поддерживать любую власть. Нужно относится к этому
+                философски. Не вижу здесь никаких оригинальных рецептов, только закон. Эти взаимоотношения должны
+                быть формализованы. Если кто-то захотел поддержать РПЦ через квоты на поставки сигарет, то светская
+                власть должна привлечь этого чиновника к ответственности в установленном порядке. Его «контрагентом»
+                в РПЦ пусть занимается сама РПЦ, обсуждая, допустимо ли это. На днях читал любопытную статью в «Ведомостях»,
+                там описывался опыт мирного ухода диктаторов от власти. Любопытно, что почти везде главным посредником
+                между диктатором и протестующими была Церковь. Возможно ли это сейчас у нас? Вряд ли. Но я бы очень
+                хотел, чтобы РПЦ заняла такое положение в обществе, чтобы все конфликтующие искали и принимали её
+                посредничество.
             </div>
+        </div>
 
-            <div class="card">
-                <div class="card-content">
-                    <div class="graph">
-                        <svg class="polyline-canvas">
-                            <linearGradient id="linear-gradient">
-                                <stop offset="0%" stop-color="rgb(160, 240, 240)" />
-                                <stop offset="100%" stop-color="rgb(216, 240, 204)" />
-                            </linearGradient>
-                            <polyline class="polyline" />
-                        </svg>
-                        <div class="graph-grid">
 
-                            <div class="horizontal" style="top: 0%"></div>
-                            <div class="horizontal" style="top: 25%"></div>
-                            <div class="horizontal" style="top: 50%"></div>
-                            <div class="horizontal" style="top: 75%"></div>
-                            <div class="horizontal" style="top: 100%"></div>
-                        </div>
-
-                        <!-- <svg style="position: absolute;" width="120" height="120" viewBox="0 0 120 120"
-                            xmlns="http://www.w3.org/2000/svg">
-
-                          <polygon points="60,20 100,40 100,80 60,100 20,80 20,40"/>
-                        </svg> -->
-                        <div class="graph-column">
-                            <div class="graph-axis"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                            <div class="column-name">
-                                I
-                            </div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                            <div class="column-name">
-                                II
-                            </div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                            <div class="column-name">
-                                III
-                            </div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
+        <div class="card-title">Мнение Медведева</div>
+        <div class="card">
+            <div class="card-content-wrapper">
+                <!-- <div class="card-link" href="https://www.google.com">
+                    <div class="arrow-box-wrapper">
+                        <div class="arrow-box">
+                                <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
                         </div>
                     </div>
+                </div> -->
+                <div class="card-content">
+                    В России необходимо усилить ответственность за неисполнение решения судов. С таким заявлением выступил Дмитрий Медведев.
+                    Премьер-министр отказался комментировать фильм Алексея Навального о нём и назвал оппозиционера
+                    обормотом. Чем больше комментируешь всяких обормотов и проходимцев, тем для них лучше. Они, собственно,
+                    на это и рассчитывают, — сказал глава правительства, напомнив о решении суда, согласно которому
+                    снятые ранее Навальным ленты необходимо изъять. По мнению премьера, в России необходимо усилить
+                    ответственность за неисполнение решения судов. Ранее отмечалось, что суд обязал Навального опровергнуть
+                    заявления о часах бизнесмена Михайлова и удалить эту информацию из фильма "Чайка".
                 </div>
-            </div>
 
-            <div class="card-title">
-                Комментарий
-            </div>
 
-            <div class="card-empty">
-                <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
-    <footer>
-        &copy XTool, 2018
-        <br> Website by Batin & Solovev
-        <br> sergey.soloviev@inbox.ru
-        <br>
-    </footer>
 
-</div>
+<section class="card-group">
+    <div class="section-title">
+        Экспертная оценка
+        <button class="section-hider" onclick="change_section_content_state(event)">
+            скрыть
+        </button>
+    </div>
+
+
+    <div class="section-content">
+
+        <!-- Колличественная оценка -->
+
+        <div class="card-title">
+            Шкалы
+        </div>
+
+        <div class="card">
+            <div class="card-content">
+                <div class="graph">
+                    <svg class="polyline-canvas">
+                        <linearGradient id="linear-gradient">
+                            <stop offset="0%" stop-color="rgb(160, 240, 240)" />
+                            <stop offset="100%" stop-color="rgb(216, 240, 204)" />
+                        </linearGradient>
+                        <polyline class="polyline" />
+                    </svg>
+                    <div class="graph-grid">
+
+                        <div class="horizontal" style="top: 0%"></div>
+                        <div class="horizontal" style="top: 25%"></div>
+                        <div class="horizontal" style="top: 50%"></div>
+                        <div class="horizontal" style="top: 75%"></div>
+                        <div class="horizontal" style="top: 100%"></div>
+                    </div>
+
+                    <!-- <svg style="position: absolute;" width="120" height="120" viewBox="0 0 120 120"
+                        xmlns="http://www.w3.org/2000/svg">
+
+                      <polygon points="60,20 100,40 100,80 60,100 20,80 20,40"/>
+                    </svg> -->
+                    <div class="graph-column">
+                        <div class="graph-axis"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
+                        <div class="column-name">
+                            I
+                        </div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
+                        <div class="column-name">
+                            II
+                        </div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
+                        <div class="column-name">
+                            III
+                        </div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                    <div class="graph-column">
+                        <div class="graph-vertex"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-title">
+            Комментарий
+        </div>
+
+        <div class="card-empty">
+            <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
+        </div>
+    </div>
+</section>
+
+
+

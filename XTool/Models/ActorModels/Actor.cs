@@ -70,6 +70,11 @@ namespace XTool.Models.ActorModels
         public virtual List<CareerPeriod> CareerPeriods { get; set; } = new List<CareerPeriod>();
 
         /// <summary>
+        /// Список цитат актора
+        /// </summary>
+        public virtual List<Quotation> Quotations { get; set; } = new List<Quotation>();
+
+        /// <summary>
         /// Описание религиозных взглядов актора
         /// </summary>
         [StringLength(10000)]
