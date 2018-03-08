@@ -9,7 +9,7 @@ using XTool.Models.Shared;
 
 namespace XTool.Data.DB
 {
-    public static class XToolDbContextInitializer
+    public static class XToolDbContextInitExtensions
     {
         public static XToolDBContext Init( this XToolDBContext context)
         {

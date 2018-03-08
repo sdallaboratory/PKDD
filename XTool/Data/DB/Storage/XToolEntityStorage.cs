@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.DB;
 
 namespace XTool.Data
 {
@@ -9,9 +10,10 @@ namespace XTool.Data
     {
         public XToolEntityStorage(XToolDBContext context) : base(context)
         {
+            context.Init();
         }
 
-        public override int AddItem<T>(T item)
+        public override int Add<T>(T item)
         {
             int result = -1;
             if (item != null)

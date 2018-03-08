@@ -19,7 +19,6 @@ namespace XTool.Data
     {
         public XToolDBContext(DbContextOptions options) : base(options)
         {
-            this.Init();
         }
 
 

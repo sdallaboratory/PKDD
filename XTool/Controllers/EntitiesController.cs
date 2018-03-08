@@ -40,7 +40,7 @@ namespace XTool.Controllers
             Type type = validator.IsInService(typeName);
             if (type != null)
             {
-                result = Json(storage.FindItems(type));
+                result = Json(storage.GetAll(type));
             }
             return result;
         }
@@ -52,7 +52,7 @@ namespace XTool.Controllers
             Type type = validator.IsInService(typeName);
             if (type != null)
             {
-                result = Json(storage.FindItemById(type, id));
+                result = Json(storage.Get(type, id));
             }
             return result;
         }
@@ -68,7 +68,7 @@ namespace XTool.Controllers
                 var newItem = model.Body.ToObject(type);
                 if(newItem != null )
                 {
-                    storage.AddItem(type, newItem);
+                    storage.Add(type, newItem);
                 }
             }
         }
@@ -83,9 +83,9 @@ namespace XTool.Controllers
                 object newItem = model.Body;
                 if (newItem != null && model.Ids.Count > 0)
                 {
-                    var item = storage.FindItemById(type, model.Ids.First());
+                    var item = storage.Get(type, model.Ids.First());
                     (item as IUpdateble).Update(newItem as IUpdateble);
-                    storage.UpdateItem(type, model.Ids.First(), item);
+                    storage.Update(type, model.Ids.First(), item);
                 }
             }
         }

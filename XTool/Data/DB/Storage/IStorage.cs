@@ -11,21 +11,24 @@ namespace XTool.Data.Storage
     {
         DbContext Context { get; }
 
-        IEnumerable<T> FindItems<T>() where T : class;
-        IEnumerable<object> FindItems(Type type);
-        IEnumerable<T> FindItems<T>(IEnumerable<TKey> ids) where T : class;
-        IEnumerable<object> FindItems(Type type, IEnumerable<TKey> ids);
+        IEnumerable<T> GetAll<T>() where T : class;
+        IEnumerable<object> GetAll(Type type);
+        IEnumerable<T> Get<T>(IEnumerable<TKey> ids) where T : class;
+        IEnumerable<object> Get(Type type, IEnumerable<TKey> ids);
 
-        T FindItemById<T>(TKey id) where T : class;
-        object FindItemById(Type type, TKey id);
+        T Get<T>(TKey id) where T : class;
+        object Get(Type type, TKey id);
 
-        T DeleteItemById<T>(TKey id) where T : class;
-        object DeleteItemById(Type type, TKey id);
+        T Delete<T>(TKey id) where T : class;
+        object Delete(Type type, TKey id);
 
-        T UpdateItem<T>(TKey id, T newValue) where T : class;
-        object UpdateItem(Type type, TKey id, object newValue);
+        T Update<T>(TKey id, T newValue) where T : class;
+        object Update(Type type, TKey id, object newValue);
 
-        TKey AddItem<T>(T item) where T : class;
-        TKey AddItem(Type type, object item);
+        TKey Add<T>(T item) where T : class;
+        TKey Add(Type type, object item);
+
+        int Count<T>() where T : class;
+        int Count(Type type);
     }
 }

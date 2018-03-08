@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using XTool.Models;
 using XTool.Data;
+using XTool.Models.ActorModels;
 
 namespace XTool.Controllers
 {
@@ -15,21 +16,22 @@ namespace XTool.Controllers
     //[Route("[action]")]
     public class HomeController : Controller
     {
-        private readonly XToolDBContext _context;
+        private readonly XToolEntityStorage _storage;
 
-        public HomeController(XToolDBContext context) // тут поставить Сторадж
+        public HomeController(XToolEntityStorage storage) // тут поставить Сторадж
         {
-            _context = context;
+            _storage = storage;
         }
 
         public IActionResult Actors()
         {
-            ViewBag.Actors = _context.Actors.Take(3);
+            ViewBag.Actors = _storage.GetAll<Actor>().Take(3);
             return View();
         }
 
         public IActionResult Actor(int id)
         {
+            ViewBag.Actor = _storage.Get<Actor>(id);
             return View();
         }
 
