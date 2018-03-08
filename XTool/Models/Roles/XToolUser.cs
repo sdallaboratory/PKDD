@@ -9,6 +9,7 @@ namespace XTool.Models.Roles
 {
     public class XToolUser : IdentityUser<int>, IUpdateble
     {
+
         public IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();
@@ -20,7 +21,7 @@ namespace XTool.Models.Roles
 
         public bool WithLogin(LoginModel loginModel)
         {
-            return Email == loginModel.Email & PasswordHash == loginModel.Password.GetHashCode().ToString();
+            return Email == loginModel.Email;
         }
     }
 }

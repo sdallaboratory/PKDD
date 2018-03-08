@@ -7,7 +7,7 @@ namespace XTool.Models.Roles
 {
     public class TechnologistRole : XToolRole, IUpdateble
     { 
-        public TechnologistRole(string roleName) : base(roleName)
+        public TechnologistRole(string roleName = "technologist") : base(roleName)
         {
         }
 

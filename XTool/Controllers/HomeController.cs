@@ -11,7 +11,7 @@ using XTool.Data;
 
 namespace XTool.Controllers
 {
-    //[Authorize]
+    [Authorize]
     //[Route("[action]")]
     public class HomeController : Controller
     {

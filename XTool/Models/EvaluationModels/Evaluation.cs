@@ -25,7 +25,7 @@ namespace XTool.Models.EvaluationModels
         public virtual Actor Actor { get; set; }
 
 
-        public int ExpertId { get; set; }
+        //public int ExpertId { get; set; }
 
         public virtual XToolUser Expert { get; set; }
     }

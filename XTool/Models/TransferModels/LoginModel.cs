@@ -14,7 +14,7 @@ namespace XTool.Models.TransferModels
 
         public string Password { get; set; }
 
-        public bool? Remember { get; set; }
+        public bool Remember { get; set; }
 
         public IUpdateble Update(IUpdateble model)
         {
