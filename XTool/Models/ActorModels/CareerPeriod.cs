@@ -12,6 +12,6 @@ namespace XTool.Models.ActorModels
         [StringLength(20)] // Добавить бы RegularExpression
         public string Period { get; set; }
 
-        public List<CareerEvent> CareerEvents { get; set; }
+        public List<CareerEvent> CareerEvents { get; set; } = new List<CareerEvent>();
     }
 }

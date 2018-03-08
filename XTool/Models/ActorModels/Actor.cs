@@ -46,27 +46,27 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Набор фотографий актора
         /// </summary>
-        public virtual List<Photo> Photos { get; set; }
+        public virtual List<Photo> Photos { get; set; } = new List<Photo>();
 
         /// <summary>
         /// Список публикаций и выступлений актора
         /// </summary>
-        public virtual List<Publication> Publications { get; set; }
+        public virtual List<Publication> Publications { get; set; } = new List<Publication>();
 
         /// <summary>
         /// Список видеозаписей
         /// </summary>
-        public virtual List<Video> Videos { get; set; }
+        public virtual List<Video> Videos { get; set; } = new List<Video>();
 
         /// <summary>
         /// Список событий в биографии актора
         /// </summary>
-        public virtual List<BiographyEvent> BiograpphyEvents { get; set; }
+        public virtual List<BiographyEvent> BiograpphyEvents { get; set; } = new List<BiographyEvent>();
 
         /// <summary>
         /// Список периодов с событиями в карьере актора
         /// </summary>
-        public virtual List<CareerPeriod> CareerPeriods { get; set; }
+        public virtual List<CareerPeriod> CareerPeriods { get; set; } = new List<CareerPeriod>();
 
         /// <summary>
         /// Описание религиозных взглядов актора
@@ -78,7 +78,7 @@ namespace XTool.Models.ActorModels
         /// Описание социальной активности актора
         /// </summary>
         [StringLength(10000)]
-        public string SocialActivity { get; set; } 
+        public string SocialActivity { get; set; }
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Список пользовательских секций с дополнительной поясняющей информацией
         /// </summary>
-        public virtual List<CustomSection> CustomSection { get; set; }
+        public virtual List<CustomSection> CustomSection { get; set; } = new List<CustomSection>();
 
         #endregion
 
@@ -95,6 +95,8 @@ namespace XTool.Models.ActorModels
 
         //public int TechnologistId { get; set; }
 
-        public virtual List<Evaluation> Evaluations { get; set; }
+        public virtual List<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
+
+        public int Age => DateTime.Now.Year - Birthday.Year;
     }
 }

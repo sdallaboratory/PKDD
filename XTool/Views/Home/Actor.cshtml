@@ -1,4 +1,8 @@
 ﻿
+@{ 
+    Actor actor = ViewBag.Actor as Actor;
+}
+
 <div class="page-wrapper">
     <header>
         <nav class="top-menu">
@@ -16,7 +20,7 @@
 
     <section class="card-group">
         <div class="section-title">
-            @ViewBag.Actor.Name
+            @actor.Name
             <button class="section-hider" onclick="change_section_content_state(event)">
                 скрыть
             </button>
@@ -32,18 +36,18 @@
                     <div class="card-link" href="https://www.google.com">
                         <div class="arrow-box-wrapper">
                             <div class="arrow-box">
-                                
+
                                 <img class="inner-card-item" src="img/clip-art/sex/male.png" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="card-content">
                         ФИО:
-                        <b>Навальный Алексей Анатольевич</b>
+                        <b>@actor.Name</b>
                         <br> Дата рождения:
-                        <b>12.02.1976 (41 год)</b>
+                        <b>@actor.Birthday (@actor.Age)</b>
                         <br> Место работы и должность:
-                        <b>Партия прогресса, председатель</b>
+                        <b>@actor.Position</b>
                         <br>
 
 
@@ -57,28 +61,19 @@
                 Фотографии
             </div>
 
-            <div class="card">
-                <img class="photo" src="https://gdb.voanews.com/59E693F5-1917-4401-AEF9-07B1A8BEECB7_cx0_cy8_cw0_w1023_r1_s.jpg" alt="navalniy">
-                <div class="card-content with-extension">
-                    Алексей навальный в своей фирменной клетчатой рубашке.
-                </div>
-                <div class="card-extension">
-                    Двухколонная модульная сетка достаточно часто применяется на сайтах, при этом, как правило, в одной колонке располагается
-                    основной материал (текст статьи, например), а во второй — ссылки на разделы сайта и другая информация.
-                </div>
-            </div>
-
-            <div class="card">
-                <img class="photo" src="http://nabludatel.ru/upload/000/u4/e1/5e/aleksei-navalnyi-ne-priedet-v-kirov-iz-za-otmeny-samoletov-v-k.jpg"
-                     alt="navalniy">
-                <div class="card-content">
-                    Новый имидж Алексея навального. Фото - декабрь 2017.
-                </div>
-            </div>
+            @foreach (Photo photo in actor.Photos)
+            {
+                @Html.Partial("Partial/PhotoCard", photo);
+            }
 
             <!-- Публикации и выступления -->
 
-            <div class="card-title">
+            @foreach (Publication publication in actor.Publications)
+            {
+                @Html.Partial("Partial/PublicationCard", publication);
+            }
+
+            @*<div class="card-title">
                 Публикации и выступления
             </div>
 
@@ -168,14 +163,21 @@
                 <div class="card-content">
                     Статья в глянцевом журнале "Все Звёзды"
                 </div>
-            </div>
+            </div>*@
 
             <!-- Видео -->
 
             <div class="card-title">
                 Видео
             </div>
-            <div class="card">
+
+            @foreach (Video video in actor.Videos)
+            {
+                @Html.Partial("Partial/PhotoCard", video);
+            }
+
+
+            @*<div class="card">
                 <div class="video-wrapper">
                     <div style="padding-bottom: 56.28%">
                         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/y266ydiyICY?rel=0&amp;showinfo=0" frameborder="0" allow="encrypted-media"
@@ -240,7 +242,7 @@
                 <div class="card-extension">
                     В CSS есть всего несколько техник центрирования элементов. Если их знать, то большинство задач решаются просто.
                 </div>
-            </div>
+            </div>*@
 
             <!-- Цитаты -->
 

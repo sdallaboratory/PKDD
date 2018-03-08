@@ -32,11 +32,14 @@ namespace XTool.Controllers
 
         public IActionResult Actor(int id)
         {
+            
             ViewBag.Actor = _storage.Get<Actor>(id);
+            var actor = _storage.Get<Actor>(id);
+            var Photos = actor.Photos;
+            var Videos = actor.Videos;
             ViewBag.Count = _storage.Count<Actor>();
             return View();
         }
-
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

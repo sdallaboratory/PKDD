@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.Storage;
 using XTool.Models;
 using XTool.Models.ActorModels;
 using XTool.Models.Roles;
@@ -11,7 +12,18 @@ namespace XTool.Data.DB
 {
     public static class XToolDbContextInitExtensions
     {
-        public static XToolDBContext Init( this XToolDBContext context)
+        public static IStorage<Tkey> Clear<Tkey>(this IStorage<Tkey> storage)
+        {
+            foreach (Type type in storage.GetAllTypes())
+            {
+                foreach (var elem in storage.GetAll(type))
+                    storage.Context.Remove(elem);
+                storage.Context.SaveChanges();
+            }
+            return storage;
+        }
+
+        public static XToolDbContext Init(this XToolDbContext context)
         {
             if (context.Actors.Count() == 0)
             {
@@ -25,11 +37,17 @@ namespace XTool.Data.DB
                     Photos = new List<Photo>()
                 {
                     new Photo()
+                    { Url = "https://antimaidan.ru/sites/default/files/styles/large/public/articles/ztlphau7wv.jpg?itok=Kaj6AW6L", Description = "У поезда" },
+                    new Photo()
+                    { Url = "https://antimaidan.ru/sites/default/files/styles/large/public/articles/ztlphau7wv.jpg?itok=Kaj6AW6L", Description = "У поезда" },
+                    new Photo()
                     { Url = "https://antimaidan.ru/sites/default/files/styles/large/public/articles/ztlphau7wv.jpg?itok=Kaj6AW6L", Description = "У поезда" }
                 },
                     Publications = new List<Publication>() { },
                     Videos = new List<Video>()
                 {
+                    new Video() { Url = "https://www.youtube.com/watch?v=RQZr2NgKPiU", Description = "Митинг"},
+                    new Video() { Url = "https://www.youtube.com/watch?v=RQZr2NgKPiU", Description = "Митинг"},
                     new Video() { Url = "https://www.youtube.com/watch?v=RQZr2NgKPiU", Description = "Митинг"}
                 },
                     BiograpphyEvents = new List<BiographyEvent>
@@ -62,7 +80,7 @@ namespace XTool.Data.DB
                     ReligionViews = "Ничего толком сказать нельзя"
                 });
             }
-            if(context.Roles.Count() == 0)
+            if (context.Roles.Count() == 0)
             {
                 context.Roles.Add(new AdminRole());
                 context.Roles.Add(new TechnologistRole());
@@ -79,7 +97,7 @@ namespace XTool.Data.DB
             //    };
             //    user.PasswordHash = Handler.HashPassword(user, password);
             //    context.Users.Add(user);
-                
+
             //}
             context.SaveChanges();
             return context;

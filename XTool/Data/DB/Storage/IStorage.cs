@@ -30,5 +30,7 @@ namespace XTool.Data.Storage
 
         int Count<T>() where T : class;
         int Count(Type type);
+
+        IEnumerable<Type> GetAllTypes();
     }
 }

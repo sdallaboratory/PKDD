@@ -11,7 +11,7 @@ namespace XTool.Data.Validations.ApiValidator
     {
         private DbContext _context;
 
-        public ApiTypesValidator(XToolDBContext context)
+        public ApiTypesValidator(XToolDbContext context)
         {
             _context = context;
         }

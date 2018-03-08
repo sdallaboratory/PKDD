@@ -24,9 +24,9 @@ namespace XTool.Controllers
 
         private IValidator validator;
 
-        private XToolDBContext cont;
+        private XToolDbContext cont;
 
-        public EntitiesController(IStorage<int> storage, IValidator validator, XToolDBContext con)
+        public EntitiesController(IStorage<int> storage, IValidator validator, XToolDbContext con)
         {
             this.storage = storage as XToolEntityStorage;
             this.validator = validator;

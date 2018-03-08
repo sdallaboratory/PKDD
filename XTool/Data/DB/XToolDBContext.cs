@@ -15,9 +15,9 @@ using XTool.Models.Roles;
 
 namespace XTool.Data
 {
-    public class XToolDBContext : IdentityDbContext<XToolUser, XToolRole, int>
+    public class XToolDbContext : IdentityDbContext<XToolUser, XToolRole, int>
     {
-        public XToolDBContext(DbContextOptions options) : base(options)
+        public XToolDbContext(DbContextOptions options) : base(options)
         {
         }
 

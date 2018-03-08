@@ -25,11 +25,11 @@ namespace XTool
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<XToolDBContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<XToolDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddIdentity<XToolUser, XToolRole>()
                 .AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<XToolDBContext>();
+                .AddEntityFrameworkStores<XToolDbContext>();
 
             string authorPath = "/Authorization/Login";
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

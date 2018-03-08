@@ -12,7 +12,7 @@ using XTool.Models.Shared;
 
 namespace XTool.Migrations
 {
-    [DbContext(typeof(XToolDBContext))]
+    [DbContext(typeof(XToolDbContext))]
     [Migration("20180306080555_Initial")]
     partial class Initial
     {

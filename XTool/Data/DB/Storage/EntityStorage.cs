@@ -128,10 +128,13 @@ namespace XTool.Data
             return item;
         }
 
+        private IEnumerable<PropertyInfo> _dbSets = null;
+
+        private IEnumerable<PropertyInfo> DbSets => _dbSets ?? (_dbSets = Context.GetType()
+                .GetProperties()/*.Where(prop => prop.PropertyType*/);
+
         private PropertyInfo GetDbSet(Type type)
         {
-            var dbSets = Context.GetType()
-                .GetProperties();
             Type currType = type;
             List<Type> types = new List<Type>();
             while (currType != null)
@@ -144,7 +147,7 @@ namespace XTool.Data
             PropertyInfo set = null;
             for (int i = 0; i < types.Count && goOn; i++)
             {
-                set = dbSets.FirstOrDefault(x => x.PropertyType == typeof(DbSet<>).MakeGenericType(types[i]));
+                set = DbSets.FirstOrDefault(x => x.PropertyType == typeof(DbSet<>).MakeGenericType(types[i]));
                 if (set != null)
                 {
                     goOn = false;
@@ -152,6 +155,7 @@ namespace XTool.Data
             }
             return set;
         }
+
 
         public virtual int Count<T>() where T : class
         {
@@ -161,6 +165,11 @@ namespace XTool.Data
         public virtual int Count(Type type)
         {
             return (GetDbSet(type).GetValue(Context) as IEnumerable<object>)?.Count() ?? 0;
+        }
+
+        public IEnumerable<Type> GetAllTypes()
+        {
+            return DbSets.Select(dbSet => dbSet.PropertyType.GetGenericArguments().FirstOrDefault()).Where(type => type != null);
         }
     }
 }

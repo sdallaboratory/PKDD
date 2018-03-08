@@ -12,7 +12,7 @@ using XTool.Models.Shared;
 
 namespace XTool.Migrations
 {
-    [DbContext(typeof(XToolDBContext))]
+    [DbContext(typeof(XToolDbContext))]
     partial class XToolDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -8,9 +8,10 @@ namespace XTool.Data
 {
     public class XToolEntityStorage : EntityStorage<int>
     {
-        public XToolEntityStorage(XToolDBContext context) : base(context)
+        public XToolEntityStorage(XToolDbContext context) : base(context)
         {
-            context.Init();
+            //this.Clear();
+            (Context as XToolDbContext).Init();
         }
 
         public override int Add<T>(T item)
