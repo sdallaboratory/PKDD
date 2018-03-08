@@ -46,7 +46,8 @@
 
     <section class="card-group">
         <div class="section-title">
-            Алексей Навальный @*@(Model.Actors.Count())*@
+            Алексей Навальный @((ViewBag.Actors as IEnumerable<object>).Count())
+             @((ViewBag.Actors as IEnumerable<Actor>).FirstOrDefault().Id)
             <button class="section-hider" onclick="change_section_content_state(event)">
                 скрыть
             </button>

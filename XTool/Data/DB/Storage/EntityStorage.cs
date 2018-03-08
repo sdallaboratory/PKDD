@@ -66,7 +66,7 @@ namespace XTool.Data
         {
             var set = GetDbSet(type);
             var setMethod = set.PropertyType.GetMethods().FirstOrDefault(x => x.Name == "Find");
-            var item = setMethod.Invoke(set.GetValue(Context), new object[] { id });
+            var item = setMethod.Invoke(set.GetValue(Context), new object[] { new object[] { id } });
             return item;
         }
 
@@ -153,12 +153,12 @@ namespace XTool.Data
             return set;
         }
 
-        public int Count<T>() where T : class
+        public virtual int Count<T>() where T : class
         {
             return Count(typeof(T));
         }
 
-        public int Count(Type type)
+        public virtual int Count(Type type)
         {
             return (GetDbSet(type).GetValue(Context) as IEnumerable<object>)?.Count() ?? 0;
         }
