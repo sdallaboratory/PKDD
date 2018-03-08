@@ -36,6 +36,8 @@ namespace XTool.Data
 
         public DbSet<CareerEvent> CareerEvents { get; set; }
 
+        public DbSet<Quotation> Quotations { get; set; }
+
         public DbSet<CustomSection> CustomSections { get; set; }
 
         public DbSet<Evaluation> Evaluations { get; set; }

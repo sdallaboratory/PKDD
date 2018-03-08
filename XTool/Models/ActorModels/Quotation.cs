@@ -2,7 +2,7 @@
 
 namespace XTool.Models.ActorModels
 {
-    internal class Quotation
+    public class Quotation
     {
         public int Id { get; set; }
 
