@@ -1,5 +1,4 @@
-﻿
-@{ 
+﻿@{
     Actor actor = ViewBag.Actor as Actor;
 }
 
@@ -37,7 +36,7 @@
                         <div class="arrow-box-wrapper">
                             <div class="arrow-box">
 
-                                <img class="inner-card-item" src="img/clip-art/sex/male.png" alt="">
+                                <img class="inner-card-item" src="~/img/clip-art/sex/male.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -45,7 +44,7 @@
                         ФИО:
                         <b>@actor.Name</b>
                         <br> Дата рождения:
-                        <b>@actor.Birthday (@actor.Age)</b>
+                        <b>@(actor.Birthday.ToShortDateString()) (@actor.Age года)</b>
                         <br> Место работы и должность:
                         <b>@actor.Position</b>
                         <br>
@@ -56,124 +55,42 @@
             </div>
 
             <!-- Фотографии -->
+            @if(actor.Photos.Count > 0)
+             {
+                <div class="card-title">
+                    Фотографии
+                </div>
 
-            <div class="card-title">
-                Фотографии
-            </div>
+                @foreach (Photo photo in actor.Photos)
+                 {
+                     @Html.Partial("../Partial/PhotoCard", photo);
+                 }
+             }
 
-            @foreach (Photo photo in actor.Photos)
+                <!-- Публикации и выступления -->
+            @if (actor.Publications.Count > 0)
             {
-                @Html.Partial("Partial/PhotoCard", photo);
+                <div class="card-title">
+                    Публикации и выступления
+                </div>
+                @foreach (Publication publication in actor.Publications)
+                {
+                     @Html.Partial("../Partial/PublicationCard", publication);
+                }
             }
-
-            <!-- Публикации и выступления -->
-
-            @foreach (Publication publication in actor.Publications)
-            {
-                @Html.Partial("Partial/PublicationCard", publication);
-            }
-
-            @*<div class="card-title">
-                Публикации и выступления
-            </div>
-
-            <div class="card-subtitle">
-                2016
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper">
-
-                    <div class="card-content">
-                        Статья в глянцевом журнале "Все Звёзды"
-                    </div>
-                    <a class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                ►
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-
-
-            <div class="card">
-                <div class="card-content with-extension">
-                    Интервью в телепередаче "Собчак Живьёв" на "Дожде"
-                </div>
-                <div class="card-extension">
-                    Для начала рассмотрим самый простой вариант, когда ширина левой колонки жестко задана в пикселах, а ширина правой колонки
-                    варьируется в зависимости от размеров окна браузера. Для этого требуется задать общую ширину всей
-                    таблицы в процентах через атрибут width тега и для первой ячейки установить ее ширину в пикселах
-                    или процентах также с помощью атрибута width, но уже для тега.
-                </div>
-            </div>
-
-
-
-            <div class="card-subtitle">
-                2017
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper with-extension">
-                    <div class="card-content">
-
-                        Статья в глянцевом журнале "Все Звёзды"
-                    </div>
-                    <a class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                ►
-
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="card-extension">
-                    В среду, 24 июня, на Дожде состоялся прямой разговор лидера «Партии прогресса» и главы «Роснано» Анатолия Чубайса. Жаркий
-                    разговор о деятельности корпорации, финансировании компании и науки. Мы собрали реакцию зрителей
-                    телеканала на главный эфир этого лета.
-                </div>
-            </div>
-
-
-            <div class="card-subtitle">
-                ...
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper with-extension">
-                    <div class="card-content">
-
-                        Статья в глянцевом журнале "Все Звёзды"
-                    </div>
-                </div>
-                <div class="card-extension">
-                    В среду, 24 июня, на Дожде состоялся прямой разговор лидера «Партии прогресса» и главы «Роснано» Анатолия Чубайса. Жаркий
-                    разговор о деятельности корпорации, финансировании компании и науки. Мы собрали реакцию зрителей
-                    телеканала на главный эфир этого лета.
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content">
-                    Статья в глянцевом журнале "Все Звёзды"
-                </div>
-            </div>*@
 
             <!-- Видео -->
 
-            <div class="card-title">
-                Видео
-            </div>
-
-            @foreach (Video video in actor.Videos)
+            @if(actor.Videos.Count > 0)
             {
-                @Html.Partial("Partial/PhotoCard", video);
+                <div class="card-title">
+                    Видео
+                </div>
+
+                @foreach (Video video in actor.Videos)
+                {
+                    @Html.Partial("../Partial/VideoCard", video);
+                }
             }
 
 
@@ -253,7 +170,7 @@
                     <div class="card-link" href="https://www.google.com">
                         <div class="arrow-box-wrapper">
                             <div class="arrow-box">
-                                <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
+                                <img src="~/img/clip-art/quote.png" alt="quotation" class="inner-card-item">
                             </div>
                         </div>
                     </div>
@@ -290,92 +207,19 @@
 
             <!-- Биография -->
 
-            <div class="card-title">Биография</div>
+            @if(actor.BiograpphyEvents.Count > 0)
+            {
+                <div class="card-title">Биография</div>
+                @foreach (BiographyEvent biographyEvent in actor.BiograpphyEvents)
+                {
+                    @Html.Partial("../Partial/EventCard", biographyEvent)
+                }
+            }
 
             <div class="card-subtitle">
                 1993-2000
             </div>
 
-            <div class="card">
-                <div class="card-content-wrapper with-extension">
-                    <div class="card-link">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <div class="inner-card-number">
-                                    1993
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        Окончил школу
-                    </div>
-                </div>
-                <div class="card-extension">
-                    Учеником был недостаточно прилежным. Оценики получал не самые высокие.
-                </div>
-            </div>
-
-
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <div class="card-link">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <div class="inner-card-number">
-                                    1993
-                                    <br>⋮
-                                    <br>1998
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        Студент юридического факультета Российского университета дружбы народов; работа в банке «Аэрофлот»
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <div class="card-link">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <div class="inner-card-number">
-                                    1998
-                                    <br>⋮
-                                    <br>1999
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        Юрист в девелоперской компании ST Group
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-subtitle">
-                2000-2017
-            </div>
-
-            <div class="card">
-                <div class="card-content-wrapper">
-                    <div class="card-link">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                <div class="inner-card-number">
-                                    2009
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        Организатор (вместе с российской версией журнала Forbes) проекта по защите прав миноритарных акционеров — Центра защиты акционеров.
-                        <br>
-                    </div>
-                </div>
-            </div>
 
             <!-- Дополнительные блоки -->
 

@@ -33,10 +33,19 @@ namespace XTool.Controllers
         public IActionResult Actor(int id)
         {
             
-            ViewBag.Actor = _storage.Get<Actor>(id);
             var actor = _storage.Get<Actor>(id);
+            foreach (var collection in _storage.Context.Entry(actor).Collections)
+            {
+                collection.Load();
+            }
+            foreach (var period in actor.CareerPeriods)
+            {
+                _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
+            }
+            
             var Photos = actor.Photos;
             var Videos = actor.Videos;
+            ViewBag.Actor = _storage.Get<Actor>(id);
             ViewBag.Count = _storage.Count<Actor>();
             return View();
         }

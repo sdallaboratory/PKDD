@@ -3,7 +3,7 @@
     Video video = Model as Video;
 }
 <div class="card">
-    @if (!string.IsNullOrWhiteSpace(video.YouTubeId))
+    @if (video.YouTubeId != null)
     {
         <div class="video-wrapper">
             <div style="padding-bottom: 56.28%">
@@ -11,15 +11,36 @@
                         frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
             </div>
         </div>
+
+        <div class="card-content @if (!string.IsNullOrWhiteSpace(video.Comment)) {<text>with-extension </text>}">
+            @video.Description
+        </div>
+    }
+    else
+    { 
+        <div class="card-content-wrapper @if (!string.IsNullOrWhiteSpace(video.Comment)) {<text>with-extension </text>}">
+            <div class="card-content">
+                @video.Description
+            </div>
+            <a class="card-link" href="@video.Url" target="blank">
+                <div class="arrow-box-wrapper">
+                    <div class="arrow-box">
+                        <img src="~/img/clip-art/video.png" alt="movie" class="inner-card-item">
+                    </div>
+                </div>
+            </a>
+
+        </div>
     }
 
-    <div class="card-content @if (!string.IsNullOrWhiteSpace(video.Comment)) {<text>with-extension </text>}">
-        Речь Навального на митинге 6 мая на болотной HD крупный план
-    </div>
+
+
+    @if (!string.IsNullOrWhiteSpace(video.Comment))
+    {
     <div class="card-extension">
-        Для начала рассмотрим самый простой вариант, когда ширина левой колонки жестко задана в пикселах, а ширина правой колонки
-        варьируется в зависимости от размеров окна браузера. Для этого требуется задать общую ширину всей
-        таблицы в процентах через атрибут width тега и для первой ячейки установить ее ширину в пикселах
-        или процентах также с помощью атрибута width, но уже для тега.
+        @video.Comment
     </div>
+    }
 </div>
+
+

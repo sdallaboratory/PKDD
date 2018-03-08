@@ -1,0 +1,37 @@
+﻿@model Event
+@{
+    Event ev = Model as Event;
+}
+
+<div class="card">
+    <div class="card-content-wrapper @if (ev.Comment != null) {<text>with-extension </text>}">
+        <div class="card-link">
+            <div class="arrow-box-wrapper">
+                <div class="arrow-box">
+                    <div class="inner-card-number">
+                        @ev.Start
+                        @if(ev.End != null)
+                        {
+                            <text>
+                            <br>⋮
+                            <br> @ev.End
+                            </text>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-content">
+            @ev.Description
+        </div>
+    </div>
+    @if(ev.Comment != null)
+    {
+        <div class="card-extension">
+            @ev.Comment
+        </div>
+    }
+</div>
+
+
+
