@@ -1,0 +1,16 @@
+﻿@model CareerPeriod
+@{
+    CareerPeriod period = Model as CareerPeriod;
+}
+
+<div class="card-subtitle">
+    @period.Period
+</div>
+
+@if(period.CareerEvents.Count > 0)
+{
+    @foreach (CareerEvent ev in period.CareerEvents)
+    {
+        @Html.Partial("../Partial/EventCard", ev)
+    }
+}

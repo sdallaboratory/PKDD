@@ -9,14 +9,19 @@
             <div class="arrow-box-wrapper">
                 <div class="arrow-box">
                     <div class="inner-card-number">
-                        @ev.Start
-                        @if(ev.End != null)
+                        @if (!String.IsNullOrEmpty(ev.Start))
                         {
+                            @ev.Start
+                            @if (ev.End != null)
+                            {
                             <text>
                             <br>⋮
                             <br> @ev.End
                             </text>
+                            }
                         }
+                        else
+                        {<text>???</text>}
                     </div>
                 </div>
             </div>

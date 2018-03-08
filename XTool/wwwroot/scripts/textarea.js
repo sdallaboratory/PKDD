@@ -1,8 +1,6 @@
-
-
 function initTextarea(textarea) {
     setTextareaHeight = function () {
-        textarea.style.height = Math.max(textarea.height, textarea.scrollHeight) + 'px';
+        textarea.style.height = textarea.scrollHeight + 'px';
     }
     textarea.style.overflow = "hidden";
     textarea.onkeydown = setTextareaHeight;

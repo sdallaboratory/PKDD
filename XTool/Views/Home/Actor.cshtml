@@ -2,7 +2,6 @@
     Actor actor = ViewBag.Actor as Actor;
 }
 
-
 <section class="card-group">
     <div class="section-title">
         @actor.Name
@@ -13,9 +12,9 @@
 
     <div class="clear"></div>
     <div class="section-content">
-        
+
         <!-- Основная информация -->
-        
+
         <div class="card-title">
             Основная информация
         </div>
@@ -59,10 +58,10 @@
                 Фотографии
             </div>
 
-                @foreach (Photo photo in actor.Photos)
+            @foreach (Photo photo in actor.Photos)
                 {
-                    @Html.Partial("../Partial/PhotoCard", photo);
-                }
+                @Html.Partial("../Partial/PhotoCard", photo)
+            }
         }
 
         <!-- Публикации и выступления -->
@@ -72,10 +71,16 @@
             <div class="card-title">
                 Публикации и выступления
             </div>
-                @foreach (Publication publication in actor.Publications)
+            @foreach (IGrouping<int, Publication> publications in actor.Publications.GroupBy(pub => pub.Year).OrderBy(gr => gr.Key))
                 {
-                    @Html.Partial("../Partial/PublicationCard", publication);
+                <div class="card-subtitle">
+                    @publications.Key
+                </div>
+                @foreach (Publication publication in publications)
+                {
+                    @Html.Partial("../Partial/PublicationCard", publication)
                 }
+            }
         }
 
         <!-- Видео -->
@@ -86,149 +91,65 @@
                 Видео
             </div>
 
-                @foreach (Video video in actor.Videos)
+            @foreach (Video video in actor.Videos)
                 {
-                    @Html.Partial("../Partial/VideoCard", video);
+                @Html.Partial("../Partial/VideoCard", video)
+            }
+        }
+
+        <!-- Биография -->
+        @if (actor.BiograpphyEvents.Count > 0)
+            {
+                <div class="card-title">Биография</div>
+
+                @foreach (BiographyEvent biographyEvent in actor.BiograpphyEvents)
+                {
+                    @Html.Partial("../Partial/EventCard", biographyEvent)
+                }
+            }
+
+        <!-- Карьера -->
+        @if (actor.CareerPeriods.Count > 0)
+            {
+                <div class="card-title">Карьера</div>
+
+                @foreach (CareerPeriod period in actor.CareerPeriods)
+                {
+                    <div class="card-subtitle">
+                        @period.Period
+                    </div>
+
+                    @if (period.CareerEvents.Count > 0)
+                    {
+                        @foreach (CareerEvent ev in period.CareerEvents)
+                        {
+                            @Html.Partial("../Partial/EventCard", ev)
+                        }
+                    }
+
                 }
         }
 
         <!-- Цитаты -->
 
-        <div class="card-title">Цитаты</div>
-
-        <div class="card">
-            <div class="card-content-wrapper">
-                <div class="card-link" href="https://www.google.com">
-                    <div class="arrow-box-wrapper">
-                        <div class="arrow-box">
-                            <img src="~/img/clip-art/quote.png" alt="quotation" class="inner-card-item">
-                        </div>
-                    </div>
-                </div>
-                <div class="card-content">
-                    У каждого должны быть 15 минут борьбы с режимом в день.
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-content-wrapper with-extension">
-                <div class="card-link" href="https://www.google.com">
-                    <div class="arrow-box-wrapper">
-                        <div class="arrow-box">
-                            <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
-                        </div>
-                    </div>
-                </div>
-                <div class="card-content">
-                    Союз должен был развалиться, большинству людей он казался обузой. Было бы прекрасно, если бы у нас была такая страна, но
-                    к тому времени это было уже нежизнеспособное образование. Было огромное число негативных последствий:
-                    русские — крупнейший разделенный народ Европы; в республиках произошли гражданские войны. Но
-                    это было логично с исторической точки зрения. Его развалили не демократы, а коммунисты, комсомольцы,
-                    ГКЧП. Сейчас стало модно говорить, какая это ужасная «главная геополитическая катастрофа двадцатого
-                    века».
-
-                </div>
-            </div>
-            <div class="card-extension">
-                Цитата из книги «Алексей Навальный. Гроза жуликов и воров»
-
-            </div>
-        </div>
-
-        <!-- Биография -->
-
-        @if (actor.BiograpphyEvents.Count > 0)
+        @if (actor.Quotations.Count > 0)
         {
-            <div class="card-title">Биография</div>
-                @foreach (BiographyEvent biographyEvent in actor.BiograpphyEvents)
-                {
-                    @Html.Partial("../Partial/EventCard", biographyEvent)
-                }
+            <div class="card-title">Цитаты</div>
+
+            @foreach (Quotation quotation in actor.Quotations)
+            {
+                @Html.Partial("../Partial/QuotationCard", quotation)
+            }
         }
-
-        <div class="card-subtitle">
-            1993-2000
-        </div>
-
 
         <!-- Дополнительные блоки -->
 
-        <div class="card-title">Религиозные взгляды</div>
-
-        <div class="card">
-            <div class="card-content">
-
-
-                Церковь и религия: я, к своему стыду, типичный постсоветский верующий – посты соблюдаю, на церкви крещусь, но в церкви бываю
-                достаточно редко. Когда мои друзья, подсмеивающиеся над моим очередным «мне овощной салат – сейчас
-                пост», пытаются меня «потроллить» и требуют, чтобы я объяснил, чему именно посвящен тот или иной
-                пост, то они достаточно быстро ставят меня в тупик и дразнят «липовым православным, не знакомым с
-                матчастью». Я действительно с матчастью знаком меньше, чем хотелось бы, работаю над этим.
-                <br>
-                <br> Не думаю, что мою религиозность можно конвертировать в политический капитал – это будет выглядеть
-                просто смешно. Я её не выпячиваю и не прячу, какая есть, такая есть. Я верую, мне нравится быть христианином
-                и православным, мне нравится ощущать себя частью чего-то большого и общего. Нравится, что есть специальная
-                этика и самоограничения. При этом меня совершенно не напрягает, что существую я в преимущественно
-                атеистической среде – лет до 25, до рождения ребёнка, я и сам был таким ярым атеистом, что был готов
-                вцепиться в бороду любому попу. Нормально, когда люди религиозны, нормально, когда некоторые люди
-                смеются над религиозностью. Шутки над религиозностью в «Симпсонах» или «Южном парке» совершенно прекрасны
-                и не оскорбляют меня нисколько.
-                <br>
-                <br> Когда мы говорим о роли РПЦ, то тут нужно выделить несколько аксиом: Мы живём в светском государстве.
-                Религия от государства отделена. Никто не может быть дискриминирован по религиозному принципу. Православие
-                – главная религия России и не нужно самих себя обманывать, пытаясь стоять на позициях абсолютного
-                равенства. Особая роль РПЦ объяснима и разумна. Больше 80% граждан считают себя православными (пусть
-                при этом они в церковь не ходят). Рождество – государственный праздник. Понятно, что попытка дать
-                буддистам России столько же внимания, сколько православным, обречена на провал. Если буддисты хотят,
-                то их религия и священнослужители должны играть особую роль в местах компактного и традиционного
-                проживания буддистов – Калмыкии или Бурятии.
-                <br>
-                <br> Прекрасно, что в Татарии и Башкирии есть выходные, связанные с исламскими праздниками. Однако мы
-                не должны отрицать очевидное: религия России - православное христианство. Ещё раз: никакой дискриминации
-                это, в принципе, предполагать не может. Ограничение представителей других конфессий или атеистов
-                должно неотвратимо преследоваться по закону. Тема «сращивания» патриархии и власти – тема болезненная.
-                Позиция РПЦ – всякая власть от Бога, они будут поддерживать любую власть. Нужно относится к этому
-                философски. Не вижу здесь никаких оригинальных рецептов, только закон. Эти взаимоотношения должны
-                быть формализованы. Если кто-то захотел поддержать РПЦ через квоты на поставки сигарет, то светская
-                власть должна привлечь этого чиновника к ответственности в установленном порядке. Его «контрагентом»
-                в РПЦ пусть занимается сама РПЦ, обсуждая, допустимо ли это. На днях читал любопытную статью в «Ведомостях»,
-                там описывался опыт мирного ухода диктаторов от власти. Любопытно, что почти везде главным посредником
-                между диктатором и протестующими была Церковь. Возможно ли это сейчас у нас? Вряд ли. Но я бы очень
-                хотел, чтобы РПЦ заняла такое положение в обществе, чтобы все конфликтующие искали и принимали её
-                посредничество.
-            </div>
-        </div>
-
-
-        <div class="card-title">Мнение Медведева</div>
-        <div class="card">
-            <div class="card-content-wrapper">
-                <!-- <div class="card-link" href="https://www.google.com">
-                    <div class="arrow-box-wrapper">
-                        <div class="arrow-box">
-                                <img src="img/clip-art/quote.png" alt="quotation" class="inner-card-item">
-                        </div>
-                    </div>
-                </div> -->
-                <div class="card-content">
-                    В России необходимо усилить ответственность за неисполнение решения судов. С таким заявлением выступил Дмитрий Медведев.
-                    Премьер-министр отказался комментировать фильм Алексея Навального о нём и назвал оппозиционера
-                    обормотом. Чем больше комментируешь всяких обормотов и проходимцев, тем для них лучше. Они, собственно,
-                    на это и рассчитывают, — сказал глава правительства, напомнив о решении суда, согласно которому
-                    снятые ранее Навальным ленты необходимо изъять. По мнению премьера, в России необходимо усилить
-                    ответственность за неисполнение решения судов. Ранее отмечалось, что суд обязал Навального опровергнуть
-                    заявления о часах бизнесмена Михайлова и удалить эту информацию из фильма "Чайка".
-                </div>
-
-
-
-            </div>
-        </div>
+        @foreach (CustomSection section in actor.CustomSection)
+        {
+            @Html.Partial("../Partial/CustomSection", section)
+        }
     </div>
 </section>
-
-
 
 <section class="card-group">
     <div class="section-title">

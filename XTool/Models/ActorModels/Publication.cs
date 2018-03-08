@@ -8,6 +8,8 @@ namespace XTool.Models.ActorModels
         
         public int ActorId { get; set; }
 
+        public int Year { get; set; }
+
         [Required, StringLength(500)]
         public string Name { get; set; }
 

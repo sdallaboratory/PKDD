@@ -77,7 +77,6 @@ namespace XTool.Data.DB
                         }
                     }
                 },
-                    ReligionViews = "Ничего толком сказать нельзя"
                 });
             }
             if (context.Roles.Count() == 0)

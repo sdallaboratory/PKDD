@@ -74,18 +74,6 @@ namespace XTool.Models.ActorModels
         /// </summary>
         public virtual List<Quotation> Quotations { get; set; } = new List<Quotation>();
 
-        /// <summary>
-        /// Описание религиозных взглядов актора
-        /// </summary>
-        [StringLength(10000)]
-        public string ReligionViews { get; set; }
-
-        /// <summary>
-        /// Описание социальной активности актора
-        /// </summary>
-        [StringLength(10000)]
-        public string SocialActivity { get; set; }
-
         #endregion
 
         #region CustomSections

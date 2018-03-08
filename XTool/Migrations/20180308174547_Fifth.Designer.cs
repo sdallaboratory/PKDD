@@ -13,9 +13,10 @@ using XTool.Models.Shared;
 namespace XTool.Migrations
 {
     [DbContext(typeof(XToolDbContext))]
-    partial class XToolDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180308174547_Fifth")]
+    partial class Fifth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,8 +258,6 @@ namespace XTool.Migrations
 
                     b.Property<string>("Url")
                         .HasMaxLength(4096);
-
-                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 

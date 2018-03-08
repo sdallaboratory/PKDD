@@ -5,22 +5,24 @@
 <div class="card">
     <div class="card-content-wrapper @if (!string.IsNullOrWhiteSpace(publication.Comment)) {<text>with-extension </text>}">
         <div class="card-content">
-
-            Статья в глянцевом журнале "Все Звёзды"
+            @publication.Name
         </div>
-        <a class="card-link" href="https://www.google.com">
-            <div class="arrow-box-wrapper">
-                <div class="arrow-box">
-                    ►
+        @if (!string.IsNullOrEmpty(publication.Url))
+        {
+            <a class="card-link" href="https://www.google.com">
+                <div class="arrow-box-wrapper">
+                    <div class="arrow-box">
+                        ►
+                    </div>
                 </div>
-            </div>
-        </a>
-
+            </a>
+        }
     </div>
+
     @if (!string.IsNullOrWhiteSpace(publication.Comment))
     {
         <div class="card-extension">
             @publication.Comment
-    </div>
+        </div>
     }
 </div>
