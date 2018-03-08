@@ -37,7 +37,6 @@ namespace XTool.Controllers
             _dBcontext = dBContext;
             _signInManager = singInManager;
             var res = Seed();
-            //singInManager.
         }
 
         private IdentityResult Seed()
