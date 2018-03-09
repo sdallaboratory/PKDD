@@ -6,11 +6,11 @@ using System.Text;
 namespace XTool.Data.Validations.ApiValidator
 
 {
-    public static class ApiTypesValidatorServiseProviderExtension
+    public static class ApiTypeValidatorServiseProviderExtension
     {
         public static IServiceCollection AddApiTypesValidator(this IServiceCollection services)
         {
-            return services.AddTransient<IValidator, ApiTypesValidator>();
+            return services.AddTransient<ITypeValidator, ApiTypeValidator>();
         }
     }
 }

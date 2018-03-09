@@ -4,7 +4,7 @@ using System.Text;
 
 namespace XTool.Data.Validations
 {
-    public interface IValidator
+    public interface ITypeValidator
     {
         List<Type> ServiceTypes { get; }
 

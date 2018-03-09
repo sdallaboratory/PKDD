@@ -50,6 +50,7 @@ namespace XTool.Data
             builder.Entity<AdminRole>();
             builder.Entity<ExpertRole>();
             builder.Entity<TechnologistRole>();
+            builder.Entity<SuperadminRole>();
             base.OnModelCreating(builder);
         }
     }

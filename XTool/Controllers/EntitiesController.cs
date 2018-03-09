@@ -22,9 +22,9 @@ namespace XTool.Controllers
     {
         private XToolEntityStorage storage;
 
-        private IValidator validator;
+        private ITypeValidator validator;
 
-        public EntitiesController(IStorage<int> storage, IValidator validator)
+        public EntitiesController(IStorage<int> storage, ITypeValidator validator)
         {
             this.storage = storage as XToolEntityStorage;
             this.validator = validator;

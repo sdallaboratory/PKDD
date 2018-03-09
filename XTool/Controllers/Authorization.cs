@@ -50,9 +50,10 @@ namespace XTool.Controllers
             string password = "123AAAaaa!";
             var findedUser = _userManager.FindByEmailAsync(user.Email);
             findedUser.Wait();
-            if ( findedUser.Result == null)
+            if (findedUser.Result == null)
             {
-                result =  _userManager.CreateAsync(user, password);
+                result = _userManager.CreateAsync(user, password);
+                _userManager.AddToRolesAsync(findedUser.Result, new List<string>() { "superadmin", "admin" });
             }
             result?.Wait();
             return result?.Result;
@@ -106,7 +107,7 @@ namespace XTool.Controllers
                     var suc = await _userManager.CreateAsync(user);
                     if (suc.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Actors", "Home");
                     }
                 }
                 else

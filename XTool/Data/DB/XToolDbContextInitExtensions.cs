@@ -84,6 +84,7 @@ namespace XTool.Data.DB
                 context.Roles.Add(new AdminRole());
                 context.Roles.Add(new TechnologistRole());
                 context.Roles.Add(new ExpertRole());
+                context.Roles.Add(new SuperadminRole());
             }
             //if(context.Users.Count() == 0)
             //{

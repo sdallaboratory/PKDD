@@ -7,11 +7,11 @@ using System.Text.RegularExpressions;
 namespace XTool.Data.Validations.ApiValidator
 
 {
-    public class ApiTypesValidator : IValidator
+    public class ApiTypeValidator : ITypeValidator
     {
         private DbContext _context;
 
-        public ApiTypesValidator(XToolDbContext context)
+        public ApiTypeValidator(XToolDbContext context)
         {
             _context = context;
         }
