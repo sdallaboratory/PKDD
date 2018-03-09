@@ -24,13 +24,10 @@ namespace XTool.Controllers
 
         private IValidator validator;
 
-        private XToolDbContext cont;
-
-        public EntitiesController(IStorage<int> storage, IValidator validator, XToolDbContext con)
+        public EntitiesController(IStorage<int> storage, IValidator validator)
         {
             this.storage = storage as XToolEntityStorage;
             this.validator = validator;
-            cont = con;
         }
 
         [HttpGet("{typeName}")]
@@ -57,8 +54,6 @@ namespace XTool.Controllers
             return result;
         }
 
-
-        // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]RequestModel model)
         {
@@ -73,8 +68,7 @@ namespace XTool.Controllers
             }
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public void Put([FromBody]RequestModel model)
         {
             Type type = validator.IsInService(model.Name);
@@ -90,24 +84,20 @@ namespace XTool.Controllers
             }
         }
 
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public void Delete([FromBody] RequestModel model)
         {
-        }
-
-        [NonAction]
-        private object TryToDeserialize(string content)
-        {
-            object result = null;
-            try
+            Type type = validator.IsInService(model.Name);
+            if (type != null)
             {
-                result = JsonConvert.DeserializeObject(content);
+                if (model.Ids.Count > 0)
+                {
+                    foreach(int id in model.Ids)
+                    {
+                        storage.Delete(type, id);
+                    }
+                }
             }
-            catch (Exception)
-            {
-            }
-            return result;            
         }
     }
 }
