@@ -9,7 +9,6 @@ namespace XTool.Models.ActorModels.BaseTypes
 {
     public abstract class Media
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         
         [Required, StringLength(4096)]

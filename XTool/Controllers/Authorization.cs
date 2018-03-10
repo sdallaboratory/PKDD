@@ -28,13 +28,13 @@ namespace XTool.Controllers
 
         private SignInManager<XToolUser> _signInManager;
 
-        private XToolDbContext _dBcontext;
+        private XToolDbContext _dbContext;
 
         public  Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager, XToolDbContext dBContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _dBcontext = dBContext;
+            _dbContext = dBContext;
             _signInManager = singInManager;
             var res = Seed();
         }
@@ -67,59 +67,103 @@ namespace XTool.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel login)
+        public async Task<IActionResult> Login(LoginModel model)
         {
-            IActionResult result;
-            if(ModelState.IsValid)
+            IActionResult result = View();
+            XToolUser user = await _userManager.FindByEmailAsync(model.Email);
+            if (ModelState.IsValid && user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var res = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.Remember, false);
-                if(res.Succeeded)
+
+                if (user.IsConfirmed)
                 {
-                    result = RedirectToAction("Actors", "Home");
+                    var res = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.Remember, false);
+                    if (res.Succeeded)
+                    {
+                        result = RedirectToAction("Actors", "Home");
+                    }
+                    else
+                    {
+                        // тут я ваще не знаю, что за ошибка произошла. Не должно такой быть вроде.
+                    }
                 }
                 else
                 {
-                    result = RedirectToAction("Login");
+                    ViewBag.Message = "Админстратор ещё не успел подтвердить ваш аккаунт. Подождите некоторое время.";
+                    result = View("Message");
                 }
-            }
-            else
-            {
-                result = View();
             }
             return result;
         }
 
         //[Authorize(Roles = "admin")]
         [HttpGet]
-        public void Register()
+        public IActionResult Register()
         {
-            View();
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] UserRegisterModel model)
         {
+            IActionResult result = View();
             if (ModelState.IsValid)
             {
-                XToolUser user = await _dBcontext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                XToolUser user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
+                    user = new XToolUser() { Email = model.Email, UserName = model.Name };
                     var suc = await _userManager.CreateAsync(user);
                     if (suc.Succeeded)
                     {
-                        return RedirectToAction("Actors", "Home");
+                        user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                        await _userManager.UpdateAsync(user);
+                        ViewBag.Message = $"Аккаунт {user.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
+                        result = View("Message");
                     }
                 }
                 else
+                {
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ViewBag.Message = "Пользователь с таким Email уже зарегистрирован в системе.";
+                }
             }
-            return View(model);
+            else
+            {
+                ViewBag.Message = "Пользователь с таким Email уже зарегистрирован в системе.";
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public IActionResult Forgot()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Forgot([FromForm] ForgotPasswordModel model)
+        {
+            ViewBag.Message = "Новый пароль отправлен вам на Email.";
+            return View("Message");
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult ConfirmUser(int id)
+        {
+            var user = _dbContext.Find<XToolUser>(id);
+            var result = false;
+            if (user != null & user.IsConfirmed == false)
+            {
+                user.IsConfirmed = true;
+                result = true;
+            }
+            return Json(result);
         }
 
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login");
         }
     }
 }

@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using XTool.Data;
+using XTool.Models.ActorModels;
 using XTool.Models.Shared;
 
 namespace XTool.Migrations
 {
     [DbContext(typeof(XToolDbContext))]
-    [Migration("20180306080555_Initial")]
+    [Migration("20180310194951_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,13 +119,9 @@ namespace XTool.Migrations
                     b.Property<string>("Position")
                         .HasMaxLength(500);
 
-                    b.Property<string>("ReligionViews")
-                        .HasMaxLength(10000);
+                    b.Property<int>("Priority");
 
                     b.Property<int>("Sex");
-
-                    b.Property<string>("SocialActivity")
-                        .HasMaxLength(10000);
 
                     b.HasKey("Id");
 
@@ -227,7 +224,8 @@ namespace XTool.Migrations
 
             modelBuilder.Entity("XTool.Models.ActorModels.Photo", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ActorId");
 
@@ -265,6 +263,8 @@ namespace XTool.Migrations
                     b.Property<string>("Url")
                         .HasMaxLength(4096);
 
+                    b.Property<int>("Year");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ActorId");
@@ -272,9 +272,30 @@ namespace XTool.Migrations
                     b.ToTable("Publications");
                 });
 
+            modelBuilder.Entity("XTool.Models.ActorModels.Quotation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ActorId");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(2000);
+
+                    b.Property<string>("Text")
+                        .HasMaxLength(2000);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.ToTable("Quotations");
+                });
+
             modelBuilder.Entity("XTool.Models.ActorModels.Video", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ActorId");
 
@@ -305,6 +326,8 @@ namespace XTool.Migrations
                     b.Property<string>("Comment")
                         .HasMaxLength(2000);
 
+                    b.Property<int?>("ExpertId");
+
                     b.Property<DateTime>("LastChange");
 
                     b.Property<int>("ScalesId");
@@ -312,6 +335,8 @@ namespace XTool.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ActorId");
+
+                    b.HasIndex("ExpertId");
 
                     b.HasIndex("ScalesId");
 
@@ -394,6 +419,8 @@ namespace XTool.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<bool>("IsConfirmed");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -452,6 +479,7 @@ namespace XTool.Migrations
                 {
                     b.HasBaseType("XTool.Models.Roles.XToolRole");
 
+                    b.Property<int>("Level");
 
                     b.ToTable("AdminRole");
 
@@ -466,6 +494,16 @@ namespace XTool.Migrations
                     b.ToTable("ExpertRole");
 
                     b.HasDiscriminator().HasValue("ExpertRole");
+                });
+
+            modelBuilder.Entity("XTool.Models.Roles.SuperadminRole", b =>
+                {
+                    b.HasBaseType("XTool.Models.Roles.XToolRole");
+
+
+                    b.ToTable("SuperadminRole");
+
+                    b.HasDiscriminator().HasValue("SuperadminRole");
                 });
 
             modelBuilder.Entity("XTool.Models.Roles.TechnologistRole", b =>
@@ -570,6 +608,14 @@ namespace XTool.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("XTool.Models.ActorModels.Quotation", b =>
+                {
+                    b.HasOne("XTool.Models.ActorModels.Actor")
+                        .WithMany("Quotations")
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("XTool.Models.ActorModels.Video", b =>
                 {
                     b.HasOne("XTool.Models.ActorModels.Actor")
@@ -584,6 +630,10 @@ namespace XTool.Migrations
                         .WithMany("Evaluations")
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("XTool.Models.Roles.XToolUser", "Expert")
+                        .WithMany()
+                        .HasForeignKey("ExpertId");
 
                     b.HasOne("XTool.Models.EvaluationModels.Scales", "Scales")
                         .WithMany()

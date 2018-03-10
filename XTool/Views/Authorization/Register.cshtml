@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+
+<div class="login">
+    <h2>Регистрация</h2>
+    <form class="login-form" action="register" method="post">
+        <div>Имя, фамилия и отчество</div>
+        <input type="text" class="" name="Name" required>
+        <div>Email или номер телефона</div>
+        <input type="email" class="" name="Email" required>
+        <div>Пароль  </div>
+        <input type="password" class="" name="Password" required>
+        <div>Повторите пароль</div>
+        <input type="password" class="" name="PasswordRepeat" required>
+        <div>
+            <input class="login-submit" type="submit" value="Зарегистрироваться">
+            <div class="clear"></div>
+        </div>
+    </form>
+    <div class="login-links">
+        <a class="login-register" href="@Url.Action("Login")">
+            Вход
+        </a>
+        <a class="login-info" href="@Url.Action()">
+            Информация
+        </a>
+    </div>
+</div>

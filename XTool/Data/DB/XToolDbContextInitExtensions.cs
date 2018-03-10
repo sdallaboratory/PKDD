@@ -27,8 +27,7 @@ namespace XTool.Data.DB
         {
             if (context.Actors.Count() == 0)
             {
-
-                context.Actors.Add(new Actor()
+                context.Actors.AddRange(new Actor()
                 {
                     Name = "Навальный Алексей Анатольевич",
                     Sex = Sexes.Male,
@@ -39,16 +38,20 @@ namespace XTool.Data.DB
                     new Photo()
                     { Url = "https://antimaidan.ru/sites/default/files/styles/large/public/articles/ztlphau7wv.jpg?itok=Kaj6AW6L", Description = "У поезда" },
                     new Photo()
-                    { Url = "https://antimaidan.ru/sites/default/files/styles/large/public/articles/ztlphau7wv.jpg?itok=Kaj6AW6L", Description = "У поезда" },
+                    { Url = "https://riafan.ru/uploads/2017/03/26/orig-14904818715d227bd5efa5ff62fecf839389d57a71.jpeg", Description = "У поезда" },
                     new Photo()
-                    { Url = "https://antimaidan.ru/sites/default/files/styles/large/public/articles/ztlphau7wv.jpg?itok=Kaj6AW6L", Description = "У поезда" }
+                    { Url = "https://regnum.ru/uploads/pictures/news/2016/12/13/regnum_picture_1481623606150274_normal.jpg", Description = "У поезда" },
+                    new Photo()
+                    { Url = "http://www.mk.ru/upload/entities/2017/04/27/articles/detailPicture/44/cf/33/45/a64794d2f5170efc2f9ac7a520ac1ef0.jpg", Description = "У поезда" }
                 },
-                    Publications = new List<Publication>() { },
+                    Publications = new List<Publication>() { new Publication() { Name = "Esquire" }, new Publication() { Name = "Слон", Url = "https://metanit.com/sharp/entityframeworkcore/5.1.php" } },
                     Videos = new List<Video>()
                 {
                     new Video() { Url = "https://www.youtube.com/watch?v=RQZr2NgKPiU", Description = "Митинг"},
-                    new Video() { Url = "https://www.youtube.com/watch?v=RQZr2NgKPiU", Description = "Митинг"},
-                    new Video() { Url = "https://www.youtube.com/watch?v=RQZr2NgKPiU", Description = "Митинг"}
+                    new Video() { Url = "https://rutube.ru/video/5b4d0065c0913ec7784e8a918e1a2e33/", Description = "Митинг"},
+                    new Video() { Url = "https://www.youtube.com/watch?v=jz2xuMFT2YQ", Description = "Видео с навальным", Comment = "Это видео просто необходимо посмотреть!"},
+                    new Video() { Url = "https://www.youtube.com/watch?v=ykOcbayWlTA", Description = "Митинг"},
+                    new Video() { Url = "https://www.youtube.com/watch?v=Bf9zvyPachs", Description = "Навальный у Дудя"}
                 },
                     BiograpphyEvents = new List<BiographyEvent>
                 {
@@ -64,7 +67,7 @@ namespace XTool.Data.DB
                         CareerEvents = new List<CareerEvent>()
                         {
                             new CareerEvent() { Period = "1995-1996", Description = "Работал на администрацию." },
-                            new CareerEvent() { Period = "1997-2000", Description = "Работал на Sas." }
+                            new CareerEvent() { Period = "1997-2000", Description = "Работал на Sas.", Comment = "Присмотритесь повнимательнее." }
                         }
                     },
                     new CareerPeriod()
@@ -77,7 +80,7 @@ namespace XTool.Data.DB
                         }
                     }
                 },
-                });
+                }, new Actor() { Name = "Соколова Дарья Ильинична", Position = "Зам. министра культуры республики Татарстан", Sex = Sexes.Female, Birthday = new DateTime(1988, 11, 23) });
             }
             if (context.Roles.Count() == 0)
             {

@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                @Html.Partial("../Partial/KeyInfoCardContent", actor);
+                @Html.Partial("../Partial/KeyInfoCardContent", actor)
             </div>
         </div>
 
@@ -64,7 +64,7 @@
             @foreach (IGrouping<int, Publication> publications in actor.Publications.GroupBy(pub => pub.Year).OrderBy(gr => gr.Key))
                 {
                 <div class="card-subtitle">
-                    @publications.Key
+                    @(publications.Key == 0 ? "..." : publications.Key.ToString())
                 </div>
                 @foreach (Publication publication in publications)
                 {

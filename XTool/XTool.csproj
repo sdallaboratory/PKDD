@@ -38,7 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Authorization\Forgot.cshtml" />
     <None Include="Views\Authorization\Login.cshtml" />
+    <None Include="Views\Authorization\Register.cshtml" />
+    <None Include="Views\Home\TechnologistActor.cshtml" />
     <None Include="Views\Home\Actor.cshtml" />
   </ItemGroup>
 

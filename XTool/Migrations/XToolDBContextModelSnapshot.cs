@@ -14,7 +14,7 @@ using XTool.Models.Shared;
 namespace XTool.Migrations
 {
     [DbContext(typeof(XToolDbContext))]
-    partial class XToolDBContextModelSnapshot : ModelSnapshot
+    partial class XToolDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -223,7 +223,8 @@ namespace XTool.Migrations
 
             modelBuilder.Entity("XTool.Models.ActorModels.Photo", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ActorId");
 
@@ -292,7 +293,8 @@ namespace XTool.Migrations
 
             modelBuilder.Entity("XTool.Models.ActorModels.Video", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ActorId");
 

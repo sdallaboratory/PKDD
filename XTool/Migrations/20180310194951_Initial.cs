@@ -18,9 +18,8 @@ namespace XTool.Migrations
                     Birthday = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Position = table.Column<string>(maxLength: 500, nullable: true),
-                    ReligionViews = table.Column<string>(maxLength: 10000, nullable: true),
-                    Sex = table.Column<int>(nullable: false),
-                    SocialActivity = table.Column<string>(maxLength: 10000, nullable: true)
+                    Priority = table.Column<int>(nullable: false),
+                    Sex = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,6 +30,7 @@ namespace XTool.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
+                    Level = table.Column<int>(nullable: true),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
@@ -54,6 +54,7 @@ namespace XTool.Migrations
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    IsConfirmed = table.Column<bool>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -161,7 +162,8 @@ namespace XTool.Migrations
                 name: "Photos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActorId = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(maxLength: 2000, nullable: true),
                     Description = table.Column<string>(maxLength: 2000, nullable: true),
@@ -187,7 +189,8 @@ namespace XTool.Migrations
                     ActorId = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(maxLength: 2000, nullable: true),
                     Name = table.Column<string>(maxLength: 500, nullable: false),
-                    Url = table.Column<string>(maxLength: 4096, nullable: true)
+                    Url = table.Column<string>(maxLength: 4096, nullable: true),
+                    Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,10 +204,32 @@ namespace XTool.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Quotations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ActorId = table.Column<int>(nullable: false),
+                    Comment = table.Column<string>(maxLength: 2000, nullable: true),
+                    Text = table.Column<string>(maxLength: 2000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quotations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Quotations_Actors_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "Actors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Videos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActorId = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(maxLength: 2000, nullable: true),
                     Description = table.Column<string>(maxLength: 2000, nullable: true),
@@ -355,6 +380,7 @@ namespace XTool.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActorId = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(maxLength: 2000, nullable: true),
+                    ExpertId = table.Column<int>(nullable: true),
                     LastChange = table.Column<DateTime>(nullable: false),
                     ScalesId = table.Column<int>(nullable: false)
                 },
@@ -367,6 +393,12 @@ namespace XTool.Migrations
                         principalTable: "Actors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Evaluations_AspNetUsers_ExpertId",
+                        column: x => x.ExpertId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Evaluations_Scales_ScalesId",
                         column: x => x.ScalesId,
@@ -463,6 +495,11 @@ namespace XTool.Migrations
                 column: "ActorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Evaluations_ExpertId",
+                table: "Evaluations",
+                column: "ExpertId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Evaluations_ScalesId",
                 table: "Evaluations",
                 column: "ScalesId");
@@ -475,6 +512,11 @@ namespace XTool.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Publications_ActorId",
                 table: "Publications",
+                column: "ActorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quotations_ActorId",
+                table: "Quotations",
                 column: "ActorId");
 
             migrationBuilder.CreateIndex(
@@ -522,6 +564,9 @@ namespace XTool.Migrations
 
             migrationBuilder.DropTable(
                 name: "Publications");
+
+            migrationBuilder.DropTable(
+                name: "Quotations");
 
             migrationBuilder.DropTable(
                 name: "UploadedPhotos");
