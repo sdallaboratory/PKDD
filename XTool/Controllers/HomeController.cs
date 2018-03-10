@@ -26,7 +26,7 @@ namespace XTool.Controllers
 
         public IActionResult Actors()
         {
-            ViewBag.Actors = _storage.GetAll<Actor>().Take(3);
+            ViewBag.Actors = _storage.GetAll<Actor>().Take(3); // тут отсортировать по релевантности перед Take
             return View();
         }
 

@@ -1,186 +1,81 @@
-﻿<div class="page-wrapper">
-    <header>
-        <nav class="top-menu">
-            <ul>
-                <li class="menu-item">
+﻿<section class="card-group">
+    <div class="section-title">
+        Акторы @*@((ViewBag.Actors as IEnumerable<object>).Count())
+            @((ViewBag.Actors as IEnumerable<Actor>).FirstOrDefault().Id)*@
+        <button class="section-hider" onclick="change_section_content_state(event)">
+            скрыть
+        </button>
+    </div>
 
-                </li>
-            </ul>
-        </nav>
-
-        <div class="menu">
-
+    <div class="clear"></div>
+    <div class="section-content">
+        <div class="card-title">
+            Самые актуальные
         </div>
-    </header>
-
-    <section class="card-group">
-        <div class="section-title">
-            Алексей Навальный @((ViewBag.Actors as IEnumerable<object>).Count())
-             @((ViewBag.Actors as IEnumerable<Actor>).FirstOrDefault().Id)
-            <button class="section-hider" onclick="change_section_content_state(event)">
-                скрыть
-            </button>
-        </div>
-
-        <div class="clear"></div>
-        <div class="section-content">
-            <div class="card-title">
-                Основная информация
-            </div>
-            <div class="card">
-                <img class="photo" src="https://gdb.voanews.com/59E693F5-1917-4401-AEF9-07B1A8BEECB7_cx0_cy8_cw0_w1023_r1_s.jpg" alt="navalniy">
-                <div class="card-content-wrapper">
-                    <div class="card-content">
-                        ФИО:
-                        <b>Навальный Алексей Анатольевич</b>
-                        <br> Дата рождения:
-                        <b>12.02.1976 (41 год)</b>
-                        <br> Место работы и должность:
-                        <b>Партия прогресса, председатель</b>
-                        <br>
-                    </div>
-                    <div class="card-link" href="https://www.google.com">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                ►
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Фотографии -->
-
-            <div class="card-title">
-                Фотографии
-            </div>
-
-            <div class="card">
-                <div class="card-content with-extension">
-                    Алексей навальный в своей фирменной клетчатой рубашке.
-                </div>
-                <div class="card-extension">
-                    Двухколонная модульная сетка достаточно часто применяется на сайтах, при этом, как правило, в одной колонке располагается
-                    основной материал (текст статьи, например), а во второй — ссылки на разделы сайта и другая информация.
-                </div>
-            </div>
-
-            <div class="card">
-                <img class="photo" src="http://nabludatel.ru/upload/000/u4/e1/5e/aleksei-navalnyi-ne-priedet-v-kirov-iz-za-otmeny-samoletov-v-k.jpg"
-                     alt="navalniy">
+        <div class="card">
+            <img class="photo" src="https://gdb.voanews.com/59E693F5-1917-4401-AEF9-07B1A8BEECB7_cx0_cy8_cw0_w1023_r1_s.jpg" alt="navalniy">
+            <div class="card-content-wrapper">
                 <div class="card-content">
-                    Новый имидж Алексея навального. Фото - декабрь 2017.
+                    ФИО:
+                    <b>Навальный Алексей Анатольевич</b>
+                    <br> Дата рождения:
+                    <b>12.02.1976 (41 год)</b>
+                    <br> Место работы и должность:
+                    <b>Партия прогресса, председатель</b>
+                    <br>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="card-group">
-        <div class="section-title">
-            Экспертная оценка
-            <button class="section-hider" onclick="change_section_content_state(event)">
-                скрыть
-            </button>
-        </div>
-
-
-        <div class="section-content">
-
-            <!-- Колличественная оценка -->
-
-            <div class="card-title">
-                Шкалы
-            </div>
-
-            <div class="card">
-                <div class="card-content">
-                    <div class="graph">
-                        <svg class="polyline-canvas">
-                            <linearGradient id="linear-gradient">
-                                <stop offset="0%" stop-color="rgb(160, 240, 240)" />
-                                <stop offset="100%" stop-color="rgb(216, 240, 204)" />
-                            </linearGradient>
-                            <polyline class="polyline" />
-                        </svg>
-                        <div class="graph-grid">
-
-                            <div class="horizontal" style="top: 0%"></div>
-                            <div class="horizontal" style="top: 25%"></div>
-                            <div class="horizontal" style="top: 50%"></div>
-                            <div class="horizontal" style="top: 75%"></div>
-                            <div class="horizontal" style="top: 100%"></div>
-                        </div>
-
-                        <!-- <svg style="position: absolute;" width="120" height="120" viewBox="0 0 120 120"
-                            xmlns="http://www.w3.org/2000/svg">
-
-                          <polygon points="60,20 100,40 100,80 60,100 20,80 20,40"/>
-                        </svg> -->
-                        <div class="graph-column">
-                            <div class="graph-axis"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                            <div class="column-name">
-                                I
-                            </div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                            <div class="column-name">
-                                II
-                            </div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                            <div class="column-name">
-                                III
-                            </div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
-                        </div>
-                        <div class="graph-column">
-                            <div class="graph-vertex"></div>
+                <div class="card-link" href="https://www.google.com">
+                    <div class="arrow-box-wrapper">
+                        <div class="arrow-box">
+                            ►
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="card-title">
-                Комментарий
-            </div>
 
-            <div class="card-empty">
-                <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
+        <div class="card">
+            <div class="card-content">
+                <form class="search-form">
+                    <div class="input-name">Поисковый запрос</div>
+                    <div class="flex-container">
+                        <input type="text" name="search">
+                        <button>Найти</button>
+                    </div>
+                    <!-- <div class="selects">
+                    <div class="input-name">Пол
+                        <select name="sex" id="sex">
+                            <option>
+                                все
+                            </option>
+                            <option>
+                                мужской
+                            </option>
+                            <option>женский</option>
+                        </select>
+                    </div>
+                    <div class="input-name">Страна
+                        <select name="country" id="country">
+                            <option>
+                                все
+                            </option>
+                            <option>
+                                Россия
+                            </option>
+                            <option>США</option>
+                            <option>Франция</option>
+                            <option>Полинезия</option>
+                        </select>
+                    </div> -->
+
+                </form>
             </div>
         </div>
-    </section>
 
+        <div class="card-waiter">
+            <div class="loading"></div>
+        </div>
+    </div>
+</section>
 
-    <footer>
-        &copy XTool, 2018
-        <br> Website by Batin & Solovev
-        <br> sergey.soloviev@inbox.ru
-        <br>
-    </footer>
-
-</div>
-<script src="~/scripts/mobile.js"></script>
-<script src="~/scripts/hider.js"></script>
-<script src="~/scripts/graph.js"></script>

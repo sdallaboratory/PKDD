@@ -19,6 +19,8 @@ namespace XTool.Models.Roles
 
         public string Position { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
         public bool WithLogin(LoginModel loginModel)
         {
             return Email == loginModel.Email;

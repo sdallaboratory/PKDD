@@ -40,6 +40,10 @@ namespace XTool.Models.ActorModels
         [StringLength(500)]
         public string Position { get; set; }
 
+        /// <summary>
+        /// Говорит о том, насколько оценка этого актора приоритетна для технолога
+        /// </summary>
+        public Priority Priority { get; set; }
         #endregion
 
         #region All Info

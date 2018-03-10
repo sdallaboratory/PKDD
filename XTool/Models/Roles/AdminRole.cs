@@ -7,6 +7,11 @@ namespace XTool.Models.Roles
 {
     public class AdminRole : XToolRole, IUpdateble
     {
+        /// <summary>
+        /// Говорит о том, насколько этот админ крут. Левел даёся при регистрации.
+        /// </summary>
+        public int Level { get; set; }
+
         public AdminRole(string roleName = "admin") : base(roleName)
         {
         }

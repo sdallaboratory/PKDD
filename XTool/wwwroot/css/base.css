@@ -8,7 +8,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    border-radius: 0 !important;
+    /*border-radius: 0 !important;*/
     line-height: 1.7em;
 }
 
@@ -280,11 +280,9 @@ span.super-important {
     font-weight: bold;
     width: 84%;
     width: 100%;
-    /* width: 85%; */
     text-transform: uppercase;
     letter-spacing: 0.2em;
     text-align: center;
-    /* margin-bottom: 7%; */
     word-wrap: break-word;
     
 }
@@ -294,9 +292,6 @@ span.super-important {
     margin: auto;
     display: block;
     border-color: transparent;
-    /* width: 100%; */
-    /* float: right;  */
-    /* width: 10%; */
     font-style: italic;
     font-size: 0.4em;
     color: rgb(110, 110, 110);
@@ -320,20 +315,14 @@ span.super-important {
     align-self: stretch;
     text-decoration: none !important;
     transition: 0.3s;
-    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);
     
 }
 
 .card-link:hover {
-    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);
 }
 
-
-
-/* 
-.card-content-wrapper:hover {
-    background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);} 
-*/
 
 .card-content-wrapper {
     display: flex;
@@ -369,7 +358,6 @@ span.super-important {
 }
 
 .card {
-    border-radius: 4px;
     background: rgb(248, 248, 248);
     box-shadow: 0 10px 60px 5px rgba(0, 0, 0, 0.2);
     margin: 4% 0 0 0;
@@ -487,58 +475,53 @@ span.super-important {
     height: 70vh;
     align-items: flex-start;
     margin: 4%;
-    margin-bottom: 15%;
+    margin-bottom: 110px;
     user-select: none;
-}
-
-.graph * {
-    /* border: 2px solid red; */
 }
 
 .graph-column {
     width: 9%;
     margin: 0px;
     display: inline-block;
-    /* height: 97%; */
     height: 100%;
-    /* background: rgb(209, 209, 209); */
     position: relative;
-    /* width: 9%; */
-    transition: margin ease-out .3s;
 }
+
 
 .column-name {
     position: absolute;
-    bottom: -15%;
-    left: 0px;
-}
-
-.selected-column {
-    /* margin: 0 100px; */
+    bottom: -110px;
+    left: 15px;
 }
 
 .graph-vertex {
     display: block;
     width: 30px;
-    height:30px;
+    height: 30px;
     border: 5px solid rgb(248, 248, 248);
     border-radius: 50% !important;
     background: black;
     z-index: 50000;
     position: absolute;
     top: 50%;
-    transition: border-color ease-in-out 0.5s, transform ease-out 0.3s ,background ease-out 0.3s;
+    transition: border-color ease-in-out 0.5s, border-width ease-out 0.3s, transform ease-out 0.2s, background ease-out 0.3s;
 }
 
-.graph-vertex:hover {
-    background: rgb(160, 240, 240);
-}
+    .graph-vertex:hover {
+        background: rgb(160, 240, 240);
+        transform: scale(1.6);
+        z-index: 51000;
+        border-width: 1px;
+    }
 
 
 .selected-vertex {
-    border-color: rgb(160, 240, 240);
-    background: black !important ; /*linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
-    transform: scale(2.5);
+    /*border-color: rgb(160, 240, 240);*/
+    /*background: black !important; /*linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    background: rgb(160, 240, 240);
+    border-width: 5px !important;
+    transform: scale(1.2) !important;
+    /*transform: scale(2.5);*/
 }
 
 .vertex-value {
@@ -548,11 +531,16 @@ span.super-important {
     -khtml-user-select: none;
     user-select: none;
     font-weight: bold;
-    display: inline;
-    min-width: 30px;
+    display: block;
+    min-width: 35px !important;
     text-align: center;
     left: -5px;
+    border-color: transparent !important;
     /* background: rgba(255,255,255,0.7);   */
+}
+
+.vertex-value:focus {
+    border-color: rgb(65, 223, 223) !important;
 }
 
 .polyline-canvas {
@@ -571,26 +559,32 @@ span.super-important {
     fill: transparent;
 }
 
-
-
 .graph-axis {
     width: 6px;
-    height: 100%;
+    height: 110%;
     background: black;
 }
 
 .horizontal {
+    position: absolute;
     left: 5%;
     width: 95%;
-    position: absolute;
     height: 3px;
     background: lightgray;
     z-index: 2;
 }
 
+.horizontal-value {
+    position: absolute;
+    left: -11.5%;
+    top:-0.8em;
+}
+
+
 .graph-grid {
     position: absolute;
     top: 15px;
-    width: 100%;
+    left: 8%;
+    width: 92%;
     height: 100%;
 }
