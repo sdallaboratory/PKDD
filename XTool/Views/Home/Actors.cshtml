@@ -1,39 +1,58 @@
-﻿<section class="card-group">
+﻿@{ 
+    IEnumerable<Actor> actualActors = ViewBag.ActualActors as IEnumerable<Actor>;
+    IEnumerable<Actor> actors = ViewBag.Actors as IEnumerable<Actor>;
+}
+
+@if (actualActors.Count() == 0)
+{<text>
+    В системе нет ни одного актора
+</text>}
+else
+{
+
+
+<section class="card-group">
     <div class="section-title">
-        Акторы @*@((ViewBag.Actors as IEnumerable<object>).Count())
-            @((ViewBag.Actors as IEnumerable<Actor>).FirstOrDefault().Id)*@
+        Акторы
         <button class="section-hider" onclick="change_section_content_state(event)">
             скрыть
         </button>
     </div>
-
     <div class="clear"></div>
+
     <div class="section-content">
+    @if ((actualActors?.Count() ?? 0) > 0 )
+    {
         <div class="card-title">
             Самые актуальные
         </div>
-        <div class="card">
-            <img class="photo" src="https://gdb.voanews.com/59E693F5-1917-4401-AEF9-07B1A8BEECB7_cx0_cy8_cw0_w1023_r1_s.jpg" alt="navalniy">
-            <div class="card-content-wrapper">
-                <div class="card-content">
-                    ФИО:
-                    <b>Навальный Алексей Анатольевич</b>
-                    <br> Дата рождения:
-                    <b>12.02.1976 (41 год)</b>
-                    <br> Место работы и должность:
-                    <b>Партия прогресса, председатель</b>
-                    <br>
-                </div>
-                <div class="card-link" href="https://www.google.com">
-                    <div class="arrow-box-wrapper">
-                        <div class="arrow-box">
-                            ►
-                        </div>
+
+        foreach (Actor actor in actualActors)
+        {
+            <div class="card">
+                @if(actor.Photos.Count > 0)
+                {
+                    <img class="photo" src="@actor.Photos.ElementAt(new Random(DateTime.Now.Second).Next(0, actor.Photos.Count)).Url" alt="navalniy">
+                }
+                <div class="card-content-wrapper">
+                    <div class="card-content">
+                        @Html.Partial("../Partial/KeyInfoCardContent", actor)
                     </div>
+                    <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
+                        <div class="arrow-box-wrapper">
+                            <div class="arrow-box">
+                                ►
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
-        </div>
+        }
+    }
 
+        <div class="card-title">
+            Поиск
+        </div>
 
         <div class="card">
             <div class="card-content">
@@ -76,6 +95,34 @@
         <div class="card-waiter">
             <div class="loading"></div>
         </div>
+
+
+        @if ((actors?.Count() ?? 0) > 0)
+        {
+            <div class="card-title">
+                Самые актуальные
+            </div>
+
+            foreach (Actor actor in actors)
+            {
+                <div class="card">
+                    <div class="card-content-wrapper">
+                        <div class="card-content">
+                            @Html.Partial("../Partial/KeyInfoCardContent", actor)
+                        </div>
+                        <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
+                            <div class="arrow-box-wrapper">
+                                <div class="arrow-box">
+                                    ►
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
     </div>
+
 </section>
 
+}

@@ -22,7 +22,7 @@
 
         <div class="card">
             <div class="card-content-wrapper">
-                <div class="card-link" href="https://www.google.com">
+                <div class="card-link">
                     <div class="arrow-box-wrapper">
                         <div class="arrow-box">
                             @if (actor.Sex == Sexes.Male)
@@ -36,17 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-content">
-                    ФИО:
-                    <b>@actor.Name</b>
-                    <br> Дата рождения:
-                    <b>@(actor.Birthday.ToShortDateString()) (@actor.Age года)</b>
-                    <br> Место работы и должность:
-                    <b>@actor.Position</b>
-                    <br>
-
-
-                </div>
+                @Html.Partial("../Partial/KeyInfoCardContent", actor);
             </div>
         </div>
 
