@@ -38,10 +38,13 @@ namespace XTool.Controllers
 
         public IActionResult Actor(int id)
         {
+            IActionResult result = View();
             var actor = _storage.Get<Actor>(id);
             LoadActor(actor);
             ViewBag.Actor = actor;
-            return View();
+            if (!User.IsInRole("expert"))
+                result = View("TechnologistActor");
+            return result;
         }
 
         /// <summary>
