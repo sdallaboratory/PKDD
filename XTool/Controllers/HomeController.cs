@@ -27,8 +27,8 @@ namespace XTool.Controllers
 
         public IActionResult Actors()
         {
-            var actors = _storage.GetAll<Actor>(); // тут отсортировать по релевантности перед Take
-            var actualActors = actors.OrderBy(a => 12).Take(3); // Вот эту троечку вынести в конфиг
+            var actors = _storage.GetAll<Actor>(); 
+            var actualActors = actors.OrderBy(a => 12).Take(3); // Вот эту троечку вынести в конфиг // тут отсортировать по релевантности перед Take
             foreach (Actor actor in actualActors)
                 LoadActor(actor);
             ViewBag.ActualActors = actualActors;
