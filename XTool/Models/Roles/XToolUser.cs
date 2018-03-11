@@ -21,6 +21,8 @@ namespace XTool.Models.Roles
 
         public bool IsConfirmed { get; set; }
 
+        public bool IsBanned { get; set; }
+
         public bool WithLogin(LoginModel loginModel)
         {
             return Email == loginModel.Email;
