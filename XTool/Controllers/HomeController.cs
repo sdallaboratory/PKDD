@@ -40,7 +40,8 @@ namespace XTool.Controllers
         {
             IActionResult result = View();
             var actor = _storage.Get<Actor>(id);
-            LoadActor(actor);
+            if(actor != null)
+                LoadActor(actor);
             ViewBag.Actor = actor;
             if (!User.IsInRole("expert"))
                 result = View("TechnologistActor");
