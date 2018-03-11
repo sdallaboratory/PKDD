@@ -45,15 +45,16 @@ namespace XTool.Controllers
             var user = new XToolUser()
             {
                 Email = "admin@email.io",
-                UserName = "admin@email.io",
+                UserName = "Админ",
+                IsConfirmed = true
             };
-            string password = "123AAAaaa!";
-            var findedUser = _userManager.FindByEmailAsync(user.Email);
-            findedUser.Wait();
-            if (findedUser.Result == null)
+            string password = "qwertyasd111";
+            var foundUser = _userManager.FindByEmailAsync(user.Email);
+            foundUser.Wait();
+            if (foundUser.Result == null)
             {
                 result = _userManager.CreateAsync(user, password);
-                _userManager.AddToRolesAsync(findedUser.Result, new List<string>() { "superadmin", "admin" });
+                _userManager.AddToRolesAsync(foundUser.Result, new List<string>() { "superadmin", "admin" });
             }
             result?.Wait();
             return result?.Result;

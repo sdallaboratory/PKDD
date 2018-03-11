@@ -10,7 +10,7 @@ namespace XTool.Data
     {
         public XToolEntityStorage(XToolDbContext context) : base(context)
         {
-            //this.Clear();
+            this.Clear();
             (Context as XToolDbContext).Init();
         }
 

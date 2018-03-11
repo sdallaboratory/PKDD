@@ -17,8 +17,10 @@ namespace XTool.Data.DB
             foreach (Type type in storage.GetAllTypes())
             {
                 foreach (var elem in storage.GetAll(type))
+                {
                     storage.Context.Remove(elem);
-                storage.Context.SaveChanges();
+                    storage.Context.SaveChanges();
+                }
             }
             return storage;
         }
@@ -80,6 +82,11 @@ namespace XTool.Data.DB
                         }
                     }
                 },
+                    CustomSection = new List<CustomSection>()
+                {
+                        new CustomSection() { Title = "Религиозные взгляды" , Content = "Алексей Навальный - человек искренне верующий, соблюдает посты, но в церковь ходит редко. Православие течёт в его жилах.", Comment = "Показушно всё это как-то..."},
+                        new CustomSection() { Title = "Алкогольная зависимость" , Content = "Не известно, сколько галлонов вина в год употребляет политик, но известно одно - много..." }
+                }
                 }, new Actor() { Name = "Соколова Дарья Ильинична", Position = "Зам. министра культуры республики Татарстан", Sex = Sexes.Female, Birthday = new DateTime(1988, 11, 23) });
             }
             if (context.Roles.Count() == 0)
