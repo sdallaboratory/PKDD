@@ -5,6 +5,10 @@
 <div class="login">
     <h2>Восстановление</h2>
     <form class="login-form" action="forgot" method="post">
+        @if (ViewBag.Message != null)
+        {
+            <div><span class="error"> @ViewBag.Message </span></div>
+        }
         <div>Email</div>
         <input type="email" class="" name="Email" required>
         <div>Имя или фамилия</div>

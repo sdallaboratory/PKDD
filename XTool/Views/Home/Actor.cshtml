@@ -257,13 +257,34 @@
             </div>
         </div>
 
+        @*<div class="card-empty" style="">
+            <input type="submit" style="width: 100%;" />
+        </div>*@
+
+        <div class="card-inline">
+            <div class="card-inline-item">
+                <input type="submit" value="Сохранить"/>
+            </div>
+        </div>
+
         <div class="card-title">
             Комментарий
         </div>
+       
+        <form action="@Url.Action("Comment", "Api")" method="post">
+            <div class="card">
+                <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
+            </div>
 
-        <div class="card-empty">
-            <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
-        </div>
+            <div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="button" value="Типа ешо кнопка" />
+                </div>
+                <div class="card-inline-item">
+                    <input type="submit" value="Сохранить" />
+                </div>
+            </div>
+        </form>
     </div>
 </section>
 

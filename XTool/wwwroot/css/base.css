@@ -86,6 +86,12 @@ textarea.card-textbox {
     /* height: 200px; */
 }
 
+/* Span */
+
+span.error {
+    color: #f54236;
+}
+
 /* Layout */
 
 html {
@@ -395,6 +401,24 @@ span.super-important {
     font-size: 1.5em;
 }
 
+.card-inline {
+    margin: 4% 0 0 0;
+    line-height: 0px;
+    text-align: center; 
+    text-align: right;
+}
+
+.card-inline-item {
+    /* Наследуется от card-empty*/
+    display: inline-block;
+    margin-left: 15px;
+    box-shadow: 0 10px 60px 5px rgba(0, 0, 0, 0.2);
+}
+
+.card-inline-item:first-child {
+    margin-left: 0px;
+}
+
 .inner-card-item {
     width: 50%;
 }
@@ -471,7 +495,7 @@ span.super-important {
     display: flex; /*отнаследоваться от флекс - контейнера*/
     justify-content: space-around;
     min-height: 100px;
-    height: 70vh;
+    height: 60vh;
     align-items: flex-start;
     margin: 4%;
     margin-bottom: 110px;

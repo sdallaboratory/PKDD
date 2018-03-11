@@ -25,3 +25,11 @@ body {
 footer {
     font-size: 0.8em;
 }
+
+.card-link {
+    width: 15%;
+}
+
+card-content, card-content-wrapper {
+    width: 85%;
+}
