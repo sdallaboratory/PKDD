@@ -43,8 +43,8 @@ namespace XTool.Controllers
             if(actor != null)
                 LoadActor(actor);
             ViewBag.Actor = actor;
-            if (!User.IsInRole("expert"))
-                result = View("TechnologistActor");
+            //if (!User.IsInRole("expert"))
+            //    result = View("TechnologistActor");
             return result;
         }
 

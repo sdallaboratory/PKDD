@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Models\EvaluationModels\ScaleValueAttribute.cs" />
     <None Include="Views\Authorization\Forgot.cshtml" />
     <None Include="Views\Authorization\Login.cshtml" />
     <None Include="Views\Authorization\Register.cshtml" />
