@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XTool.Models.;
+using XTool.Models;
 using XTool.Models.EvaluationModels;
 
 namespace XTool.Algorithms
