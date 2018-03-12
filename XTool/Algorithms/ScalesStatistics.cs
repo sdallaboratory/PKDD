@@ -12,9 +12,8 @@ namespace XTool.Algorithms
         /// <summary>
         /// Возвращает набор оценок, из которых удалено (100 - selectProcent) процентов крайних оценок (отсечены выбросы).
         /// </summary>
-        /// <param name="scalesCollection"></param>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
         /// <param name="selectionPercent"></param>
-        /// <returns></returns>
         private static IEnumerable<Scales> RemoveOutliers(this IEnumerable<Scales> scalesCollection, double selectionPercent = 50)
         {
             if (selectionPercent > 100 || selectionPercent < 0)
@@ -27,8 +26,7 @@ namespace XTool.Algorithms
         /// <summary>
         /// Транспонирует матрицу, составленную построчно из набора объектов, содержащих по 10 значений.
         /// </summary>
-        /// <param name="scalesCollection"></param>
-        /// <returns></returns>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
         private static IEnumerable<int>[] TransposeScales(this IEnumerable<Scales> scalesCollection) =>
             scalesCollection.SelectMany(scalesItem => scalesItem.Values.Select((val, i) => new { index = i, value = val }))
             .GroupBy(pair => pair.index)
@@ -39,8 +37,7 @@ namespace XTool.Algorithms
         /// <summary>
         /// Возвращает словарь, содержащий средние значения от набора объектов шкал.
         /// </summary>
-        /// <param name="scalesCollection"></param>
-        /// <returns></returns>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
         private static Dictionary<int, double> AverageDictionary(this IEnumerable<Scales> scalesCollection) => new Dictionary<int, double>(
             scalesCollection.TransposeScales().Select((valuesCollection, i) => new KeyValuePair<int, double>(i, valuesCollection.Average())));
 
@@ -71,8 +68,7 @@ namespace XTool.Algorithms
         /// <summary>
         /// Возвращает словарь, в котором ключ - номер шкалы, а значение - среднеквадратичное отклонение для шкалы по всему набору объектов.
         /// </summary>
-        /// <param name="scalesCollection"></param>
-        /// <returns></returns>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
         private static Dictionary<int, double> StandardDeviation(this IEnumerable<Scales> scalesCollection)
         {
             IEnumerable<int>[] transposedScales = scalesCollection.TransposeScales();
@@ -99,15 +95,14 @@ namespace XTool.Algorithms
         /// <summary>
         /// Возвращает среднюю арифметическую оценку на основе исходного набора оценок.
         /// </summary>
-        /// <param name="scalesCollection"></param>
-        /// <returns></returns>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
         public static Scales Average(this IEnumerable<Scales> scalesCollection) => new Scales(scalesCollection.AverageDictionary().Values.OfType<int>());
 
         /// <summary>
-        /// Возвращает среднее квадратичное значения шкал по набору исходных оценок с учётом отсечения крайних.
+        /// Возвращает среднюю квадратичное оценку на основе исхоного набора оценок.
         /// </summary>
-        /// <param name="scalesCollection">Значение в процентах, показывающее какую часть исхожной выборки оставлять после отсечения</param>
-        /// <returns></returns>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
+        /// <param name="selectionPercent">Значение в процентах, показывающее какую часть исхожной выборки оставлять после отсечения</param>
         public static Scales RootMeanSquare(this IEnumerable<Scales> scalesCollection, double selectionPercent = 100) => new Scales(
         scalesCollection.RemoveOutliers().TransposeScales().Select(valuesCollection => (int)(Math.Sqrt(valuesCollection.Average(val => val * val)))));
 
@@ -116,5 +111,11 @@ namespace XTool.Algorithms
             Dictionary<int, double> expectations = scalesCollection.AverageDictionary();
             return scales.OutlineIndex(expectations) / scalesCollection.Max(scal => scal.OutlineIndex(expectations));
         }
+
+        /// <summary>
+        /// Показатель разброса мнений экспертов по данному набору оценок.
+        /// </summary>
+        /// <param name="scalesCollection">исходный набор оценок.</param>
+        public static double Dispersion(this IEnumerable<Scales> scalesCollection) => scalesCollection.StandardDeviation().Values.Average();
     }
 }
