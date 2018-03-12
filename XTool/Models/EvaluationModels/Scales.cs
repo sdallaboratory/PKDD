@@ -22,11 +22,22 @@ namespace XTool.Models.EvaluationModels
         private int IndexOf(string name) => ScalesNames.Select((n, i) => new { curName = n, index = i })
             .FirstOrDefault(pair => pair.curName == name).index;
 
+        public Scales()
+        { }
+
+        public Scales(IEnumerable<int> values)
+        {
+            for (int i = 0; i < Math.Min(Values.Count(), values.Count()); i++)
+            {
+                this[i] = values.ElementAt(i);
+            }
+        }
+
         //  public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
 
         // IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
 
-        public IEnumerable<int> Values => _values;
+        public IEnumerable<int> Values => new List<int>(_values);
 
         public int this[int i]
         {
