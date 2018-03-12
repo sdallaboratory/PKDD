@@ -12,13 +12,16 @@
         {8, "VIII"},
         {9, "IX"},
         {10, "X"},
+        {11, "XI"},
+        {12, "XII"},
+        {13, "XIII"},
 
     };
 
     Scales scales = Model as Scales;
 }
 
-<div class="graph">
+<form class="graph">
 
     <svg class="polyline-canvas">
         <linearGradient id="linear-gradient">
@@ -55,19 +58,17 @@
     <div class="graph-column">
         <div class="graph-axis"></div>
     </div>
-    <form>
         @for (int i = 0; i < scales.Values.Count(); i++)
         {
             <div class="graph-column">
-                <div class="graph-vertex" style="top: @scales[i]%"><input type="text" class="vertex-value" value="@scales[i]"></div>
+                <div class="graph-vertex" style="top: @(100 - scales[i])%"><input type="text" class="vertex-value" value="@scales[i]"></div>
                 <div class="column-name">
-                    @romeanNumbers[i]
+                    @romeanNumbers[i + 1]
                 </div>
                 <input hidden type="range" min="0" max="1" step="1" value="@scales[i]"/>
             </div>
 
         }
-    </form>
     @*<div class="graph-column">
         <div class="graph-vertex"><input type="text" class="vertex-value"></div>
         <div class="column-name">
@@ -129,4 +130,4 @@
         </div>
     </div>*@
 
-</div>
+</form>

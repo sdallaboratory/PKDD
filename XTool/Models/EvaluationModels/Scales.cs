@@ -49,6 +49,8 @@ namespace XTool.Models.EvaluationModels
             {
                 if (value > 100 || value < 0)
                     throw new ArgumentException("Значение, выражаемле в процентах должно быть в пределах диапозона [0; 100]");
+                if (i < 0 || i >= _values.Length)
+                    throw new KeyNotFoundException($"Не существует шкалы под номером {i}.");
                 _values[i] = value;
             }
         }
