@@ -13,7 +13,7 @@ namespace XTool.UserManager
     {
         public static async Task<OperationResult> RegisterUserAsync(this UserManager<XToolUser> userManager, UserRegisterModel model)
         {
-            Statuses status = Statuses.Error;
+             Statuses status = Statuses.Error;
             string message = null;
             if (false) // настроить валидацию модели 
                 message = "Введены некорректные данные!";
