@@ -12,7 +12,11 @@ namespace XTool.Models.Roles
         /// </summary>
         public int Level { get; set; }
 
-        public AdminRole(string roleName = "admin") : base(roleName)
+        public AdminRole() : this("ADMIN")
+        {
+        }
+
+        public AdminRole(string roleName) : base(roleName)
         {
         }
 

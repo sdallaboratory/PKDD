@@ -23,19 +23,24 @@ namespace XTool.UserManager
                 message = "Пользователем с таким Email уже зарегистрирован в системе!";
             else
             {
-                var newUser = new XToolUser() { Email = model.Email, FullName = model.Name };
+                var newUser = new XToolUser() { Email = model.Email, FullName = model.Name, UserName = model.Email };
                 var suc = await userManager.CreateAsync(newUser);
-                if (suc.Succeeded)
+                if (!suc.Succeeded)
                 {
-                    if ((await userManager.UpdatePasswordAsync(newUser, model.Password)).StatusCode == Statuses.Ok)
-                    {
-                        message = $"Аккаунт {newUser.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
-                        status = Statuses.Ok;
-                    }
-                    else
-                    {
-                        message = "Произошла ошибка при настройке пароля.";
-                    }
+                    message = "Произошла ошибка при создании аккаунта.";
+                }
+                else if((await userManager.UpdatePasswordAsync(newUser, model.Password)).StatusCode != Statuses.Ok)
+                {
+                    message = "Произошла ошибка при настройке пароля.";
+                }
+                else if (!(await userManager.AddToRoleAsync(newUser, model.RoleName.ToLower())).Succeeded)
+                {
+                    message = "Не удалось настроить роль пользователя.";
+                }
+                else 
+                {
+                    message = $"Аккаунт {newUser.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
+                    status = Statuses.Ok;
                 }
             }
             return new OperationResult() { StatusCode = status, Message = message };

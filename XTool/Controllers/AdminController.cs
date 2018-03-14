@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using XTool.Data;
 using XTool.Models.Roles;
+using XTool.Models.TransferModels;
+using XTool.UserManager;
 
 namespace XTool.Controllers
 {
@@ -22,15 +24,17 @@ namespace XTool.Controllers
 
         public async Task<IActionResult> Users()
         {
-            ViewBag.Admins = (await _userManager.GetUsersInRoleAsync("admin")); // Добавить Where Level < userLevel
-            ViewBag.Experts = await _userManager.GetUsersInRoleAsync("expert");
-            ViewBag.Technologists = await _userManager.GetUsersInRoleAsync("technologist");
+            var asd = _context.Roles.Select(role => role.Name);
+            var adms = await _userManager.GetUsersInRoleAsync("ADMIN");
+            ViewBag.Admins = await _userManager.GetUsersInRoleAsync("ADMIN"); // Добавить Where Level < userLevel
+            ViewBag.Experts = await _userManager.GetUsersInRoleAsync("EXPERT");
+            ViewBag.Technologists = await _userManager.GetUsersInRoleAsync("TECHNOLOGIST");
             return View();
         }
 
-        public async Task<IActionResult> CreateUser(XToolUser user)
+        public async Task<IActionResult> CreateUser(UserRegisterModel model)
         {
-            return null;
+            return Json(await _userManager.RegisterUserAsync(model));
         }
 
     }

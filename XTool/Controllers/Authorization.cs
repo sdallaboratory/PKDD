@@ -38,29 +38,30 @@ namespace XTool.Controllers
             _userManager = userManager;
             _dbContext = dBContext;
             _signInManager = singInManager;
-            var res = Seed();
-            res.Wait();
+            Seed();
 
         }
 
-        private async Task<IdentityResult> Seed()
+        private async void Seed()
         {
-            Task<IdentityResult> result = null;
-            var user = new XToolUser()
-            {
-                Email = "admin@email.io",
-                UserName = "Admin",
-                IsConfirmed = true
-            };
-            string password = "AAAaaa123!";
-            XToolUser foundUser = await _userManager.FindByEmailAsync(user.Email);
-            if (foundUser == null)
-            {
-                result = _userManager.CreateAsync(user, password);
-                await _userManager.AddToRolesAsync(foundUser, new List<string>() { "superadmin", "admin" });
-            }
-            result?.Wait();
-            return result?.Result;
+            UserRegisterModel model = new UserRegisterModel() { Email = "admin@email.io", Name = "Пётр Андреевич Вяземский", Password = "sys!admin2", PasswordRepeat = "sys!admin2", RoleName = "ADMIN" };
+            await _userManager.RegisterUserAsync(model);
+            await _userManager.ConfirmUserAsync(await _userManager.FindByEmailAsync(model.Email));
+            
+            //var user = new XToolUser()
+            //{
+            //    Email = "admin@email.io",
+            //    UserName = "Admin",
+            //    IsConfirmed = true
+            //};
+            //string password = "AAAaaa123!";
+            //XToolUser foundUser = await _userManager.FindByEmailAsync(user.Email);
+            //if (foundUser == null)
+            //{
+            //    result = _userManager.CreateAsync(user, password);
+            //    await _userManager.AddToRolesAsync(foundUser, new List<string>() { "superadmin", "admin" });
+            //}
+            //result?.Wait();
         }
 
         [HttpGet]

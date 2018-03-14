@@ -1,0 +1,55 @@
+﻿@{
+    IEnumerable<XToolUser> admins = ViewBag.Admins as IEnumerable<XToolUser>;
+    IEnumerable<XToolUser> experts = ViewBag.Experts as IEnumerable<XToolUser>;
+    IEnumerable<XToolUser> technologists = ViewBag.Technologists as IEnumerable<XToolUser>;
+
+}
+
+
+<section class="card-group">
+    <div class="section-title">
+        Все пользователи системы
+        <button class="section-hider" onclick="change_section_content_state(event)">
+            скрыть
+        </button>
+    </div>
+
+
+    <div class="section-content">
+
+        <!-- Колличественная оценка -->
+
+        <div class="card-title">
+            Админы
+        </div>
+
+        @foreach (XToolUser user in admins)
+        {
+        <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
+            <div class="card">
+                <div class="card-content">
+                    @Html.Partial("../Partial/UserCard", User))
+                </div>
+            </div>
+
+            <div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="submit" value="Подтвердить" />
+                    <input type="submit" value="Забанить" />
+                    <input type="submit" value="Сохранить" />
+                </div>
+            </div>
+        </form>
+        }
+
+        <div class="card-title">
+            Технологи
+        </div>
+
+        <div class="card-title">
+            Эксперты
+        </div>
+
+
+    </div>
+</section>

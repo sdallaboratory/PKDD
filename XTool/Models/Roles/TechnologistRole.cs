@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 namespace XTool.Models.Roles
 {
     public class TechnologistRole : XToolRole, IUpdateble
-    { 
-        public TechnologistRole(string roleName = "technologist") : base(roleName)
+    {
+        public TechnologistRole() : this("TECHNOLOGIST")
+        {
+        }
+
+        public TechnologistRole(string roleName) : base(roleName)
         {
         }
 

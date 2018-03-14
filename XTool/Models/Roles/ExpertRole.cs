@@ -7,9 +7,12 @@ namespace XTool.Models.Roles
 {
     public class ExpertRole : XToolRole, IUpdateble
     {
-        public ExpertRole(string name = "expert") : base(name)
+        public ExpertRole() : this("EXPERT")
         {
+        }
 
+        public ExpertRole(string name) : base(name)
+        {
         }
 
         public IUpdateble Update(IUpdateble model)

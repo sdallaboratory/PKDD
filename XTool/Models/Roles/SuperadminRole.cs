@@ -7,7 +7,11 @@ namespace XTool.Models.Roles
 {
     public class SuperadminRole : XToolRole, IUpdateble
     {
-        public SuperadminRole(string roleName = "superadmin") : base(roleName)
+        public SuperadminRole() : this("SUPERADMIN")
+        {
+        }
+
+        public SuperadminRole(string roleName) : base(roleName)
         {
         }
     }
