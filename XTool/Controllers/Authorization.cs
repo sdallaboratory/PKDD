@@ -18,6 +18,8 @@ using XTool.Data.Validations;
 using Microsoft.AspNetCore.Authorization;
 using XTool.Models;
 
+using XTool.UserManager;
+
 namespace XTool.Controllers
 {
     public class Authorization : Controller
@@ -115,27 +117,33 @@ namespace XTool.Controllers
         public async Task<IActionResult> Register([FromForm] UserRegisterModel model)
         {
             IActionResult result = View();
-            ViewBag.RegisterModel = model;
-            XToolUser foundUser = null;
-            if (!ModelState.IsValid)
-                ViewBag.Message = "Введены некорректные данные!";
-            else if (model.Password != model.PasswordRepeat)
-                ViewBag.Message = "Пароли не совпадают!";
-            else if ((foundUser = await _userManager.FindByEmailAsync(model.Email)) != null)
-                ViewBag.Message = "Пользователем с таким Email уже зарегистрирован в системе!";
-            else
-            {
-                var newUser = new XToolUser() { Email = model.Email, UserName = model.Name };
-                var suc = await _userManager.CreateAsync(newUser);
-                if (suc.Succeeded)
-                {
-                    newUser.PasswordHash = _userManager.PasswordHasher.HashPassword(newUser, model.Password);
-                    await _userManager.UpdateAsync(newUser);
-                    ViewBag.Message = $"Аккаунт {newUser.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
-                    result = View("Message");
-                }
-            }
+            var operationResult = await _userManager.RegisterUserAsync(model);
+            ViewBag.Message = operationResult.Message;
+            if (operationResult.StatusCode == Statuses.Ok)
+                result = View("Message");
             return result;
+
+            //ViewBag.RegisterModel = model;
+            //XToolUser foundUser = null;
+            //if (!ModelState.IsValid)
+            //    ViewBag.Message = "Введены некорректные данные!";
+            //else if (model.Password != model.PasswordRepeat)
+            //    ViewBag.Message = "Пароли не совпадают!";
+            //else if ((foundUser = await _userManager.FindByEmailAsync(model.Email)) != null)
+            //    ViewBag.Message = "Пользователем с таким Email уже зарегистрирован в системе!";
+            //else
+            //{
+            //    var newUser = new XToolUser() { Email = model.Email, UserName = model.Name };
+            //    var suc = await _userManager.CreateAsync(newUser);
+            //    if (suc.Succeeded)
+            //    {
+            //        newUser.PasswordHash = _userManager.PasswordHasher.HashPassword(newUser, model.Password);
+            //        await _userManager.UpdateAsync(newUser);
+            //        ViewBag.Message = $"Аккаунт {newUser.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
+            //        result = View("Message");
+            //    }
+            //}
+            //return result;
         }
 
         [HttpGet]
@@ -153,18 +161,18 @@ namespace XTool.Controllers
             //return View("Message");
         }
 
-        [Authorize(Roles = "admin")]
-        public IActionResult ConfirmUser(int id)
-        {
-            var user = _dbContext.Find<XToolUser>(id);
-            var result = false;
-            if (user != null & user.IsConfirmed == false)
-            {
-                user.IsConfirmed = true;
-                result = true;
-            }
-            return Json(result);
-        }
+        //[Authorize(Roles = "admin")]
+        //public IActionResult ConfirmUser(int id)
+        //{
+        //    var user = _dbContext.Find<XToolUser>(id);
+        //    var result = false;
+        //    if (user != null & user.IsConfirmed == false)
+        //    {
+        //        user.IsConfirmed = true;
+        //        result = true;
+        //    }
+        //    return Json(result);
+        //}
 
         public async Task<IActionResult> Logout()
         {

@@ -157,28 +157,29 @@
         <div class="card-title">
             Шкалы
         </div>
-
-        <div class="card">
-            <div class="card-content">
-                @Html.Partial("../Partial/Graph", new Scales(new List<int>() { 54, 45, 43, 67, 54, 54, 40, 68, 67, 12, 23 }))
+        <form action="@Url.Action("Graph", "Api",  new { Id = actor.Id })" method="post">
+            <div class="card">
+                <div class="card-content">
+                    @Html.Partial("../Partial/Graph", new Scales(new List<int>() { 54, 45, 43, 67, 54, 54, 40, 68, 67, 12, 23 }))
+                </div>
             </div>
-        </div>
 
-        @*<div class="card-empty" style="">
-            <input type="submit" style="width: 100%;" />
-        </div>*@
+            @*<div class="card-empty" style="">
+                <input type="submit" style="width: 100%;" />
+            </div>*@
 
-        <div class="card-inline">
-            <div class="card-inline-item">
-                <input type="submit" value="Сохранить"/>
+            <div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="submit" value="Сохранить" />
+                </div>
             </div>
-        </div>
+        </form>
 
         <div class="card-title">
             Комментарий
         </div>
-       
-        <form action="@Url.Action("Comment", "Api")" method="post">
+
+        <form action="@Url.Action("Comment", "Api", new { Id = actor.Id })" method="post">
             <div class="card">
                 <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
             </div>

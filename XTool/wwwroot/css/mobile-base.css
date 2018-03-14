@@ -33,3 +33,9 @@ footer {
 card-content, card-content-wrapper {
     width: 85%;
 }
+
+.graph-vertex:hover {
+    background: black;
+    transform: none;
+    border-radius: 5px;
+}

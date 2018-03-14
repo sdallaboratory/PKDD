@@ -14,7 +14,9 @@ namespace XTool.Models.Roles
         {
             throw new NotImplementedException();
         }
-    
+
+        public string FullName { get; set; }
+
         public DateTime Birthday { get; set; }
 
         public string Position { get; set; }

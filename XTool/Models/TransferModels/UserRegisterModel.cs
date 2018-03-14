@@ -15,6 +15,8 @@ namespace XTool.Models.TransferModels
 
         public string PasswordRepeat { get; set; }
 
+        public string RoleName { get; set; }
+
         public IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();

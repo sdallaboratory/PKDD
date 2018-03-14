@@ -15,14 +15,12 @@
         {11, "XI"},
         {12, "XII"},
         {13, "XIII"},
-
     };
 
     Scales scales = Model as Scales;
 }
 
-<form class="graph">
-
+<div class="graph">
     <svg class="polyline-canvas">
         <linearGradient id="linear-gradient">
             <stop offset="0%" stop-color="rgb(160, 240, 240)" />
@@ -32,102 +30,28 @@
     </svg>
 
     <div class="graph-grid">
+        @*Тут бы добавить параметр из конфига (количетво линий графика)*@ 
         @for (int i = 0; i <= 100; i += 10)
         {
             <div class="horizontal" style="top: @i%">
                 <div class="horizontal-value">@(100 - i)</div>
             </div>
         }
-        @*<div class="horizontal" style="top: 0%">
-            <div class="horizontal-value">100</div>
-        </div>
-        <div class="horizontal" style="top: 25%">
-            <div class="horizontal-value">75</div>
-        </div>
-        <div class="horizontal" style="top: 50%">
-            <div class="horizontal-value">50</div>
-        </div>
-        <div class="horizontal" style="top: 75%">
-            <div class="horizontal-value">25</div>
-        </div>
-        <div class="horizontal" style="top: 100%">
-            <div class="horizontal-value">0</div>
-        </div>*@
     </div>
 
-    <div class="graph-column">
-        <div class="graph-axis"></div>
-    </div>
+    <div class="graph-content">
+        <div class="graph-column">
+            <div class="graph-axis"></div>
+        </div>
         @for (int i = 0; i < scales.Values.Count(); i++)
         {
             <div class="graph-column">
-                <div class="graph-vertex" style="top: @(100 - scales[i])%"><input type="text" class="vertex-value" value="@scales[i]"></div>
-                <div class="column-name">
+                <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - scales[i])%"><input type="text" name="@Scales.ScalesNames[i]" class="vertex-value" value="@scales[i]" disabled></div>
+                <div class="column-name" name="@Scales.ScalesNames[i]">
                     @romeanNumbers[i + 1]
                 </div>
-                <input hidden type="range" min="0" max="1" step="1" value="@scales[i]"/>
             </div>
 
         }
-    @*<div class="graph-column">
-        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-        <div class="column-name">
-            I
-        </div>
     </div>
-    <div class="graph-column">
-        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-        <div class="column-name">
-            II
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-        <div class="column-name">
-            III
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            IV
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            V
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            VI
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            VII
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            VIII
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            IX
-        </div>
-    </div>
-    <div class="graph-column">
-        <div class="graph-vertex"></div>
-        <div class="column-name">
-            X
-        </div>
-    </div>*@
-
-</form>
+</div>
