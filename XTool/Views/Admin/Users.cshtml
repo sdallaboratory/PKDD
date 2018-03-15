@@ -17,39 +17,145 @@
 
     <div class="section-content">
 
+        <div class="card-title">
+            Регистрация пользователя
+        </div>
+
+            <form action="@Url.Action("Register", "Admin")" method="post">
+                <div class="card">
+                    <div class="card-content @*login-form*@">
+                        <div><span class="error">  </span></div>
+
+                        <div>Фамилия, имя и отчество</div>
+                        <input type="text" class="" name="Name" required>
+
+                        <div>Email</div>
+                        <input type="email" class="" name="Email" required>
+
+                        <div>Роль пользователя</div>
+                        <select name="RoleName" type="email" class="" required>
+                            <option value="@(new ExpertRole().Name)">Эксперт</option>
+                            <option value="@(new TechnologistRole().Name)">Технолог</option>
+                            <option value="@(new AdminRole().Name)">Админ</option>
+                        </select>
+
+                        <div>Пароль</div>
+                        <input type="password" class="" name="Password" required>
+
+                        <div>Повторите пароль</div>
+                        <input type="password" class="" name="PasswordRepeat" required>
+                    </div>
+                </div>
+
+                <div class="card-inline">
+                    <div class="card-inline-item">
+                        <input type="button" value="Зарегистрировать" name="Register">
+                    </div>
+                </div>
+            </form>
+
         <!-- Колличественная оценка -->
+        @if(admins.Count() > 0)
+        {
 
         <div class="card-title">
             Админы
         </div>
 
+
         @foreach (XToolUser user in admins)
         {
         <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
-            <div class="card">
-                <div class="card-content">
-                    @Html.Partial("../Partial/UserCard", User))
-                </div>
-            </div>
+            @Html.Partial("../Partial/UserCard", user)
 
             <div class="card-inline">
+                @if (!user.IsConfirmed)
+                {
                 <div class="card-inline-item">
-                    <input type="submit" value="Подтвердить" />
-                    <input type="submit" value="Забанить" />
-                    <input type="submit" value="Сохранить" />
+                    <input type="button" value="Подтвердить" name="Confirm" />
+                </div>
+                }
+                @if (true)
+                {
+                <div class="card-inline-item">
+                    <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" name="@(user.IsBanned ? "Unban" : "Ban")"/>
+                </div>
+                }
+                <div class="card-inline-item">
+                    <input type="button" value="Изменить" name="Edit" />
                 </div>
             </div>
         </form>
         }
+        }
 
-        <div class="card-title">
-            Технологи
-        </div>
+        @if (technologists.Count() > 0)
+        {
 
-        <div class="card-title">
-            Эксперты
-        </div>
+            <div class="card-title">
+                Технологи
+            </div>
 
+
+            @foreach (XToolUser user in technologists)
+            {
+                <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
+                    @Html.Partial("../Partial/UserCard", user)
+
+                    <div class="card-inline">
+                        @if (!user.IsConfirmed)
+                        {
+                            <div class="card-inline-item">
+                                <input type="button" value="Подтвердить" />
+                            </div>
+                        }
+                        @if (true)
+                        {
+                            <div class="card-inline-item">
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" />
+                            </div>
+                        }
+                        <div class="card-inline-item">
+                            <input type="button" value="Изменить" />
+                        </div>
+                    </div>
+                </form>
+            }
+        }
+
+        @if (experts.Count() > 0)
+        {
+
+            <div class="card-title">
+                Эксперты
+            </div>
+
+
+            @foreach (XToolUser user in experts)
+            {
+                <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
+                    @Html.Partial("../Partial/UserCard", user)
+
+                    <div class="card-inline">
+                        @if (!user.IsConfirmed)
+                        {
+                            <div class="card-inline-item">
+                                <input type="button" value="Подтвердить" />
+                            </div>
+                        }
+                        @if (true)
+                        {
+                            <div class="card-inline-item">
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" />
+                            </div>
+                        }
+                        <div class="card-inline-item">
+                            <input type="button" value="Изменить" />
+                        </div>
+                    </div>
+                </form>
+            }
+        }
 
     </div>
 </section>

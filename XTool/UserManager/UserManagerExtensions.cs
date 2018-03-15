@@ -11,9 +11,28 @@ namespace XTool.UserManager
 {
     public static class UserManagerExtensions
     {
+        public static async Task<OperationResult> RegisterConfirmedUserAsync(this UserManager<XToolUser> userManager, UserRegisterModel model)
+        {
+            OperationResult result = null;
+            result = await userManager.RegisterUserAsync(model);
+            if (result.Status == Statuses.Ok)
+            {
+                XToolUser user = await userManager.FindByEmailAsync(model.Email);
+                result = await userManager.ConfirmUserAsync(user);
+                if (result.Status != Statuses.Ok)
+                {
+                    await userManager.DeleteAsync(user);
+                    result = new OperationResult() { Status = Statuses.Ok, Message = "Произонла ошибка подтверждения пользователя!"};
+                }
+                else
+                    result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно зарегистрирован и его аккаунт подтверждён.", User = user};
+            }
+            return result;
+        }
+
         public static async Task<OperationResult> RegisterUserAsync(this UserManager<XToolUser> userManager, UserRegisterModel model)
         {
-             Statuses status = Statuses.Error;
+            Statuses status = Statuses.Error;
             string message = null;
             if (false) // настроить валидацию модели 
                 message = "Введены некорректные данные!";
@@ -26,27 +45,36 @@ namespace XTool.UserManager
                 var newUser = new XToolUser() { Email = model.Email, FullName = model.Name, UserName = model.Email };
                 var suc = await userManager.CreateAsync(newUser);
                 if (!suc.Succeeded)
+                    message = "Произошла ошибка при создании аккаунта!";
+                else if ((await userManager.UpdatePasswordAsync(newUser, model.Password)).Status != Statuses.Ok)
+                    message = "Произошла ошибка при настройке пароля!";
+                else
                 {
-                    message = "Произошла ошибка при создании аккаунта.";
-                }
-                else if((await userManager.UpdatePasswordAsync(newUser, model.Password)).StatusCode != Statuses.Ok)
-                {
-                    message = "Произошла ошибка при настройке пароля.";
-                }
-                else if (!(await userManager.AddToRoleAsync(newUser, model.RoleName.ToLower())).Succeeded)
-                {
-                    message = "Не удалось настроить роль пользователя.";
-                }
-                else 
-                {
-                    message = $"Аккаунт {newUser.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
-                    status = Statuses.Ok;
+
+                    IdentityResult result = null;
+                    try
+                    {
+                        result = await userManager.AddToRoleAsync(newUser, model.RoleName);
+                    }
+                    catch
+                    {
+                    }
+                    if (result?.Succeeded ?? false)
+                    {
+                        message = $"Аккаунт {newUser.Email} успешно зарегистрирован. В ближайшее время администратор подтвердит ваш аккаунт и вы сможете войти в систему.";
+                        status = Statuses.Ok;
+                    }
+                    else
+                    {
+                        await userManager.DeleteAsync(newUser);
+                        message = "Не удалось настроить роль пользователя!";
+                    }
                 }
             }
-            return new OperationResult() { StatusCode = status, Message = message };
+            return new OperationResult() { Status = status, Message = message };
         }
 
-        public static async Task<OperationResult> UpdatePasswordAsync(this UserManager<XToolUser> userManager, XToolUser user, string newPassword )
+        public static async Task<OperationResult> UpdatePasswordAsync(this UserManager<XToolUser> userManager, XToolUser user, string newPassword)
         {
             OperationResult result;
             // настроить валидацию пароля
@@ -54,10 +82,10 @@ namespace XTool.UserManager
             {
                 user.PasswordHash = userManager.PasswordHasher.HashPassword(user, newPassword);
                 await userManager.UpdateAsync(user);
-                 result = new OperationResult() { StatusCode = Statuses.Ok, Message = "Пароль успешно изменён." };
+                result = new OperationResult() { Status = Statuses.Ok, Message = "Пароль успешно изменён." };
             }
             else
-                 result = new OperationResult() { StatusCode = Statuses.AlreadyDone, Message = "Новый и текущий пароли совпадают" };
+                result = new OperationResult() { Status = Statuses.AlreadyDone, Message = "Новый и текущий пароли совпадают" };
             return result;
         }
 
@@ -68,10 +96,10 @@ namespace XTool.UserManager
             {
                 user.IsConfirmed = true;
                 await userManager.UpdateAsync(user);
-                result = new OperationResult() { StatusCode = Statuses.Ok, Message = "Пользователь успешно подтверждён." };
+                result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно подтверждён." };
             }
             else
-                result = new OperationResult() { StatusCode = Statuses.AlreadyDone, Message = "Новый и текущий пароли совпадают" };
+                result = new OperationResult() { Status = Statuses.AlreadyDone, Message = "Новый и текущий пароли совпадают" };
             return result;
         }
 
@@ -82,10 +110,10 @@ namespace XTool.UserManager
             {
                 user.IsBanned = true;
                 await userManager.UpdateAsync(user);
-                result = new OperationResult() { StatusCode = Statuses.Ok, Message = "Пользователь успешно забанен." };
+                result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно забанен." };
             }
             else
-                result = new OperationResult() { StatusCode = Statuses.AlreadyDone, Message = "Пользователь был забанен ранее." };
+                result = new OperationResult() { Status = Statuses.AlreadyDone, Message = "Пользователь был забанен ранее." };
             return result;
         }
 
@@ -96,10 +124,10 @@ namespace XTool.UserManager
             {
                 user.IsBanned = false;
                 await userManager.UpdateAsync(user);
-                result = new OperationResult() { StatusCode = Statuses.Ok, Message = "Пользователь успешно забанен." };
+                result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно забанен." };
             }
             else
-                result = new OperationResult() { StatusCode = Statuses.AlreadyDone, Message = "Не удалось разбанить пользователя, так как он не был забанен." };
+                result = new OperationResult() { Status = Statuses.AlreadyDone, Message = "Не удалось разбанить пользователя, так как он не был забанен." };
             return result;
         }
     }

@@ -13,11 +13,33 @@
             <div class="card-content">
                 ФИО:
                 <b>@user.FullName</b>
-                <br> Дата рождения:
-                <b>@(user.Birthday.ToShortDateString())</b>
-                <br> Место работы и должность:
-                <b>@user.Position</b>
-                <br>
+
+                @*@if(user.Birthday != default(DateTime))
+                {
+                    <text>
+                        <br> Дата рождения:
+                        <b>@(user.Birthday.ToShortDateString())</b>
+                    </text>
+                }*@
+
+                @if (!string.IsNullOrWhiteSpace(user.Position))
+                {
+                    <text>
+                        <br> Место работы и должность:
+                        <b>@user.Position</b>
+                    </text>
+                }
+                
+                <br> Email:
+                <b>@user.Email</b>
+                
+                @if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+                {
+                    <text>
+                    <br> Номер телефона:
+                    <b>@user.PhoneNumber</b>
+                    </text>
+                }
             </div>
         </div>
         <a class="card-link" href="@Url.Action("User", "Admin", new { id = user.Id })">

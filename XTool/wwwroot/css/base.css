@@ -55,6 +55,7 @@ input[type="email"], input[type="password"], input[type="text"], select, textare
     font-size: inherit;
     color: inherit;
     transition: 0.25s;
+    font-weight: bold;
 }
 
 input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, textarea:focus {
@@ -84,6 +85,14 @@ textarea.card-textbox {
     border: none;
     background: rgb(248, 248, 248);
     /* height: 200px; */
+}
+
+::selection {
+    background: rgb(160, 240, 240); /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+    background: rgb(160, 240, 240); /* Gecko Browsers */
 }
 
 /* Span */

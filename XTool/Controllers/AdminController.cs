@@ -14,21 +14,22 @@ namespace XTool.Controllers
     public class AdminController : Controller
     {
         private readonly XToolDbContext _context;
+        private readonly RoleManager<XToolRole> _roleManager;
         private readonly UserManager<XToolUser> _userManager;
 
-        public AdminController(XToolDbContext context, UserManager<XToolUser> userManager)
+        public AdminController(XToolDbContext context, UserManager<XToolUser> userManager, RoleManager<XToolRole> roleManager)
         {
             _userManager = userManager;
             _context = context;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Users()
         {
-            var asd = _context.Roles.Select(role => role.Name);
-            var adms = await _userManager.GetUsersInRoleAsync("ADMIN");
-            ViewBag.Admins = await _userManager.GetUsersInRoleAsync("ADMIN"); // Добавить Where Level < userLevel
-            ViewBag.Experts = await _userManager.GetUsersInRoleAsync("EXPERT");
-            ViewBag.Technologists = await _userManager.GetUsersInRoleAsync("TECHNOLOGIST");
+            ViewBag.Superadmins = await _userManager.GetUsersInRoleAsync("superadmin");
+            ViewBag.Admins = await _userManager.GetUsersInRoleAsync("admin"); // Добавить Where Level < userLevel
+            ViewBag.Experts = await _userManager.GetUsersInRoleAsync("expert");
+            ViewBag.Technologists = await _userManager.GetUsersInRoleAsync("technologist");
             return View();
         }
 

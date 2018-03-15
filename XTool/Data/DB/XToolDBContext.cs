@@ -21,7 +21,6 @@ namespace XTool.Data
         {
         }
 
-
         public DbSet<Actor> Actors { get; set; }
 
         public DbSet<Photo> Photos { get; set; }

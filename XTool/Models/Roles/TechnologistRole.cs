@@ -7,7 +7,7 @@ namespace XTool.Models.Roles
 {
     public class TechnologistRole : XToolRole, IUpdateble
     {
-        public TechnologistRole() : this("TECHNOLOGIST")
+        public TechnologistRole() : this("technologist")
         {
         }
 
@@ -15,7 +15,7 @@ namespace XTool.Models.Roles
         {
         }
 
-        public IUpdateble Update(IUpdateble model)
+        public new IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();
         }

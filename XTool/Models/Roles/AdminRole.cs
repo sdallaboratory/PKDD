@@ -12,7 +12,7 @@ namespace XTool.Models.Roles
         /// </summary>
         public int Level { get; set; }
 
-        public AdminRole() : this("ADMIN")
+        public AdminRole() : this("admin")
         {
         }
 
@@ -20,7 +20,7 @@ namespace XTool.Models.Roles
         {
         }
 
-        public IUpdateble Update(IUpdateble model)
+        public new IUpdateble Update(IUpdateble model)
         {
             throw new NotImplementedException();
         }
