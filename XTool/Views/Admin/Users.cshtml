@@ -14,7 +14,6 @@
         </button>
     </div>
 
-
     <div class="section-content">
 
         <div class="card-title">
@@ -36,7 +35,10 @@
                         <select name="RoleName" type="email" class="" required>
                             <option value="@(new ExpertRole().Name)">Эксперт</option>
                             <option value="@(new TechnologistRole().Name)">Технолог</option>
-                            <option value="@(new AdminRole().Name)">Админ</option>
+                            @if (User.IsInRole("superadmin"))
+                            {
+                                <option value="@(new AdminRole().Name)">Админ</option>
+                            }
                         </select>
 
                         <div>Пароль</div>
@@ -69,21 +71,21 @@
             @Html.Partial("../Partial/UserCard", user)
 
             <div class="card-inline">
-                @if (!user.IsConfirmed)
+                @*@if (!user.IsConfirmed && )
                 {
                 <div class="card-inline-item">
                     <input type="button" value="Подтвердить" name="Confirm" />
                 </div>
-                }
-                @if (true)
+                }*@
+                @if (User.IsInRole("superadmin"))
                 {
                 <div class="card-inline-item">
                     <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" name="@(user.IsBanned ? "Unban" : "Ban")"/>
                 </div>
-                }
                 <div class="card-inline-item">
                     <input type="button" value="Изменить" name="Edit" />
                 </div>
+                }
             </div>
         </form>
         }
@@ -106,13 +108,13 @@
                         @if (!user.IsConfirmed)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="Подтвердить" />
+                                <input type="button" value="Подтвердить" name="Confirm" class="ajax-confirm" userid="@user.Id"/>
                             </div>
                         }
                         @if (true)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" />
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")"/>
                             </div>
                         }
                         <div class="card-inline-item">

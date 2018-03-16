@@ -637,3 +637,11 @@ span.super-important {
     width: 92%;
     height: 100%;
 }
+
+/* Progress Bar*/
+
+.progress-bar {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);
+}

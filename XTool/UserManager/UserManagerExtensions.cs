@@ -34,7 +34,7 @@ namespace XTool.UserManager
         {
             Statuses status = Statuses.Error;
             string message = null;
-            if (false) // настроить валидацию модели 
+            if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Password)) // настроить человеческую валидацию модели 
                 message = "Введены некорректные данные!";
             else if (model.Password != model.PasswordRepeat)
                 message = "Пароли не совпадают!";

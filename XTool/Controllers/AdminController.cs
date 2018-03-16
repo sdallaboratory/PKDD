@@ -38,5 +38,9 @@ namespace XTool.Controllers
             return Json(await _userManager.RegisterUserAsync(model));
         }
 
+        public async Task<IActionResult> ConfirmUser(int id)
+        {
+            return Json(await _userManager.ConfirmUserAsync(_context.Find<XToolUser>(id)));
+        }
     }
 }
