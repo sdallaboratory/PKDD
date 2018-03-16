@@ -171,5 +171,22 @@ namespace XTool.Data
         {
             return DbSets.Select(dbSet => dbSet.PropertyType.GetGenericArguments().FirstOrDefault()).Where(type => type != null);
         }
+
+        public virtual IEnumerable<TKey> GetIds<T>(int? count = null) where T : class
+        {
+            return GetIds(typeof(T), count);
+        }
+
+        public virtual IEnumerable<TKey> GetIds(Type type, int? count = null)
+        {
+            IEnumerable<TKey> result = null;
+            var dbSetValue = GetDbSet(type).GetValue(Context);
+            var setEnum = (dbSetValue as IEnumerable).Cast<object>();
+            if (count == null)
+            {
+                result = setEnum.Select((x) => (TKey)x.GetType().GetProperty("Id").GetValue(x));
+            }
+            return result; 
+        }
     }
 }

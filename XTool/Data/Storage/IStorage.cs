@@ -9,7 +9,6 @@ namespace XTool.Data.Storage
 {
     public interface IStorage<TKey>
     {
-        DbContext Context { get; }
 
         IEnumerable<T> GetAll<T>() where T : class;
         IEnumerable<object> GetAll(Type type);
@@ -30,6 +29,9 @@ namespace XTool.Data.Storage
 
         int Count<T>() where T : class;
         int Count(Type type);
+
+        IEnumerable<TKey> GetIds<T>(int? count = null) where T : class;
+        IEnumerable<TKey> GetIds(Type type, int? count = null);
 
         IEnumerable<Type> GetAllTypes();
     }
