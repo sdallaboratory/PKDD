@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Data.Storage;
-using XTool.Models.ModelInterfaces;
+using XTool.Data.ModelInterfaces;
+using System.Reflection;
 
 namespace XTool.Data.SearchEngine
 {
-    interface ISearchEngine<TOut, TKey> where TOut : class, IStorageModel<TKey>
+    public interface ISearchEngine<TOut, TKey> where TOut : class, IStorageModel<TKey>
     {
         IStorage<TKey> Storage { get; }
 
-        Type[] SearchableTypes { get; set; }
-
-        Type[] ProcessBaseType();
+        int ItemCount { get; }
 
         List<TOut> FindItems(ISearchFilter filter);
     }

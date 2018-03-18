@@ -3,11 +3,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 using XTool.Data.Storage;
 
 namespace XTool.Data.StorageIterator
 {
-    public class StorageIterator<TKey, TOut> : IStorageIterator<TKey, TOut> where TOut : class
+    public class StorageIterator<TKey, TOut> : IStorageIterator<TKey, TOut> where TOut : class, IStorageModel<TKey>
     {
         public IStorage<TKey> Storage { get; set; }
 

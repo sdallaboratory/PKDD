@@ -13,6 +13,7 @@ using XTool.Data;
 using XTool.Models;
 using XTool.Models.ActorModels;
 using Microsoft.EntityFrameworkCore;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Controllers
 {
@@ -78,7 +79,7 @@ namespace XTool.Controllers
                 if (newItem != null && model.Ids.Count > 0)
                 {
                     var item = storage.Get(type, model.Ids.First());
-                    (item as IUpdateble).Update(newItem as IUpdateble);
+                    (item as IStorageModel<int>).Update(newItem as IStorageModel<int>);
                     storage.Update(type, model.Ids.First(), item);
                 }
             }

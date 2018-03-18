@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace XTool.Models.ModelInterfaces
+namespace XTool.Data.ModelInterfaces
 {
-    public interface IStorageModel<TKey> : ISearchable, IUpdateble, IWithId<TKey>
+    public interface IStorageModel<TKey> : IUpdateble, IWithId<TKey>
     {
     }
 }

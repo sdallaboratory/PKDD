@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using XTool.Models.ActorModels.BaseTypes;
-using XTool.Models.ModelInterfaces;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.ActorModels
 {

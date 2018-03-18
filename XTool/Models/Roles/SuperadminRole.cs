@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.Roles
 {
-    public class SuperadminRole : XToolRole, IUpdateble
+    public class SuperadminRole : XToolRole, IStorageModel<int>
     {
         public SuperadminRole() : this("superadmin")
         {

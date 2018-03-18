@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.TransferModels
 {
-    public class LoginModel : IUpdateble
+    public class LoginModel
     {
         [Required(ErrorMessage = "Введите e-mail")]
         [EmailAddress]
@@ -16,9 +17,5 @@ namespace XTool.Models.TransferModels
 
         public bool Remember { get; set; }
 
-        public IUpdateble Update(IUpdateble model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

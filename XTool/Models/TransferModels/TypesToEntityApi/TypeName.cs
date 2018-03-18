@@ -3,18 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.TransferModels.TypesToEntityApi
 {
     [JsonObject]
-    public class TypeName : IUpdateble
+    public class TypeName
     {
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        public IUpdateble Update(IUpdateble model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

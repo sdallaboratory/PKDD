@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.Roles
 {
-    public class AdminRole : XToolRole, IUpdateble
+    public class AdminRole : XToolRole, IStorageModel<int>
     {
         /// <summary>
         /// Говорит о том, насколько этот админ крут. Левел даёся при регистрации.

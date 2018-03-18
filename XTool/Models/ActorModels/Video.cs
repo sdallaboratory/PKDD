@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using XTool.Models.ActorModels.BaseTypes;
-using XTool.Models.ModelInterfaces;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.ActorModels
 {

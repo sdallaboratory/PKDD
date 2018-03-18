@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.TransferModels
 {
-    public class UserRegisterModel : IUpdateble
+    public class UserRegisterModel 
     {
         public string  Name { get; set; }
 
@@ -17,9 +18,5 @@ namespace XTool.Models.TransferModels
 
         public string RoleName { get; set; }
 
-        public IUpdateble Update(IUpdateble model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

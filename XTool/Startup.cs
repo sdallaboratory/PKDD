@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using XTool.Data;
 using XTool.Models.Roles;
 using XTool.Data.Validations.ApiValidator;
+using XTool.Data.SearchEngine;
+using XTool.Models.ActorModels;
 
 namespace XTool
 {
@@ -41,9 +43,9 @@ namespace XTool
                 options.LoginPath = new PathString(authorPath);
             });
 
-            services.AddStorage();
-
-            services.AddApiTypesValidator();
+            services.AddStorage()
+                .AddApiTypesValidator()
+                .AddSearchEngine<Actor, int>();
 
             services.AddMvc();
         }

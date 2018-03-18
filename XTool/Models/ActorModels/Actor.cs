@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Models.EvaluationModels;
-using XTool.Models.ModelInterfaces;
+using XTool.Data.ModelInterfaces;
 using XTool.Models.ModelInterfaces.DataAnnotations;
 using XTool.Models.Roles;
 using XTool.Models.Shared;

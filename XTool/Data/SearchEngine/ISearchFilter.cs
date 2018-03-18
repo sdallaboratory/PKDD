@@ -9,6 +9,10 @@ namespace XTool.Data.SearchEngine
     {
         string SearchString { get; set; }
 
+        int Page { get; set; }
+
+        int ElementOnPage { get; set; }
+
         bool IsAdvancedSearch { get; set; }
 
         List<string> SearchPropsNames { get; set; }

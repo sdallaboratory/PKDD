@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using XTool.Models.ModelInterfaces;
+using XTool.Data.ModelInterfaces;
 using XTool.Models.ModelInterfaces.DataAnnotations;
 
 namespace XTool.Models.ActorModels

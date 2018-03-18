@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using XTool.Data.Storage;
 using XTool.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using XTool.Models.ModelInterfaces;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Data
 {
