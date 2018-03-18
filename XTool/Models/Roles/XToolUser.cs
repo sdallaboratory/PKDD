@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 using XTool.Models.TransferModels;
 
 namespace XTool.Models.Roles
 {
-    public class XToolUser : IdentityUser<int>, IUpdateble
+    public class XToolUser : IdentityUser<int>, IStorageModel<int>
     {
 
         public IUpdateble Update(IUpdateble model)

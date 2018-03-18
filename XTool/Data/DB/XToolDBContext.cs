@@ -18,7 +18,7 @@ namespace XTool.Data
     public class XToolDbContext : IdentityDbContext<XToolUser, XToolRole, int>
     {
         public XToolDbContext(DbContextOptions options) : base(options)
-        {
+        { 
         }
 
         public DbSet<Actor> Actors { get; set; }

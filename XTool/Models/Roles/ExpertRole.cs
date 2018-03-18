@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Models.Roles
 {
-    public class ExpertRole : XToolRole, IUpdateble
+    public class ExpertRole : XToolRole, IStorageModel<int>
     {
         public ExpertRole() : this("expert")
         {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using XTool.Data.ModelInterfaces;
 using XTool.Models.ActorModels;
 using XTool.Models.Roles;
 
 namespace XTool.Models.EvaluationModels
 {
-    public class Evaluation
+    public class Evaluation : IStorageModel<int>
     {
         public int Id { get; set; }
 
@@ -28,5 +29,10 @@ namespace XTool.Models.EvaluationModels
         //public int ExpertId { get; set; }
 
         public virtual XToolUser Expert { get; set; }
+
+        public IUpdateble Update(IUpdateble model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

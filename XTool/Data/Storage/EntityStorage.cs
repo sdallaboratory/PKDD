@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 using XTool.Data.Storage;
 using XTool.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-
+using XTool.Data.ModelInterfaces;
 
 namespace XTool.Data
 {
     public abstract class EntityStorage<TKey> : IStorage<TKey>
     {
-        public DbContext Context { get; }
+        public DbContext Context { get; set; }
 
         public EntityStorage(DbContext context)
         {
             Context = context;
         }
 
-        public virtual TKey Add<T>(T item) where T : class
+        public virtual TKey Add<T>(T item) where T : class, IStorageModel<TKey>
         {
             return Add(typeof(T), item);
         }
@@ -41,7 +41,7 @@ namespace XTool.Data
             return result;
         }
 
-        public virtual T Delete<T>(TKey id) where T : class
+        public virtual T Delete<T>(TKey id) where T : class, IStorageModel<TKey>
         {
             return Delete(typeof(T), id) as T;
         }
@@ -57,7 +57,7 @@ namespace XTool.Data
             return item;
         }
 
-        public virtual T Get<T>(TKey id) where T : class
+        public virtual T Get<T>(TKey id) where T : class, IStorageModel<TKey>
         {
             return Get(typeof(T), id) as T;
         }
@@ -70,31 +70,27 @@ namespace XTool.Data
             return item;
         }
 
-        public virtual IEnumerable<T> GetAll<T>() where T : class
+        public virtual List<T> GetAll<T>() where T : class, IStorageModel<TKey>
         {
             var dbSetValue = GetAll(typeof(T));
             return dbSetValue.Cast<T>().ToList();
         }
 
-        public virtual IEnumerable<object> GetAll(Type type)
+        public virtual List<object> GetAll(Type type)
         {
-            var dbSetValue = Context.GetType()
-                .GetProperties()
-                .Where(x => x.PropertyType.Name == typeof(DbSet<>).MakeGenericType(type).Name)
-               ?.FirstOrDefault()
-               .GetValue(Context);
+            var dbSetValue = GetDbSet(type).GetValue(Context);
             var enumerable = (IEnumerable)dbSetValue;
             var result = enumerable.Cast<object>().ToList();
             return result;
         }
 
-        public virtual IEnumerable<T> Get<T>(IEnumerable<TKey> ids) where T : class
+        public virtual List<T> Get<T>(IEnumerable<TKey> ids) where T : class, IStorageModel<TKey>
         {
             var dbSetValue = Get(typeof(T), ids);
             return dbSetValue.Cast<T>().ToList();
         }
 
-        public virtual IEnumerable<object> Get(Type type, IEnumerable<TKey> ids)
+        public virtual List<object> Get(Type type, IEnumerable<TKey> ids)
         {
             IEnumerable<object> result = null;
             if (ids != null)
@@ -109,10 +105,10 @@ namespace XTool.Data
                     }
                 }
             }
-            return result;
+            return result.ToList();
         }
 
-        public virtual T Update<T>(TKey id, T newValue) where T : class
+        public virtual T Update<T>(TKey id, T newValue) where T : class, IStorageModel<TKey>
         {
             return Update(typeof(T), id, newValue) as T;
         }
@@ -157,7 +153,7 @@ namespace XTool.Data
         }
 
 
-        public virtual int Count<T>() where T : class
+        public virtual int Count<T>() where T : class, IStorageModel<TKey>
         {
             return Count(typeof(T));
         }
@@ -170,6 +166,35 @@ namespace XTool.Data
         public IEnumerable<Type> GetAllTypes()
         {
             return DbSets.Select(dbSet => dbSet.PropertyType.GetGenericArguments().FirstOrDefault()).Where(type => type != null);
+        }
+
+        public virtual IEnumerable<TKey> GetIds<T>(int? count = null) where T : class, IStorageModel<TKey>
+        {
+            return GetIds(typeof(T), count);
+        }
+
+        public virtual IEnumerable<TKey> GetIds(Type type, int? count = null)
+        {
+            IEnumerable<TKey> result = null;
+            var dbSetValue = GetDbSet(type).GetValue(Context);
+            var setEnum = (dbSetValue as IEnumerable).Cast<object>();
+            if (count == null)
+            {
+                result = setEnum.Select((x) => (x as IStorageModel<TKey>).Id);
+            }
+            return result; 
+        }
+
+        public virtual IQueryable<T> GetAllQueryable<T>() where T : class, IStorageModel<TKey>
+        {
+            return GetAllQueryable(typeof(T)).Cast<T>();
+        }
+
+        public virtual IQueryable<object> GetAllQueryable(Type type)
+        {
+            var dbSetValue = GetDbSet(type).GetValue(Context);
+            var queryable = (IQueryable)dbSetValue;
+            return queryable.Cast<object>();
         }
     }
 }
