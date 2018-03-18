@@ -2,7 +2,6 @@
     IEnumerable<XToolUser> admins = ViewBag.Admins as IEnumerable<XToolUser>;
     IEnumerable<XToolUser> experts = ViewBag.Experts as IEnumerable<XToolUser>;
     IEnumerable<XToolUser> technologists = ViewBag.Technologists as IEnumerable<XToolUser>;
-
 }
 
 
@@ -20,7 +19,7 @@
             Регистрация пользователя
         </div>
 
-            <form action="@Url.Action("Register", "Admin")" method="post">
+            <form action="@Url.Action("CreateUser", "Admin")" method="post" id="form-create-user">
                 <div class="card">
                     <div class="card-content @*login-form*@">
                         <div><span class="error">  </span></div>
@@ -51,7 +50,7 @@
 
                 <div class="card-inline">
                     <div class="card-inline-item">
-                        <input type="button" value="Зарегистрировать" name="Register">
+                        <input type="button" value="Зарегистрировать" name="Register" class="ajax-create-user" href="@Url.Action("CreateUser", "Admin")">
                     </div>
                 </div>
             </form>

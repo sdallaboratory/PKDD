@@ -1,9 +1,10 @@
 ﻿function sendAjax(ajaxRequest) {
+        alert([ajaxRequest.url]);
     startProgressBar();
     $.ajax({
         dataType: "json",
         url: ajaxRequest.url,
-        data: ajaxRequest.data === undefined ? ajaxRequest.data : ajaxRequest.data.serialize(),
+        data: ajaxRequest.data,
         success: function (result) {
             console.log(result.message);
             if (result.status == 0)

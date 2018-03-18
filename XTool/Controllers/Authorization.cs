@@ -52,7 +52,7 @@ namespace XTool.Controllers
         {
             List<XToolRole> roles = new List<XToolRole>() { new SuperadminRole(), new AdminRole(), new TechnologistRole(), new ExpertRole() };
             foreach (XToolRole role in roles)
-                if (await _roleManager.FindByNameAsync(role.Name) == null)
+                //if (await _roleManager.FindByNameAsync(role.Name) == null)
                     await _roleManager.CreateAsync(role);
 
             UserRegisterModel model = new UserRegisterModel() { Email = "admin@email.io", Name = "Пётр Андреевич Вяземский", Password = "sys!admin2", PasswordRepeat = "sys!admin2", RoleName = "superadmin" };
