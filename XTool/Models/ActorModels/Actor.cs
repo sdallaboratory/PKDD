@@ -5,14 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Models.EvaluationModels;
+using XTool.Models.ModelInterfaces;
+using XTool.Models.ModelInterfaces.DataAnnotations;
 using XTool.Models.Roles;
 using XTool.Models.Shared;
 
 // ДОБАВИТЬ ПРИОРИТЕТНОСТЬ И ВРЕМЯ СОЗДАНИЯ
 
-namespace XTool.Models.ActorModels
+namespace XTool.Models.ActorModels 
 {
-    public class Actor
+    public class Actor : IStorageModel<int>
     {
         public int Id { get; set; }
 
@@ -21,6 +23,7 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// ФИО актора
         /// </summary>
+        [SearchEngine]
         [Required, StringLength(200)]
         public string Name { get; set; }
 
@@ -32,12 +35,14 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Дата рождения актора
         /// </summary>
+        [SearchEngine]
         public DateTime Birthday { get; set; }
 
         /// <summary>
         /// Перечисление текущих мест работы и соответсвующих должностей
         /// </summary>
         [StringLength(500)]
+        [SearchEngine]
         public string Position { get; set; }
 
         /// <summary>
@@ -56,6 +61,7 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Список публикаций и выступлений актора
         /// </summary>
+        [SearchEngine]
         public virtual List<Publication> Publications { get; set; } = new List<Publication>();
 
         /// <summary>
@@ -66,16 +72,19 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Список событий в биографии актора
         /// </summary>
+        [SearchEngine]
         public virtual List<BiographyEvent> BiograpphyEvents { get; set; } = new List<BiographyEvent>();
 
         /// <summary>
         /// Список периодов с событиями в карьере актора
         /// </summary>
+        [SearchEngine]
         public virtual List<CareerPeriod> CareerPeriods { get; set; } = new List<CareerPeriod>();
 
         /// <summary>
         /// Список цитат актора
         /// </summary>
+        [SearchEngine]
         public virtual List<Quotation> Quotations { get; set; } = new List<Quotation>();
 
         #endregion
@@ -97,5 +106,10 @@ namespace XTool.Models.ActorModels
 
         [NotMapped]
         public int Age => DateTime.Now.Year - Birthday.Year;
+
+        public IUpdateble Update(IUpdateble model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

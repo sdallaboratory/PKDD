@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using XTool.Models.ActorModels.BaseTypes;
+using XTool.Models.ModelInterfaces;
 
 namespace XTool.Models.ActorModels
 {
@@ -17,5 +18,10 @@ namespace XTool.Models.ActorModels
 
         [NotMapped]
         public string YouTubeId => Host == "www.youtube.com" ? HttpUtility.ParseQueryString(new Uri(Url).Query)["v"] : null;
+
+        public override IUpdateble Update(IUpdateble model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

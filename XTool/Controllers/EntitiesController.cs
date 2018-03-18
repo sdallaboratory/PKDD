@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace XTool.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/entities")]
     public class EntitiesController : Controller
     {

@@ -12,6 +12,7 @@ namespace XTool.Data
         {
             //this.Clear();
             (Context as XToolDbContext).Init();
+    
         }
 
         public override int Add<T>(T item)
