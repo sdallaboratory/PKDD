@@ -16,25 +16,22 @@
 <body>
     <div class="page-wrapper">
         <header>
-            <nav class="top-menu">
-                <ul>
-                    <li class="menu-item">
+            <nav class="top-menu flex-container">
+                    <div class="menu-item">
+                        <a class="button" href="@Url.Action("Actors", "Home")"> Хоум </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="button" href="@Url.Action("Users", "Admin")"> Юзеры </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="button" href="@Url.Action("Logout", "Authorization")"> Выйти </a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="button" href="@Url.Action("Users", "Admin")"> Выйти </a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="button" href="@Url.Action("Actors", "Home")"> Выйти </a>
-                    </li>
-                </ul>
+                    </div>
             </nav>
 
             @*<div class="menu">
 
             </div>*@
             <div class="progress-bar" style="width: 0">
-                Тут временный статус месадж
             </div>
         </header>
 
@@ -49,11 +46,14 @@
 
     </div>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="~/scripts/ajax/progress-bar.js"></script>
+
     <script src="~/scripts/mobile.js"></script>
     <script src="~/scripts/hider.js"></script>
     <script src="~/scripts/graph.js"></script>
     <script src="~/scripts/textarea.js"></script>
     <script src="~/scripts/photo.js"></script>
-    <script src="~/scripts/ajax/confirm.js"></script>
+    <script src="~/scripts/ajax/base.js"></script>
+    <script src="~/scripts/ajax/ban.js"></script>
 </body>
 </html>

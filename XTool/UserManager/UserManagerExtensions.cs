@@ -34,6 +34,7 @@ namespace XTool.UserManager
         {
             Statuses status = Statuses.Error;
             string message = null;
+            OperationResult auxres;
             if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Password)) // настроить человеческую валидацию модели 
                 message = "Введены некорректные данные!";
             else if (model.Password != model.PasswordRepeat)
@@ -46,8 +47,8 @@ namespace XTool.UserManager
                 var suc = await userManager.CreateAsync(newUser);
                 if (!suc.Succeeded)
                     message = "Произошла ошибка при создании аккаунта!";
-                else if ((await userManager.UpdatePasswordAsync(newUser, model.Password)).Status != Statuses.Ok)
-                    message = "Произошла ошибка при настройке пароля!";
+                else if ((auxres = await userManager.UpdatePasswordAsync(newUser, model.Password)).Status != Statuses.Ok)
+                    message = auxres.Message;
                 else
                 {
 
@@ -78,7 +79,13 @@ namespace XTool.UserManager
         {
             OperationResult result;
             // настроить валидацию пароля
-            if (user.PasswordHash != userManager.PasswordHasher.HashPassword(user, newPassword))
+            if (newPassword.Length < 6 || newPassword.Length > 20 || newPassword.ToUpper() == newPassword)
+                result = new OperationResult()
+                {
+                    Status = Statuses.Error,
+                    Message = "Пароль должен содержать от 6 до 20 символов и содержать как строчные, так и заглавные буквы!"
+                };
+            else if (user.PasswordHash != userManager.PasswordHasher.HashPassword(user, newPassword))
             {
                 user.PasswordHash = userManager.PasswordHasher.HashPassword(user, newPassword);
                 await userManager.UpdateAsync(user);
@@ -124,7 +131,7 @@ namespace XTool.UserManager
             {
                 user.IsBanned = false;
                 await userManager.UpdateAsync(user);
-                result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно забанен." };
+                result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно разбанен." };
             }
             else
                 result = new OperationResult() { Status = Statuses.AlreadyDone, Message = "Не удалось разбанить пользователя, так как он не был забанен." };

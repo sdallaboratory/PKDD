@@ -42,5 +42,15 @@ namespace XTool.Controllers
         {
             return Json(await _userManager.ConfirmUserAsync(_context.Find<XToolUser>(id)));
         }
+
+        public async Task<IActionResult> BanUser(int id)
+        {
+            return Json(await _userManager.BanUserAsync(_context.Find<XToolUser>(id)));
+        }
+
+        public async Task<IActionResult> UnbanUser(int id)
+        {
+            return Json(await _userManager.UnbanUserAsync(_context.Find<XToolUser>(id)));
+        }
     }
 }

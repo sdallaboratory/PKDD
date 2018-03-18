@@ -108,13 +108,13 @@
                         @if (!user.IsConfirmed)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="Подтвердить" name="Confirm" class="ajax-confirm" userid="@user.Id"/>
+                                <input type="button" value="Подтвердить" name="Confirm" class="ajax" href="Admin/ConfirmUser" params="@user.Id"/>
                             </div>
                         }
                         @if (true)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")"/>
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" class="@(user.IsBanned ? "ajax-unban" : "ajax-ban")" href="Admin/BanUser/" params="@user.Id"/>
                             </div>
                         }
                         <div class="card-inline-item">
@@ -142,7 +142,7 @@
                         @if (!user.IsConfirmed)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="Подтвердить" />
+                                <input type="button" value="Подтвердить" name="Confirm" class="ajax-confirm" userid="@user.Id" />
                             </div>
                         }
                         @if (true)

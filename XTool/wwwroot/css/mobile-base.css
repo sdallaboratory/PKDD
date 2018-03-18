@@ -39,3 +39,11 @@ card-content, card-content-wrapper {
     transform: none;
     border-radius: 5px;
 }*/
+
+/*.card-inline {
+    justify-content: space-between;
+}
+
+.card-inline-item {
+    margin-left: 0;
+}*/
