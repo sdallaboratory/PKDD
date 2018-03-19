@@ -38,8 +38,8 @@ namespace XTool.Data.SearchEngine
 
         private IQueryable<SearchResult<Actor>> Search(string searchString, IEnumerable<PropertyInfo> props)
         {
-            return Storage.GetAllQueryable<Actor>()
-                   .Select(actor => ProcessProps(props, actor, searchString))
+            IQueryable<Actor> queryable = Storage.GetAllQueryable<Actor>();
+            return queryable.Select(actor => ProcessProps(props, actor, searchString))
                    .Where(res => res.Sum > 0)
                    .OrderByDescending(searchRes => searchRes.Result);             
         }
