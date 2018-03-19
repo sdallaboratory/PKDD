@@ -13,15 +13,12 @@ namespace XTool.Models.ActorModels.BaseTypes
     {
         public int Id { get; set; }
 
-        [SearchEngine]
         [Required, StringLength(2000)]
         public string Description { get; set; }
 
-        [SearchEngine]
         [Required, StringLength(20)] // Добавить бы RegularExpression
         public string Period { get; set; }
 
-        [SearchEngine]
         [StringLength(2000)]
         public string Comment { get; set; }
 

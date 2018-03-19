@@ -21,9 +21,10 @@ namespace XTool.Controllers
         }
 
         [HttpPost]
-        public IEnumerable<Actor> Get([FromBody] SearchFilter filter)
+        public IActionResult Get([FromBody] SearchFilter filter)
         {
-            return engine.FindItems(filter);
+            var item = engine.FindItems(filter);
+            return Json(item.Select(x => new { x.Data, x.FindedStrings }));
         }
     }
 }

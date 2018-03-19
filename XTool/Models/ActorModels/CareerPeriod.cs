@@ -11,7 +11,6 @@ namespace XTool.Models.ActorModels
         
         public int ActorId { get; set; }
 
-        [SearchEngine]
         [StringLength(20)] // Добавить бы RegularExpression
         public string Period { get; set; }
 

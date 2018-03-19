@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using XTool.Data.SearchEngine.SearchResult;
 using XTool.Data.Storage;
 using XTool.Models.ActorModels;
+using XTool.Models.ModelInterfaces.DataAnnotations;
 
 namespace XTool.Data.SearchEngine
 {
@@ -14,13 +17,15 @@ namespace XTool.Data.SearchEngine
             ProcessBaseType();
         }
 
-        public override List<Actor> FindItems(ISearchFilter filter)
+        public override List<SearchResult<Actor>> FindItems(ISearchFilter filter)
         {
-            List<Actor> result = null;
-            IQueryable<Actor> midResult = null;
+            List<SearchResult<Actor>> result = null;
+            IQueryable<SearchResult<Actor>> midResult = null;
             if(filter.IsAdvancedSearch)
             {
-
+                var props = SearchableTypes
+                    .Where(type => filter.SearchPropsNames.Contains(type.Name));
+               
             }
             else
             {
@@ -31,16 +36,18 @@ namespace XTool.Data.SearchEngine
             return result;
         }
 
-        private IQueryable<Actor> SimpleSearch(string searchString)
+        private IQueryable<SearchResult<Actor>> SimpleSearch(string searchString)
         {
-            return Storage.GetAllQueryable<Actor>().
-                Where( actor => SearchableSimpleTypes.
-                        Select(actorProp => actorProp.GetValue(actor).ToString().Contains(searchString)).Any(isSub => isSub));
+            return Storage.GetAllQueryable<Actor>()
+                   .Select(actor => ProcessProps(SearchableSimpleTypes, actor, searchString))
+                   .Where(res => res.Sum > 0)
+                   .OrderByDescending(searchRes => searchRes.Result);             
         }
 
-        private IQueryable<Actor> TakeByPage(IQueryable<Actor> midRes, ISearchFilter filter)
+
+        private IQueryable<SearchResult<Actor>> TakeByPage(IQueryable<SearchResult<Actor>> midRes, ISearchFilter filter)
         {
-            IQueryable<Actor> result = midRes;
+            IQueryable<SearchResult<Actor>> result = midRes;
             int pages = Convert.ToInt32(Math.Ceiling((double)(ItemCount / filter.ElementOnPage)));
             int page = filter.Page;
             if (page > 0)

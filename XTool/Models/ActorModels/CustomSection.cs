@@ -10,15 +10,12 @@ namespace XTool.Models.ActorModels
 
         public int ActorId { get; set; }
 
-        [SearchEngine]
         [Required, StringLength(200)]
         public string Title { get; set; }
 
-        [SearchEngine]
         [Required, StringLength(10000)]
         public string Content { get; set; }
 
-        [SearchEngine]
         [StringLength(2000)]
         public string Comment { get; set; }
 

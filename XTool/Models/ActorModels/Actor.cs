@@ -9,6 +9,7 @@ using XTool.Data.ModelInterfaces;
 using XTool.Models.ModelInterfaces.DataAnnotations;
 using XTool.Models.Roles;
 using XTool.Models.Shared;
+using XTool.Data.ModelInterfaces.DataAnnotations;
 
 // ДОБАВИТЬ ПРИОРИТЕТНОСТЬ И ВРЕМЯ СОЗДАНИЯ
 
@@ -23,7 +24,7 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// ФИО актора
         /// </summary>
-        [SearchEngine]
+        [SearchEngine(SearchType.Simple, SearchImportaceTypes.VeryImportant, ComplexType.Simple)]
         [Required, StringLength(200)]
         public string Name { get; set; }
 
@@ -35,14 +36,14 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Дата рождения актора
         /// </summary>
-        [SearchEngine]
+        [SearchEngine(SearchType.Advanced, SearchImportaceTypes.Neutral, ComplexType.Simple)]
         public DateTime Birthday { get; set; }
 
         /// <summary>
         /// Перечисление текущих мест работы и соответсвующих должностей
         /// </summary>
         [StringLength(500)]
-        [SearchEngine]
+        [SearchEngine(SearchImportaceTypes.Neutral, ComplexType.Simple)]
         public string Position { get; set; }
 
         /// <summary>
@@ -61,7 +62,6 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Список публикаций и выступлений актора
         /// </summary>
-        [SearchEngine]
         public virtual List<Publication> Publications { get; set; } = new List<Publication>();
 
         /// <summary>
@@ -72,19 +72,16 @@ namespace XTool.Models.ActorModels
         /// <summary>
         /// Список событий в биографии актора
         /// </summary>
-        [SearchEngine]
         public virtual List<BiographyEvent> BiograpphyEvents { get; set; } = new List<BiographyEvent>();
 
         /// <summary>
         /// Список периодов с событиями в карьере актора
         /// </summary>
-        [SearchEngine]
         public virtual List<CareerPeriod> CareerPeriods { get; set; } = new List<CareerPeriod>();
 
         /// <summary>
         /// Список цитат актора
         /// </summary>
-        [SearchEngine]
         public virtual List<Quotation> Quotations { get; set; } = new List<Quotation>();
 
         #endregion

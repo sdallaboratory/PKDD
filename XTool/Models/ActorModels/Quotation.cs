@@ -10,11 +10,9 @@ namespace XTool.Models.ActorModels
 
         public int ActorId { get; set; }
 
-        [SearchEngine]
         [StringLength(2000)]
         public string Text { get; set; }
 
-        [SearchEngine]
         [StringLength(2000)]
         public string Comment { get; set; }
 
