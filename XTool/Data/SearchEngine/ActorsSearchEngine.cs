@@ -21,25 +21,25 @@ namespace XTool.Data.SearchEngine
         {
             List<SearchResult<Actor>> result = null;
             IQueryable<SearchResult<Actor>> midResult = null;
-            if(filter.IsAdvancedSearch)
+            IEnumerable<PropertyInfo> props;
+            if (filter != null && filter.SearchPropsNames != null && filter.IsAdvancedSearch)
             {
-                var props = SearchableTypes
+                props = SearchableTypes
                     .Where(type => filter.SearchPropsNames.Contains(type.Name));
-               
             }
             else
             {
-                midResult = SimpleSearch(filter.SearchString);
-                result = TakeByPage(midResult, filter).ToList();
+                props = SearchableSimpleTypes;
             }
-
+            midResult = Search(filter.SearchString, props);
+            result = TakeByPage(midResult, filter).ToList();
             return result;
         }
 
-        private IQueryable<SearchResult<Actor>> SimpleSearch(string searchString)
+        private IQueryable<SearchResult<Actor>> Search(string searchString, IEnumerable<PropertyInfo> props)
         {
             return Storage.GetAllQueryable<Actor>()
-                   .Select(actor => ProcessProps(SearchableSimpleTypes, actor, searchString))
+                   .Select(actor => ProcessProps(props, actor, searchString))
                    .Where(res => res.Sum > 0)
                    .OrderByDescending(searchRes => searchRes.Result);             
         }

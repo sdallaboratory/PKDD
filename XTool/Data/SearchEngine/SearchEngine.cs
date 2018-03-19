@@ -37,7 +37,7 @@ namespace XTool.Data.SearchEngine
             SearchableTypes = props.ToArray();
         }
 
-        protected SearchResult<TOut> ProcessProps(PropertyInfo[] property, TOut item, string request)
+        protected SearchResult<TOut> ProcessProps(IEnumerable<PropertyInfo> property, TOut item, string request)
         {
             SearchResult<TOut> result = new SearchResult<TOut>(item);
             var attrs = property.ToDictionary(x => x, x => x.GetCustomAttribute(typeof(SearchEngineAttribute)) as SearchEngineAttribute);
@@ -89,21 +89,22 @@ namespace XTool.Data.SearchEngine
             List<string> result = new List<string>(strings.Count);
             foreach(string str in strings)
             {
-                int index = str.IndexOf(request);
-                string temp = str.Substring(index + request.Length);
-                var splits = temp.Split(' ');
-                int normCount = Convert.ToInt32(Math.Ceiling((splits.Count() * (1.0 / 3.0))));
-                temp = String.Join(" ", splits.Take(normCount).ToArray());
-                if(index != 0)
-                {
-                    temp = "..." + temp;
-                }
-                temp = request + temp;
-                if(temp.Length < str.Length)
-                {
-                    temp = temp + "...";
-                }
-                result.Add(temp);
+                //int index = str.IndexOf(request);
+                //string temp = str.Substring(index + request.Length);
+                //var splits = temp.Split(' ');
+                //int normCount = Convert.ToInt32(Math.Ceiling((splits.Count() * (2.0 / 3.0))));
+                //temp = String.Join(" ", splits);//.Take(normCount).ToArray());
+                //if(index != 0)
+                //{
+                //    temp = "..." + temp;
+                //}
+                //temp = temp + request;
+                //if(temp.Length < str.Length)
+                //{
+                //    temp = temp + "...";
+                //}
+                //result.Add(temp);
+                result.Add(str);
             }
             return String.Join('\n', result);
         }
