@@ -46,11 +46,14 @@ else
                         </div>
                     </a>
                 </div>
+                <div class="card-extension">
+                    @Html.Partial("../Partial/Graph", new Scales(new int[] { 56, 45, 47, 45, 67, 34, 80, 50, 67, 78 }))
+                </div>
             </div>
         }
     }
 
-        <div class="card-title">
+        @*<div class="card-title">
             Поиск
         </div>
 
@@ -77,7 +80,7 @@ else
         
         <div class="card-waiter">
             <div class="loading"></div>
-        </div>
+        </div>*@
 
 
         @if ((actors?.Count() ?? 0) > 0)

@@ -34,7 +34,7 @@ namespace XTool.Controllers
 
         private XToolDbContext _dbContext;
 
-        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager, XToolDbContext dBContext)
+        public Authorization(XToolDbContext dBContext, RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;

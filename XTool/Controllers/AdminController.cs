@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using XTool.UserManager;
 
 namespace XTool.Controllers
 {
+    [Authorize(Roles = "admin, superadmin")]
     public class AdminController : Controller
     {
         private readonly XToolDbContext _context;
@@ -24,6 +26,8 @@ namespace XTool.Controllers
             _roleManager = roleManager;
         }
 
+        #region Html actions
+
         public async Task<IActionResult> Users()
         {
             ViewBag.Superadmins = await _userManager.GetUsersInRoleAsync("superadmin");
@@ -31,11 +35,15 @@ namespace XTool.Controllers
             ViewBag.Experts = await _userManager.GetUsersInRoleAsync("expert");
             ViewBag.Technologists = await _userManager.GetUsersInRoleAsync("technologist");
             return View();
-        }
+        } 
+
+        #endregion
+
+        #region Json actions
 
         public async Task<IActionResult> CreateUser(UserRegisterModel model)
         {
-            return Json(await _userManager.RegisterUserAsync(model));
+            return Json(await _userManager.RegisterConfirmedUserAsync(model));
         }
 
         public async Task<IActionResult> ConfirmUser(int id)
@@ -51,6 +59,8 @@ namespace XTool.Controllers
         public async Task<IActionResult> UnbanUser(int id)
         {
             return Json(await _userManager.UnbanUserAsync(_context.Find<XToolUser>(id)));
-        }
+        } 
+
+        #endregion
     }
 }

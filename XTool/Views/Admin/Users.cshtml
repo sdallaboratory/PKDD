@@ -1,4 +1,5 @@
 ﻿@{
+    IEnumerable<XToolUser> superadmins = ViewBag.Superadmins as IEnumerable<XToolUser>;
     IEnumerable<XToolUser> admins = ViewBag.Admins as IEnumerable<XToolUser>;
     IEnumerable<XToolUser> experts = ViewBag.Experts as IEnumerable<XToolUser>;
     IEnumerable<XToolUser> technologists = ViewBag.Technologists as IEnumerable<XToolUser>;
@@ -19,75 +20,87 @@
             Регистрация пользователя
         </div>
 
-            <form action="@Url.Action("CreateUser", "Admin")" method="post" id="form-create-user">
-                <div class="card">
-                    <div class="card-content @*login-form*@">
-                        <div><span class="error">  </span></div>
+        <form href="@Url.Action("CreateUser", "Admin")" method="post" id="form-create-user">
+            <div class="card">
+                <div class="card-content @*login-form*@">
+                    <div><span class="error"> </span></div>
 
-                        <div>Фамилия, имя и отчество</div>
-                        <input type="text" class="" name="Name" required>
+                    <div>Фамилия, имя и отчество</div>
+                    <input type="text" class="" name="Name" required>
 
-                        <div>Email</div>
-                        <input type="email" class="" name="Email" required>
+                    <div>Email</div>
+                    <input type="email" class="" name="Email" required>
 
-                        <div>Роль пользователя</div>
-                        <select name="RoleName" type="email" class="" required>
-                            <option value="@(new ExpertRole().Name)">Эксперт</option>
-                            <option value="@(new TechnologistRole().Name)">Технолог</option>
-                            @if (User.IsInRole("superadmin"))
-                            {
-                                <option value="@(new AdminRole().Name)">Админ</option>
-                            }
-                        </select>
+                    <div>Роль пользователя</div>
+                    <select name="RoleName" type="email" class="" required>
+                        <option value="@(new ExpertRole().Name)">Эксперт</option>
+                        <option value="@(new TechnologistRole().Name)">Технолог</option>
+                        @if (User.IsInRole("superadmin"))
+                        {
+                            <option value="@(new AdminRole().Name)">Админ</option>
+                        }
+                    </select>
 
-                        <div>Пароль</div>
-                        <input type="password" class="" name="Password" required>
+                    <div>Пароль</div>
+                    <input type="password" class="" name="Password" required>
 
-                        <div>Повторите пароль</div>
-                        <input type="password" class="" name="PasswordRepeat" required>
-                    </div>
+                    <div>Повторите пароль</div>
+                    <input type="password" class="" name="PasswordRepeat" required>
                 </div>
-
-                <div class="card-inline">
-                    <div class="card-inline-item">
-                        <input type="button" value="Зарегистрировать" name="Register" class="ajax-create-user" href="@Url.Action("CreateUser", "Admin")">
-                    </div>
-                </div>
-            </form>
-
-        <!-- Колличественная оценка -->
-        @if(admins.Count() > 0)
-        {
-
-        <div class="card-title">
-            Админы
-        </div>
-
-
-        @foreach (XToolUser user in admins)
-        {
-        <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
-            @Html.Partial("../Partial/UserCard", user)
+            </div>
 
             <div class="card-inline">
-                @*@if (!user.IsConfirmed && )
-                {
                 <div class="card-inline-item">
-                    <input type="button" value="Подтвердить" name="Confirm" />
-                </div>
-                }*@
-                @if (User.IsInRole("superadmin"))
-                {
-                <div class="card-inline-item">
-                    <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" name="@(user.IsBanned ? "Unban" : "Ban")"/>
+                    <input type="button" value="Зарегистрировать" name="Register" class="ajax-create-user" href="@Url.Action("CreateUser", "Admin")">
                 </div>
                 <div class="card-inline-item">
-                    <input type="button" value="Изменить" name="Edit" />
+                    <input type="reset" />
                 </div>
-                }
             </div>
         </form>
+
+        <!-- Сверхадмины -->
+        @if (superadmins.Count() > 0)
+        {
+
+            <div class="card-title">
+                Сверхадмины
+            </div>
+
+
+            @foreach (XToolUser user in superadmins)
+            {
+                @Html.Partial("../Partial/UserCard", user)
+            }
         }
+
+        <!-- Админы -->
+        @if (admins.Count() > 0)
+        {
+
+            <div class="card-title">
+                Админы
+            </div>
+
+
+            @foreach (XToolUser user in admins)
+            {
+                <form method="post">
+                    @Html.Partial("../Partial/UserCard", user)
+
+                    <div class="card-inline">
+                        @if (User.IsInRole("superadmin"))
+                        {
+                            <div class="card-inline-item">
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" name="@(user.IsBanned ? "Unban" : "Ban")" />
+                            </div>
+                            <div class="card-inline-item">
+                                <input type="button" value="Изменить" name="Edit" />
+                            </div>
+                        }
+                    </div>
+                </form>
+            }
         }
 
         @if (technologists.Count() > 0)
@@ -100,20 +113,20 @@
 
             @foreach (XToolUser user in technologists)
             {
-                <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
+                <form method="post">
                     @Html.Partial("../Partial/UserCard", user)
 
                     <div class="card-inline">
                         @if (!user.IsConfirmed)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="Подтвердить" name="Confirm" class="ajax" href="Admin/ConfirmUser" params="@user.Id"/>
+                                <input type="button" value="Подтвердить" name="Confirm" class="ajax-confirm" href="/Admin/ConfirmUser/" params="@user.Id" />
                             </div>
                         }
                         @if (true)
                         {
                             <div class="card-inline-item">
-                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" class="@(user.IsBanned ? "ajax-unban" : "ajax-ban")" href="Admin/BanUser/" params="@user.Id"/>
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" href="@(user.IsBanned ? "/Admin/UnbanUser/" : "/Admin/BanUser/")" class="@(user.IsBanned ? "ajax-unban" : "ajax-ban")" params="@user.Id" />
                             </div>
                         }
                         <div class="card-inline-item">
@@ -134,20 +147,20 @@
 
             @foreach (XToolUser user in experts)
             {
-                <form action="@Url.Action("Graph", "Api",  new { Id = user.Id })" method="post">
+                <form method="post">
                     @Html.Partial("../Partial/UserCard", user)
 
                     <div class="card-inline">
                         @if (!user.IsConfirmed)
-                        {
+                    {
                             <div class="card-inline-item">
-                                <input type="button" value="Подтвердить" name="Confirm" class="ajax-confirm" userid="@user.Id" />
+                                <input type="button" value="Подтвердить" name="Confirm" class="ajax-confirm" href="/Admin/ConfirmUser/" params="@user.Id" />
                             </div>
                         }
                         @if (true)
-                        {
+                    {
                             <div class="card-inline-item">
-                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" />
+                                <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" href="@(user.IsBanned ? "/Admin/UnbanUser/" : "/Admin/BanUser/")" class="@(user.IsBanned ? "ajax-unban" : "ajax-ban")" params="@user.Id" />
                             </div>
                         }
                         <div class="card-inline-item">
