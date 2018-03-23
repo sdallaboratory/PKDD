@@ -179,17 +179,17 @@
             Комментарий
         </div>
 
-        <form action="@Url.Action("Comment", "Api", new { Id = actor.Id })" method="post">
+        <form action="@Url.Action("Comment", "Home", new { Id = actor.Id })" method="post">
             <div class="card">
-                <textarea class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
+                <textarea name="comment" class="card-textbox" placeholder="Оставьте здесь свой комментарий..."></textarea>
             </div>
 
             <div class="card-inline">
                 <div class="card-inline-item">
-                    <input type="button" value="Типа ешо кнопка" />
+                    <input type="button" value="очистить" />
                 </div>
                 <div class="card-inline-item">
-                    <input type="submit" value="Сохранить" />
+                    <input type="button" value="Сохранить" href="@Url.Action("Comment", "Home")" params="@actor.Id" class="ajax-button ajax-comment" />
                 </div>
             </div>
         </form>

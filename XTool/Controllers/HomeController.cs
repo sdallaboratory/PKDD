@@ -14,6 +14,7 @@ using XTool.Models.Roles;
 using XTool.UserManager;
 using XTool.Models.Shared;
 using XTool.Models.UserManager;
+using XTool.Models.EvaluationModels;
 
 namespace XTool.Controllers
 {
@@ -22,10 +23,12 @@ namespace XTool.Controllers
     public class HomeController : Controller
     {
         private readonly IStorage<int> _storage;
+        private readonly UserManager<XToolUser> _userManager;
 
-        public HomeController(IStorage<int> storage) // тут поставить Сторадж
+        public HomeController(IStorage<int> storage, UserManager<XToolUser> userManager) // тут поставить Сторадж
         {
             _storage = storage;
+            _userManager = userManager;
         }
 
         public IActionResult Actors()
@@ -87,6 +90,30 @@ namespace XTool.Controllers
         public IActionResult Error()
         {
             return View(/*new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }*/);
+        }
+
+        public async Task<IActionResult> Comment(int id, string comment)
+        {
+            IActionResult result = null;
+            try
+            {
+                Evaluation evaluation = _storage.GetAll<Evaluation>().FirstOrDefault(e => e.ActorId == id);
+                if (evaluation != null)
+                {
+                    evaluation.Comment = comment;
+                    _storage.Update(evaluation.Id, evaluation); 
+                }
+                else
+                {
+                    _storage.Add(new Evaluation() { ActorId = id, Expert = await _userManager.GetUserAsync(User) });
+                }
+                result = Json(new OperationResult() { Status = Statuses.Ok, Message = "Комментарий успешно сохранён", RelatedId = evaluation.Id });
+            }
+            catch
+            {
+                result = Json(new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при сохранении комментария" });
+            }
+            return result;
         }
     }
 }
