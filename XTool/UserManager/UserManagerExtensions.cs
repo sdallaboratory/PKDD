@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using XTool.Models.Roles;
 using System.ComponentModel.DataAnnotations;
 using XTool.Models.TransferModels;
+using XTool.Models.Shared;
+using XTool.Models.UserManager;
 
 namespace XTool.UserManager
 {
@@ -25,7 +27,7 @@ namespace XTool.UserManager
                     result = new OperationResult() { Status = Statuses.Ok, Message = "Произонла ошибка подтверждения пользователя!"};
                 }
                 else
-                    result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно зарегистрирован и его аккаунт подтверждён.", User = user};
+                    result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно зарегистрирован и его аккаунт подтверждён.", RelatedId = user.Id};
             }
             return result;
         }

@@ -11,6 +11,9 @@ using XTool.Data;
 using XTool.Models.ActorModels;
 using XTool.Data.Storage;
 using XTool.Models.Roles;
+using XTool.UserManager;
+using XTool.Models.Shared;
+using XTool.Models.UserManager;
 
 namespace XTool.Controllers
 {
@@ -63,6 +66,23 @@ namespace XTool.Controllers
                 _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
             }
         }
+
+        public IActionResult CreateActor(Actor actor)
+        {
+            IActionResult result = null;
+            int actorId = -1;
+            if (_storage.GetAll<Actor>().FirstOrDefault(actr => actr.Name == actor.Name) != null)
+            {
+                result = Json(new OperationResult() { Status = Statuses.Error, Message = "В базе уже существует актор с таким именем!"});
+            }
+            else
+            {
+                actorId = _storage.Add(actor);
+                if (actorId != -1)
+                    result = Json(new OperationResult() { Status = Statuses.Ok, RelatedId = actorId, Message = "Новый актор успешно жобавлен." });
+            }
+            return result;
+        } 
 
         public IActionResult Error()
         {

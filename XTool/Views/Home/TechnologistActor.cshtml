@@ -1,8 +1,10 @@
-﻿
+﻿@{ 
+    Actor actor = ViewBag.Actor as Actor;
+}
 
 <section class="card-group">
     <div class="section-title">
-        Алексей Навальный
+        @actor.Name
         <button class="section-hider" onclick="change_section_content_state(event)">
             скрыть
         </button>
@@ -14,25 +16,17 @@
             Основная информация
         </div>
         <div class="card">
-            <div class="card-content-wrapper">
-                <div class="card-link" href="https://www.google.com">
-                    <div class="arrow-box-wrapper">
-                        <div class="arrow-box">
-                            <img class="inner-card-item" src="img/clip-art/sex/male.png" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="card-content">
-                    ФИО:
-                    <b>Навальный Алексей Анатольевич</b>
-                    <br> Дата рождения:
-                    <b>12.02.1976 (41 год)</b>
-                    <br> Место работы и должность:
-                    <b>Партия прогресса, председатель</b>
-                    <br>
+            <div class="card-content login-form">
+                <div><span class="error"> </span></div>
 
+                <div>Фамилия, имя и отчество</div>
+                <input type="text" class="" name="Name" value="@actor.Name" required>
 
-                </div>
+                <div>Дата рождения</div>
+                <input type="date" class="" name="Birthday" value="@actor.Birthday" required>
+
+                <div>Место работы и должность</div>
+                <input type="text" class="" name="Position" value="@actor.Position" required>
             </div>
         </div>
 
@@ -61,7 +55,7 @@
 
         <!-- Публикации и выступления -->
 
-        <div class="card-title">
+        @*<div class="card-title">
             Публикации и выступления
         </div>
 
@@ -361,7 +355,7 @@
                 <br>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <!-- Дополнительные блоки -->
 
@@ -436,6 +430,26 @@
 
         </div>
     </div>
+    <div class="card-title">Добавить раздел</div>
+
+    <div class="card">
+        <div class="card-content login-form">
+            <div><span class="error"> </span></div>
+
+            <div>Название раздела</div>
+            <input type="text" class="" name="Name" required>
+
+            
+        </div>
+    </div>
+
+    <div class="card-inline">
+        <div class="card-inline-item">
+            <input type="button" href="" value="Добавить"/>
+        </div>
+    </div>
+
+
     </div>
 </section>
 
@@ -452,88 +466,9 @@
 
     <div class="section-content">
 
-        <!-- Колличественная оценка -->
+        <!-- Экспертная оценка -->
 
-        <div class="card-title">
-            Шкалы
-        </div>
 
-        <div class="card">
-            <div class="card-content">
-                <div class="graph">
-                    <svg class="polyline-canvas">
-                        <linearGradient id="linear-gradient">
-                            <stop offset="0%" stop-color="rgb(160, 240, 240)" />
-                            <stop offset="100%" stop-color="rgb(216, 240, 204)" />
-                        </linearGradient>
-                        <polyline class="polyline" />
-                    </svg>
-                    <div class="graph-grid">
-
-                        <div class="horizontal" style="top: 0%"></div>
-                        <div class="horizontal" style="top: 25%"></div>
-                        <div class="horizontal" style="top: 50%"></div>
-                        <div class="horizontal" style="top: 75%"></div>
-                        <div class="horizontal" style="top: 100%"></div>
-                    </div>
-
-                    <!-- <svg style="position: absolute;" width="120" height="120" viewBox="0 0 120 120"
-                        xmlns="http://www.w3.org/2000/svg">
-
-                      <polygon points="60,20 100,40 100,80 60,100 20,80 20,40"/>
-                    </svg> -->
-                    <div class="graph-column">
-                        <div class="graph-axis"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                        <div class="column-name">
-                            I
-                        </div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                        <div class="column-name">
-                            II
-                        </div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"><input type="text" class="vertex-value"></div>
-                        <div class="column-name">
-                            III
-                        </div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                    <div class="graph-column">
-                        <div class="graph-vertex"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-title">
-            Комментарий
-        </div>
-
-        <div class="card-empty">
-            <textarea placeholder="Оставьте здесь свой комментарий..."></textarea>
-        </div>
+       
     </div>
 </section>

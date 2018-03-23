@@ -21,6 +21,35 @@ else
     <div class="clear"></div>
 
     <div class="section-content">
+    
+    @if (User.IsInRole("technologist"))
+    {
+        <div class="card-title">
+            Добавить актора
+        </div>
+
+        <form id="form-create-actor">
+            <div class="card">
+                <div class="card-content login-form">
+                    <div><span class="error"> </span></div>
+
+                    <div>Фамилия, имя и отчество</div>
+                    <input type="text" class="" name="Name" required>
+
+                </div>
+            </div>
+
+            <div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="button" value="Добавить" name="Register" class="ajax-create-actor" href="@Url.Action("CreateActor", "Home")">
+                </div>
+                <div class="card-inline-item">
+                    <input type="reset" />
+                </div>
+            </div>
+        </form>
+    }
+
     @if ((actualActors?.Count() ?? 0) > 0 )
     {
         <div class="card-title">

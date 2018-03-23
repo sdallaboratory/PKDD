@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using XTool.Models;
 
 using XTool.UserManager;
+using XTool.Models.UserManager;
 
 namespace XTool.Controllers
 {
