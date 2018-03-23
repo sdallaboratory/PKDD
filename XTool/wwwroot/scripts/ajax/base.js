@@ -7,7 +7,9 @@
 
 function success(result, successFunc) {
     endProgressBar(result);
-    successFunc(result);
+    if (successFunc !== undefined) {
+        successFunc(result);
+    }
 }
 
 function sendAjax(ajaxRequest) {
@@ -29,7 +31,7 @@ function sendAjax(ajaxRequest) {
 }
 
 $(".ajax-button").on("click", function (e) {
-    var form = $(e).parent("form");
+    var form = $(e.target).parents("form");
     var button = $(e.target);
     sendAjax({
         url: button.attr("href") + '/' + button.attr("params"),

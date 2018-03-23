@@ -42,7 +42,7 @@ namespace XTool.Controllers
             return View();
         }
 
-        public IActionResult Actor(int id)
+        public async Task<IActionResult> Actor(int id)
         {
             IActionResult result = View();
             var actor = _storage.Get<Actor>(id);
@@ -50,7 +50,14 @@ namespace XTool.Controllers
                 LoadActor(actor);
             ViewBag.Actor = actor;
             if (!User.IsInRole("expert"))
+            {
                 result = View("TechnologistActor");
+            }
+            else
+            {
+                int userId = (await _userManager.GetUserAsync(User)).Id;
+                ViewBag.Evaluation = _storage.GetAll<Evaluation>().FirstOrDefault(e => e.ActorId == id && e.ExpertId == userId);
+            }
             return result;
         }
 
@@ -105,11 +112,11 @@ namespace XTool.Controllers
                 }
                 else
                 {
-                    _storage.Add(new Evaluation() { ActorId = id, Expert = await _userManager.GetUserAsync(User) });
+                    _storage.Add(new Evaluation() { ActorId = id, Expert = await _userManager.GetUserAsync(User), Scales = new Scales() });
                 }
                 result = Json(new OperationResult() { Status = Statuses.Ok, Message = "Комментарий успешно сохранён", RelatedId = evaluation.Id });
             }
-            catch
+            catch(Exception e)
             {
                 result = Json(new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при сохранении комментария" });
             }
