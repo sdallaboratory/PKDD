@@ -46,7 +46,9 @@
         @for (int i = 0; i < scales.Values.Count(); i++)
         {
             <div class="graph-column">
-                <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - scales[i])%"><input type="text" name="@Scales.ScalesNames[i]" class="vertex-value" value="@scales[i]" disabled></div>
+                <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - scales[i])%">
+                    <input type="number" name="@Scales.ScalesNames[i]" class="vertex-value" value="@scales[i]">
+                </div>
                 <div class="column-name" name="@Scales.ScalesNames[i]">
                     @romeanNumbers[i + 1]
                 </div>

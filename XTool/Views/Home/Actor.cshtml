@@ -1,6 +1,7 @@
 ﻿@{
     Actor actor = ViewBag.Actor as Actor;
     Evaluation evaluation = ViewBag.Evaluation as Evaluation;
+    Scales scales = ViewBag.Scales as Scales;
 }
 
 <section class="card-group">
@@ -158,10 +159,10 @@
         <div class="card-title">
             Шкалы
         </div>
-        <form action="@Url.Action("Graph", "Api",  new { Id = actor.Id })" method="post">
+        <form>
             <div class="card">
                 <div class="card-content">
-                    @Html.Partial("../Partial/Graph", evaluation?.Scales ?? new Scales(new List<int>() { 50, 50, 50, 50, 50, 50, 50, 50, 50, 50}))
+                    @Html.Partial("../Partial/Graph", scales))
                 </div>
             </div>
 
@@ -171,7 +172,7 @@
 
             <div class="card-inline">
                 <div class="card-inline-item">
-                    <input type="submit" value="Сохранить" />
+                    <input type="button" value="Сохранить" class="ajax-button" href="@Url.Action("Scales", "Home")" params="@actor.Id" />
                 </div>
             </div>
         </form>
