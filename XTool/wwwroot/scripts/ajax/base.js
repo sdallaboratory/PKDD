@@ -1,38 +1,42 @@
-﻿function sendAjax(ajaxRequest) {
-        alert([ajaxRequest.url]);
+﻿function error(result, errorFunc) {
+    errorProgressBar();
+    if (errorFunc !== undefined) {
+        errorFunc(result);
+    }
+}
+
+function success(result, successFunc) {
+    endProgressBar(result);
+    if (successFunc !== undefined) {
+        successFunc(result);
+    }
+}
+
+function sendAjax(ajaxRequest) {
     startProgressBar();
     $.ajax({
         dataType: "json",
         url: ajaxRequest.url,
         data: ajaxRequest.data,
         success: function (result) {
-            console.log(result.message);
-            if (result.status == 0)
-                endProgressBar(result);
-            else
-                errorProgressBar();
-            if (result.status == 0)
-                ajaxRequest.success(result);
-        },
-        error: function () {
-            errorProgressBar();
-            if (ajaxRequest.error !== undefined) {
-                ajaxRequest.error();
+            if (result.status === 0)
+            {
+                success(result, ajaxRequest.success);
+            } else {
+                error(result, ajaxRequest.error);
             }
-        }
+        },
+        error: (result) => error(result, ajaxRequest.error)
     });
 }
 
-//$(".ajax").on("click", function (e) {
-//    sendAjax({
-//        url: e.target.getAttribute("href") + e.target.getAttribute("params"),
-//        success: function (result) {
-        
-//    })
-//    startProgressBar();
-//    $.ajax({
-//            endProgressBar();
-//        },
-//        error: errorProgressBar
-//    });
-//});
+$(".ajax-button").on("click", function (e) {
+    var form = $(e.target).parents("form");
+    var button = $(e.target);
+    console.log(form.serialize());
+    form.attr("color", "red");
+    sendAjax({
+        url: button.attr("href") + '/' + button.attr("params"),
+        data: form.serialize(),
+    });
+});

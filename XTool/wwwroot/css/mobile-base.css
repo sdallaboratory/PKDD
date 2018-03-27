@@ -34,6 +34,9 @@ card-content, card-content-wrapper {
     width: 85%;
 }
 
+.page-wrapper {
+    margin-top: 0;
+}
 /*.graph-vertex:hover {
     background: black;
     transform: none;

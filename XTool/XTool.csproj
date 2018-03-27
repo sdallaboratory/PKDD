@@ -2,28 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20180306073403_Initial.cs" />
-    <Compile Remove="Migrations\20180306073403_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180306073451_Initial.cs" />
-    <Compile Remove="Migrations\20180306073451_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180306074016_Second.cs" />
-    <Compile Remove="Migrations\20180306074016_Second.Designer.cs" />
-    <Compile Remove="Migrations\20180306075001_Initial.cs" />
-    <Compile Remove="Migrations\20180306075001_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180306075603_Srcond.cs" />
-    <Compile Remove="Migrations\20180306075603_Srcond.Designer.cs" />
-    <Compile Remove="Migrations\20180306080040_Third.cs" />
-    <Compile Remove="Migrations\20180306080040_Third.Designer.cs" />
-    <Compile Remove="Migrations\20180306080110_Third.cs" />
-    <Compile Remove="Migrations\20180306080110_Third.Designer.cs" />
-    <Compile Remove="Migrations\20180306080229_Third.cs" />
-    <Compile Remove="Migrations\20180306080229_Third.Designer.cs" />
-    <Compile Remove="Migrations\20180309093559_Seven.cs" />
-    <Compile Remove="Migrations\20180309093559_Seven.Designer.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
@@ -46,5 +26,21 @@
     <None Include="Views\Home\TechnologistActor.cshtml" />
     <None Include="Views\Home\Actor.cshtml" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 
 </Project>

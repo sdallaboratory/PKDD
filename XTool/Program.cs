@@ -7,6 +7,10 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using XTool.Data;
+using XTool.Data.DB;
+using XTool.Models.Roles;
 
 namespace XTool
 {
@@ -14,7 +18,31 @@ namespace XTool
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+            SeedDatabase(host);
+            host.Run();
+        }
+
+        private static void SeedDatabase(IWebHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<XToolDbContext>();
+                    //foreach (var DbItem in context.Scales)/* Concat<object>(context.Evaluations).Concat<object>())*/
+                    //    context.Remove(DbItem);
+                    //context.SaveChanges();
+                    //foreach (var DbItem in context.Evaluations)/* Concat<object>(context.Evaluations).Concat<object>())*/
+                    //    context.Remove(DbItem);
+                    //context.SaveChanges();
+                    context.Init();
+                }
+                catch
+                {
+                }
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

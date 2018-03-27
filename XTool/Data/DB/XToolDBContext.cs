@@ -41,8 +41,9 @@ namespace XTool.Data
 
         public DbSet<Evaluation> Evaluations { get; set; }
 
-        public DbSet<UploadedPhoto> UploadedPhotos { get; set; }
+        public DbSet<Scales> Scales { get; set; }
 
+        public DbSet<UploadedPhoto> UploadedPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

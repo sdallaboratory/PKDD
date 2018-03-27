@@ -44,7 +44,7 @@ input, button, select, textarea {
     -webkit-appearance: none;
 }
 
-input[type="email"], input[type="password"], input[type="text"], select, textarea {
+input[type="number"], input[type="email"], input[type="password"], input[type="text"], select, textarea {
     border: none;
     border-bottom: 1px solid rgb(76, 72, 83);
     background: none;
@@ -58,20 +58,27 @@ input[type="email"], input[type="password"], input[type="text"], select, textare
     font-weight: bold;
 }
 
-input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, textarea:focus {
+input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, textarea:focus {
     border-color: rgb(65, 223, 223);
 }
 
-input[type="submit"], input[type="button"], input[type="clear"], a.button, button {
-    background:none;
+input[type="submit"], input[type="reset"], input[type="button"], input[type="clear"], a.button, button {
+    background: none;
     border: 1px solid rgb(76, 72, 83);
     padding: 2px 7px;
     box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.01);
     font-size: inherit;
 }
 
-input[type="submit"]:hover, input[type="button"]:hover, input[type="clear"]:hover, a.button:hover, button:hover {
+input[type="submit"]:hover, input[type="reset"]:hover , input[type="button"]:hover, input[type="clear"]:hover, a.button:hover, button:hover {
     background:linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);/* rgb(160, 240, 240);*/
+    border-color: transparent;
+    color: rgb(248, 248, 248);
+    box-shadow: none;
+}
+
+input[type="submit"]:active, input[type="reset"]:active, input[type="button"]:active, input[type="clear"]:active, a.button:active, button:active {
+    background: linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%) , linear-gradient(34deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
     border-color: transparent;
     color: rgb(248, 248, 248);
     box-shadow: none;
@@ -138,6 +145,8 @@ header {
     max-width: 1000px;
     margin: auto;
     width: 100%;
+    z-index: 60000;
+    box-shadow: 0 10px 60px 5px rgba(0, 0, 0, 0.2);
 }
 
 .top-menu {
@@ -655,11 +664,16 @@ span.super-important {
 /* Progress Bar*/
 
 .progress-bar {
-    width: 100%;
+    width: 0;
     height: 6px;
     background: linear-gradient(10deg, rgba(160, 240, 240, 0.9) 0%, rgba(216, 240, 204, 0.75) 100%);
-    transition: background 0.3s, width 0.1s;
+    transition: background 0.3s, width 0.2s;
 }
-.progress-bar-done{
+.progress-bar-done {
+    transition: background 0.3s, width 0s !important;
     background: lightgreen !important;
+}
+
+.progress-bar-error {
+    background: lightcoral !important;
 }

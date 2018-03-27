@@ -325,19 +325,15 @@ namespace XTool.Migrations
                     b.Property<string>("Comment")
                         .HasMaxLength(2000);
 
-                    b.Property<int?>("ExpertId");
+                    b.Property<int>("ExpertId");
 
                     b.Property<DateTime>("LastChange");
-
-                    b.Property<int>("ScalesId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ActorId");
 
                     b.HasIndex("ExpertId");
-
-                    b.HasIndex("ScalesId");
 
                     b.ToTable("Evaluations");
                 });
@@ -348,6 +344,8 @@ namespace XTool.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Depression");
+
+                    b.Property<int>("EvaluationId");
 
                     b.Property<int>("Hypochondriasis");
 
@@ -368,6 +366,9 @@ namespace XTool.Migrations
                     b.Property<int>("SocialInteroversion");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EvaluationId")
+                        .IsUnique();
 
                     b.ToTable("Scales");
                 });
@@ -636,11 +637,15 @@ namespace XTool.Migrations
 
                     b.HasOne("XTool.Models.Roles.XToolUser", "Expert")
                         .WithMany()
-                        .HasForeignKey("ExpertId");
+                        .HasForeignKey("ExpertId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.HasOne("XTool.Models.EvaluationModels.Scales", "Scales")
-                        .WithMany()
-                        .HasForeignKey("ScalesId")
+            modelBuilder.Entity("XTool.Models.EvaluationModels.Scales", b =>
+                {
+                    b.HasOne("XTool.Models.EvaluationModels.Evaluation", "Evaluation")
+                        .WithOne("Scales")
+                        .HasForeignKey("XTool.Models.EvaluationModels.Scales", "EvaluationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

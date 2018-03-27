@@ -118,6 +118,7 @@ namespace XTool.Data
             var item = Get(type, id);
             if (item != null)
             {
+                (item as IStorageModel<TKey>).Update(newValue as IUpdateble);
                 Context.Update(item);
                 Context.SaveChanges();
             }

@@ -11,8 +11,6 @@ namespace XTool.Models.EvaluationModels
     {
         public int Id { get; set; }
 
-        public int ScalesId { get; set; }
-
         public virtual Scales Scales { get; set; }
 
         [StringLength(2000)]
@@ -25,14 +23,15 @@ namespace XTool.Models.EvaluationModels
 
         public virtual Actor Actor { get; set; }
 
-
-        //public int ExpertId { get; set; }
+        public int ExpertId { get; set; }
 
         public virtual XToolUser Expert { get; set; }
 
         public IUpdateble Update(IUpdateble model)
         {
-            throw new NotImplementedException();
+            var source = model as Evaluation;
+            Comment = source.Comment;
+            return this;
         }
     }
 }

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using XTool.Models;
 
 using XTool.UserManager;
+using XTool.Models.UserManager;
 
 namespace XTool.Controllers
 {
@@ -34,7 +35,7 @@ namespace XTool.Controllers
 
         private XToolDbContext _dbContext;
 
-        public Authorization(RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager, XToolDbContext dBContext)
+        public Authorization(XToolDbContext dBContext, RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -52,12 +53,11 @@ namespace XTool.Controllers
         {
             List<XToolRole> roles = new List<XToolRole>() { new SuperadminRole(), new AdminRole(), new TechnologistRole(), new ExpertRole() };
             foreach (XToolRole role in roles)
-                //if (await _roleManager.FindByNameAsync(role.Name) == null)
+                if (await _roleManager.FindByNameAsync(role.Name) == null)
                     await _roleManager.CreateAsync(role);
 
-            UserRegisterModel model = new UserRegisterModel() { Email = "admin@email.io", Name = "Пётр Андреевич Вяземский", Password = "sys!admin2", PasswordRepeat = "sys!admin2", RoleName = "superadmin" };
-            await _userManager.RegisterUserAsync(model);
-            await _userManager.ConfirmUserAsync(await _userManager.FindByEmailAsync(model.Email));
+            UserRegisterModel model = new UserRegisterModel() { Email = "admin@email.io", Name = "Пётр Андреевич Вяземский", Password = "SysAdmin123", PasswordRepeat = "SysAdmin123", RoleName = "superadmin" };
+            await _userManager.RegisterConfirmedUserAsync(model);
         }
 
         [HttpGet]
