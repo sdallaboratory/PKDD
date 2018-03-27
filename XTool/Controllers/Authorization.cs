@@ -41,23 +41,6 @@ namespace XTool.Controllers
             _userManager = userManager;
             _dbContext = dBContext;
             _signInManager = singInManager;
-            if (!isSeeded)
-            {
-                Seed();
-                isSeeded = true;
-            }
-
-        }
-
-        private async void Seed()
-        {
-            List<XToolRole> roles = new List<XToolRole>() { new SuperadminRole(), new AdminRole(), new TechnologistRole(), new ExpertRole() };
-            foreach (XToolRole role in roles)
-                if (await _roleManager.FindByNameAsync(role.Name) == null)
-                    await _roleManager.CreateAsync(role);
-
-            UserRegisterModel model = new UserRegisterModel() { Email = "admin@email.io", Name = "Пётр Андреевич Вяземский", Password = "SysAdmin123", PasswordRepeat = "SysAdmin123", RoleName = "superadmin" };
-            await _userManager.RegisterConfirmedUserAsync(model);
         }
 
         [HttpGet]

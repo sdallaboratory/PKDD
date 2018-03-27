@@ -55,7 +55,11 @@ namespace XTool.Controllers
                 if (!User.IsInRole("expert"))
                 {
                     int[] ids = actor.Evaluations.Select(e => e.Id).ToArray();
-                    var scales = Context.Scales.Where(s => ids.Contains(s.EvaluationId))?.RootMeanSquare();
+                    Scales scales = new Scales();
+                    if (ids.Length > 0)
+                    {
+                        Context.Scales.Where(s => ids.Contains(s.EvaluationId))?.RootMeanSquare();
+                    }
                     ViewBag.Scales = scales;
                     ViewBag.Comments = actor.Evaluations.Select(e => e.Comment) ?? new List<string>();
                     result = View("TechnologistActor");
@@ -116,6 +120,7 @@ namespace XTool.Controllers
             return View(/*new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }*/);
         }
 
+
         public XToolUser CurrentUser
         {
             get
@@ -153,7 +158,7 @@ namespace XTool.Controllers
             return Json(result);
         }
 
-        Evaluation ScalesEvaluation(Scales scales) => (_storage.Context as XToolDbContext).Evaluations.Single(e => e.Id == scales.EvaluationId);
+        Evaluation ScalesEvaluation(Scales scales) => (_storage.Context as XToolDbContext).Evaluations.FirstOrDefault(e => e.Id == scales.EvaluationId);
 
         public IActionResult Scales(int id, Scales newScales)
         {
@@ -161,7 +166,7 @@ namespace XTool.Controllers
             OperationResult result = null;
             try
             {
-                Scales scales = (_storage.Context as XToolDbContext).Scales.FirstOrDefault(s => ScalesEvaluation(s).ActorId == id && CurrentUser.Id == ScalesEvaluation(s).ExpertId);
+                Scales scales = (_storage.Context as XToolDbContext).Scales.FirstOrDefault(s => FindEval(s, id));
                 if (scales != null)
                 {
                     _storage.Update(scales.Id, newScales);
@@ -185,6 +190,16 @@ namespace XTool.Controllers
                 result = new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при сохранении экспертной оценки!" };
             }
             return Json(result);
+        }
+
+        private bool FindEval(Scales scale, int id)
+        {
+            Evaluation evaluation = ScalesEvaluation(scale);
+            if (evaluation == null)
+                return false;
+            if (evaluation.ActorId == id && evaluation.ExpertId == CurrentUser.Id)
+                return true;
+            else return false;
         }
 
         #endregion

@@ -16,28 +16,22 @@ namespace XTool
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = BuildWebHost(args);
-            SeedDatabase(host);
+            await SeedDatabase(host);
             host.Run();
         }
 
-        private static void SeedDatabase(IWebHost host)
+        private async static Task SeedDatabase(IWebHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<XToolDbContext>();
-                    //foreach (var DbItem in context.Scales)/* Concat<object>(context.Evaluations).Concat<object>())*/
-                    //    context.Remove(DbItem);
-                    //context.SaveChanges();
-                    //foreach (var DbItem in context.Evaluations)/* Concat<object>(context.Evaluations).Concat<object>())*/
-                    //    context.Remove(DbItem);
-                    //context.SaveChanges();
-                    context.Init();
+                    await Seeder.Seed(services);
+                    //await seeder.First().Seed();
                 }
                 catch
                 {

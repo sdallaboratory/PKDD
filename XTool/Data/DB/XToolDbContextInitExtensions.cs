@@ -132,14 +132,6 @@ namespace XTool.Data.DB
                 });
             }
 
-            if (context.Roles.Count() == 0)
-            {
-                context.Roles.Add(new AdminRole());
-                context.Roles.Add(new TechnologistRole());
-                context.Roles.Add(new ExpertRole());
-                context.Roles.Add(new SuperadminRole());
-            }
-
             //if (!context.Users.Any())
             //{
             //    string password = "";
