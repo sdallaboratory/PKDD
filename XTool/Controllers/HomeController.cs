@@ -15,6 +15,7 @@ using XTool.UserManager;
 using XTool.Models.Shared;
 using XTool.Models.UserManager;
 using XTool.Models.EvaluationModels;
+using XTool.Algorithms;
 
 namespace XTool.Controllers
 {
@@ -23,6 +24,7 @@ namespace XTool.Controllers
     public class HomeController : Controller
     {
         private readonly IStorage<int> _storage;
+        private XToolDbContext Context => _storage.Context as XToolDbContext;
         private readonly UserManager<XToolUser> _userManager;
 
         public HomeController(IStorage<int> storage, UserManager<XToolUser> userManager) // тут поставить Сторадж
@@ -34,7 +36,7 @@ namespace XTool.Controllers
         public IActionResult Actors()
         {
             var actors = _storage.GetAll<Actor>();
-            var actualActors = actors.OrderBy(a => 12).Take(3); // Вот эту троечку вынести в конфиг // тут отсортировать по релевантности перед Take
+            var actualActors = actors.OrderBy(a => a.Priority).Take(3); // Вот эту троечку вынести в конфиг // тут отсортировать по релевантности перед Take
             foreach (Actor actor in actualActors)
                 LoadActor(actor);
             ViewBag.ActualActors = actualActors;
@@ -42,24 +44,34 @@ namespace XTool.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Actor(int id)
+        public IActionResult Actor(int id)
         {
             IActionResult result = View();
-            var actor = _storage.Get<Actor>(id);
+            var actor = Context.Actors.Find(id);
             if (actor != null)
-                LoadActor(actor);
-            ViewBag.Actor = actor;
-            if (!User.IsInRole("expert"))
             {
-                //ViewBag.Scales = EvaluationScales(actor.Evaluations.FirstOrDefault(e => e.ExpertId == CurrentUser.Id)); // 
-                result = View("TechnologistActor");
+                LoadActor(actor);
+                ViewBag.Actor = actor;
+                if (!User.IsInRole("expert"))
+                {
+                    int[] ids = actor.Evaluations.Select(e => e.Id).ToArray();
+                    var scales = Context.Scales.Where(s => ids.Contains(s.EvaluationId))?.RootMeanSquare();
+                    ViewBag.Scales = scales;
+                    ViewBag.Comments = actor.Evaluations.Select(e => e.Comment) ?? new List<string>();
+                    result = View("TechnologistActor");
+                }
+                else
+                {
+                    Evaluation evaluation = actor.Evaluations.FirstOrDefault(e => e.ExpertId == CurrentUser.Id && e.ActorId == id);
+                    if (evaluation != null)
+                        ViewBag.Scales = Context.Scales.FirstOrDefault(s => s.EvaluationId == evaluation.Id) ?? new Scales();
+                    else
+                        ViewBag.Scales = new Scales();
+                    ViewBag.Comment = evaluation?.Comment;
+                }
             }
             else
-            {
-                ViewBag.Scales = EvaluationScales(actor.Evaluations.FirstOrDefault(e => e.ExpertId == CurrentUser.Id && e.ActorId == id));
-                int userId = (await _userManager.GetUserAsync(User)).Id;
-                ViewBag.Evaluation = _storage.GetAll<Evaluation>().FirstOrDefault(e => e.ActorId == id && e.ExpertId == userId);
-            }
+                result = Error();
             return result;
         }
 
@@ -69,13 +81,16 @@ namespace XTool.Controllers
         /// <param name="actor">актор</param>
         private void LoadActor(Actor actor)
         {
-            foreach (var collection in _storage.Context.Entry(actor).Collections)
+            if (actor != null)
             {
-                collection.Load();
-            }
-            foreach (var period in actor.CareerPeriods)
-            {
-                _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
+                foreach (var collection in _storage.Context.Entry(actor).Collections)
+                {
+                    collection.Load();
+                }
+                foreach (var period in actor.CareerPeriods)
+                {
+                    _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
+                }
             }
         }
 
@@ -113,9 +128,9 @@ namespace XTool.Controllers
 
         #region AJAX actions
 
-        public async Task<IActionResult> Comment(int id, string comment)
+        public IActionResult Comment(int id, string comment)
         {
-            IActionResult result = null;
+            OperationResult result = null;
             try
             {
                 Evaluation evaluation = _storage.GetAll<Evaluation>().FirstOrDefault(e => e.ActorId == id && e.ExpertId == CurrentUser.Id);
@@ -123,21 +138,22 @@ namespace XTool.Controllers
                 {
                     evaluation.Comment = comment;
                     _storage.Update(evaluation.Id, evaluation);
+                    result = new OperationResult() { Status = Statuses.Ok, Message = "Комментарий успешно изменён", Data = evaluation.Id };
                 }
                 else
                 {
-                    _storage.Add(new Evaluation() { ActorId = id, Expert = await _userManager.GetUserAsync(User), Scales = new Scales() });
+                    _storage.Add(new Evaluation() { ActorId = id, ExpertId = CurrentUser.Id, Comment = comment });
+                    result = new OperationResult() { Status = Statuses.Ok, Message = "Комментарий успешно добавлен" };
                 }
-                result = Json(new OperationResult() { Status = Statuses.Ok, Message = "Комментарий успешно сохранён", Data = evaluation.Id });
             }
-            catch (Exception e)
+            catch
             {
-                result = Json(new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при сохранении комментария" });
+                result = new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при сохранении комментария" };
             }
-            return result;
+            return Json(result);
         }
 
-        Scales EvaluationScales(Evaluation evaluation) => (_storage.Context as XToolDbContext).Scales.Single(s => s.Id == evaluation.ScalesId);
+        Evaluation ScalesEvaluation(Scales scales) => (_storage.Context as XToolDbContext).Evaluations.Single(e => e.Id == scales.EvaluationId);
 
         public IActionResult Scales(int id, Scales newScales)
         {
@@ -145,22 +161,28 @@ namespace XTool.Controllers
             OperationResult result = null;
             try
             {
-
-                Evaluation evaluation = _storage.GetAll<Evaluation>().FirstOrDefault(e => e.ActorId == id && CurrentUser.Id == e.ExpertId);
-                if (evaluation != null)
+                Scales scales = (_storage.Context as XToolDbContext).Scales.FirstOrDefault(s => ScalesEvaluation(s).ActorId == id && CurrentUser.Id == ScalesEvaluation(s).ExpertId);
+                if (scales != null)
                 {
-                    _storage.Update(EvaluationScales(evaluation).Id, newScales);
+                    _storage.Update(scales.Id, newScales);
                     result = new OperationResult() { Status = Statuses.Ok, Message = "Экспертная оценка успешно обновлена" };
                 }
                 else
                 {
-                    _storage.Add(new Evaluation() { ExpertId = CurrentUser.Id, Scales = newScales });
+                    Evaluation evaluation = Context.Evaluations.FirstOrDefault(e => e.ExpertId == CurrentUser.Id && e.ActorId == id);
+                    if (evaluation != null)
+                    {
+                        newScales.EvaluationId = evaluation.Id;
+                        _storage.Add(newScales);
+                    }
+                    else
+                        _storage.Add(new Evaluation() { ExpertId = CurrentUser.Id, Scales = newScales, ActorId = id });
                     result = new OperationResult() { Status = Statuses.Ok, Message = "Экспертная оценка успешно добавлена" };
                 }
             }
-            catch (Exception e)
+            catch
             {
-                result = new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при обновлении экспертной оценки!" };
+                result = new OperationResult() { Status = Statuses.Error, Message = "Произошла ошибка при сохранении экспертной оценки!" };
             }
             return Json(result);
         }

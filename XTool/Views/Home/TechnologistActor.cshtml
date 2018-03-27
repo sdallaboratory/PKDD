@@ -1,5 +1,7 @@
 ﻿@{ 
     Actor actor = ViewBag.Actor as Actor;
+    Scales scales = ViewBag.Scales as Scales;
+    IEnumerable<string> comments = ViewBag.Comments as IEnumerable<string>;
 }
 
 <section class="card-group">
@@ -468,6 +470,52 @@
 
         <!-- Экспертная оценка -->
 
+        
+
+        <div class="card-title">
+            Шкалы
+        </div>
+       @if (scales != null)
+       {
+        <form>
+            <div class="card">
+                <div class="card-content">
+                    @Html.Partial("../Partial/Graph", scales)
+                </div>
+            </div>
+
+            @*<div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="button" value="Сохранить" class="ajax-button" href="@Url.Action("Scales", "Home")" params="@actor.Id" />
+                </div>
+            </div>*@
+        </form>
+       }
+
+        <div class="card-title">
+            Комментарии
+        </div>
+
+        @*<form action="@Url.Action("Comment", "Home", new { Id = actor.Id })" method="post">*@
+        @foreach (string comment in comments)
+        {
+        <div class="card">
+            <div name="comment" class="card-content" placeholder="Оставьте здесь свой комментарий...">
+            @comment
+            </div>
+        </div>
+        }
+
+        @*<div class="card-inline">
+            <div class="card-inline-item">
+                <input type="button" value="очистить" />
+            </div>
+            <div class="card-inline-item">
+                <input type="button" value="Сохранить" href="@Url.Action("Comment", "Home")" params="@actor.Id" class="ajax-button ajax-comment" />
+            </div>
+        </div>*@
+        @*</form>*@
+        
 
        
     </div>

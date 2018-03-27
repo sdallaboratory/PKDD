@@ -75,28 +75,6 @@ namespace XTool.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Scales",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Depression = table.Column<int>(nullable: false),
-                    Hypochondriasis = table.Column<int>(nullable: false),
-                    Hypomania = table.Column<int>(nullable: false),
-                    Hysteria = table.Column<int>(nullable: false),
-                    MasculinityFeminity = table.Column<int>(nullable: false),
-                    Paranoia = table.Column<int>(nullable: false),
-                    Psychasthenia = table.Column<int>(nullable: false),
-                    PsychopathicDeviate = table.Column<int>(nullable: false),
-                    Schizophrenia = table.Column<int>(nullable: false),
-                    SocialInteroversion = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Scales", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BiographyEvents",
                 columns: table => new
                 {
@@ -355,26 +333,6 @@ namespace XTool.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UploadedPhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<byte[]>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UploadedPhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UploadedPhotos_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Evaluations",
                 columns: table => new
                 {
@@ -382,9 +340,8 @@ namespace XTool.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActorId = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(maxLength: 2000, nullable: true),
-                    ExpertId = table.Column<int>(nullable: true),
-                    LastChange = table.Column<DateTime>(nullable: false),
-                    ScalesId = table.Column<int>(nullable: false)
+                    ExpertId = table.Column<int>(nullable: false),
+                    LastChange = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -400,11 +357,25 @@ namespace XTool.Migrations
                         column: x => x.ExpertId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UploadedPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<byte[]>(nullable: true),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadedPhotos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Evaluations_Scales_ScalesId",
-                        column: x => x.ScalesId,
-                        principalTable: "Scales",
+                        name: "FK_UploadedPhotos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -430,6 +401,35 @@ namespace XTool.Migrations
                         principalTable: "CareerPeriods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Scales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Depression = table.Column<int>(nullable: false),
+                    EvaluationId = table.Column<int>(nullable: false),
+                    Hypochondriasis = table.Column<int>(nullable: false),
+                    Hypomania = table.Column<int>(nullable: false),
+                    Hysteria = table.Column<int>(nullable: false),
+                    MasculinityFeminity = table.Column<int>(nullable: false),
+                    Paranoia = table.Column<int>(nullable: false),
+                    Psychasthenia = table.Column<int>(nullable: false),
+                    PsychopathicDeviate = table.Column<int>(nullable: false),
+                    Schizophrenia = table.Column<int>(nullable: false),
+                    SocialInteroversion = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scales", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Scales_Evaluations_EvaluationId",
+                        column: x => x.EvaluationId,
+                        principalTable: "Evaluations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -502,11 +502,6 @@ namespace XTool.Migrations
                 column: "ExpertId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Evaluations_ScalesId",
-                table: "Evaluations",
-                column: "ScalesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Photos_ActorId",
                 table: "Photos",
                 column: "ActorId");
@@ -520,6 +515,12 @@ namespace XTool.Migrations
                 name: "IX_Quotations_ActorId",
                 table: "Quotations",
                 column: "ActorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Scales_EvaluationId",
+                table: "Scales",
+                column: "EvaluationId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UploadedPhotos_UserId",
@@ -559,9 +560,6 @@ namespace XTool.Migrations
                 name: "CustomSections");
 
             migrationBuilder.DropTable(
-                name: "Evaluations");
-
-            migrationBuilder.DropTable(
                 name: "Photos");
 
             migrationBuilder.DropTable(
@@ -569,6 +567,9 @@ namespace XTool.Migrations
 
             migrationBuilder.DropTable(
                 name: "Quotations");
+
+            migrationBuilder.DropTable(
+                name: "Scales");
 
             migrationBuilder.DropTable(
                 name: "UploadedPhotos");
@@ -583,13 +584,13 @@ namespace XTool.Migrations
                 name: "CareerPeriods");
 
             migrationBuilder.DropTable(
-                name: "Scales");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Evaluations");
 
             migrationBuilder.DropTable(
                 name: "Actors");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

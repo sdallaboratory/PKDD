@@ -57,6 +57,7 @@ namespace XTool.UserManager
                     IdentityResult result = null;
                     try
                     {
+                        var roles = userManager.GetRolesAsync(newUser);
                         result = await userManager.AddToRoleAsync(newUser, model.RoleName);
                     }
                     catch

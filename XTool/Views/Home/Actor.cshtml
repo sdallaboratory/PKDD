@@ -1,6 +1,6 @@
 ﻿@{
     Actor actor = ViewBag.Actor as Actor;
-    Evaluation evaluation = ViewBag.Evaluation as Evaluation;
+    string comment = ViewBag.Comment as string;
     Scales scales = ViewBag.Scales as Scales;
 }
 
@@ -162,7 +162,7 @@
         <form>
             <div class="card">
                 <div class="card-content">
-                    @Html.Partial("../Partial/Graph", scales))
+                    @Html.Partial("../Partial/Graph", scales)
                 </div>
             </div>
 
@@ -183,7 +183,7 @@
 
         <form action="@Url.Action("Comment", "Home", new { Id = actor.Id })" method="post">
             <div class="card">
-                <textarea name="comment" class="card-textbox" placeholder="Оставьте здесь свой комментарий...">@evaluation?.Comment</textarea>
+                <textarea name="comment" class="card-textbox" placeholder="Оставьте здесь свой комментарий...">@comment</textarea>
             </div>
 
             <div class="card-inline">

@@ -96,7 +96,7 @@ namespace XTool.Algorithms
         /// Возвращает среднюю арифметическую оценку на основе исходного набора оценок.
         /// </summary>
         /// <param name="scalesCollection">исходный набор оценок.</param>
-        public static Scales Average(this IEnumerable<Scales> scalesCollection) => new Scales(scalesCollection.AverageDictionary().Values.OfType<int>());
+        public static Scales SimpleAverage(this IEnumerable<Scales> scalesCollection) => new Scales(scalesCollection.AverageDictionary().Values.Select(d => (int)d));
 
         /// <summary>
         /// Возвращает среднюю квадратичное оценку на основе исхоного набора оценок.

@@ -14,6 +14,10 @@ namespace XTool.Models.EvaluationModels
     {
         public int Id { get; set; }
 
+        public int EvaluationId { get; set; }
+
+        public Evaluation Evaluation { get; set; }
+
         [NotMapped]
         public static IReadOnlyList<string> ScalesNames { get; }
 
@@ -33,7 +37,7 @@ namespace XTool.Models.EvaluationModels
             return this;
         }
 
-        public Scales()
+        public Scales() : this(new int[] { 50, 50, 50, 50, 50, 50, 50, 50, 50, 50})
         { }
 
         public Scales(IEnumerable<int> values)

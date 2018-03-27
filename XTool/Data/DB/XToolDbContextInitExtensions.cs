@@ -27,9 +27,12 @@ namespace XTool.Data.DB
 
         public static XToolDbContext Init(this XToolDbContext context)
         {
-            if (context.Actors.Count() == 0)
+            if (!context.Actors.Any())
             {
-                context.Actors.AddRange(new Actor()
+                context.Actors.AddRange(
+
+                // Актор 1 (Навальный)
+                new Actor()
                 {
                     Name = "Навальный Алексей Анатольевич",
                     Sex = Sexes.Male,
@@ -87,7 +90,12 @@ namespace XTool.Data.DB
                         new CustomSection() { Title = "Религиозные взгляды" , Content = "Алексей Навальный - человек искренне верующий, соблюдает посты, но в церковь ходит редко. Православие течёт в его жилах.", Comment = "Показушно всё это как-то..."},
                         new CustomSection() { Title = "Алкогольная зависимость" , Content = "Не известно, сколько галлонов вина в год употребляет политик, но известно одно - много..." }
                 }
-                }, new Actor() { Name = "Соколова Дарья Ильинична", Position = "Зам. министра культуры республики Татарстан", Sex = Sexes.Female, Birthday = new DateTime(1988, 11, 23) },
+                },
+
+                // Актор 2 
+                new Actor() { Name = "Соколова Дарья Ильинична", Position = "Зам. министра культуры республики Татарстан", Sex = Sexes.Female, Birthday = new DateTime(1988, 11, 23) },
+
+                // Актор 3 (Винни пух)
                 new Actor()
                 {
                     Name = "Винни Пух",
@@ -117,33 +125,13 @@ namespace XTool.Data.DB
                     new BiographyEvent() { Period = "1930", Description = "Произведение переведено на польсктий язык.", Comment = "Это был не единственный перевод на польский, но именно он стал классическим в этой стране."},
                     new BiographyEvent() { Period = "1969-1971", Description = "Съёмки советсвой экранизации книги Милна."},
                 },
-                //CareerPeriods = new List<CareerPeriod>()
-                //{
-                //    new CareerPeriod()
-                //    {
-                //        Period = "1995-2000",
-                //        CareerEvents = new List<CareerEvent>()
-                //        {
-                //            new CareerEvent() { Period = "1995-1996", Description = "Работал на администрацию." },
-                //            new CareerEvent() { Period = "1997-2000", Description = "Работал на Sas.", Comment = "Присмотритесь повнимательнее." }
-                //        }
-                //    },
-                //    new CareerPeriod()
-                //    {
-                //        Period = "2001-2017",
-                //        CareerEvents = new List<CareerEvent>()
-                //        {
-                //            new CareerEvent() { Period = "2001", Description = "Работал на администрацию." },
-                //            new CareerEvent() { Period = "2002-2017", Description = "Работал на Grunt." }
-                //        }
-                //    }
-                //},
-                CustomSection = new List<CustomSection>()
+                    CustomSection = new List<CustomSection>()
                 {
                         new CustomSection() { Title = "Рецензия Вишевской Ирины" , Content = "Все в этой книге прекрасно. Классический текст в переводе Заходера, дополненный песенками Винни из всеми любимого мультфильма, тонированные страницы, крупные иллюстрации на каждой странице. Но самое главное - это именно иллюстрации Антоненкова. Иллюстрировать Винни-Пуха пробовали многие художники, и у каждого он получался своеобразный. Но именно у Антоненкова образ Винни максимально совпадает с авторским. Это настоящий плюшевый, наивный, немного глуповатый, по-детски смотрящий на мир медвежонок. Такую гармонию образов автора и художника редко встретишь. Да и все остальные персонажи максимально приближены к авторскому видению. И кролик, и ослик, и Кристофер Робин, и особенно великолепно прорисованный Пятачок - самое настоящее чудо. Это действительно великолепный подарок и детям и родителям.", Comment = "Показушно всё это как-то..."},
                 }
                 });
             }
+
             if (context.Roles.Count() == 0)
             {
                 context.Roles.Add(new AdminRole());
@@ -151,19 +139,21 @@ namespace XTool.Data.DB
                 context.Roles.Add(new ExpertRole());
                 context.Roles.Add(new SuperadminRole());
             }
-            //if(context.Users.Count() == 0)
+
+            //if (!context.Users.Any())
             //{
-            //    string password = "123456";
-            //    XToolUser user = new XToolUser()
+            //    string password = "";
+            //    xtooluser user = new xtooluser()
             //    {
 
-            //        Email = "admin@email.io",
-            //        UserName = "admin@email.io",
+            //        email = "admin@email.io",
+            //        username = "admin@email.io",
             //    };
-            //    user.PasswordHash = Handler.HashPassword(user, password);
-            //    context.Users.Add(user);
+            //    user.passwordhash = handler.hashpassword(user, password);
+            //    context.users.add(user);
 
             //}
+
             context.SaveChanges();
             return context;
         }
