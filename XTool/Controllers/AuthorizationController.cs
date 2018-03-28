@@ -23,7 +23,7 @@ using XTool.Models.UserManager;
 
 namespace XTool.Controllers
 {
-    public class Authorization : Controller
+    public class AuthorizationController : Controller
     {
         private static bool isSeeded;
 
@@ -35,7 +35,7 @@ namespace XTool.Controllers
 
         private XToolDbContext _dbContext;
 
-        public Authorization(XToolDbContext dBContext, RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager)
+        public AuthorizationController(XToolDbContext dBContext, RoleManager<XToolRole> roleManager, UserManager<XToolUser> userManager, SignInManager<XToolUser> singInManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
