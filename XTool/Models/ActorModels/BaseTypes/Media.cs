@@ -13,15 +13,12 @@ namespace XTool.Models.ActorModels.BaseTypes
     {
         public int Id { get; set; }
 
-        [SearchEngine]
         [Required, StringLength(4096)]
         public string Url { get; set; }
 
-        [SearchEngine]
         [StringLength(2000)]
         public string Description { get; set; }
 
-        [SearchEngine]
         [StringLength(2000)]
         public string Comment { get; set; }
 

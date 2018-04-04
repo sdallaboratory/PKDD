@@ -1,6 +1,7 @@
 ﻿@{ 
     IEnumerable<Actor> actualActors = ViewBag.ActualActors as IEnumerable<Actor>;
     IEnumerable<Actor> actors = ViewBag.Actors as IEnumerable<Actor>;
+    @using XTool.Algorithms;
 }
 
 @if (actualActors.Count() == 0)
@@ -65,7 +66,7 @@ else
                 }
                 <div class="card-content-wrapper">
                     <div class="card-content">
-                        @Html.Partial("../Partial/KeyInfoCardContent", actor)
+                        @Html.Partial("Partial/KeyInfoCardContent", actor)
                     </div>
                     <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
                         <div class="arrow-box-wrapper">
@@ -76,7 +77,7 @@ else
                     </a>
                 </div>
                 <div class="card-extension">
-                    @Html.Partial("../Partial/Graph", new Scales(new int[] { 56, 45, 47, 45, 67, 34, 80, 50, 67, 78 }))
+                    @Html.Partial("Partial/Graph", actor.Evaluations.Count() != 0 ? actor.Evaluations.Select(e => e.Scales).RootMeanSquare() : new Scales() )
                 </div>
             </div>
         }
@@ -123,7 +124,7 @@ else
                 <div class="card">
                     <div class="card-content-wrapper">
                         <div class="card-content">
-                            @Html.Partial("../Partial/KeyInfoCardContent", actor)
+                            @Html.Partial("Partial/KeyInfoCardContent", actor)
                         </div>
                         <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
                             <div class="arrow-box-wrapper">

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using XTool.Data.SearchEngine.SearchResult;
 using XTool.Data.Storage;
 using XTool.Models.ActorModels;
+using XTool.Models.ModelInterfaces.DataAnnotations;
 
 namespace XTool.Data.SearchEngine
 {
@@ -14,33 +17,37 @@ namespace XTool.Data.SearchEngine
             ProcessBaseType();
         }
 
-        public override List<Actor> FindItems(ISearchFilter filter)
+        public override List<SearchResult<Actor>> FindItems(ISearchFilter filter)
         {
-            List<Actor> result = null;
-            IQueryable<Actor> midResult = null;
-            if(filter.IsAdvancedSearch)
+            List<SearchResult<Actor>> result = null;
+            IQueryable<SearchResult<Actor>> midResult = null;
+            IEnumerable<PropertyInfo> props;
+            if (filter != null && filter.SearchPropsNames != null && filter.IsAdvancedSearch)
             {
-
+                props = SearchableTypes
+                    .Where(type => filter.SearchPropsNames.Contains(type.Name));
             }
             else
             {
-                midResult = SimpleSearch(filter.SearchString);
-                result = TakeByPage(midResult, filter).ToList();
+                props = SearchableSimpleTypes;
             }
-
+            midResult = Search(filter.SearchString, props);
+            result = TakeByPage(midResult, filter).ToList();
             return result;
         }
 
-        private IQueryable<Actor> SimpleSearch(string searchString)
+        private IQueryable<SearchResult<Actor>> Search(string searchString, IEnumerable<PropertyInfo> props)
         {
-            return Storage.GetAllQueryable<Actor>().
-                Where( actor => SearchableSimpleTypes.
-                        Select(actorProp => actorProp.GetValue(actor).ToString().Contains(searchString)).Any(isSub => isSub));
+            IQueryable<Actor> queryable = Storage.GetAllQueryable<Actor>();
+            return queryable.Select(actor => ProcessProps(props, actor, searchString))
+                   .Where(res => res.Sum > 0)
+                   .OrderByDescending(searchRes => searchRes.Result);             
         }
 
-        private IQueryable<Actor> TakeByPage(IQueryable<Actor> midRes, ISearchFilter filter)
+
+        private IQueryable<SearchResult<Actor>> TakeByPage(IQueryable<SearchResult<Actor>> midRes, ISearchFilter filter)
         {
-            IQueryable<Actor> result = midRes;
+            IQueryable<SearchResult<Actor>> result = midRes;
             int pages = Convert.ToInt32(Math.Ceiling((double)(ItemCount / filter.ElementOnPage)));
             int page = filter.Page;
             if (page > 0)

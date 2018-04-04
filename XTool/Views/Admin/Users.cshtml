@@ -70,7 +70,7 @@
 
             @foreach (XToolUser user in superadmins)
             {
-                @Html.Partial("../Partial/UserCard", user)
+                @Html.Partial("Partial/UserCard", user)
             }
         }
 
@@ -86,7 +86,7 @@
             @foreach (XToolUser user in admins)
             {
                 <form method="post">
-                    @Html.Partial("../Partial/UserCard", user)
+                    @Html.Partial("Partial/UserCard", user)
 
                     <div class="card-inline">
                         @if (User.IsInRole("superadmin"))
@@ -114,7 +114,7 @@
             @foreach (XToolUser user in technologists)
             {
                 <form method="post">
-                    @Html.Partial("../Partial/UserCard", user)
+                    @Html.Partial("Partial/UserCard", user)
 
                     <div class="card-inline">
                         @if (!user.IsConfirmed)
@@ -151,7 +151,7 @@
             @foreach (XToolUser user in experts)
             {
                 <form method="post">
-                    @Html.Partial("../Partial/UserCard", user)
+                    @Html.Partial("Partial/UserCard", user)
 
                     <div class="card-inline">
                         @if (!user.IsConfirmed)

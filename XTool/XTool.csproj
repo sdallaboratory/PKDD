@@ -3,7 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Remove="Properties\PublishProfiles\pkddtool - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\XTool20180328033215 - Web Deploy.pubxml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
@@ -15,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scss\" />
   </ItemGroup>
 
@@ -24,7 +32,6 @@
     <None Include="Views\Authorization\Login.cshtml" />
     <None Include="Views\Authorization\Register.cshtml" />
     <None Include="Views\Home\TechnologistActor.cshtml" />
-    <None Include="Views\Home\Actor.cshtml" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -42,5 +49,7 @@
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

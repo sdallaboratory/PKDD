@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using XTool.Data.Storage;
 using XTool.Data.ModelInterfaces;
 using System.Reflection;
+using XTool.Data.SearchEngine.SearchResult;
 
 namespace XTool.Data.SearchEngine
 {
@@ -14,6 +15,6 @@ namespace XTool.Data.SearchEngine
 
         int ItemCount { get; }
 
-        List<TOut> FindItems(ISearchFilter filter);
+        List<SearchResult<TOut>> FindItems(ISearchFilter filter);
     }
 }
