@@ -132,20 +132,6 @@ namespace XTool.Data.DB
                 });
             }
 
-            //if (!context.Users.Any())
-            //{
-            //    string password = "";
-            //    xtooluser user = new xtooluser()
-            //    {
-
-            //        email = "admin@email.io",
-            //        username = "admin@email.io",
-            //    };
-            //    user.passwordhash = handler.hashpassword(user, password);
-            //    context.users.add(user);
-
-            //}
-
             context.SaveChanges();
             return context;
         }

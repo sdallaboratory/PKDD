@@ -19,11 +19,14 @@ namespace XTool.Data
             XToolDbContext context = provider.GetRequiredService<XToolDbContext>();
             UserManager<XToolUser> userManager = provider.GetRequiredService<UserManager<XToolUser>>();
             RoleManager<XToolRole> roleManager = provider.GetRequiredService<RoleManager<XToolRole>>();
-            context.Init();
+
             List<XToolRole> roles = new List<XToolRole>() { new SuperadminRole(), new AdminRole(), new TechnologistRole(), new ExpertRole() };
             foreach (XToolRole role in roles)
-                if (await roleManager.FindByNameAsync(role.Name) == null)
+                if (!await roleManager.RoleExistsAsync(role.Name))
                     await roleManager.CreateAsync(role);
+
+            context.Init();
+
             UserRegisterModel model = new UserRegisterModel() { Email = "admin@email.io", Name = "Пётр Андреевич Вяземский", Password = "SysAdmin123", PasswordRepeat = "SysAdmin123", RoleName = "superadmin" };
             await userManager.RegisterConfirmedUserAsync(model);
         }
