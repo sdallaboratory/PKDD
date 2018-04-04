@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using XTool.Data;
 using XTool.Models.Roles;
@@ -59,7 +56,13 @@ namespace XTool.Controllers
         public async Task<IActionResult> UnbanUser(int id)
         {
             return Json(await _userManager.UnbanUserAsync(_context.Find<XToolUser>(id)));
-        } 
+        }
+
+        [Authorize("superadmin")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            return Json(await _userManager.DeleteUserAsync(_context.Find<XToolUser>(id)));
+        }
 
         #endregion
     }

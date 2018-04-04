@@ -16,6 +16,7 @@ using XTool.Models.Shared;
 using XTool.Models.UserManager;
 using XTool.Models.EvaluationModels;
 using XTool.Algorithms;
+using XTool.Data.DB;
 
 namespace XTool.Controllers
 {
@@ -24,7 +25,7 @@ namespace XTool.Controllers
     public class HomeController : Controller
     {
         private readonly IStorage<int> _storage;
-        private XToolDbContext Context => _storage.Context as XToolDbContext;
+        private XToolDbContext Context => _storage?.Context as XToolDbContext;
         private readonly UserManager<XToolUser> _userManager;
 
         public HomeController(IStorage<int> storage, UserManager<XToolUser> userManager) // тут поставить Сторадж
@@ -38,7 +39,7 @@ namespace XTool.Controllers
             var actors = _storage.GetAll<Actor>();
             var actualActors = actors.OrderBy(a => a.Priority).Take(3); // Вот эту троечку вынести в конфиг // тут отсортировать по релевантности перед Take
             foreach (Actor actor in actualActors)
-                LoadActor(actor);
+                actor.LoadFrom(Context);
             ViewBag.ActualActors = actualActors;
             ViewBag.Actors = actors.Take(20);
             return View();
@@ -50,7 +51,7 @@ namespace XTool.Controllers
             var actor = Context.Actors.Find(id);
             if (actor != null)
             {
-                LoadActor(actor);
+                actor.LoadFrom(Context);
                 ViewBag.Actor = actor;
                 if (!User.IsInRole("expert"))
                 {
@@ -75,24 +76,24 @@ namespace XTool.Controllers
             return result;
         }
 
-        /// <summary>
-        /// Выгружает из БД все поля для данного актора
-        /// </summary>
-        /// <param name="actor">актор</param>
-        private void LoadActor(Actor actor)
-        {
-            if (actor != null)
-            {
-                foreach (var collection in _storage.Context.Entry(actor).Collections)
-                {
-                    collection.Load();
-                }
-                foreach (var period in actor.CareerPeriods)
-                {
-                    _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
-                }
-            }
-        }
+        ///// <summary>
+        ///// Выгружает из БД все поля для данного актора
+        ///// </summary>
+        ///// <param name="actor">актор</param>
+        //private void LoadActor(Actor actor)
+        //{
+        //    if (actor != null)
+        //    {
+        //        foreach (var collection in _storage.Context.Entry(actor).Collections)
+        //        {
+        //            collection.Load();
+        //        }
+        //        foreach (var period in actor.CareerPeriods)
+        //        {
+        //            _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
+        //        }
+        //    }
+        //}
 
         public IActionResult CreateActor(Actor actor)
         {
@@ -116,18 +117,11 @@ namespace XTool.Controllers
             return View(/*new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }*/);
         }
 
-        public XToolUser CurrentUser
-        {
-            get
-            {
-                var getUserTask = _userManager.GetUserAsync(User);
-                getUserTask.Wait();
-                return getUserTask.Result;
-            }
-        }
+        public XToolUser CurrentUser => _userManager.GetUser(User);
 
         #region AJAX actions
 
+        [HttpPost]
         public IActionResult Comment(int id, string comment)
         {
             OperationResult result = null;
@@ -155,6 +149,7 @@ namespace XTool.Controllers
 
         Evaluation ScalesEvaluation(Scales scales) => (_storage.Context as XToolDbContext).Evaluations.Single(e => e.Id == scales.EvaluationId);
 
+        [HttpPost]
         public IActionResult Scales(int id, Scales newScales)
         {
             newScales.Id = default(int);
@@ -186,6 +181,7 @@ namespace XTool.Controllers
             }
             return Json(result);
         }
+
 
         #endregion
     }

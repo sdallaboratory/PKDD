@@ -5,6 +5,7 @@ namespace XTool.Models.UserManager
     {
         Ok = 0,
         Error = 1,
-        AlreadyDone = 2
+        AlreadyDone = 2,
+        Forbidden = 3,
     }
 }

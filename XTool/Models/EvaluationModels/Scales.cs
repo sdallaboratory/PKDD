@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,8 @@ namespace XTool.Models.EvaluationModels
 {
     public class Scales : IStorageModel<int> // : IEnumerable<int>
     {
+        public const int UPPER_LIMIT = 120;
+
         public int Id { get; set; }
 
         public int EvaluationId { get; set; }
@@ -25,7 +28,7 @@ namespace XTool.Models.EvaluationModels
 
         private readonly int[] _values = new int[ScalesNames.Count]; // м.б. перенести в обычной конструктор
 
-        private int IndexOf(string name) => ScalesNames.Select((n, i) => new { curName = n, index = i })
+        public static int IndexOf(string name) => ScalesNames.Select((n, i) => new { curName = n, index = i })
             .FirstOrDefault(pair => pair.curName == name).index;
 
         public IUpdateble Update(IUpdateble model)
@@ -37,7 +40,7 @@ namespace XTool.Models.EvaluationModels
             return this;
         }
 
-        public Scales() : this(new int[] { 50, 50, 50, 50, 50, 50, 50, 50, 50, 50})
+        public Scales() : this(new int[10].Select(fakeElem => UPPER_LIMIT / 2).ToArray())
         { }
 
         public Scales(IEnumerable<int> values)
@@ -53,7 +56,7 @@ namespace XTool.Models.EvaluationModels
         // IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
 
         [NotMapped]
-        public IEnumerable<int> Values => new List<int>(_values);
+        public IEnumerable<int> Values => new ReadOnlyCollection<int>(_values);
 
         [NotMapped]
         public int this[int i]
@@ -61,11 +64,23 @@ namespace XTool.Models.EvaluationModels
             get => _values[i];
             set
             {
-                if (value > 100 || value < 0)
-                    throw new ArgumentException("Значение, выражаемле в процентах должно быть в пределах диапозона [0; 100]");
+                if (value > UPPER_LIMIT || value < 0)
+                    throw new ArgumentException($"Значение, выражаемле в процентах должно быть в пределах диапозона [0; {UPPER_LIMIT}]");
                 if (i < 0 || i >= _values.Length)
                     throw new KeyNotFoundException($"Не существует шкалы под номером {i}.");
                 _values[i] = value;
+            }
+        }
+
+        [NotMapped]
+        public int this[string name]
+        {
+            get => this[IndexOf(name)];
+            set
+            {
+                if (ScalesNames.Contains(name))
+                    throw new KeyNotFoundException($"Не существует шкалы с именем {name}.");
+                this[IndexOf(name)] = value;
             }
         }
 

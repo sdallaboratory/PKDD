@@ -95,7 +95,7 @@
                                 <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" name="@(user.IsBanned ? "Unban" : "Ban")" />
                             </div>
                             <div class="card-inline-item">
-                                <input type="button" value="Изменить" name="Edit" />
+                                <input type="button" value="Удалить" name="Delete" />
                             </div>
                         }
                     </div>
@@ -129,9 +129,12 @@
                                 <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" href="@(user.IsBanned ? "/Admin/UnbanUser/" : "/Admin/BanUser/")" class="@(user.IsBanned ? "ajax-unban" : "ajax-ban")" params="@user.Id" />
                             </div>
                         }
+                        @if (User.IsInRole("superadmin"))
+                        {
                         <div class="card-inline-item">
-                            <input type="button" value="Изменить" />
+                            <input type="button" value="Удалить" name="Delete" />
                         </div>
+                        }
                     </div>
                 </form>
             }
@@ -163,9 +166,12 @@
                                 <input type="button" value="@(user.IsBanned ? "Разбанить" : "Забанить")" href="@(user.IsBanned ? "/Admin/UnbanUser/" : "/Admin/BanUser/")" class="@(user.IsBanned ? "ajax-unban" : "ajax-ban")" params="@user.Id" />
                             </div>
                         }
-                        <div class="card-inline-item">
-                            <input type="button" value="Изменить" />
-                        </div>
+                        @if (User.IsInRole("superadmin"))
+                        {
+                            <div class="card-inline-item">
+                                <input type="button" value="Удалить" name="Delete" />
+                            </div>
+                        }
                     </div>
                 </form>
             }

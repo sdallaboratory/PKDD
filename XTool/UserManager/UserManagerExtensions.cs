@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using XTool.Models.TransferModels;
 using XTool.Models.Shared;
 using XTool.Models.UserManager;
+using System.Security.Claims;
 
 namespace XTool.UserManager
 {
@@ -139,6 +140,24 @@ namespace XTool.UserManager
             else
                 result = new OperationResult() { Status = Statuses.AlreadyDone, Message = "Не удалось разбанить пользователя, так как он не был забанен." };
             return result;
+        }
+
+        public static async Task<OperationResult> DeleteUserAsync(this UserManager<XToolUser> userManager, XToolUser user)
+        {
+
+            OperationResult result;
+            if ((await userManager.DeleteAsync(user)).Succeeded)
+                result = new OperationResult() { Status = Statuses.Ok, Message = "Пользователь успешно удалён из базы данных." };
+            else
+                result = new OperationResult() { Status = Statuses.Error, Message = "При удалении пользоватедя произошла ошибка!" };
+            return result;
+        }
+
+        public static XToolUser GetUser(this UserManager<XToolUser> userManager, ClaimsPrincipal claimsPrincipal)
+        {
+            var getUserTask = userManager.GetUserAsync(claimsPrincipal);
+            getUserTask.Wait();
+            return getUserTask.Result;
         }
     }
 }
