@@ -17,7 +17,7 @@ using XTool.UserManager;
 
 namespace XTool.Controllers
 {
-    public class ScalesController : Controller
+    public class ScalesController : XToolController
     {
         private readonly XToolDbContext _context;
         private readonly UserManager<XToolUser> _userManager;
@@ -39,7 +39,7 @@ namespace XTool.Controllers
             {
                 int[] evaluationsIds = actor.Evaluations.Select(e => e.Id).ToArray();
                 if (evaluationsIds.Length == 0)
-                    result = new OperationResult() { Status = Statuses.Error, Message = "В системе нет ни одной оценке для указанного актора!" };
+                    result = new OperationResult() { Status = Statuses.Error, Message = "В системе нет ни одной оценки для указанного актора!" };
                 else
                 {
                     var scales = _context.Scales.Where(s => evaluationsIds.Contains(s.EvaluationId))?.RootMeanSquare();
@@ -51,70 +51,30 @@ namespace XTool.Controllers
 
         public XToolUser CurrentUser => _userManager.GetUser(User);
 
-        //public async Task<IActionResult> IndividualScales(int id, int? expertId)
-        //{
-        //    XToolUser expert;
-        //    OperationResult result = null;
-        //    if (await _userManager.IsInRoleAsync(CurrentUser, "expert") && expertId == null)
-        //        expertId = CurrentUser.Id;
-        //    if (await _userManager.IsInRoleAsync(CurrentUser, "expert") && expertId != CurrentUser.Id)
-        //        result = new OperationResult() { Status = Statuses.Forbidden, Message = "У вас недостаточно прав доступа для просмотра этой оценки!" };
-        //    else if ((expert = _context.Users.Find(expertId)) != null)
-        //    {
-        //        Actor actor = _context.Find<Actor>(id)?.LoadFrom(_context);
-        //        if (actor == null)
-        //            result = new OperationResult() { Status = Statuses.Error, Message = "Не существует актора с таким Id!" };
-        //        else
-        //        {
-        //            Evaluation evaluation = actor.Evaluations.FirstOrDefault(ev => ev.ExpertId == expert.Id);
-        //            Scales scales = null;
-        //            if (evaluation != null && (scales = _context.Scales.FirstOrDefault(scale => scale.EvaluationId == evaluation.Id)) != null)
-        //            {
-        //                result = new OperationResult() { Status = Statuses.Ok, Message = "Индивидуальная оценка успешно загружена.", Data = scales };
-        //            }
-        //            else
-        //                result = new OperationResult() { Status = Statuses.Error, Message = "Этот эксперт ещё не поставил оценку данному актору!" };
-        //        }
-        //    }
-        //    else
-        //        result = new OperationResult() { Status = Statuses.Error, Message = "В системе не существует эксперта с таким Id!" };
-        //    return Json(result);
-        //}
-
         public async Task<IActionResult> IndividualScales(int id, int? expertId)
         {
-            OperationResult result;
-            try
-            {
-                bool isUserExpert = await _userManager.IsInRoleAsync(CurrentUser, "expert");
-                if (isUserExpert && expertId == null)
-                    expertId = CurrentUser.Id;
+            return await WrapAjaxAsync(async () =>
+             {
+                 bool isUserExpert = await _userManager.IsInRoleAsync(CurrentUser, "expert");
+                 if (isUserExpert && expertId == null)
+                     expertId = CurrentUser.Id;
 
-                if (isUserExpert && expertId != CurrentUser.Id)
-                    throw new OperationResultException(Statuses.Forbidden, "У вас недостаточно прав доступа для просмотра этой оценки!");
+                 if (isUserExpert && expertId != CurrentUser.Id)
+                     throw new OperationResultException(Statuses.Forbidden, "У вас недостаточно прав доступа для просмотра этой оценки!");
 
-                XToolUser expert = _context.Users.Find(expertId)
-                    ?? throw new OperationResultException(Statuses.Error, "В системе не существует эксперта с таким Id!");
+                 XToolUser expert = _context.Users.Find(expertId)
+                     ?? throw new OperationResultException(Statuses.Error, "В системе не существует эксперта с таким Id!");
 
-                Actor actor = _context.Find<Actor>(id)?.LoadFrom(_context)
-                    ?? throw new OperationResultException(Statuses.Error, "В системе не существует актора с таким Id!");
+                 Actor actor = _context.Find<Actor>(id)?.LoadFrom(_context)
+                     ?? throw new OperationResultException(Statuses.Error, "В системе не существует актора с таким Id!");
 
-                Evaluation evaluation = actor.Evaluations.FirstOrDefault(ev => ev.ExpertId == expert.Id)?.LoadFrom(_context);
+                 Evaluation evaluation = actor.Evaluations.FirstOrDefault(ev => ev.ExpertId == expert.Id)?.LoadFrom(_context);
 
-                if (evaluation == null || evaluation.Scales == null)
-                    throw new OperationResultException(Statuses.Error, "Этот эксперт ещё не поставил оценку данному актору!");
+                 if (evaluation == null || evaluation.Scales == null)
+                     throw new OperationResultException(Statuses.Error, "Этот эксперт ещё не поставил оценку данному актору!");
 
-                result = new OperationResult() { Status = Statuses.Ok, Message = "Индивидуальная оценка успешно загружена.", Data = evaluation.Scales };
-            }
-            catch (OperationResultException e)
-            {
-                result = e.OperationResult;
-            }
-            catch (Exception e)
-            {
-                result = OperationResult.UnknownError;
-            }
-            return Json(result);
+                 return new OperationResult(Statuses.Ok, "Индивидуальная оценка успешно загружена.", evaluation.Scales);
+             });
         }
     }
 }
