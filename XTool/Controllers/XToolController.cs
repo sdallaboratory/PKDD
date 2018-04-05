@@ -5,7 +5,7 @@ using XTool.Models.Shared;
 
 namespace XTool.Controllers
 {
-    public class XToolController : Controller
+    public abstract class XToolController : Controller
     {
         protected virtual async Task<IActionResult> WrapAjaxAsync(Func<Task<OperationResult>> action)
         {

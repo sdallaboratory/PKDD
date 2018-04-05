@@ -80,25 +80,6 @@ namespace XTool.Controllers
             return result;
         }
 
-        ///// <summary>
-        ///// Выгружает из БД все поля для данного актора
-        ///// </summary>
-        ///// <param name="actor">актор</param>
-        //private void LoadActor(Actor actor)
-        //{
-        //    if (actor != null)
-        //    {
-        //        foreach (var collection in _storage.Context.Entry(actor).Collections)
-        //        {
-        //            collection.Load();
-        //        }
-        //        foreach (var period in actor.CareerPeriods)
-        //        {
-        //            _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
-        //        }
-        //    }
-        //}
-
         public IActionResult CreateActor(Actor actor)
         {
             IActionResult result = null;
