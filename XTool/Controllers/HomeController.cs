@@ -95,6 +95,10 @@ namespace XTool.Controllers
                 {
                     _storage.Context.Entry(period).Collection(p => p.CareerEvents).Load();
                 }
+                foreach(var eval in actor.Evaluations)
+                {
+                    _storage.Context.Entry(eval).Navigation("Scales").Load();
+                }
             }
         }
 

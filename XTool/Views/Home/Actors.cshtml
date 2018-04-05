@@ -77,7 +77,7 @@ else
                     </a>
                 </div>
                 <div class="card-extension">
-                    @Html.Partial("Partial/Graph", actor.Evaluations.Count() != 0 ? actor.Evaluations.Select(e => e.Scales).RootMeanSquare() : new Scales() )
+                    @Html.Partial("Partial/Graph", actor.Evaluations.Count() != 0 ? actor.Evaluations.Select(e => e.Scales).SimpleAverage() : new Scales() )
                 </div>
             </div>
         }
