@@ -7,7 +7,7 @@ namespace XTool.Models.ActorModels
 {
 
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-sealed class ScaleValueAttribute : Attribute
+    sealed class ScaleValueAttribute : Attribute
     {
         public ScaleValueAttribute()
         {

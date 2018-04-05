@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using XTool.Models;
 using XTool.Models.EvaluationModels;
 
-namespace XTool.Algorithms
+namespace XTool.Statistics
 {
     public static class ScalesStatistics
     {

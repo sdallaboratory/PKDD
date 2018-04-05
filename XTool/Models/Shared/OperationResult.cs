@@ -7,7 +7,7 @@ namespace XTool.Models.Shared
         public OperationResult()
         { }
 
-        public OperationResult(Statuses status, string message, object data)
+        public OperationResult(Statuses status, string message = null, object data = null)
         {
             Status = status;
             Message = message;
@@ -21,6 +21,6 @@ namespace XTool.Models.Shared
         public object Data { get; set; }
 
         public static OperationResult UnknownError =>
-            new OperationResult() { Status = Statuses.Error, Message = "При попытке выполнить действиепроизошла неизвестная ошибка!" };
+            new OperationResult() { Status = Statuses.Error, Message = "При попытке выполнить действие произошла неизвестная ошибка!" };
     }
 }

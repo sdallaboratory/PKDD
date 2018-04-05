@@ -58,7 +58,7 @@ namespace XTool.Controllers
             return Json(await _userManager.UnbanUserAsync(_context.Find<XToolUser>(id)));
         }
 
-        [Authorize("superadmin")]
+        [Authorize(Roles = "superadmin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             return Json(await _userManager.DeleteUserAsync(_context.Find<XToolUser>(id)));

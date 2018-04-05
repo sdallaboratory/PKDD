@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using XTool.Algorithms;
+using XTool.Statistics;
 using XTool.Data;
 using XTool.Data.DB;
 using XTool.Models.ActorModels;
@@ -17,6 +17,7 @@ using XTool.UserManager;
 
 namespace XTool.Controllers
 {
+    [Authorize]
     public class ScalesController : XToolController
     {
         private readonly XToolDbContext _context;
@@ -28,11 +29,11 @@ namespace XTool.Controllers
             _userManager = userManager;
         }
 
-        [Authorize("superadmin, admin, technologist")]
+        [Authorize(Roles = "superadmin, admin, technologist")]
         public IActionResult TotalScales([FromBody] ScalesRequest request)
         {
             OperationResult result = null;
-            Actor actor = _context.Find<Actor>(request.Id)?.LoadFrom(_context);
+            Actor actor = _context.Find<Actor>(request.ActorId)?.LoadFrom(_context);
             if (actor == null)
                 result = new OperationResult() { Status = Statuses.Error, Message = "Не существует актора с таким Id!" };
             else

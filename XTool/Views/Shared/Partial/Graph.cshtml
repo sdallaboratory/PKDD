@@ -1,26 +1,13 @@
-﻿@model Scales
+﻿@model GraphModel
 @{
-    Dictionary<int, string> romeanNumbers = new Dictionary<int, string>()
+    GraphModel graphModel = Model as GraphModel;
+    if (graphModel.InitScales == null)
     {
-        {1, "I"},
-        {2, "II"},
-        {3, "III"},
-        {4, "IV"},
-        {5, "V"},
-        {6, "VI"},
-        {7, "VII"},
-        {8, "VIII"},
-        {9, "IX"},
-        {10, "X"},
-        {11, "XI"},
-        {12, "XII"},
-        {13, "XIII"},
-    };
-
-    Scales scales = Model as Scales;
+        graphModel.InitScales = new Scales();
+    }
 }
 
-<div class="graph">
+<div class="graph" type="@graphModel.InitAlgorithm.ToString()" src="@graphModel.DataSource">
     <svg class="polyline-canvas">
         <linearGradient id="linear-gradient">
             <stop offset="0%" stop-color="rgb(160, 240, 240)" />
@@ -31,10 +18,10 @@
 
     <div class="graph-grid">
         @*Тут бы добавить параметр из конфига (количетво линий графика)*@ 
-        @for (int i = 0; i <= 100; i += 10)
+        @for (int i = 0; i <= Scales.UPPER_LIMIT; i += Scales.UPPER_LIMIT / 10)
         {
             <div class="horizontal" style="top: @i%">
-                <div class="horizontal-value">@(100 - i)</div>
+                <div class="horizontal-value">@(Scales.UPPER_LIMIT - i)</div>
             </div>
         }
     </div>
@@ -43,17 +30,16 @@
         <div class="graph-column">
             <div class="graph-axis"></div>
         </div>
-        @for (int i = 0; i < scales.Values.Count(); i++)
+        @for (int i = 0; i < graphModel.InitScales.Values.Count(); i++)
         {
             <div class="graph-column">
-                <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - scales[i])%">
-                    <input type="number" name="@Scales.ScalesNames[i]" class="vertex-value" value="@scales[i]">
+                <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - graphModel.InitScales[i])%">
+                    <input type="text" name="@Scales.ScalesNames[i]" class="vertex-value" value="@graphModel.InitScales[i]">
                 </div>
                 <div class="column-name" name="@Scales.ScalesNames[i]">
-                    @romeanNumbers[i + 1]
+                    @Utilities.RomeanNumbers[i + 1]
                 </div>
             </div>
-
         }
     </div>
 </div>

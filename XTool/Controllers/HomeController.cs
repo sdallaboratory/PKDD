@@ -15,13 +15,12 @@ using XTool.UserManager;
 using XTool.Models.Shared;
 using XTool.Models.UserManager;
 using XTool.Models.EvaluationModels;
-using XTool.Algorithms;
+using XTool.Statistics;
 using XTool.Data.DB;
 
 namespace XTool.Controllers
 {
     [Authorize]
-    //[Route("[action]")]
     public class HomeController : Controller
     {
         private readonly IStorage<int> _storage;
@@ -92,7 +91,7 @@ namespace XTool.Controllers
             {
                 actorId = _storage.Add(actor);
                 if (actorId != -1)
-                    result = Json(new OperationResult() { Status = Statuses.Ok, Data = actorId, Message = "Новый актор успешно жобавлен." });
+                    result = Json(new OperationResult() { Status = Statuses.Ok, Data = actorId, Message = "Новый актор успешно добавлен." });
             }
             return result;
         }
