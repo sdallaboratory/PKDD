@@ -8,7 +8,7 @@ namespace XTool.Views.ViewCode
     {
         public int GraphFormId { get; set; }
 
-        public int MyProperty { get; set; }
+        public int ActorId { get; set; }
 
         public GraphType GraphType { get; set; }
 
