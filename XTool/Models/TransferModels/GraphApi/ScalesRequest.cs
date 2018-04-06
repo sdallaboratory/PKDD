@@ -9,6 +9,8 @@ namespace XTool.Models.TransferModels.GraphApi
 {
     public class ScalesRequest
     {
+        public int ExpertId { get; set; }
+
         public int ActorId { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using XTool.Models.EvaluationModels;
+using XTool.Models.TransferModels.GraphApi;
 
 namespace XTool.Views.ViewCode
 {
@@ -51,5 +52,12 @@ namespace XTool.Views.ViewCode
             { nameof(Scales.SocialInteroversion), "Социальность-Интроверсия"}
         }
         );
+
+        public static ReadOnlyDictionary<Algorithms, string> RuAlgorithmsNames { get; } = new ReadOnlyDictionary<Algorithms, string>(
+        new Dictionary<Algorithms, string>()
+        {
+            { Algorithms.Average, "Средняя арифметическая"},
+            { Algorithms.RootMeanSquare, "Среднеквадратичная"}
+        });
     }
 }

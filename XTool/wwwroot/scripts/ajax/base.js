@@ -31,7 +31,7 @@ function sendAjax(ajaxRequest) {
 }
 
 $(".ajax-button").on("click", function (e) {
-    var form = $(e.target).parents("form");
+    var form = $(this.form); /*$(e.target).parents("form");*/
     var button = $(e.target);
     console.log(form.serialize());
     form.attr("color", "red");

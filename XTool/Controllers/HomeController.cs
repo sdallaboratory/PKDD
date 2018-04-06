@@ -105,7 +105,7 @@ namespace XTool.Controllers
 
         #region AJAX actions
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Comment(int id, string comment)
         {
             OperationResult result = null;
@@ -133,7 +133,7 @@ namespace XTool.Controllers
 
         Evaluation ScalesEvaluation(Scales scales) => (_storage.Context as XToolDbContext).Evaluations.FirstOrDefault(e => e.Id == scales.EvaluationId);
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Scales(int id, Scales newScales)
         {
             newScales.Id = default(int);

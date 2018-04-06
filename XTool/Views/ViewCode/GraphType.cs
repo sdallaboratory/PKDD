@@ -7,8 +7,8 @@ namespace XTool.Views.ViewCode
 {
     public enum GraphType
     {
-        Editable = 0,
-        ReadOnly = 1,
-        ReadOnlyUpdatable = 2
+        EditableIndividual = 0,
+        ReadOnlyIndividual = 1,
+        ReadOnlyTotal = 2,
     }
 }

@@ -7,39 +7,70 @@
     }
 }
 
-<div class="graph" type="@graphModel.InitAlgorithm.ToString()" src="@graphModel.DataSource">
-    <svg class="polyline-canvas">
-        <linearGradient id="linear-gradient">
-            <stop offset="0%" stop-color="rgb(160, 240, 240)" />
-            <stop offset="100%" stop-color="rgb(216, 240, 204)" />
-        </linearGradient>
-        <polyline class="polyline" points="0,0"/>
-    </svg>
+<div class="graph-wrapper">
+    <form class="graph-settings">
+        Эксперт
+        <select name="ExpertId">
+            <option value="0" selected>
+                Все
+            </option>
+        </select>
+        Метод оценки
+        <select name="Algorithm">
+            @foreach (Algorithms algorithm in Enum.GetValues(typeof(Algorithms)))
+            {
+                @if (graphModel.InitAlgorithm == algorithm)
+                {
+                    <option value="@algorithm" selected>
+                        @Utilities.RuAlgorithmsNames[algorithm]
+                    </option>  }
+                else
+                {
+                    <option value="@algorithm">
+                        @Utilities.RuAlgorithmsNames[algorithm]
+                    </option>
+                }
+            }
+        </select>
+        <input type="range" min="0" max="100" value="100" name="selectionPercent" />
+    </form>
+    <form class="graph" type="@graphModel.InitAlgorithm.ToString()" src="@graphModel.DataSource" id="@graphModel.GraphFormId">
+        @*<div class="graph-content-wrapper">*@
+        <svg class="polyline-canvas">
+            <linearGradient id="linear-gradient">
+                <stop offset="0%" stop-color="rgb(160, 240, 240)" />
+                <stop offset="100%" stop-color="rgb(216, 240, 204)" />
+            </linearGradient>
+            <polyline class="polyline" points="0,0" />
+        </svg>
 
-    <div class="graph-grid">
-        @*Тут бы добавить параметр из конфига (количетво линий графика)*@ 
-        @for (int i = 0; i <= Scales.UPPER_LIMIT; i += Scales.UPPER_LIMIT / 10)
-        {
-            <div class="horizontal" style="top: @i%">
-                <div class="horizontal-value">@(Scales.UPPER_LIMIT - i)</div>
-            </div>
-        }
-    </div>
-
-    <div class="graph-content">
-        <div class="graph-column">
-            <div class="graph-axis"></div>
+        <div class="graph-grid">
+            @*Тут бы добавить параметр из конфига (количетво линий графика)*@
+            @for (int i = 0; i <= Scales.UPPER_LIMIT; i += Scales.UPPER_LIMIT / 10)
+            {
+                <div class="horizontal" style="top: @i%">
+                    <div class="horizontal-value">@(Scales.UPPER_LIMIT - i)</div>
+                </div>
+            }
         </div>
-        @for (int i = 0; i < graphModel.InitScales.Values.Count(); i++)
-        {
+
+        <div class="graph-content">
             <div class="graph-column">
-                <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - graphModel.InitScales[i])%">
-                    <input type="text" name="@Scales.ScalesNames[i]" class="vertex-value" value="@graphModel.InitScales[i]">
-                </div>
-                <div class="column-name" name="@Scales.ScalesNames[i]">
-                    @Utilities.RomeanNumbers[i + 1]
-                </div>
+                <div class="graph-axis"></div>
             </div>
-        }
-    </div>
+            @for (int i = 0; i < graphModel.InitScales.Values.Count(); i++)
+            {
+                <div class="graph-column">
+                    <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @(100 - graphModel.InitScales[i])%">
+                        <input type="text" name="@Scales.ScalesNames[i]" class="vertex-value" value="@graphModel.InitScales[i]">
+                    </div>
+                    <div class="column-name" name="@Scales.ScalesNames[i]">
+                        @Utilities.RomeanNumbers[i + 1]
+                    </div>
+                </div>
+            }
+        </div>
+        @*</div>*@
+    </form>
 </div>
+
