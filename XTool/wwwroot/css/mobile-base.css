@@ -34,9 +34,9 @@ card-content, card-content-wrapper {
     width: 85%;
 }
 
-.page-wrapper {
-    margin-top: 0;
-}
+/*.page-wrapper {
+    margin-top: 100px;
+}*/
 /*.graph-vertex:hover {
     background: black;
     transform: none;
