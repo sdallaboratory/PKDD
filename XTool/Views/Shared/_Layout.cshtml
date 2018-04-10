@@ -18,19 +18,18 @@
         <header>
             <nav class="top-menu flex-container">
                     <div class="menu-item">
-                        <a class="button" href="@Url.Action("Actors", "Home")"> Хоум </a>
+                        <a class="button" href="@Url.Action("Actors", "Home")"> Акторы </a>
                     </div>
+                    @if(User.IsInRole("admin") || User.IsInRole("superadmin"))
+                    {
                     <div class="menu-item">
-                        <a class="button" href="@Url.Action("Users", "Admin")"> Юзеры </a>
+                        <a class="button" href="@Url.Action("Users", "Admin")"> Пользователи </a>
                     </div>
+                    }
                     <div class="menu-item">
                         <a class="button" href="@Url.Action("Logout", "Authorization")"> Выйти </a>
                     </div>
             </nav>
-
-            @*<div class="menu">
-
-            </div>*@
             <div class="progress-bar" style="width: 0">
             </div>
         </header>
@@ -38,10 +37,9 @@
         @RenderBody()
 
         <footer>
-            &copy XTool, 2018
-            <br> Website by Batin & Solovev
-            <br> sergey.soloviev@inbox.ru
-            <br>
+            ПКДД, 2018
+            <br>  &copy; Батин, Соловьев &amp; Гончаров
+            <br> pkddxtool@gmail.com
         </footer>
 
     </div>
