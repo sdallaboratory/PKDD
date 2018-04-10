@@ -23,14 +23,14 @@ namespace XTool.Controllers
         private readonly XToolDbContext _context;
         private readonly UserManager<XToolUser> _userManager;
 
-        protected ScalesController(XToolDbContext context, UserManager<XToolUser> userManager)
+        public ScalesController(XToolDbContext context, UserManager<XToolUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
         [Authorize(Roles = "superadmin, admin, technologist")]
-        public IActionResult TotalScales([FromBody] ScalesRequest request)
+        public IActionResult TotalScales(ScalesRequest request)
         {
             OperationResult result = null;
             Actor actor = _context.Find<Actor>(request.ActorId)?.LoadFrom(_context);

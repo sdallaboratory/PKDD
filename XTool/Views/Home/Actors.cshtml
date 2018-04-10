@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     IEnumerable<Actor> actualActors = ViewBag.ActualActors as IEnumerable<Actor>;
     IEnumerable<Actor> actors = ViewBag.Actors as IEnumerable<Actor>;
 }
@@ -6,82 +6,82 @@
 @if (actualActors.Count() == 0)
 {<text>
     В системе нет ни одного актора
-</text>}
+    </text>}
 else
 {
 
-
-<section class="card-group">
-    <div class="section-title">
-        Акторы
-        <button class="section-hider" onclick="change_section_content_state(event)">
-            скрыть
-        </button>
-    </div>
-    <div class="clear"></div>
-
-    <div class="section-content">
-    
-    @if (User.IsInRole("technologist"))
+    @if ((actualActors?.Count() ?? 0) > 0)
     {
-        <div class="card-title">
-            Добавить актора
-        </div>
-
-        <form id="form-create-actor">
-            <div class="card">
-                <div class="card-content login-form">
-                    <div><span class="error"> </span></div>
-
-                    <div>Фамилия, имя и отчество</div>
-                    <input type="text" class="" name="Name" required>
-
-                </div>
+        <section class="card-group">
+            <div class="section-title">
+                Важные акторы
+                <button class="section-hider" onclick="change_section_content_state(event)">
+                    скрыть
+                </button>
             </div>
+            <div class="clear"></div>
 
-            <div class="card-inline">
-                <div class="card-inline-item">
-                    <input type="button" value="Добавить" name="Register" class="ajax-create-actor" href="@Url.Action("CreateActor", "Home")">
-                </div>
-                <div class="card-inline-item">
-                    <input type="reset" />
-                </div>
-            </div>
-        </form>
-    }
+            <div class="section-content">
 
-    @if ((actualActors?.Count() ?? 0) > 0 )
-    {
-        <div class="card-title">
-            Самые актуальные
-        </div>
-        foreach (Actor actor in actualActors)
-        {
-            <div class="card">
-                @if(actor.Photos.Count > 0)
+                @if (User.IsInRole("technologist"))
                 {
-                    <img class="photo" src="@actor.Photos.ElementAt(new Random(DateTime.Now.Millisecond).Next(0, actor.Photos.Count)).Url" alt="@actor.Name">
-                }
-                <div class="card-content-wrapper">
-                    <div class="card-content">
-                        @Html.Partial("Partial/KeyInfoCardContent", actor)
+                    <div class="card-title">
+                        Добавить актора
                     </div>
-                    <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
-                        <div class="arrow-box-wrapper">
-                            <div class="arrow-box">
-                                ►
+
+                    <form id="form-create-actor">
+                        <div class="card">
+                            <div class="card-content login-form">
+                                <div><span class="error"> </span></div>
+
+                                <div>Фамилия, имя и отчество</div>
+                                <input type="text" class="" name="Name" required>
+
                             </div>
                         </div>
-                    </a>
-                </div>
-                @*<div class="card-extension">
-                    @Html.Partial("Partial/Graph", new GraphModel() { DataSource = Url.Action("TotalScales", "Scales", new { actorId = actor.Id }) })
-                </div>*@
+
+                        <div class="card-inline">
+                            <div class="card-inline-item">
+                                <input type="button" value="Добавить" name="Register" class="ajax-create-actor" href="@Url.Action("CreateActor", "Home")">
+                            </div>
+                            <div class="card-inline-item">
+                                <input type="reset" />
+                            </div>
+                        </div>
+                    </form>
+                }
+
+
+                @foreach (Actor actor in actualActors)
+                {
+                    <div class="card">
+                        @if (actor.Photos.Count > 0)
+                        {
+                            <img class="photo" src="@actor.Photos.ElementAt(new Random(DateTime.Now.Millisecond).Next(0, actor.Photos.Count)).Url" alt="@actor.Name">
+                        }
+                        <div class="card-content-wrapper">
+                            <div class="card-content">
+                                @Html.Partial("Partial/KeyInfoCardContent", actor)
+                            </div>
+                            <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
+                                <div class="arrow-box-wrapper">
+                                    <div class="arrow-box">
+                                        ►
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        @*<div class="card-extension">
+                                @Html.Partial("Partial/Graph", new GraphModel() { DataSource = Url.Action("TotalScales", "Scales", new { actorId = actor.Id }) })
+                            </div>*@
+                    </div>
+                }
             </div>
-        }
+
+        </section>
     }
 
-        @*<div class="card-title">
+    @*<div class="card-title">
             Поиск
         </div>
 
@@ -93,7 +93,7 @@ else
                         <input type="text" name="search">
                         <button>Найти</button>
                     </div>
-                    
+
                 </form>
             </div>
         </div>
@@ -105,38 +105,44 @@ else
                 <input type="submit" value="Сохранить" />
             </div>
         </div>
-        
+
         <div class="card-waiter">
             <div class="loading"></div>
         </div>*@
 
 
-        @if ((actors?.Count() ?? 0) > 0)
-        {
-            <div class="card-title">
+    @if ((actors?.Count() ?? 0) > 0)
+    {
+        <section class="card-group">
+            <div class="section-title">
                 Все акторы
+                <button class="section-hider" onclick="change_section_content_state(event)">
+                    скрыть
+                </button>
+            </div>
+            <div class="clear"></div>
+
+            <div class="section-content">
+                @foreach (Actor actor in actors)
+                {
+                    <div class="card">
+                        <div class="card-content-wrapper">
+                            <div class="card-content">
+                                @Html.Partial("Partial/KeyInfoCardContent", actor)
+                            </div>
+                            <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
+                                <div class="arrow-box-wrapper">
+                                    <div class="arrow-box">
+                                        ►
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
             </div>
 
-            foreach (Actor actor in actors)
-            {
-                <div class="card">
-                    <div class="card-content-wrapper">
-                        <div class="card-content">
-                            @Html.Partial("Partial/KeyInfoCardContent", actor)
-                        </div>
-                        <a class="card-link" href="@Url.Action("Actor", "Home", new { id = actor.Id })">
-                            <div class="arrow-box-wrapper">
-                                <div class="arrow-box">
-                                    ►
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-
-</section>
+        </section>
+    }
 
 }

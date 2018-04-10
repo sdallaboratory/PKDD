@@ -44,6 +44,10 @@ input, button, select, textarea {
     -webkit-appearance: none;
 }
 
+input[type="range"] {
+    width: 100%;
+}
+
 input[type="number"], input[type="email"], input[type="password"], input[type="text"], select, textarea {
     border: none;
     border-bottom: 1px solid rgb(76, 72, 83);
@@ -599,6 +603,7 @@ span.super-important {
 .vertex-value {
     position: absolute;
     top: 20px;
+    z-index: 49300;
     -moz-user-select: none;
     -khtml-user-select: none;
     user-select: none;

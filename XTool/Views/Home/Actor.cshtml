@@ -160,9 +160,12 @@
             Шкалы
         </div>
         <form>
+            @{ 
+                int id = new Random(DateTime.Now.Millisecond).Next();
+            }
             <div class="card">
                 <div class="card-content">
-                    @*@Html.Partial("Partial/Graph", scales)*@
+                    @Html.Partial("Partial/Graph", new GraphModel() { ActorId = actor.Id, GraphType = GraphType.EditableIndividual, InitScales =  scales, GraphFormId = id })
                 </div>
             </div>
 
@@ -172,7 +175,7 @@
 
             <div class="card-inline">
                 <div class="card-inline-item">
-                    <input type="button" value="Сохранить" class="ajax-button" href="@Url.Action("Scales", "Home")" params="@actor.Id" />
+                    <input type="button" value="Сохранить" form="@id" class="ajax-button" href="@Url.Action("Scales", "Home")" params="@actor.Id" />
                 </div>
             </div>
         </form>

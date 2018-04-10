@@ -420,7 +420,7 @@
         <form>
             <div class="card">
                 <div class="card-content">
-                    @*@Html.Partial("Partial/Graph", scales)*@
+                    @Html.Partial("Partial/Graph", new GraphModel() { ActorId = actor.Id, GraphType = GraphType.ReadOnlyTotal, InitScales = scales, InitAlgorithm = Algorithms.RootMeanSquare, InitSelectionPercent = 100 })
                 </div>
             </div>
 
