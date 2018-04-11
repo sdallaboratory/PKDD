@@ -1,129 +1,133 @@
+var graphsElems = document.getElementsByClassName('graph');
+var graphsArr = Array.from(graphsElems);
 
+class Graph {
 
-var graphs = document.getElementsByClassName('graph');
-graphs.forEach = [].forEach;
+    constructor(graph) {
+        this.graph = graph;
+        this.initGraph();
+    }
 
-function initGraph(graph) {
+    initGraph() {
+        this.initConstants();
+        this.initClassValues();
+        this.initEvents();
+    }
 
-    var values = graph.getElementsByClassName("vertex-value");
-    values.forEach = [].forEach;
-    values.forEach((value) => {
-        value.onmousedown = (e) => {
-            e.stopPropagation();
+    initConstants() {
+        this.vertexValueClass = "vertex-value";
+        this.graphVertexClass = "graph-vertex";
+        this.lineClass = "polyline";
+        this.graphEditableClass = "graph-editable";
+        this.selectedVertexClass = "selected-vertex";
+        this.preSelectedVertexClass = "pre-selected-vertex";
+    }
+
+    initEvents() {
+        this.vertexValues.forEach((value) => {
+            value.onmousedown = (e) => {
+                e.stopPropagation();
+            }
+
+            value.oninput = (e) => {
+                let curretnValue = parseInt(value.getAttribute("value"));
+            }
+        });
+        window.addEventListener("resize", this.redrawLine);
+        this.graph.onresize += this.redrawLine();
+
+        if (this.graph.classList.contains(this.graphEditableClass)) {
+            this.vertexes.forEach((vertex) => {
+
+                let vertexValue = vertex.getElementsByClassName(this.vertexValueClass)[0];
+
+                let moveAt = (clientY) => {
+                    vertexValue.value = 120 - (Math.max(Math.min(((clientY - vertex.offsetHeight / 2) - vertex.parentNode.getBoundingClientRect().top) / vertex.parentNode.offsetHeight, 1), 0) * 120).toFixed(0);
+                    vertex.style.top = ((120 - vertexValue.value) / 120 * 100) + '%';
+                    this.redrawLine();
+                }
+
+                vertex.onmousedown = (e) => { // 1. отследить нажатие
+
+                    vertex.classList.add(this.selectedVertexClass);
+
+                    document.onmousemove = (e) => {
+                        moveAt(e.clientY);
+                    }
+
+                    document.onmouseup = () => {
+                        vertex.classList.remove(this.selectedVertexClass)
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                        this.redrawLine();
+                    };
+
+                    vertex.ondragstart = () => {
+                        return false;
+                    };
+
+                    this.redrawLine();
+                }
+
+                vertex.addEventListener("touchstart", (e) => {
+                    if (vertex.classList.contains(this.preSelectedVertexClass) === false) {
+
+                        vertex.classList.add(this.preSelectedVertexClass)
+
+                        let onVertexMoveStart = (e) => {
+
+                            e.cancelable = true;
+                            e.preventDefault();
+
+                            vertex.classList.add(this.selectedVertexClass)
+
+                            document.ontouchmove = (e) => {
+                                moveAt(e.touches[0].clientY);
+                            }
+
+                            document.ontouchend = () => {
+                                vertex.classList.remove(this.selectedVertexClass);
+                                document.ontouchmove = null;
+                                document.ontouchend = null;
+                                this.redrawLine();
+                            };
+
+                            vertex.ondragstart = () => {
+                                return false;
+                            };
+                        }
+
+                        vertex.addEventListener("touchstart", onVertexMoveStart);
+
+                        let onDocumentTouchStart = (e) => {
+                            if (e.target != vertex) {
+                                vertex.classList.remove(this.preSelectedVertexClass);
+                                document.removeEventListener("touchstart", onDocumentTouchStart);
+                                vertex.removeEventListener("touchstart", onVertexMoveStart);
+                            }
+                        }
+
+                        document.addEventListener("touchstart", onDocumentTouchStart);
+                    }
+                });
+
+            });
         }
+    }
 
-        value.oninput = (e) => {
-            let curretnValue = parseInt(value.getAttribute("value"));
-            //while (!isNaN(curretnValue)  )
-        }
-    });
+    initClassValues() {
+        this.vertexValues = Array.from(this.graph.getElementsByClassName(this.vertexValueClass));
+        this.vertexes = Array.from(this.graph.getElementsByClassName(this.graphVertexClass));
+        this.line = this.graph.getElementsByClassName(this.lineClass)[0];
+    }
 
-    var vertexes = graph.getElementsByClassName('graph-vertex');
-    vertexes.forEach = [].forEach;
-    var line = graph.getElementsByClassName('polyline')[0];
-
-    var redrawLine = function () {
+    redrawLine() {
         var points = "";
-        vertexes.forEach(vertex => {
+        this.vertexes.forEach(vertex => {
             points += (vertex.parentNode.offsetLeft + vertex.offsetLeft + vertex.offsetWidth / 2) + ',' + (vertex.offsetTop + vertex.offsetHeight / 2) + ' ';
         });
-        line.setAttribute("points", points);
+        this.line.setAttribute("points", points);
     }
-
-    window.addEventListener("resize", redrawLine);
-    
-    graph.onresize += redrawLine();
-
-    if (graph.classList.contains('graph-editable'))
-    {
-        vertexes.forEach(function (vertex) {
-
-
-            //vertex.ontouchstart = function () {
-            //    function moveAt(e) {
-            //        vertex.style.top = (Math.max(Math.min((e.clientY - vertex.parentNode.getBoundingClientRect().top) / vertex.parentNode.offsetHeight, 1), 0) * 100).toFixed(1) + '%';
-            //        document.ontouchend = function () {
-            //            document.ontouchmove = null;
-            //        }
-            //    }
-            //}
-
-            var vertexValue = vertex.getElementsByClassName("vertex-value")[0];
-
-            function moveAt(clientY) {
-                vertexValue.value = 120 - (Math.max(Math.min(((clientY - vertex.offsetHeight / 2) - vertex.parentNode.getBoundingClientRect().top) / vertex.parentNode.offsetHeight, 1), 0) * 120).toFixed(0);
-                vertex.style.top = ((120 - vertexValue.value) / 120 * 100) + '%';
-                redrawLine();
-            }
-
-            vertex.onmousedown = function (e) { // 1. отследить нажатие
-
-                vertex.classList.add("selected-vertex")
-
-                document.onmousemove = function (e) {
-                    moveAt(e.clientY);
-                }
-
-                document.onmouseup = function () {
-                    vertex.classList.remove("selected-vertex")
-                    document.onmousemove = null;
-                    document.onmouseup = null;
-                   redrawLine();
-                };
-
-                vertex.ondragstart = function () {
-                    return false;
-                };
-
-                redrawLine();
-            }
-
-            vertex.addEventListener("touchstart", function (e) {
-                if (vertex.classList.contains("pre-selected-vertex") === false) {
-
-                    vertex.classList.add("pre-selected-vertex")
-
-                    var onVertexMoveStart = function (e) {
-
-                        e.cancelable = true;
-                        e.preventDefault();
-
-                        vertex.classList.add("selected-vertex")
-
-                        document.ontouchmove = function (e) {
-                            moveAt(e.touches[0].clientY);
-                        }
-
-                        document.ontouchend = function () {
-                            vertex.classList.remove("selected-vertex");
-                            document.ontouchmove = null;
-                            document.ontouchend = null;
-                            redrawLine();
-                        };
-
-                        vertex.ondragstart = function () {
-                            return false;
-                        };
-                    }
-
-                    vertex.addEventListener("touchstart", onVertexMoveStart);
-
-                    function onDocumentTouchStart (e) {
-                        if (e.target != vertex) {
-                            vertex.classList.remove("pre-selected-vertex");
-                            document.removeEventListener("touchstart", onDocumentTouchStart);
-                            vertex.removeEventListener("touchstart", onVertexMoveStart);
-                        }
-                    }
-
-                    document.addEventListener("touchstart", onDocumentTouchStart); 
-                }
-            });
-
-        });
-    }
-
 }
 
-
-graphs.forEach(initGraph);
+var graphs = graphsArr.map(x => new Graph(x));

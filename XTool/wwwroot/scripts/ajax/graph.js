@@ -20,7 +20,7 @@
 });
 
 $(".graph-wrapper").each((i, graphWrapper) => {
-    let graph = $($(graphWrapper).children(".graph")[0]);
+    let graph = new Graph($(graphWrapper).children(".graph")[0]);
     let sets = $($(graphWrapper).children(".graph-settings")[0]);
 
     function LoadData() {
@@ -40,6 +40,7 @@ $(".graph-wrapper").each((i, graphWrapper) => {
             //console.log(name + " " + $(graph.children('input[name=\"' + name + '\"]')).);
             //graph.children('input[name=\"' + name + '\"]').css("color", "red") // val(data[key]);
         }
+        graph.redrawLine();
     }
 
     //Object.keys(data).forEach((key) => alert(key));
