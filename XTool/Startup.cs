@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using XTool.Data;
+using XTool.Models.Roles;
+using XTool.Data.Validations.ApiValidator;
+using XTool.Data.SearchEngine;
+using XTool.Models.ActorModels;
 
 namespace XTool
 {
@@ -21,6 +26,27 @@ namespace XTool
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<XToolDbContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddIdentity<XToolUser, XToolRole>()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<XToolDbContext>();
+
+            string authorPath = "/Authorization/Login"; // вынести в конфиг
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = new PathString(authorPath);
+            });
+
+            services.AddStorage()
+                .AddApiTypesValidator()
+                .AddSearchEngine<Actor, int>();
+
             services.AddMvc();
         }
 
@@ -37,13 +63,14 @@ namespace XTool
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Actors}/{id?}");
             });
         }
     }

@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+
+<div class="login">
+    <h2>Восстановление</h2>
+    <form class="login-form" action="forgot" method="post">
+        @if (ViewBag.Message != null)
+        {
+            <div><span class="error"> @ViewBag.Message </span></div>
+        }
+        <div>Email</div>
+        <input type="email" class="" name="Email" required>
+        <div>Имя или фамилия</div>
+        <input type="text" class="" name="Name" required>
+        <div>Дата рождения</div>
+        <input type="date" class="" name="Birthday" required>
+        <div>
+            <input class="login-submit" type="submit" value="Восстановить пароль">
+            <div class="clear"></div>
+        </div>
+    </form>
+    <div class="login-links">
+        <a class="login-login" href="@Url.Action("Login")">
+            Вход
+        </a>
+        <a class="login-info" href="@Url.Action()">
+            Информация
+        </a>
+    </div>
+</div>

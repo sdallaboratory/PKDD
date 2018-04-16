@@ -1,0 +1,18 @@
+input[name="search"] {
+    margin-right: 20px;
+}
+
+.input-name {
+    display: inline-block;
+    margin-bottom: 0.63em;
+}
+
+select {
+    padding: 2px 4px;
+    margin-right: 4%;
+    width: auto;
+}
+
+.selects {
+    margin-top: 2em;
+}

@@ -1,0 +1,52 @@
+/* .logo-photo {
+    display: none;
+} */
+
+body {
+    font-size: 14px;
+
+}
+
+.logo {
+    margin: 40px 0;
+}
+
+.login-window {
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.login-art, .login {
+    width: 100%;
+    align-self: stretch;
+}
+
+footer {
+    font-size: 0.8em;
+}
+
+.card-link {
+    width: 15%;
+}
+
+card-content, card-content-wrapper {
+    width: 85%;
+}
+
+/*.page-wrapper {
+    margin-top: 100px;
+}*/
+/*.graph-vertex:hover {
+    background: black;
+    transform: none;
+    border-radius: 5px;
+}*/
+
+/*.card-inline {
+    justify-content: space-between;
+}
+
+.card-inline-item {
+    margin-left: 0;
+}*/

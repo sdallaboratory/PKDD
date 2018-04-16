@@ -1,0 +1,28 @@
+﻿@model Publication
+@{
+    Publication publication = Model as Publication;
+}
+<div class="card">
+    <div class="card-content-wrapper @if (!string.IsNullOrWhiteSpace(publication.Comment)) {<text>with-extension </text>}">
+        <div class="card-content">
+            @publication.Name
+        </div>
+        @if (!string.IsNullOrEmpty(publication.Url))
+        {
+            <a class="card-link" href="https://www.google.com">
+                <div class="arrow-box-wrapper">
+                    <div class="arrow-box">
+                        ►
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(publication.Comment))
+    {
+        <div class="card-extension">
+            @publication.Comment
+        </div>
+    }
+</div>

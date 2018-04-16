@@ -1,0 +1,205 @@
+﻿@{
+    Actor actor = ViewBag.Actor as Actor;
+    string comment = ViewBag.Comment as string;
+    Scales scales = ViewBag.Scales as Scales;
+}
+
+<section class="card-group">
+    <div class="section-title">
+        @actor.Name
+        <button class="section-hider" onclick="change_section_content_state(event)">
+            скрыть
+        </button>
+    </div>
+
+    <div class="clear"></div>
+    <div class="section-content">
+
+        <!-- Основная информация -->
+
+        <div class="card-title">
+            Основная информация
+        </div>
+
+
+        <div class="card">
+            <div class="card-content-wrapper">
+                <div class="card-link">
+                    <div class="arrow-box-wrapper">
+                        <div class="arrow-box">
+                            @if (actor.Sex == Sexes.Male)
+                            {
+                                <img class="inner-card-item" src="~/img/clip-art/sex/male.png" alt="">
+                            }
+                            else if (actor.Sex == Sexes.Female)
+                            {
+                                <img class="inner-card-item" src="~/img/clip-art/sex/female.png" alt="">
+                            }
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("Partial/KeyInfoCardContent", actor)
+            </div>
+        </div>
+
+        <!-- Фотографии -->
+
+        @if (actor.Photos.Count > 0)
+        {
+            <div class="card-title">
+                Фотографии
+            </div>
+
+            @foreach (Photo photo in actor.Photos)
+            {
+                @Html.Partial("Partial/PhotoCard", photo)
+            }
+        }
+
+        <!-- Публикации и выступления -->
+
+        @if (actor.Publications.Count > 0)
+        {
+            <div class="card-title">
+                Публикации и выступления
+            </div>
+            @foreach (IGrouping<int, Publication> publications in actor.Publications.GroupBy(pub => pub.Year).OrderBy(gr => gr.Key))
+            {
+                <div class="card-subtitle">
+                    @(publications.Key == 0 ? "..." : publications.Key.ToString())
+                </div>
+                @foreach (Publication publication in publications)
+                {
+                    @Html.Partial("Partial/PublicationCard", publication)
+                }
+            }
+        }
+
+        <!-- Видео -->
+
+        @if (actor.Videos.Count > 0)
+        {
+            <div class="card-title">
+                Видео
+            </div>
+
+            @foreach (Video video in actor.Videos)
+            {
+                @Html.Partial("Partial/VideoCard", video)
+            }
+        }
+
+        <!-- Биография -->
+        @if (actor.BiograpphyEvents.Count > 0)
+        {
+            <div class="card-title">Биография</div>
+
+            @foreach (BiographyEvent biographyEvent in actor.BiograpphyEvents)
+            {
+                @Html.Partial("Partial/EventCard", biographyEvent)
+            }
+        }
+
+        <!-- Карьера -->
+        @if (actor.CareerPeriods.Count > 0)
+        {
+            <div class="card-title">Карьера</div>
+
+            @foreach (CareerPeriod period in actor.CareerPeriods)
+            {
+                <div class="card-subtitle">
+                    @period.Period
+                </div>
+
+                @if (period.CareerEvents.Count > 0)
+                {
+                    @foreach (CareerEvent ev in period.CareerEvents)
+                    {
+                        @Html.Partial("Partial/EventCard", ev)
+                    }
+                }
+
+            }
+        }
+
+        <!-- Цитаты -->
+
+        @if (actor.Quotations.Count > 0)
+        {
+            <div class="card-title">Цитаты</div>
+
+            @foreach (Quotation quotation in actor.Quotations)
+            {
+                @Html.Partial("Partial/QuotationCard", quotation)
+            }
+        }
+
+        <!-- Дополнительные блоки -->
+
+        @foreach (CustomSection section in actor.CustomSection)
+        {
+            @Html.Partial("Partial/CustomSection", section)
+        }
+    </div>
+</section>
+
+<section class="card-group">
+    <div class="section-title">
+        Экспертная оценка
+        <button class="section-hider" onclick="change_section_content_state(event)">
+            скрыть
+        </button>
+    </div>
+
+
+    <div class="section-content">
+
+        <!-- Колличественная оценка -->
+
+        <div class="card-title">
+            Шкалы
+        </div>
+        <form>
+            @{ 
+                int id = new Random(DateTime.Now.Millisecond).Next();
+            }
+            <div class="card">
+                <div class="card-content">
+                    @Html.Partial("Partial/Graph", new GraphModel() { ActorId = actor.Id, GraphType = GraphType.EditableIndividual, InitScales =  scales, GraphFormId = id })
+                </div>
+            </div>
+
+            @*<div class="card-empty" style="">
+                    <input type="submit" style="width: 100%;" />
+                </div>*@
+
+            <div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="button" value="Сохранить" form="@id" class="ajax-button" href="@Url.Action("Scales", "Home")" params="@actor.Id" />
+                </div>
+            </div>
+        </form>
+
+        <div class="card-title">
+            Комментарий
+        </div>
+
+        <form action="@Url.Action("Comment", "Home", new { Id = actor.Id })" method="post">
+            <div class="card">
+                <textarea name="comment" class="card-textbox" placeholder="Оставьте здесь свой комментарий...">@comment</textarea>
+            </div>
+
+            <div class="card-inline">
+                <div class="card-inline-item">
+                    <input type="button" value="очистить" />
+                </div>
+                <div class="card-inline-item">
+                    <input type="button" value="Сохранить" href="@Url.Action("Comment", "Home")" params="@actor.Id" class="ajax-button ajax-comment" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+

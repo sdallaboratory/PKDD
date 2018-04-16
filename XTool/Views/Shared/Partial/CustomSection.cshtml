@@ -1,0 +1,17 @@
+﻿@model CustomSection
+@{
+    CustomSection customSection = Model as CustomSection;
+}
+
+<div class="card-title">@customSection.Title</div>
+<div class="card">
+        <div class="card-content">
+           @customSection.Content
+    </div>
+    @if (!string.IsNullOrWhiteSpace(customSection.Comment))
+    {
+        <div class="card-extension">
+            @customSection.Comment
+        </div>
+    }
+</div>

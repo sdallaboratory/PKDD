@@ -1,0 +1,25 @@
+﻿@model Quotation
+@{
+    Quotation quotation = Model as Quotation;
+}
+
+<div class="card">
+    <div class="card-content-wrapper @if (quotation.Comment != null) { <text>with-extension </text>} ">
+<div class="card-link">
+            <div class="arrow-box-wrapper">
+                <div class="arrow-box">
+                    <img src="/img/clip-art/quote.png" alt="quotation" class="inner-card-item">
+                </div>
+            </div>
+        </div>
+        <div class="card-content">
+            @quotation.Text
+        </div>
+    </div>
+    @if(quotation.Comment != null)
+    {
+        <div class="card-extension">
+            @quotation.Comment;
+        </div>
+    }
+</div>

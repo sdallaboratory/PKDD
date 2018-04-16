@@ -1,0 +1,16 @@
+﻿@model Photo
+@{ 
+    Photo photo = Model as Photo;
+}
+<div class="card">
+    <img class="photo" src="@photo.Url">
+    <div class="@if (!string.IsNullOrWhiteSpace(photo.Comment)) {<text>with-extension </text>}card-content">
+        @photo.Description
+    </div>
+    @if(!string.IsNullOrWhiteSpace(photo.Comment))
+    {
+        <div class="card-extension">
+            @photo.Comment
+        </div>
+    }
+</div>

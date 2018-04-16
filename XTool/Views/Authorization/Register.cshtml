@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+
+<div class="login">
+    <h2>Регистрация</h2>
+    <form class="login-form" action="register" method="post">
+        @if (ViewBag.Message != null)
+        {
+            <div><span class="error"> @ViewBag.Message </span></div>
+        }
+        <div>Фамилия, имя и отчество</div>
+        <input type="text" class="" name="Name" value="@ViewBag.RegisterModel?.Name" required>
+
+        <div>Email</div>
+        <input type="email" class="" name="Email" value="@ViewBag.RegisterModel?.Email"required>
+
+        <div>Ваша роль</div>
+        <select name="RoleName" type="email" class="" value="@(new ExpertRole().Name)" required>
+            <option value="@(new ExpertRole().Name)">Эксперт</option>    
+            <option value="@(new TechnologistRole().Name)">Технолог</option>    
+        </select>
+        <div>Пароль  </div>
+        <input type="password" class="" name="Password" value="@ViewBag.RegisterModel?.Password" required>
+
+        <div>Повторите пароль</div>
+        <input type="password" class="" name="PasswordRepeat" value="@ViewBag.RegisterModel?.PasswordRepeat" required>
+        <div>
+            <input class="login-submit" type="submit" value="Зарегистрироваться">
+            <div class="clear"></div>
+        </div>
+    </form>
+    <div class="login-links">
+        <a class="login-register" href="@Url.Action("Login")">
+            Вход
+        </a>
+        <a class="login-info" href="@Url.Action()">
+            Информация
+        </a>
+    </div>
+</div>

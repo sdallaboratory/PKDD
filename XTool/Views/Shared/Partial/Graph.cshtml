@@ -1,0 +1,84 @@
+﻿@model GraphModel
+@{
+    GraphModel graphModel = Model as GraphModel;
+    if (graphModel.InitScales == null)
+    {
+        graphModel.InitScales = new Scales();
+    }
+}
+
+<div class="graph-wrapper">
+    <form>
+
+    </form>
+    @if (graphModel.GraphType == GraphType.ReadOnlyTotal)
+    {
+    <form class="graph-settings"  src="@Url.Action(graphModel.GraphType == GraphType.ReadOnlyTotal ? "TotalScales" : "IndividualScales", "Scales", new { Id = graphModel.ActorId })">
+        <input type="number" name="ActorId" hidden value="@graphModel.ActorId" />
+        Эксперт
+        <select name="ExpertId">
+            <option value="0" selected>
+                *Все
+            </option>
+        </select>
+        Метод оценки
+        <select name="Algorithm">
+            @foreach (Algorithms algorithm in Enum.GetValues(typeof(Algorithms)))
+            {
+                @if (graphModel.InitAlgorithm == algorithm)
+                {
+                    <option value="@algorithm" selected>
+                        @Utilities.RuAlgorithmsNames[algorithm]
+                    </option>  }
+                else
+                {
+                    <option value="@algorithm">
+                        @Utilities.RuAlgorithmsNames[algorithm]
+                    </option>
+                }
+            }
+        </select>
+        Процент сглаживания отклонений<br />
+        <input type="range" min="0" max="100" value="@graphModel.InitSelectionPercent" name="selectionPercent"/>
+    </form>
+    }
+    <form  class="graph @(graphModel.GraphType == GraphType.EditableIndividual ? "graph-editable" : "")" type="@graphModel.InitAlgorithm.ToString()" src="@graphModel.DataSource" id="@graphModel.GraphFormId" >
+        @*<div class="graph-content-wrapper">*@
+        <svg class="polyline-canvas">
+            <linearGradient id="linear-gradient">
+                <stop offset="0%" stop-color="rgb(160, 240, 240)" />
+                <stop offset="100%" stop-color="rgb(216, 240, 204)" />
+            </linearGradient>
+            <polyline class="polyline" points="0,0" />
+        </svg>
+
+        <div class="graph-grid">
+            @*Тут бы добавить параметр из конфига (количетво линий графика)*@
+            @for (int i = 0; i <= Scales.UPPER_LIMIT; i += Scales.UPPER_LIMIT / 10)
+            {
+                <div class="horizontal" style="top: @(i * 100 / Scales.UPPER_LIMIT)%">
+                    <div class="horizontal-value">@(Scales.UPPER_LIMIT - i)</div>
+                </div>
+            }
+        </div>
+
+        <div class="graph-content">
+            <div class="graph-column">
+                <div class="graph-axis"></div>
+            </div>
+            @for (int i = 0; i < graphModel.InitScales.Values.Count(); i++)
+            {
+                <div class="graph-column">
+                    <div class="graph-vertex" name="@Scales.ScalesNames[i]" style="top: @((Scales.UPPER_LIMIT - graphModel.InitScales[i]) * 100 / Scales.UPPER_LIMIT)%">
+                        <input type="text" name="@Scales.ScalesNames[i]" class="vertex-value" value="@graphModel.InitScales[i]" @*readonly="@(graphModel.GraphType != GraphType.EditableIndividual ? "readonly" : "false")"*@>
+                    </div>
+                    <div class="column-name" name="@Scales.ScalesNames[i]">
+                        @Utilities.RomeanNumbers[i + 1]
+                    </div>
+                </div>
+            }
+        </div>
+        @*</div>*@
+    </form>
+</div>
+

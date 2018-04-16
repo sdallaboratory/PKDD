@@ -1,0 +1,14 @@
+﻿@model Actor
+@{
+    Actor actor = Model as Actor;
+}
+
+<div class="card-content">
+    ФИО:
+    <b>@actor.Name</b>
+    <br> Дата рождения:
+    <b>@(actor.Birthday.ToShortDateString()) @*(@actor.Age года)*@</b>
+    <br> Место работы и должность:
+    <b>@actor.Position</b>
+    <br>
+</div>
