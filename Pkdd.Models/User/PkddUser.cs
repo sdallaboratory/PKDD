@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Pkdd.Abstractions;
 using Pkdd.Abstractions.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Pkdd.Models.Users
 {
