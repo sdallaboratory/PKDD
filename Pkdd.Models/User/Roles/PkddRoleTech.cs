@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Pkdd.Models.Users.Roles
 {
-    class PkddRoleTech : PkddRoleBase
+    public class PkddRoleTech : PkddRoleBase
     {
         public PkddRoleTech() : base("tech")
         {

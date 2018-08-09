@@ -13,5 +13,14 @@ namespace Pkdd.Database
         public PkddDbContext(DbContextOptions options) : base(options)
         {
         }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<PkddRoleAdmin>();
+            builder.Entity<PkddRoleExpert>();
+            builder.Entity<PkddRoleTech>();
+            base.OnModelCreating(builder);
+        }
     }
 }
