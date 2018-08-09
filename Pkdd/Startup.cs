@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Pkdd.Database;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
+using Pkdd.Users;
 
 namespace Pkdd
 {
@@ -26,7 +27,9 @@ namespace Pkdd
 
             services.AddDbContext<PkddDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<PkddUser, PkddRoleBase>().AddEntityFrameworkStores<PkddDbContext>(); ;
+            services.AddIdentity<PkddUser, PkddRoleBase>().AddEntityFrameworkStores<PkddDbContext>();
+
+            services.AddPkddUsers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
