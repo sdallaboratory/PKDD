@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Pkdd.Users
 {
-    public interface IPkddSignInManager
+    public interface IPkddAuthManager
     {
-        Task<PkddUser> SignInAsync(string email, string password);
+        Task<PkddUser> SignInAsync(string email, string password, bool remember);
 
         Task SignOutAsync();
     }

@@ -10,7 +10,7 @@ namespace Pkdd.Users
         public static IServiceCollection AddPkddUsers(this IServiceCollection services)
         {
             services.AddTransient<IPkddUserManager, PkddUserManager>();
-            services.AddTransient<IPkddSignInManager, PkddSignInManager>();
+            services.AddTransient<IPkddAuthManager, PkddAuthManager>();
             return services;
         }
     }

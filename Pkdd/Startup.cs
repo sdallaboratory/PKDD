@@ -25,6 +25,14 @@ namespace Pkdd
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddCors(cors => cors.AddPolicy("AllowAny", options =>
+            {
+                options.AllowAnyHeader();
+                options.AllowAnyMethod();
+                options.AllowAnyOrigin();
+                options.AllowCredentials();
+            }));
+
             services.AddDbContext<PkddDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<PkddUser, PkddRoleBase>().AddEntityFrameworkStores<PkddDbContext>();
@@ -43,7 +51,7 @@ namespace Pkdd
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAny");
             app.UseHttpsRedirection();
             app.UseMvc();
         }
