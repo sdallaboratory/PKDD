@@ -7,6 +7,11 @@ namespace Pkdd.Users
 {
     public static class PkddUsersProviderExtensions
     {
+        /// <summary>
+        /// To use PkddUsersServices you have to add identity and database context services before this one.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddPkddUsers(this IServiceCollection services)
         {
             services.AddTransient<IPkddUserManager, PkddUserManager>();
