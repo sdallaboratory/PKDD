@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Pkdd.Abstractions.Entity;
 using Pkdd.Database;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
@@ -26,7 +27,7 @@ namespace Pkdd.Users
 
         public Task AddToRoleAsync(PkddUser user, PkddRoles role)
         {
-            throw new NotImplementedException();
+            return AddToRoleAsync(user, role.ToString());
         }
 
         public async Task AddToRoleAsync(PkddUser user, string roleName)
@@ -34,34 +35,45 @@ namespace Pkdd.Users
             await _userManager.AddToRoleAsync(user, roleName);
         }
 
-        public Task BanAsync(PkddUser user)
+        public async Task BanAsync(PkddUser user)
         {
-            throw new NotImplementedException();
+            user.IsBanned = true;
+            await UpdateAsync(user);
         }
 
-        public Task ConfirmAsync(PkddUser user)
+        public async Task ConfirmAsync(PkddUser user)
         {
-            throw new NotImplementedException();
+            user.IsConfirmed = true;
+            await UpdateAsync(user);
         }
 
-        public Task<PkddUser> CreateAsync(string email, string password, string name)
+        public async Task<PkddUser> CreateAsync(string email, string password, string name)
         {
-            throw new NotImplementedException();
+            if (await _userManager.FindByEmailAsync(email) != null)
+                throw new Exception("Пользователь с таким адресом электронной почты уже зарегистрирован в системе.");
+
+            PkddUser user = new PkddUser() { Email = email, Name = name };
+            IdentityResult result = await _userManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+                throw new Exception("Не удалось создать новый аккаунт пользователя.");
+
+            return user;
         }
 
-        public Task DeleteAsync(PkddUser user)
+        public async Task DeleteAsync(PkddUser user)
         {
-            throw new NotImplementedException();
+            user.MarkDeleted();
+            await UpdateAsync(user);
         }
 
-        public Task<PkddUser> FindAsync(string email)
+        public async Task<PkddUser> FindAsync(string email)
         {
-            throw new NotImplementedException();
+            return await _userManager.FindByEmailAsync(email);
         }
 
         public Task<bool> IsInRoleAsync(PkddUser user, PkddRoles role)
         {
-            throw new NotImplementedException();
+            return IsInRoleAsync(user, role.ToString());
         }
 
         public async Task<bool> IsInRoleAsync(PkddUser user, string roleName)
@@ -71,7 +83,7 @@ namespace Pkdd.Users
 
         public Task RemoveFromRoleAsync(PkddUser user, PkddRoles role)
         {
-            throw new NotImplementedException();
+            return RemoveFromRoleAsync(user, role.ToString());
         }
 
         public async Task RemoveFromRoleAsync(PkddUser user, string roleName)
@@ -79,14 +91,15 @@ namespace Pkdd.Users
             await _userManager.RemoveFromRoleAsync(user, roleName);
         }
 
-        public Task UnbanAsync(PkddUser user)
+        public async Task UnbanAsync(PkddUser user)
         {
-            throw new NotImplementedException();
+            user.IsBanned = false;
+            await UpdateAsync(user);
         }
 
         public async Task UpdateAsync(PkddUser user)
         {
-            throw new NotImplementedException();
+            await _userManager.UpdateAsync(user);
         }
     }
 }
