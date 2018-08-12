@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
+using Pkdd.Models.Diagnostics;
 
 namespace Pkdd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HealthCheckController : PkddControllerBase
+    public class DiagnosticsController : PkddControllerBase
     {
-        [HttpGet("howareyou")]
-        public JsonResult HowAreYou()
+        [HttpGet("healthcheck")]
+        public JsonResult HealthCheck()
         {
-            return PkddOk(new { Status = "Ok", Time = DateTime.Now }, "HealthCheckInfo");
+            return PkddOk(new HealthCheckInfo(), "HealthCheckInfo");
         }
     }
 }
