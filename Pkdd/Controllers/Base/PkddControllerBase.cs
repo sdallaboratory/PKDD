@@ -11,7 +11,7 @@ namespace Pkdd.Controllers.Base
 {
     public abstract class PkddControllerBase : Controller
     {
-        protected JsonResult PkddOk(object data, string type = null)
+        protected JsonResult PkddOk(object data = null, string type = null)
         {
             return Json(new PkddResponse(data, type, true));
         }

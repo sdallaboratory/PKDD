@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Pkdd.Abstractions;
 using Pkdd.Abstractions.Entity;
+using System;
 
 namespace Pkdd.Models.Users
 {
@@ -12,8 +13,13 @@ namespace Pkdd.Models.Users
 
         public bool IsBanned { get; set; }
 
-        public TimeTrack TimeTrack { get; set; }
+        public TimeTrack TimeTrack { get; set; } = new TimeTrack();
 
         public bool IsDeleted { get; set; }
+
+        public void FillUserName()
+        {
+            UserName = $"{Name}{DateTime.Now.Millisecond}".Replace(" ", "");
+        }
     }
 }

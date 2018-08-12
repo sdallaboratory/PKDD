@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
+using Pkdd.Models.Auth;
 using Pkdd.Models.Users;
 using Pkdd.Users;
 
@@ -22,40 +23,52 @@ namespace Pkdd.Controllers
             _auth = auth;
         }
 
-        public async Task<JsonResult> SignIn(string email, string password, bool remember)
+        [HttpPost("signin")]
+        public async Task<JsonResult> SignIn([FromBody] SignInModel model)
         {
-            return Json(null);
+            try
+            {
+                PkddUser user = await _auth.SignInAsync(model.Email, model.Password, model.Remember);
+                return PkddOk(user, nameof(PkddUser)); 
+            }
+            catch (Exception e)
+            {
+                return PkddError(e.Message);
+            }
         }
 
-        public async Task<JsonResult> SignOut(bool fromEverywhere = false)
+        [HttpPost("signout")]
+        public async Task<JsonResult> SignOut([FromBody] SignOutModel model)
         {
             try
             {
                 await _auth.SignOutAsync();
+                return PkddOk();
             }
             catch(Exception e)
             {
                 return PkddError(e.Message);
             }
-            return Json(null);
         }
-
-        public async Task<JsonResult> SignUp(string email, string password, string name)
+        
+        [HttpPost("signup")]
+        public async Task<JsonResult> SignUp([FromBody] SignUpModel model)
         {
             try
             {
-                PkddUser user = await _users.CreateAsync(email, password, name);
+                PkddUser user = await _users.CreateAsync(model.Email, model.Password, model.Name);
+                return PkddOk(user, nameof(PkddUser));
             }
-            catch
+            catch (Exception e)
             {
-
+                return PkddError(e.Message);
             }
-            return Json(null);
         }
 
-        public async Task<JsonResult> RestorePassword(string email)
+        [HttpPost("restorepassword")]
+        public async Task<JsonResult> RestorePassword([FromBody] RestorePasswordModel model)
         {
-            return Json(null);
+            return PkddError("Not implemented.");
         }
     }
 }

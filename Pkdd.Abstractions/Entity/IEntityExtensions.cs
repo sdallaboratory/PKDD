@@ -18,6 +18,7 @@ namespace Pkdd.Abstractions.Entity
 
         public static IEntity Init(this IEntity entity)
         {
+            entity.TimeTrack = new TimeTrack();
             entity.TimeTrack.Created = DateTime.Now;
             return entity;
         }
