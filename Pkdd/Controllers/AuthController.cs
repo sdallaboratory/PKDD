@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pkdd.Controllers.Base;
+using Pkdd.Models.Users;
 using Pkdd.Users;
 
 namespace Pkdd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : PkddControllerBase
     {
         private readonly IPkddUserManager _users;
         private readonly IPkddAuthManager _auth;
@@ -31,14 +33,23 @@ namespace Pkdd.Controllers
             {
                 await _auth.SignOutAsync();
             }
-            catch
+            catch(Exception e)
             {
+                return PkddError(e.Message);
             }
             return Json(null);
         }
 
         public async Task<JsonResult> SignUp(string email, string password, string name)
         {
+            try
+            {
+                PkddUser user = await _users.CreateAsync(email, password, name);
+            }
+            catch
+            {
+
+            }
             return Json(null);
         }
 
