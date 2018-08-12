@@ -52,6 +52,7 @@ namespace Pkdd
                 app.UseHsts();
             }
             app.UseCors("AllowAny");
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
