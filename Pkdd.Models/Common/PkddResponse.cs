@@ -36,5 +36,10 @@ namespace Pkdd.Models.Common
         /// Cover message for the response.
         /// </summary>
         public string Message { get; set; }
+
+        /// <summary>
+        /// Stores the time when response was created
+        /// </summary>
+        public DateTime TimeStamp { get; } = DateTime.Now;
     }
 }
