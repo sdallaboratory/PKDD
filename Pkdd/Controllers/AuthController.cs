@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Auth;
 using Pkdd.Models.Users;
 using Pkdd.Users;
+using System;
+using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
 {
