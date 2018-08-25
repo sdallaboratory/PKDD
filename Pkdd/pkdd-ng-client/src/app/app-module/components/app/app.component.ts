@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'pkdd-root',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'pkdd-ng-client';
+
+  constructor(
+    public readonly menu: MenuService,
+  ) { }
 }

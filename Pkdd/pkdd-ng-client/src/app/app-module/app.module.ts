@@ -6,10 +6,15 @@ import { MaterialImportsModule } from './../material-imports/material-imports.mo
 
 import { AppRoutingModule } from './../app-routing/app-routing.module';
 import { AppComponent } from './components/app/app.component';
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { MenuService } from './services/menu.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TopMenuComponent,
+    SideMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -17,7 +22,7 @@ import { AppComponent } from './components/app/app.component';
     MaterialImportsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [MenuService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
