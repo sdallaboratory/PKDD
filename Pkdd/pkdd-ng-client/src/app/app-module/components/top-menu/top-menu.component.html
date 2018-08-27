@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <span class="left-item">
+    <img src="assets/img/pkdd-logo.png" *ngIf="win.currentDeviceType === 'pc'">
+    <button mat-button (click)="menu.sideMenuOpened = !menu.sideMenuOpened">
+      <mat-icon *ngIf="win.currentDeviceType !== 'pc' && !menu.sideMenuOpened">menu</mat-icon>
+      <mat-icon *ngIf="win.currentDeviceType !== 'pc' && menu.sideMenuOpened">close</mat-icon>
+    </button>
+  </span>
+
+  <div class="other-items">
+    <pkdd-menu-item *ngFor="let item of menu.topMenuItems" [menuItem]="item" [mode]="win.currentDeviceType"></pkdd-menu-item>
+  </div>
+</mat-toolbar>

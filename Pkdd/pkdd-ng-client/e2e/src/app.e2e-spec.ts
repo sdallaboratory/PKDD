@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('pkdd-ng-client App', () => {
+describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -9,6 +9,6 @@ describe('pkdd-ng-client App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to pkdd!');
+    expect(page.getParagraphText()).toEqual('Welcome to pkdd-ng-client!');
   });
 });
