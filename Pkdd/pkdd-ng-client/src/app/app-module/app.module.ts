@@ -9,12 +9,14 @@ import { AppComponent } from './components/app/app.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { MenuService } from './services/menu.service';
+import { MenuItemComponent } from './components/menu-item/menu-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopMenuComponent,
     SideMenuComponent,
+    MenuItemComponent,
   ],
   imports: [
     BrowserModule,

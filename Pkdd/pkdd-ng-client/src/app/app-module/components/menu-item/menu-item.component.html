@@ -1,0 +1,7 @@
+<div class="wrapper">
+  <ng-container *ngIf="menuItem.image && menuItem.image.length">
+    <mat-icon *ngIf="menuItem.isMaterialIcon">{{menuItem.image}}</mat-icon>
+    <img *ngIf="!menuItem.isMaterialIcon" [src]="menuItem.image">
+  </ng-container>
+  <div>{{menuItem.name}}</div>
+</div>

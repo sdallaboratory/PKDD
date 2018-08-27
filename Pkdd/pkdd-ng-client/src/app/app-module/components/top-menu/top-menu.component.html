@@ -1,3 +1,6 @@
-<p>
-  top-menu works!
-</p>
+<mat-toolbar>
+  <span class="left-item"><img src="assets/img/pkdd-logo.png"></span>
+  <div class="other-items">
+    <pkdd-menu-item *ngFor="let item of menu.topMenuItems" [menuItem]="item"></pkdd-menu-item>
+  </div>
+</mat-toolbar>
