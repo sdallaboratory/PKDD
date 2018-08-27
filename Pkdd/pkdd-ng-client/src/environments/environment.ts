@@ -1,9 +1,19 @@
+import { Configuration } from '../app/models/core/configuration';
+import { CssBreakpoint } from 'src/app/models/core/css-breakpoint';
+import { CssBreakpoints } from '../app/models/core/css-breakpoints.enum';
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
+export const environment: Configuration = {
+  production: false,
+
+  cssBreakpoints: [
+    new CssBreakpoint(CssBreakpoints.mobile, 0, 600),
+    new CssBreakpoint(CssBreakpoints.tablet, 601, 900),
+    new CssBreakpoint(CssBreakpoints.pc, 901, Infinity)
+  ]
 };
 
 /*

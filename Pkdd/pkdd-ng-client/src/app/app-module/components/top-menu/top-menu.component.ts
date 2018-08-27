@@ -13,9 +13,10 @@ export class TopMenuComponent implements OnInit {
     public readonly menu: MenuService,
     public readonly win: WindowService
   ) {
-    win.WindowResized.subscribe(size => {
-      // To change mode of displaying items
-    });
+    // win.breakpointChanged.subscribe(deviceType => {
+    //   console.log(deviceType, win.CurrentSize);
+    //   // To change mode of displaying items
+    // });
   }
 
   ngOnInit() {

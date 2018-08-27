@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuService } from '../../services/menu.service';
+import { WindowService } from '../../services/window.service';
 
 @Component({
   selector: 'pkdd-side-menu',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public readonly menu: MenuService,
+    public readonly win: WindowService
+  ) { }
 
   ngOnInit() {
   }

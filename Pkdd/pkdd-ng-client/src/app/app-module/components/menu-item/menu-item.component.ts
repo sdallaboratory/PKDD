@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem } from '../../models/menu-item';
+import { CssBreakpoints } from '../../../models/core/css-breakpoints.enum';
 
 @Component({
   selector: 'pkdd-menu-item',
@@ -12,7 +13,7 @@ export class MenuItemComponent implements OnInit {
   public menuItem: MenuItem;
 
   @Input()
-  public mode: 'full' | 'text' | 'icon';
+  public mode: CssBreakpoints = CssBreakpoints.pc;
 
   constructor() { }
 
