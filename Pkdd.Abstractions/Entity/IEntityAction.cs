@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Pkdd.Abstractions.Entity
 {
-    public interface IEntity<TEntity> : IEntityStatus, IEntityAction<TEntity>
+    public interface IEntityAction<TEntity>
     {
-        int Id { get; set; }
+        TEntity Update(TEntity entity);
     }
 }
