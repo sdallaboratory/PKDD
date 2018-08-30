@@ -1,0 +1,26 @@
+<div class="wrapper">
+
+  <h1>
+    Вход
+  </h1>
+<mat-form-field>
+  <mat-label>Email</mat-label>
+  <input matInput type="text" placeholder="example@email.com">
+</mat-form-field>
+<mat-form-field class="password-field">
+  <mat-label>Пароль</mat-label>
+  <input matInput type="password" placeholder="somepassword">
+  <mat-hint [align]="'start'"><a routerLink="/auth/restore">Забыли?</a></mat-hint>
+</mat-form-field>
+<div class="row">
+  <mat-checkbox>Запомнить меня</mat-checkbox>
+  <div class="flex-splitter"></div>
+  <button mat-button>Войти</button>
+</div>
+<div class="flex-splitter"></div>
+<div class="row bottom">
+<button mat-button>Регистрация</button>
+  <div class="flex-splitter"></div>
+<button mat-button>Информация</button>
+</div>
+</div>

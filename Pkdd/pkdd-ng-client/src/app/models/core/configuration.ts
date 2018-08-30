@@ -6,4 +6,5 @@ export interface Configuration {
 
     cssBreakpoints: CssBreakpoint[];
 
+    version: string;
 }

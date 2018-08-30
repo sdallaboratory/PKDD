@@ -13,7 +13,9 @@ export const environment: Configuration = {
     new CssBreakpoint(CssBreakpoints.mobile, 0, 600),
     new CssBreakpoint(CssBreakpoints.tablet, 601, 900),
     new CssBreakpoint(CssBreakpoints.pc, 901, Infinity)
-  ]
+  ],
+
+  version: 'v.0.0 dev'
 };
 
 /*

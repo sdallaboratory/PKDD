@@ -1,0 +1,67 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper.mobile {
+    justify-content: flex-start;
+}
+
+mat-card {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 800px;
+}
+
+mat-card.mobile {
+    flex-direction: column;
+    // min-height: 100%;
+    margin: 0;
+}
+
+.pkdd-logo-wrapper {
+    padding: 150px 0 200px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255, 255, 0); //url(/assets/img/analysts.png), rgba(255, 255, 255, 0.5);
+    background-size: cover;
+    background-repeat: no-repeat;
+    flex: 0 1 50%;
+}
+
+.pkdd-logo-wrapper.mobile {
+    padding: 20px 40px;
+    flex: none;
+    justify-content: left;
+}
+
+.pkdd-logo {
+    height: 180px;
+}
+
+.pkdd-logo.mobile {
+    height: 60px;
+}
+
+.outlet {
+    padding: 20px 45px;
+    min-width: 280px;
+    flex: 1 0 auto;
+}
+
+.outlet.mobile {
+    min-width: 0px;
+}
+
+pkdd-copyright {
+    margin: 40px;
+
+}
