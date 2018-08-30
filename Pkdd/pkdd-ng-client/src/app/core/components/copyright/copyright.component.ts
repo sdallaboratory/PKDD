@@ -9,11 +9,11 @@ import { EnvironmentService } from '../../services/environment.service';
 export class CopyrightComponent {
 
   constructor(
-    public readonly config: EnvironmentService
+    public readonly env: EnvironmentService
   ) { }
 
-  public get version() {
-    return this.config.config.version;
+  public get currentYear() {
+    return new Date().getFullYear();
   }
 
 }

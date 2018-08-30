@@ -15,7 +15,11 @@ export const environment: Configuration = {
     new CssBreakpoint(CssBreakpoints.pc, 901, Infinity)
   ],
 
-  version: 'v.0.0 dev'
+  version: 'v.0.0',
+
+  developers: 'Батин, Соловьев & Гончаров',
+
+  productName: 'ПКДД'
 };
 
 /*

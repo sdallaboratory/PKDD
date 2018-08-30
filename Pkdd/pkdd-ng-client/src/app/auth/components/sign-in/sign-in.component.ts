@@ -3,13 +3,11 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'pkdd-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss', './../../auth-styles.scss']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  public hide = true;
 }

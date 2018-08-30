@@ -1,3 +1,22 @@
-<p>
-  restore works!
-</p>
+<div class="wrapper">
+    <h1>
+      Восстановление пароля
+    </h1>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="text" placeholder="укажите Email вашего аккаунта">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+        <input matInput type="text" placeholder="введите вашу фамилию">
+      </mat-form-field>
+    <div class="row">
+      <div class="flex-splitter"></div>
+      <button mat-button>Восстановить</button>
+    </div>
+    <div class="flex-splitter"></div>
+    <div class="row bottom">
+        <button mat-button><a routerLink="/auth">Вход</a></button>
+        <button mat-button><a routerLink="/auth/sign-up">Регистрация</a></button>
+    </div>
+  </div>
