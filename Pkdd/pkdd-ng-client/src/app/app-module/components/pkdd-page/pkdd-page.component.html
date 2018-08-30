@@ -1,0 +1,16 @@
+<div class="vertical-flex">
+  <pkdd-top-menu *ngIf="menu.isDisplayed"></pkdd-top-menu>
+  <div class="horizontal-flex">
+    <pkdd-side-menu *ngIf="menu.isDisplayed && menu.sideMenuItems.length && win.currentDeviceType === 'pc'" class="pc-side-menu"></pkdd-side-menu>
+    <mat-sidenav-container *ngIf="menu.isDisplayed">
+      <mat-sidenav *ngIf="win.currentDeviceType !== 'pc' && menu.sideMenuItems.length" class="mobile-side-menu" [opened]="menu.sideMenuOpened" disableClose>
+        <pkdd-side-menu ></pkdd-side-menu>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div>
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { WindowSize } from '../models/window-size';
-import { EnvironmentService } from '../../core/services/environment.service';
+import { EnvironmentService } from './environment.service';
 import { CssBreakpoints } from '../../models/core/css-breakpoints.enum';
+import { WindowSize } from '../../models/core/window-size';
 
 @Injectable({
   providedIn: 'root'

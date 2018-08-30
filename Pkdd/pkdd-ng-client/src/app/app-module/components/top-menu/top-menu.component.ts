@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuService } from '../../services/menu.service';
-import { WindowService } from '../../services/window.service';
+import { MenuService } from '../../../core/services/menu.service';
+import { WindowService } from '../../../core/services/window.service';
 
 @Component({
   selector: 'pkdd-top-menu',
