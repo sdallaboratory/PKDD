@@ -10,19 +10,15 @@ namespace Pkdd.Database
     {
         public PkddDbContext(DbContextOptions options) : base(options)
         {
-            Persons = new PkddDbSet<Person>();
-            ContentBlocks = new PkddDbSet<ContentBlock>();
-            MetaInfos = new PkddDbSet<MetaInformation>();
-            MainBioBlocks = new PkddDbSet<BaseBioBlock>();
         }
 
-        public PkddDbSet<Person> Persons { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
-        public PkddDbSet<ContentBlock> ContentBlocks { get; set; }
+        public DbSet<ContentBlock> ContentBlocks { get; set; }
 
-        public PkddDbSet<MetaInformation> MetaInfos { get; set; }
+        public DbSet<MetaInformation> MetaInfos { get; set; }
 
-        public PkddDbSet<BaseBioBlock> MainBioBlocks { get; set; }
+        public DbSet<BaseBioBlock> MainBioBlocks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

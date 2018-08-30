@@ -59,6 +59,7 @@ namespace Pkdd.Database
                                             {
                                                 Tilte = "subsub",
                                                 Type = Models.Person.Enums.ContentType.Photo,
+                                                Content = "asd"
                                             }
                                         }
                                     },

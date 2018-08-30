@@ -10,7 +10,6 @@ using Pkdd.Repositories;
 namespace Pkdd.Controllers
 {
     [Route("api/persons")]
-    [ApiController]
     public class PersonController : PkddControllerBase
     {
         private readonly IPersonRepository _personRepository;
@@ -24,7 +23,8 @@ namespace Pkdd.Controllers
         [Route("")]
         public async Task<IActionResult> GetPersons()
         {
-            return Ok(await _personRepository.GetAllPersons());
+            var result = Json(await _personRepository.GetAllPersons());
+            return result;
         }
     }
 }

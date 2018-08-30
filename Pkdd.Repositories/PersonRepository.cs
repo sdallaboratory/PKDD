@@ -55,7 +55,7 @@ namespace Pkdd.Repositories
             List<Person> persons = null;
             try
             {
-                persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
+                persons = await _dbContext.Persons.Include(p => p.BioBlock).ThenInclude(b => b.ContentBlocks).ToListAsync();
                 foreach(Person person in persons)
                 {
                     foreach(ContentBlock block in person.BioBlock.ContentBlocks)
@@ -98,7 +98,7 @@ namespace Pkdd.Repositories
             Person person = null;
             try
             {
-                person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync();
+                person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).ThenInclude(b => b.ContentBlocks).FirstOrDefaultAsync();
                 foreach (ContentBlock block in person.BioBlock.ContentBlocks)
                 {
                     await LoadBlocks(block);

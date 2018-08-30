@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Pkdd.Abstractions.Entity
 {
+    [JsonObject]
     public abstract class EntityBase<TEntity> : IEntity<TEntity>
     {
         public EntityBase()
@@ -11,10 +13,13 @@ namespace Pkdd.Abstractions.Entity
             MarkCreated();
         }
 
+        [JsonProperty("id")]
         public virtual int Id { get; set; }
 
+        [JsonIgnore]
         public virtual TimeTrack TimeTrack { get; set; }
 
+        [JsonProperty("isDeleted")]
         public virtual bool IsDeleted { get; set; }
 
         public abstract TEntity Update(TEntity entity); 
