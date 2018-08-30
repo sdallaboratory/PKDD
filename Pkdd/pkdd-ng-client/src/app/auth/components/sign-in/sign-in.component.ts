@@ -10,4 +10,6 @@ export class SignInComponent {
   constructor() { }
 
   public hide = true;
+
+  public error: string = ' возникла ошибочка';
 }

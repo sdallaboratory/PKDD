@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'pkdd-sign-up',
@@ -11,4 +11,5 @@ export class SignUpComponent {
 
   public hide = true;
 
+  public error: string;
 }

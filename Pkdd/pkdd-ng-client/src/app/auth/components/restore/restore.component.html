@@ -2,6 +2,7 @@
     <h1>
       Восстановление пароля
     </h1>
+  <div *ngIf="error && error.length" class="error">{{error}}</div>
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input matInput type="text" placeholder="укажите Email вашего аккаунта">
@@ -16,7 +17,7 @@
     </div>
     <div class="flex-splitter"></div>
     <div class="row bottom">
-        <button mat-button><a routerLink="/auth">Вход</a></button>
-        <button mat-button><a routerLink="/auth/sign-up">Регистрация</a></button>
+        <a routerLink="/auth"><button mat-button>Вход</button></a>
+        <a routerLink="/auth/sign-up"><button mat-button>Регистрация</button></a>
     </div>
   </div>
