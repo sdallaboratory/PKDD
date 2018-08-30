@@ -1,4 +1,4 @@
-<button mat-button >
+<!-- <button mat-button [class.icon-only]="mode === 'mobile'"> -->
 <a [routerLink]="menuItem.link" class="wrapper">
     <ng-container *ngIf="menuItem.image && menuItem.image.length && mode !== 'tablet'">
       <mat-icon *ngIf="menuItem.isMaterialIcon">{{menuItem.image}}</mat-icon>
@@ -6,4 +6,4 @@
     </ng-container>
     <div class="name" *ngIf="mode !== 'mobile'">{{menuItem.name}}</div>
   </a>
-</button>
+<!-- </button> -->
