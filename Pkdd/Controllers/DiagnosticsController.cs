@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
+using Pkdd.Database;
 using Pkdd.Models.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
 {
@@ -8,9 +10,17 @@ namespace Pkdd.Controllers
     [ApiController]
     public class DiagnosticsController : PkddControllerBase
     {
-        [HttpGet("healthcheck")]
-        public JsonResult HealthCheck()
+        private readonly DbSeeder _seeder;
+
+        public DiagnosticsController(DbSeeder seeder)
         {
+            _seeder = seeder;
+        }
+
+        [HttpGet("healthcheck")]
+        public async Task<JsonResult> HealthCheck()
+        {
+            await _seeder.SeedData();
             return PkddOk(new HealthCheckInfo(), "HealthCheckInfo");
         }
     }

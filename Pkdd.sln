@@ -5,13 +5,15 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pkdd", "Pkdd\Pkdd.csproj", "{E8D27023-BC1A-446C-8348-5D8C433E06D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pkdd.Abstractions", "Pkdd.Abstractions\Pkdd.Abstractions.csproj", "{F6E84F7C-E8C1-4109-8D38-3030BD3B03ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pkdd.Abstractions", "Pkdd.Abstractions\Pkdd.Abstractions.csproj", "{F6E84F7C-E8C1-4109-8D38-3030BD3B03ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pkdd.Models", "Pkdd.Models\Pkdd.Models.csproj", "{DBF84947-1AB2-482C-8E4C-E2D268049D7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pkdd.Models", "Pkdd.Models\Pkdd.Models.csproj", "{DBF84947-1AB2-482C-8E4C-E2D268049D7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pkdd.Database", "Pkdd.Database\Pkdd.Database.csproj", "{5F2A4014-AA2B-4949-8F73-ED5AB83AFA9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pkdd.Database", "Pkdd.Database\Pkdd.Database.csproj", "{5F2A4014-AA2B-4949-8F73-ED5AB83AFA9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pkdd.Users", "Pkdd.Users\Pkdd.Users.csproj", "{4687CBD0-3D7E-4701-9D9B-6CF115A3F55E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pkdd.Users", "Pkdd.Users\Pkdd.Users.csproj", "{4687CBD0-3D7E-4701-9D9B-6CF115A3F55E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pkdd.Repositories", "Pkdd.Repositories\Pkdd.Repositories.csproj", "{56979A90-FA44-4AE7-A4F1-B9136E6B6D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4687CBD0-3D7E-4701-9D9B-6CF115A3F55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4687CBD0-3D7E-4701-9D9B-6CF115A3F55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4687CBD0-3D7E-4701-9D9B-6CF115A3F55E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56979A90-FA44-4AE7-A4F1-B9136E6B6D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56979A90-FA44-4AE7-A4F1-B9136E6B6D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56979A90-FA44-4AE7-A4F1-B9136E6B6D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56979A90-FA44-4AE7-A4F1-B9136E6B6D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

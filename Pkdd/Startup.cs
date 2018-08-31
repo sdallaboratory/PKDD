@@ -8,6 +8,7 @@ using Pkdd.Database;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 using Pkdd.Users;
+using Pkdd.Repositories;
 
 namespace Pkdd
 {
@@ -36,6 +37,9 @@ namespace Pkdd
             services.AddDbContext<PkddDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<PkddUser, PkddRoleBase>().AddEntityFrameworkStores<PkddDbContext>();
+
+            services.AddPersonRepository();
+            services.AddTransient<DbSeeder, DbSeeder>();
 
             services.AddPkddUsers();
         }

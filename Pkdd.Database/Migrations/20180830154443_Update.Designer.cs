@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pkdd.Database;
 
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    partial class PkddDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180830154443_Update")]
+    partial class Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,7 +116,7 @@ namespace Pkdd.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MetaInfos");
+                    b.ToTable("MetaInformation");
                 });
 
             modelBuilder.Entity("Pkdd.Models.Person.BaseBioBlock", b =>
@@ -132,7 +134,7 @@ namespace Pkdd.Database.Migrations
                     b.HasIndex("PersonId")
                         .IsUnique();
 
-                    b.ToTable("MainBioBlocks");
+                    b.ToTable("BaseBioBlock");
                 });
 
             modelBuilder.Entity("Pkdd.Models.Person.ContentBlock", b =>
@@ -166,7 +168,7 @@ namespace Pkdd.Database.Migrations
 
                     b.HasIndex("ContentBlockId");
 
-                    b.ToTable("ContentBlocks");
+                    b.ToTable("ContentBlock");
                 });
 
             modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
@@ -190,7 +192,7 @@ namespace Pkdd.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons");
+                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("Pkdd.Models.Users.PkddUser", b =>
@@ -374,7 +376,7 @@ namespace Pkdd.Database.Migrations
 
                             b1.Property<DateTime>("Updated");
 
-                            b1.ToTable("MetaInfos");
+                            b1.ToTable("MetaInformation");
 
                             b1.HasOne("Pkdd.Database.MetaInformation")
                                 .WithOne("TimeTrack")
@@ -402,7 +404,7 @@ namespace Pkdd.Database.Migrations
 
                             b1.Property<DateTime>("Updated");
 
-                            b1.ToTable("MainBioBlocks");
+                            b1.ToTable("BaseBioBlock");
 
                             b1.HasOne("Pkdd.Models.Person.BaseBioBlock")
                                 .WithOne("TimeTrack")
@@ -433,7 +435,7 @@ namespace Pkdd.Database.Migrations
 
                             b1.Property<DateTime>("Updated");
 
-                            b1.ToTable("ContentBlocks");
+                            b1.ToTable("ContentBlock");
 
                             b1.HasOne("Pkdd.Models.Person.ContentBlock")
                                 .WithOne("TimeTrack")
@@ -456,7 +458,7 @@ namespace Pkdd.Database.Migrations
 
                             b1.Property<DateTime>("Updated");
 
-                            b1.ToTable("Persons");
+                            b1.ToTable("Person");
 
                             b1.HasOne("Pkdd.Models.Person.Person")
                                 .WithOne("TimeTrack")

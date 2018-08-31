@@ -85,7 +85,7 @@ namespace Pkdd.Users
                 throw new Exception("Пользователь с таким адресом электронной почты уже зарегистрирован в системе.");
 
             PkddUser user = new PkddUser() { Email = email, Name = name };
-            user.Init();
+            user.MarkCreated();
             user.FillUserName();
 
             IdentityResult result = await _userManager.CreateAsync(user, password);
