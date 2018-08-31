@@ -27,10 +27,17 @@ namespace Pkdd.Users
         /// <returns></returns>
         public async Task<PkddUser> SignInAsync(string email, string password, bool remember)
         {
-            PkddUser user = await _userManager.FindByEmailAsync(email);
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                throw new Exception("Введены некорректные данные.");
 
-            await _signInManager.PasswordSignInAsync(user, password, remember, false);
+            PkddUser user = await _userManager.FindByEmailAsync(email)
+                ?? throw new Exception("Пользователя с таким Email нет в системе.");
 
+            var result = await _signInManager.PasswordSignInAsync(user, password, remember, false);
+
+            if(!result.Succeeded)
+                throw new Exception("Введён неверный пароль.");
+            
             return user;
         }
 

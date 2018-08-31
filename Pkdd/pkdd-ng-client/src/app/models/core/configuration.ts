@@ -11,4 +11,6 @@ export interface Configuration {
     developers: string;
 
     productName: string;
+
+    backendUrl: string;
 }

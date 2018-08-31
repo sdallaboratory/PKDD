@@ -21,12 +21,17 @@ export class SignInComponent {
 
   public hide = true;
 
-  public error: string = ' возникла ошибочка';
+  public error: string;
 
   public async signIn() {
-    const user = await this.auth.signIn(this.email, this.password, this.remember);
-    if (!user) {
-      this.error = 'Неа!';
+    try {
+
+      const user = await this.auth.signIn(this.email, this.password, this.remember);
+      if (!user) {
+        this.error = 'Неа!';
+      }
+    } catch (err) {
+      this.error = err.error;
     }
   }
 }

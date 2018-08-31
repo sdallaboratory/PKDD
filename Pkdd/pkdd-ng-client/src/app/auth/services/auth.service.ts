@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PkddUser } from '../../models/auth/pkdd-user';
-import { HttpClient } from '@angular/common/http';
 import { PkddHttpService } from '../../core/services/pkdd-http.service';
+import { SignUpModel } from '../../models/auth/sign-up-model';
 import { SignInModel } from '../../models/auth/sign-in-model';
 
 @Injectable({
@@ -27,16 +27,13 @@ export class AuthService {
 
   public async signIn(email: string, password: string, remeber = false): Promise<PkddUser> {
     const model = new SignInModel(email, password, remeber);
-    try {
-      this._user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
-      return this._user;
-    } catch (error) {
-      return null;
-    }
+    this._user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
+    return this._user;
   }
 
-  public signUp() {
-
+  public async signUp(name: string, email: string, password: string): Promise<void> {
+    const model = new SignUpModel(name, email, password);
+    await this.http.post('/api/auth/sign-up', model);
   }
 
   public signOut() {

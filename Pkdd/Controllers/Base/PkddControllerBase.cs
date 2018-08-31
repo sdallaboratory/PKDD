@@ -14,19 +14,14 @@ namespace Pkdd.Controllers.Base
         protected JsonResult PkddOk(object data = null, string type = null)
         {
             HttpContext.Response.StatusCode = 200;
-            return Json(new PkddResponse(data, type, true));
-        }
-
-        protected JsonResult PkddWarning(object data = null, string type = null, string message = null)
-        {
-            HttpContext.Response.StatusCode = 200;
-            return Json(new PkddResponse(data, type, false, message));
+            //HttpContext.Response.Headers.Add("Date", DateTime.Now.ToString());
+            return Json(data);
         }
 
         protected JsonResult PkddError(string message)
         {
             HttpContext.Response.StatusCode = 500;
-            return Json(new PkddResponse(null, null, false, $"Error: \"{message}\""));
+            return Json($"{message}");
         }
     }
 }

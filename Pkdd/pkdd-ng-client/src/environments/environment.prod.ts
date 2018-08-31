@@ -12,4 +12,5 @@ export const environment: Configuration = {
   version: 'v.0.0',
   developers: 'Батин, Соловьев & Гончаров',
   productName: 'ПКДД',
+  backendUrl: 'https://localhost:44328',
 };
