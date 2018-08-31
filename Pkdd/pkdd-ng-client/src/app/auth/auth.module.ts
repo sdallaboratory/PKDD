@@ -8,6 +8,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { RestoreComponent } from './components/restore/restore.component';
 import { MaterialImportsModule } from '../material-imports/material-imports.module';
 import { CoreModule } from '../core/core.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { CoreModule } from '../core/core.module';
     CoreModule,
     MaterialImportsModule,
     AuthRoutingModule,
+    HttpClientModule
   ],
   declarations: [
     AuthPageComponent,
