@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pkdd.Database;
 using Pkdd.Models.Person;
+using Pkdd.Repositories.Exceptions;
 
 namespace Pkdd.Repositories
 {
@@ -56,17 +57,24 @@ namespace Pkdd.Repositories
             try
             {
                 persons = await _dbContext.Persons.Include(p => p.BioBlock).ThenInclude(b => b.ContentBlocks).ToListAsync();
-                foreach(Person person in persons)
+                if (persons != null || persons.Any())
                 {
-                    foreach(ContentBlock block in person.BioBlock.ContentBlocks)
+                    foreach (Person person in persons)
                     {
-                        await LoadBlocks(block);
+                        foreach (ContentBlock block in person.BioBlock.ContentBlocks)
+                        {
+                            await LoadBlocks(block);
+                        }
                     }
                 }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
             return persons;
         }
@@ -85,10 +93,14 @@ namespace Pkdd.Repositories
                     }
                     result = mainBlock.ContentBlocks;
                 }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
             return result;
         }
@@ -99,14 +111,21 @@ namespace Pkdd.Repositories
             try
             {
                 person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).ThenInclude(b => b.ContentBlocks).FirstOrDefaultAsync();
-                foreach (ContentBlock block in person.BioBlock.ContentBlocks)
+                if (person != null)
                 {
-                    await LoadBlocks(block);
+                    foreach (ContentBlock block in person.BioBlock.ContentBlocks)
+                    {
+                        await LoadBlocks(block);
+                    }
+                }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
             return person;
         }
@@ -121,27 +140,66 @@ namespace Pkdd.Repositories
                     _dbContext.ContentBlocks.Remove(contentBlock);
                     await _dbContext.SaveChangesAsync();
                 }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
+        }
+
+        public async Task<BaseBioBlock> GetMainBlock(int personId)
+        {
+            BaseBioBlock mainBlock = null;
+            try
+            {
+                mainBlock = await _dbContext.MainBioBlocks.Where(b => b.PersonId == personId).Include(m => m.ContentBlocks).FirstOrDefaultAsync();
+                if (mainBlock != null)
+                {
+                    foreach (ContentBlock block in mainBlock.ContentBlocks)
+                    {
+                        await LoadBlocks(block);
+                    }
+                }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
+            }
+            catch (Exception ex)
+            {
+                ThrowException(ex);
+            }
+            return mainBlock;
         }
 
         public async Task RemovePerson(int id)
         {
             try
             {
-                Person person = await _dbContext.Persons.FirstOrDefaultAsync(p => p.Id == id);
+                Person person = await _dbContext.Persons.Include(p => p.BioBlock)
+                                                        .ThenInclude(b => b.ContentBlocks)
+                                                        .FirstOrDefaultAsync(p => p.Id == id);
                 if (person != null)
                 {
+                    foreach(ContentBlock block in person.BioBlock.ContentBlocks)
+                    {
+                        await RemoveBlocks(block);
+                    }
                     _dbContext.Persons.Remove(person);
                     await _dbContext.SaveChangesAsync();
                 }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
         }
 
@@ -156,10 +214,14 @@ namespace Pkdd.Repositories
                     _dbContext.ContentBlocks.Update(contentBlock);
                     await _dbContext.SaveChangesAsync();
                 }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
         }
 
@@ -174,10 +236,14 @@ namespace Pkdd.Repositories
                     _dbContext.Persons.Update(oldPerson);
                     await _dbContext.SaveChangesAsync();
                 }
+                else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
         }
 
@@ -187,6 +253,29 @@ namespace Pkdd.Repositories
             foreach(ContentBlock subblock in block.SubBlocks)
             {
                 await LoadBlocks(subblock);
+            }
+        }
+
+        private async Task RemoveBlocks(ContentBlock block)
+        {
+            await _dbContext.Entry(block).Collection(b => b.SubBlocks).LoadAsync();
+            _dbContext.ContentBlocks.Remove(block);
+            foreach (ContentBlock subblock in block.SubBlocks)
+            {
+                await LoadBlocks(subblock);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private void ThrowException(Exception ex)
+        {
+            if (ex is NotFoundException || ex is SaveException)
+            {
+                throw ex;
+            }
+            else
+            {
+                throw new SaveException("Ошибка сохранения сущности", ex);
             }
         }
     }

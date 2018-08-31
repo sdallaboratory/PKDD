@@ -13,6 +13,8 @@ namespace Pkdd.Repositories
         Task UpdatePerson(Person person);
         Task RemovePerson(int id);
 
+        Task<BaseBioBlock> GetMainBlock(int personId);
+
         Task<List<ContentBlock>> GetContentBlock(int baseBlockId);
         Task<ContentBlock> AddContentBlock(ContentBlock content);
         Task UpdateContentBlock(ContentBlock content);

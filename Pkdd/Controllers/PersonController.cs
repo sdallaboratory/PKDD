@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
+using Pkdd.Models.Common;
+using Pkdd.Models.Person;
 using Pkdd.Repositories;
 
 namespace Pkdd.Controllers
@@ -23,8 +25,151 @@ namespace Pkdd.Controllers
         [Route("")]
         public async Task<IActionResult> GetPersons()
         {
-            var result = Json(await _personRepository.GetAllPersons());
-            return result;
+            try
+            {
+                var persons = await _personRepository.GetAllPersons();
+                return Ok(persons);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetPerson([FromRoute] int id)
+        {
+            try
+            {
+                var person = await _personRepository.GetPerson(id);
+                return Ok(person);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpGet]
+        [Route("bio/{id}")]
+        public async Task<IActionResult> GetMainBlock([FromRoute] int id)
+        {
+            try
+            {
+                var mainBlock = await _personRepository.GetMainBlock(id);
+                return Ok(mainBlock);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpGet]
+        [Route("bio/{id}/contents")]
+        public async Task<IActionResult> GetContentBlock([FromRoute] int id)
+        {
+            try
+            {
+                var mainBlock = await _personRepository.GetMainBlock(id);
+                return Ok(mainBlock);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task<IActionResult> AddPerson([FromBody] Person person)
+        {
+            try
+            {
+                var newPerson = await _personRepository.AddPerson(person);
+                return Ok(newPerson);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpPost]
+        [Route("bio/contents")]
+        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block)
+        {
+            try
+            {
+                var newBlock = await _personRepository.AddContentBlock(block);
+                return Ok(newBlock);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpPut]
+        [Route("")]
+        public async Task<IActionResult> UpdatePerson([FromBody] Person person)
+        {
+            try
+            {
+                await _personRepository.UpdatePerson(person);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpPut]
+        [Route("bio/contents")]
+        public async Task<IActionResult> UpdateContentBlock([FromBody] ContentBlock block)
+        {
+            try
+            {
+                await _personRepository.UpdateContentBlock(block);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeletePerson([FromRoute] int id)
+        {
+            try
+            {
+                await _personRepository.RemovePerson(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
+        [HttpDelete]
+        [Route("bio/contents/{id}")]
+        public async Task<IActionResult> DeleteContentBlock([FromRoute] int id)
+        {
+            try
+            {
+                await _personRepository.RemoveContentBlock(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+            }
+        }
+
     }
 }
