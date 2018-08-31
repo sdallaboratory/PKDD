@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Pkdd.Models.Users;
 
@@ -11,11 +12,13 @@ namespace Pkdd.Users
     {
         private readonly UserManager<PkddUser> _userManager;
         private readonly SignInManager<PkddUser> _signInManager;
+        private readonly IHttpContextAccessor _accessor;
 
-        public PkddAuthManager(UserManager<PkddUser> userManager, SignInManager<PkddUser> signInManager)
+        public PkddAuthManager(UserManager<PkddUser> userManager, SignInManager<PkddUser> signInManager, IHttpContextAccessor httpContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _accessor = httpContext;
         }
 
         /// <summary>
@@ -48,6 +51,12 @@ namespace Pkdd.Users
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<PkddUser> GetUserAsync()
+        {
+            return await _userManager.GetUserAsync(_accessor.HttpContext.User) 
+                ?? throw new Exception("Пользователь не авторизован.");
         }
     }
 }

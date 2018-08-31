@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pkdd-sign-in',
@@ -9,7 +10,8 @@ import { AuthService } from '../../services/auth.service';
 export class SignInComponent {
 
   constructor(
-    private readonly auth: AuthService
+    private readonly auth: AuthService,
+    private readonly router: Router,
   ) { }
 
 
@@ -25,11 +27,8 @@ export class SignInComponent {
 
   public async signIn() {
     try {
-
-      const user = await this.auth.signIn(this.email, this.password, this.remember);
-      if (!user) {
-        this.error = 'Неа!';
-      }
+      const user = await this.auth.signInAsync(this.email, this.password, this.remember);
+      this.router.navigate(['/']);
     } catch (err) {
       this.error = err.error;
     }

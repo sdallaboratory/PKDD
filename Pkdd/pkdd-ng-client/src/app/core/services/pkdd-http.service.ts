@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 import { PkddUser } from '../../models/auth/pkdd-user';
@@ -32,7 +32,10 @@ export class PkddHttpService {
   }
 
   private pipe<T>(observable: Observable<T>) {
-    return observable.pipe(first()).toPromise();
+    return observable.pipe(first(), map(value => {
+      console.log(value);
+      return value;
+    })).toPromise();
   }
 
 }

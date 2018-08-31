@@ -3,17 +3,15 @@ import { PkddUser } from '../../models/auth/pkdd-user';
 import { PkddHttpService } from '../../core/services/pkdd-http.service';
 import { SignUpModel } from '../../models/auth/sign-up-model';
 import { SignInModel } from '../../models/auth/sign-in-model';
+import { SignOutModel } from '../../models/auth/sign-out-model';
+import { RestorePasswordModel } from '../../models/auth/restore-password-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private _isAuthorized = false;
-
-  public get isAuthorized() {
-    return this._isAuthorized;
-  }
+  private _isAuthorized: Promise<boolean> = null;
 
   private _user: PkddUser = null;
 
@@ -21,27 +19,54 @@ export class AuthService {
     return this._user;
   }
 
+  public isAuthorizedAsync() {
+    if (this._isAuthorized === null) {
+      this._isAuthorized = this.checkAsync();
+    }
+    return this._isAuthorized;
+  }
+
   constructor(
     private readonly http: PkddHttpService
   ) { }
 
-  public async signIn(email: string, password: string, remeber = false): Promise<PkddUser> {
+  public async signInAsync(email: string, password: string, remeber = false): Promise<PkddUser> {
     const model = new SignInModel(email, password, remeber);
     this._user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
+    this._isAuthorized = this.checkAsync();
+    console.log(this._user);
     return this._user;
   }
 
-  public async signUp(name: string, email: string, password: string): Promise<void> {
+  public async signUpAsync(name: string, email: string, password: string): Promise<void> {
     const model = new SignUpModel(name, email, password);
     await this.http.post('/api/auth/sign-up', model);
   }
 
-  public signOut() {
-
+  public async signOutAsync(fromEverywhere: boolean) {
+    const model = new SignOutModel(fromEverywhere);
+    await this.http.post('/api/auth/sign-out', model);
+    this._isAuthorized = this.checkAsync();
   }
 
-  public restorePassword() {
+  public async restorePasswordAsync(email: string, surname: string) {
+    const model = new RestorePasswordModel(email, surname);
+    await this.http.post('/api/auth/restore-password', model);
+  }
 
+  private async checkAsync() {
+    return false;
+    // return Promise.resolve(true); // develop only
+    try {
+      const result = await this.http.get<boolean>('/api/auth/check');
+      if (!result) {
+        this._user = null;
+      }
+      console.log(result, this.user);
+      return result;
+    } catch {
+      return false;
+    }
   }
 
 }

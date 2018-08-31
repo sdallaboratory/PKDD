@@ -35,7 +35,14 @@ namespace Pkdd
 
             services.AddDbContext<PkddDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<PkddUser, PkddRoleBase>().AddEntityFrameworkStores<PkddDbContext>();
+            services.AddIdentity<PkddUser, PkddRoleBase>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+            }).AddEntityFrameworkStores<PkddDbContext>();
 
             services.AddPkddUsers();
         }

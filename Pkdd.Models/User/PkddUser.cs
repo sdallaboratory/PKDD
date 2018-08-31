@@ -19,7 +19,7 @@ namespace Pkdd.Models.Users
 
         public void FillUserName()
         {
-            UserName = $"{Name}{DateTime.Now.Millisecond}".Replace(" ", "");
+            UserName = Email + DateTime.Now.Millisecond;
         }
     }
 }

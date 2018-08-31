@@ -9,6 +9,7 @@ import { RestoreComponent } from './components/restore/restore.component';
 import { MaterialImportsModule } from '../material-imports/material-imports.module';
 import { CoreModule } from '../core/core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     AuthPageComponent,
     SignInComponent,
     SignUpComponent,
-    RestoreComponent
-  ]
+    RestoreComponent,
+  ],
 })
 export class AuthModule { }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pkdd.Abstractions;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Auth;
 using Pkdd.Models.Users;
 using Pkdd.Users;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
@@ -67,6 +69,19 @@ namespace Pkdd.Controllers
         public async Task<JsonResult> RestorePassword([FromBody] RestorePasswordModel model)
         {
             return PkddError("Not implemented.");
+        }
+
+        [HttpGet("check")]
+        public async Task<JsonResult> Check()
+        {
+            try
+            {
+                return PkddOk(await _auth.GetUserAsync());
+            }
+            catch (Exception e)
+            {
+                return PkddError(e.Message);
+            }
         }
     }
 }
