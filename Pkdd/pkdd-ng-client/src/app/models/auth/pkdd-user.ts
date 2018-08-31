@@ -1,6 +1,6 @@
 import { TimeTrack } from '../common/time-track';
 
-export class Pkdduser {
+export class PkddUser {
     constructor(
         public id: number,
         public email: string,
