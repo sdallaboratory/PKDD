@@ -5,7 +5,7 @@ using System;
 
 namespace Pkdd.Models.Users
 {
-    public class PkddUser : IdentityUser<int>, IEntity
+    public class PkddUser : IdentityUser<int>, IEntity<PkddUser>
     {
         public string Name { get; set; }
 
@@ -20,6 +20,40 @@ namespace Pkdd.Models.Users
         public void FillUserName()
         {
             UserName = Email + DateTime.Now.Millisecond;
+        }
+
+        public void MarkDeleted()
+        {
+            if (!IsDeleted)
+            {
+                IsDeleted = true;
+                TimeTrack.Deleted = DateTime.Now;
+            }
+        }
+
+        public void MarkCreated()
+        {
+            TimeTrack = new TimeTrack
+            {
+                Created = DateTime.Now
+            };
+        }
+
+        public void MarkUpdated()
+        {
+            TimeTrack = new TimeTrack
+            {
+                Updated = DateTime.Now
+            };
+        }
+
+        public PkddUser Update(PkddUser entity)
+        {
+            Name = entity.Name;
+            IsConfirmed = entity.IsConfirmed;
+            IsBanned = entity.IsBanned;
+            IsDeleted = entity.IsDeleted;
+            return this;
         }
     }
 }

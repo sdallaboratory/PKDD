@@ -8,6 +8,7 @@ using Pkdd.Database;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 using Pkdd.Users;
+using Pkdd.Repositories;
 
 namespace Pkdd
 {
@@ -43,6 +44,9 @@ namespace Pkdd
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
             }).AddEntityFrameworkStores<PkddDbContext>();
+
+            services.AddPersonRepository();
+            services.AddTransient<DbSeeder, DbSeeder>();
 
             services.AddPkddUsers();
         }
