@@ -13,17 +13,15 @@ namespace Pkdd.Controllers.Base
     {
         protected JsonResult PkddOk(object data = null, string type = null)
         {
-            return Json(new PkddResponse(data, type, true));
-        }
-
-        protected JsonResult PkddWarning(object data = null, string type = null, string message = null)
-        {
-            return Json(new PkddResponse(data, type, false, message));
+            HttpContext.Response.StatusCode = 200;
+            //HttpContext.Response.Headers.Add("Date", DateTime.Now.ToString());
+            return Json(data);
         }
 
         protected JsonResult PkddError(string message)
         {
-            return Json(new PkddResponse(null, null, false, $"Error: \"{message}\""));
+            HttpContext.Response.StatusCode = 500;
+            return Json($"{message}");
         }
     }
 }

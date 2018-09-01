@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WindowService } from '../../../core/services/window.service';
+import { CssBreakpoints } from '../../../models/core/css-breakpoints.enum';
 
 @Component({
   selector: 'pkdd-auth-page',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public readonly win: WindowService
+  ) { }
 
   ngOnInit() {
+  }
+
+  public get isMobile(): boolean {
+    return this.win.currentDeviceType === CssBreakpoints.mobile;
   }
 
 }

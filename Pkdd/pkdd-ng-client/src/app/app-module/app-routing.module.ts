@@ -11,10 +11,10 @@ const routes: Routes = [
     component: PkddPageComponent,
     children: [
       { path: 'persons', component: PersonsListComponent },
-      { path: 'account', component: AccountPageComponent }
-    ]
+      { path: 'account', component: AccountPageComponent },
+      { path: '', redirectTo: '/persons', pathMatch: 'full' },
+]
   },
-  { path: '', redirectTo: '/persons', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

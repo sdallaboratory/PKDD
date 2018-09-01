@@ -1,0 +1,23 @@
+<div class="wrapper">
+    <h1>
+      Восстановление пароля
+    </h1>
+  <div *ngIf="error && error.length" class="error">{{error}}</div>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="text" placeholder="укажите Email вашего аккаунта">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+        <input matInput type="text" placeholder="введите вашу фамилию">
+      </mat-form-field>
+    <div class="row">
+      <div class="flex-splitter"></div>
+      <button mat-button>Восстановить</button>
+    </div>
+    <div class="flex-splitter"></div>
+    <div class="row bottom">
+        <a routerLink="/auth"><button mat-button>Вход</button></a>
+        <a routerLink="/auth/sign-up"><button mat-button>Регистрация</button></a>
+    </div>
+  </div>

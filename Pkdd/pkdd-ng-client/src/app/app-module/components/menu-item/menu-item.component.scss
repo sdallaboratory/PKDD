@@ -24,3 +24,7 @@ img, mat-icon {
     padding: 0;
     max-width: 60px;
 }
+
+.active {
+    filter: opacity(40%);
+}

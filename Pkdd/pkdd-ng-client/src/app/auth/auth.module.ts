@@ -3,15 +3,27 @@ import { CommonModule } from '@angular/common';
 import { AuthPageComponent } from './components/auth-page/auth-page.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule } from '@angular/forms';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { RestoreComponent } from './components/restore/restore.component';
+import { MaterialImportsModule } from '../material-imports/material-imports.module';
+import { CoreModule } from '../core/core.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    AuthRoutingModule
+    CoreModule,
+    MaterialImportsModule,
+    AuthRoutingModule,
+    HttpClientModule
   ],
   declarations: [
-    AuthPageComponent
+    AuthPageComponent,
+    SignInComponent,
+    SignUpComponent,
+    RestoreComponent
   ]
 })
 export class AuthModule { }
