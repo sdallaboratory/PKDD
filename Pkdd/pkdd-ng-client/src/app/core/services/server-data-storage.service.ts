@@ -1,4 +1,3 @@
-import { async } from '@angular/core/testing';
 import { PkddHttpService } from './pkdd-http.service';
 import { Injectable } from '@angular/core';
 import { ApiUrlConstructorService } from './api-url-constructor.service';
@@ -30,12 +29,20 @@ export class ServerDataStorageService {
     return this._persons;
   }
 
+  public async getPerson(id: number) {
+    if (isNullOrUndefined(this._persons.find(p => p.id === id))) {
+      const person = this._factory.createPerson(await this.loadEntity(EntityType.Person, id));
+      this._persons.push(person);
+    }
+    return this._persons.find(p => p.id === id);
+  }
+
   private _contentBlocks: CachedEntity<ContentBlock[], number>[] = [];
   public async getContentBlocks(baseBioBlockId: number) {
     if (isNullOrUndefined(this._contentBlocks.find(b => b.cacheId === baseBioBlockId))) {
       const blocks = this._factory.createContentBlocks(baseBioBlockId,
         await this.loadEntity(EntityType.ContentBlock, null, baseBioBlockId));
-      this._contentBlocks.push(new CachedEntity<ContentBlock[], number>(blocks, baseBioBlockId));
+      this._contentBlocks.push(new CachedEntity(blocks, baseBioBlockId));
     }
     return this._contentBlocks.find(b => b.cacheId === baseBioBlockId).entity;
   }
