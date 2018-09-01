@@ -15,16 +15,50 @@ abstract class AbstractContentBlock implements IEntity {
     subtitle: string;
     type: ContentType;
     comment: string;
+
+    constructor(block: AbstractContentBlock) {
+        this.id = block.id;
+        this.isDeleted = block.isDeleted;
+        this.timeTrack = block.timeTrack;
+        this.title = block.title;
+        this.subtitle = block.subtitle;
+        this.type = block.type;
+        this.comment = block.comment;
+    }
 }
 
 export class ContentBlockBackend extends AbstractContentBlock {
     content: string;
-    subBlock: ContentBlockBackend[];
+    subBlocks: ContentBlockBackend[];
+
+    constructor(
+        contentBlock: AbstractContentBlock,
+        content: string,
+        subBlocks: ContentBlockBackend[],
+    ) {
+        super(contentBlock);
+        this.content = content;
+        this.subBlocks = subBlocks;
+    }
 }
+
+export type ContentTypes = ContentText | DateText | Photo | Video | Publication;
 
 export class ContentBlock extends AbstractContentBlock {
     baseBlockId: number;
-    content: ContentText | DateText | Photo | Video | Publication;
-    subBlock: ContentBlock[];
+    content: ContentTypes;
+    subBlocks: ContentBlock[];
+
+    constructor(
+        contentBlock: AbstractContentBlock,
+        baseBlockId: number,
+        content: ContentTypes,
+        subBlocks: ContentBlock[],
+    ) {
+        super(contentBlock);
+        this.baseBlockId = baseBlockId;
+        this.content = content;
+        this.subBlocks = subBlocks;
+    }
 }
 

@@ -7,17 +7,17 @@ import { ApiUrlConstructorService } from './api-url-constructor.service';
 })
 export class ServerDataStorageService {
 
-  public get getPersons() {
+  // public get getPersons() {
 
-  }
+  // }
 
-  public get getContentBlocks() {
+  // public get getContentBlocks() {
 
-  }
+  // }
 
-  public get getBaseBlocks() {
-    
-  }
+  // public get getBaseBlocks() {
+
+  // }
 
   constructor(
     private readonly _httpClient: PkddHttpService,
