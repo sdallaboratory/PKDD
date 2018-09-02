@@ -6,7 +6,6 @@ import { Person } from '../../models/entities/person';
 import { ContentBlock } from '../../models/entities/content-block';
 import { EntityType } from '../../models/entities/enums/entity-type';
 import { TypeChecker } from '../utils/type-checker';
-import { IEntity } from '../../models/entities/interfaces/iEntity';
 
 @Injectable({
   providedIn: 'root'
