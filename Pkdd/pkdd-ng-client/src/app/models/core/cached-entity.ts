@@ -1,11 +1,15 @@
 import { IEntity } from './../entities/interfaces/iEntity';
+import { TimeTrack } from '../common/time-track';
 
-export class CachedEntity<TEntity, TKey> {
+export class CachedEntity<TEntity> {
+    isDeleted: boolean;
+    timeTrack: TimeTrack;
     entity: TEntity;
-    cacheId: TKey;
+    id: number;
 
-    constructor(entity: TEntity, id: TKey) {
+    constructor(entity: TEntity, id: number) {
         this.entity = entity;
-        this.cacheId = id;
+        this.id = id;
     }
 }
+
