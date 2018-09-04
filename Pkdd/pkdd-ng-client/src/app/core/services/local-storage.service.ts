@@ -41,8 +41,11 @@ export class LocalStorageService implements ILocalStorage {
     if (!this._isValid) {
       this.throwStorageError();
     }
-    if (isNullOrUndefined(this._persons) || this._persons === []) {
+    if (isNullOrUndefined(this._persons) || this._persons.length === 0) {
       this._persons = this.getEntity(EntityType.Person);
+      this._persons.forEach(p => {
+        p.bioBlock.contentBlocks = this.getContentBlocks(p.bioBlock.id);
+      });
     }
     return this._persons;
   }
@@ -51,10 +54,12 @@ export class LocalStorageService implements ILocalStorage {
     if (!this._isValid) {
       this.throwStorageError();
     }
-    if (isNullOrUndefined(this._persons) || this._persons === []) {
+    if (isNullOrUndefined(this._persons) || this._persons.length === 0) {
       this._persons = this.getEntity(EntityType.Person);
     }
-    return this._persons.find(p => p.id === id);
+    const person = this._persons.find(p => p.id === id);
+    person.bioBlock.contentBlocks = this.getContentBlocks(person.bioBlock.id);
+    return person;
   }
 
   private _contentBlocks: CachedEntity<ContentBlock[]>[] = [];
@@ -62,7 +67,7 @@ export class LocalStorageService implements ILocalStorage {
     if (!this._isValid) {
       this.throwStorageError();
     }
-    if (isNullOrUndefined(this._contentBlocks) || this._contentBlocks === []) {
+    if (isNullOrUndefined(this._contentBlocks) || this._contentBlocks.length === 0) {
       this._contentBlocks = this.getEntity(EntityType.ContentBlock);
     }
     return this._contentBlocks.find(c => c.id === bioBlockId).entity;
@@ -72,18 +77,24 @@ export class LocalStorageService implements ILocalStorage {
     if (!this.isValid()) {
       this.throwStorageError();
     }
-    this._persons = !isNullOrUndefined(persons) ?
-      this._persons.concat(this.setEntity(EntityType.Person, persons))
-      : [].concat(this.setEntity(EntityType.Person, persons));
+    persons.forEach(p => {
+      this.addContentBlocks(p.bioBlock.id, p.bioBlock.contentBlocks);
+      p.bioBlock.contentBlocks = [];
+    });
+    const newPersons = this.newEntity(persons);
+    this._persons = !isNullOrUndefined(newPersons) ?
+      this._persons.concat(this.setEntity(EntityType.Person, newPersons))
+      : [].concat(this.setEntity(EntityType.Person, newPersons));
   }
 
   public addContentBlocks(bioBlockId: number, blocks: ContentBlock[]) {
     if (!this.isValid()) {
       this.throwStorageError();
     }
-    this._contentBlocks = !isNullOrUndefined(blocks) ?
-      this._contentBlocks.concat(this.setEntity(EntityType.ContentBlock, [new CachedEntity(blocks, bioBlockId)]))
-      : [].concat(this.setEntity(EntityType.Person, [new CachedEntity(blocks, bioBlockId)]));
+    const newBlocks = this.newEntity(blocks);
+    this._contentBlocks = !isNullOrUndefined(newBlocks) ?
+      this._contentBlocks.concat(this.setEntity(EntityType.ContentBlock, [new CachedEntity(newBlocks, bioBlockId)]))
+      : [].concat(this.setEntity(EntityType.Person, [new CachedEntity(newBlocks, bioBlockId)]));
   }
 
   public clearStorage() {
@@ -142,7 +153,7 @@ export class LocalStorageService implements ILocalStorage {
     if (!this._isValid) {
       this.throwStorageError();
     }
-    if (isNullOrUndefined(ids) || ids === []) {
+    if (isNullOrUndefined(ids) || ids.length === 0) {
       return false;
     }
     let result: boolean;
@@ -163,7 +174,7 @@ export class LocalStorageService implements ILocalStorage {
     if (!this._isValid) {
       this.throwStorageError();
     }
-    if (isNullOrUndefined(ids) || ids === []) {
+    if (isNullOrUndefined(ids) || ids.length === 0) {
       return false;
     }
     let idsToDelete;
@@ -188,14 +199,14 @@ export class LocalStorageService implements ILocalStorage {
     }
     const content = localStorage[type];
     let result = true;
-    if (isNullOrUndefined(ids) || ids === []) {
+    if (isNullOrUndefined(ids) || ids.length === 0) {
       result = false;
     }
     if (result && (isNullOrUndefined(content) || content === '')) {
       result = false;
     } else {
       const parsedContent = JSON.parse(content);
-      if (result && (isNullOrUndefined(parsedContent) || parsedContent === [])) {
+      if (result && (isNullOrUndefined(parsedContent) || parsedContent.length === 0)) {
         result = false;
       }
       if (result) {
@@ -253,6 +264,13 @@ export class LocalStorageService implements ILocalStorage {
     }
   }
 
+  private newEntity(entity: any) {
+    if (!isNullOrUndefined(entity)) {
+      return JSON.parse(JSON.stringify(entity));
+    } else {
+      return null;
+    }
+  }
 
   private throwStorageError() {
     throw new Error('LocalStorage error');

@@ -37,14 +37,14 @@ export class ServerDataStorageService {
     return this._persons.find(p => p.id === id);
   }
 
-  private _contentBlocks: CachedEntity<ContentBlock[], number>[] = [];
+  private _contentBlocks: CachedEntity<ContentBlock[]>[] = [];
   public async getContentBlocks(baseBioBlockId: number) {
-    if (isNullOrUndefined(this._contentBlocks.find(b => b.cacheId === baseBioBlockId))) {
+    if (isNullOrUndefined(this._contentBlocks.find(b => b.id === baseBioBlockId))) {
       const blocks = this._factory.createContentBlocks(baseBioBlockId,
         await this.loadEntity(EntityType.ContentBlock, null, baseBioBlockId));
       this._contentBlocks.push(new CachedEntity(blocks, baseBioBlockId));
     }
-    return this._contentBlocks.find(b => b.cacheId === baseBioBlockId).entity;
+    return this._contentBlocks.find(b => b.id === baseBioBlockId).entity;
   }
 
   constructor(
@@ -59,16 +59,20 @@ export class ServerDataStorageService {
    */
   private async loadEntity(type: EntityType, entityId: null | number = null, parentEntityId: null | number = null): Promise<any> {
     let url = '';
-    switch (type) {
-      case EntityType.Person:
-        url = this._apiConstructor.getPersonUrl(entityId);
-        break;
-      case EntityType.BioBlock:
-        url = this._apiConstructor.getBioUrl(entityId);
-        break;
-      case EntityType.ContentBlock:
-        url = this._apiConstructor.getContentsUrl(parentEntityId, entityId);
-        break;
+    try {
+      switch (type) {
+        case EntityType.Person:
+          url = this._apiConstructor.getPersonUrl(entityId);
+          break;
+        case EntityType.BioBlock:
+          url = this._apiConstructor.getBioUrl(entityId);
+          break;
+        case EntityType.ContentBlock:
+          url = this._apiConstructor.getContentsUrl(parentEntityId, entityId);
+          break;
+      }
+    } catch (err) {
+      console.log(err);
     }
     return await this._httpClient.get(url);
   }

@@ -1,8 +1,13 @@
+import { ContentText } from './../../models/entities/content-entities/content-text';
 import { isNullOrUndefined } from 'util';
 import { ContentBlockBackend, ContentBlock, ContentTypes } from './../../models/entities/content-block';
 import { BaseBioBlockBackend, BaseBioBlock } from './../../models/entities/base-bio-block';
 import { Injectable } from '@angular/core';
 import { PersonBackend, Person } from '../../models/entities/person';
+import { DateText } from '../../models/entities/content-entities/date-text';
+import { Video } from '../../models/entities/content-entities/video';
+import { Publication } from '../../models/entities/content-entities/publication';
+import { Photo } from '../../models/entities/content-entities/photo';
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +81,19 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
-    return JSON.parse(block.content) as ContentTypes;
+    try {
+      const content = JSON.parse(block.content);
+      if (content instanceof ContentText
+        || content instanceof DateText
+        || content instanceof Video
+        || content instanceof Photo
+        || content instanceof Publication) {
+        return content;
+      }
+    } catch (error) {
+
+    }
+    return null;
   }
 
 
