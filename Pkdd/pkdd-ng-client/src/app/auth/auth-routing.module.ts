@@ -9,15 +9,17 @@ import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 
 const authRoutes: Routes = [
-  { path: 'auth',
-  component: AuthPageComponent,
-  canActivate: [UnauthGuard],
-  canActivateChild: [UnauthGuard],
-  children: [
-    {path: '', component: SignInComponent },
-    {path: 'sign-up', component: SignUpComponent },
-    {path: 'restore', component: RestoreComponent },
-  ]},
+  {
+    path: 'auth',
+    component: AuthPageComponent,
+    canActivate: [UnauthGuard],
+    canActivateChild: [UnauthGuard],
+    children: [
+      { path: '', component: SignInComponent },
+      { path: 'sign-up', component: SignUpComponent },
+      { path: 'restore', component: RestoreComponent },
+    ]
+  },
 ];
 
 @NgModule({

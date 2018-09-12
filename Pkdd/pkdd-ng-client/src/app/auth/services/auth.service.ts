@@ -21,7 +21,7 @@ export class AuthService {
 
   public isAuthorizedAsync() {
     if (this._isAuthorized === null) {
-      this._isAuthorized = this.checkAsync();
+      this._isAuthorized = this.getUserAsync();
     }
     return this._isAuthorized;
   }
@@ -33,7 +33,7 @@ export class AuthService {
   public async signInAsync(email: string, password: string, remeber = false): Promise<PkddUser> {
     const model = new SignInModel(email, password, remeber);
     this._user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
-    this._isAuthorized = this.checkAsync();
+    this._isAuthorized = this.getUserAsync();
     console.log(this._user);
     return this._user;
   }
@@ -43,10 +43,10 @@ export class AuthService {
     await this.http.post('/api/auth/sign-up', model);
   }
 
-  public async signOutAsync(fromEverywhere: boolean) {
+  public async signOutAsync(fromEverywhere = false) {
     const model = new SignOutModel(fromEverywhere);
     await this.http.post('/api/auth/sign-out', model);
-    this._isAuthorized = this.checkAsync();
+    this._isAuthorized = this.getUserAsync();
   }
 
   public async restorePasswordAsync(email: string, surname: string) {
@@ -54,17 +54,16 @@ export class AuthService {
     await this.http.post('/api/auth/restore-password', model);
   }
 
-  private async checkAsync() {
-    return false;
-    // return Promise.resolve(true); // develop only
+  private async getUserAsync() {
     try {
-      const result = await this.http.get<boolean>('/api/auth/check');
+      const result = await this.http.get<PkddUser>('/api/auth/get-user');
       if (!result) {
         this._user = null;
       }
       console.log(result, this.user);
-      return result;
-    } catch {
+      return true;
+    } catch (e) {
+      console.log(e);
       return false;
     }
   }

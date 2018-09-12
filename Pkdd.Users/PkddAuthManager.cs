@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,11 @@ namespace Pkdd.Users
         private readonly SignInManager<PkddUser> _signInManager;
         private readonly IHttpContextAccessor _accessor;
 
-        public PkddAuthManager(UserManager<PkddUser> userManager, SignInManager<PkddUser> signInManager, IHttpContextAccessor httpContext)
+        public PkddAuthManager(UserManager<PkddUser> userManager, SignInManager<PkddUser> signInManager, IHttpContextAccessor accessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _accessor = httpContext;
+            _accessor = accessor;
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace Pkdd.Users
 
             if(!result.Succeeded)
                 throw new Exception("Введён неверный пароль.");
-            
+
             return user;
         }
 
@@ -55,8 +56,9 @@ namespace Pkdd.Users
 
         public async Task<PkddUser> GetUserAsync()
         {
-            return await _userManager.GetUserAsync(_accessor.HttpContext.User) 
+            var userId = _accessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                 ?? throw new Exception("Пользователь не авторизован.");
+            return await _userManager.FindByIdAsync(userId);
         }
     }
 }

@@ -65,7 +65,10 @@ namespace Pkdd
             app.UseCors("AllowAny");
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseMvc();
-        }
+            app.UseMvc(routes => routes.MapRoute(
+                    name: "Default",
+                    template: "{*AngularRoute}",
+                    defaults: new { controller = "Home", action = "Index" }));
     }
+}
 }

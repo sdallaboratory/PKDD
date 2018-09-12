@@ -71,16 +71,17 @@ namespace Pkdd.Controllers
             return PkddError("Not implemented.");
         }
 
-        [HttpGet("check")]
-        public async Task<JsonResult> Check()
+        [HttpGet("get-user")]
+        public async Task<JsonResult> GetUser()
         {
             try
             {
-                return PkddOk(await _auth.GetUserAsync());
+                PkddUser user = await _auth.GetUserAsync();
+                return PkddOk(user);
             }
             catch (Exception e)
             {
-                return PkddError(e.Message);
+                return PkddError("You are not authorized.");
             }
         }
     }
