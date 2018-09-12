@@ -8,6 +8,10 @@ export interface ILocalStorage {
     getPerson(id: number): Person;
     getContentBlocks(bioBlockId: number): ContentBlock[];
 
+    getAveragePersonsCacheTime(): number | null;
+    getPersonCacheTime(id: number): number | null;
+    getContentBlocksCacheTime(bioBlockId: number): number | null;
+
     addPersons(persons: Person[]);
     addContentBlocks(bioBlockId: number, blocks: ContentBlock[]);
 

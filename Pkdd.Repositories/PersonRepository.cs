@@ -19,18 +19,38 @@ namespace Pkdd.Repositories
             _dbContext = context;
         }
 
-        public async Task<ContentBlock> AddContentBlock(ContentBlock content)
+        public async Task<ContentBlock> AddContentBlock(int? bioBlockId, ContentBlock content)
         {
             ContentBlock result = null;
             try
             {
-                var entity = await _dbContext.ContentBlocks.AddAsync(content);
-                await _dbContext.SaveChangesAsync();
-                result = entity.Entity;
+                if (bioBlockId.HasValue)
+                {
+                    BaseBioBlock mainBlock = await _dbContext.MainBioBlocks
+                                                             .Include(b => b.ContentBlocks)
+                                                             .FirstOrDefaultAsync(b => b.Id == bioBlockId.Value);
+                    if (mainBlock != null)
+                    {
+                        var entity = _dbContext.Entry(content);
+                        mainBlock.ContentBlocks.Add(content);
+                        await _dbContext.SaveChangesAsync();
+                        result = entity.Entity;
+                    }
+                    else
+                    {
+                        throw new NotFoundException("Сущность не найдена");
+                    }
+                }
+                else
+                {
+                    var block = await AddToParent(content);
+                    await LoadBlocks(block);
+                    result = block;
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
             return result;
         }
@@ -44,9 +64,9 @@ namespace Pkdd.Repositories
                 await _dbContext.SaveChangesAsync();
                 result = entity.Entity;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ThrowException(ex);
             }
             return result;
         }
@@ -254,6 +274,22 @@ namespace Pkdd.Repositories
             {
                 await LoadBlocks(subblock);
             }
+        }
+
+        private async Task<ContentBlock> AddToParent(ContentBlock content)
+        {
+            ContentBlock parent = await _dbContext.ContentBlocks.Where(b => b.CheckOrder(content.Order))
+                                                                .Include(b => b.SubBlocks)
+                                                                .FirstOrDefaultAsync();
+            if(parent == null)
+            {
+                throw new NotFoundException("Сущность не найдена");
+            }
+            var entity  = _dbContext.Entry(content);
+            parent.SubBlocks.Add(content);
+            await _dbContext.SaveChangesAsync();
+            return entity.Entity;
+            
         }
 
         private async Task RemoveBlocks(ContentBlock block)

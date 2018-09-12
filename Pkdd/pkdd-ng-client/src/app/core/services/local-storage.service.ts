@@ -1,3 +1,4 @@
+import { BaseBioBlock } from './../../models/entities/base-bio-block';
 import { CachedEntity } from './../../models/core/cached-entity';
 import { isNullOrUndefined } from 'util';
 import { ILocalStorage } from './../../models/entities/interfaces/local-storage';
@@ -36,7 +37,7 @@ export class LocalStorageService implements ILocalStorage {
     }
   }
 
-  private _persons: Person[] = [];
+  private _persons: CachedEntity<Person>[] = [];
   public getPersons(): Person[] {
     if (!this._isValid) {
       this.throwStorageError();
@@ -44,10 +45,10 @@ export class LocalStorageService implements ILocalStorage {
     if (isNullOrUndefined(this._persons) || this._persons.length === 0) {
       this._persons = this.getEntity(EntityType.Person);
       this._persons.forEach(p => {
-        p.bioBlock.contentBlocks = this.getContentBlocks(p.bioBlock.id);
+        p.entity.bioBlock.contentBlocks = this.getContentBlocks(p.entity.bioBlock.id);
       });
     }
-    return this._persons;
+    return this._persons.map(p => p.entity);
   }
 
   public getPerson(id: number): Person {
@@ -58,8 +59,8 @@ export class LocalStorageService implements ILocalStorage {
       this._persons = this.getEntity(EntityType.Person);
     }
     const person = this._persons.find(p => p.id === id);
-    person.bioBlock.contentBlocks = this.getContentBlocks(person.bioBlock.id);
-    return person;
+    person.entity.bioBlock.contentBlocks = this.getContentBlocks(person.entity.bioBlock.id);
+    return person.entity;
   }
 
   private _contentBlocks: CachedEntity<ContentBlock[]>[] = [];
@@ -81,20 +82,53 @@ export class LocalStorageService implements ILocalStorage {
       this.addContentBlocks(p.bioBlock.id, p.bioBlock.contentBlocks);
       p.bioBlock.contentBlocks = [];
     });
-    const newPersons = this.newEntity(persons);
+    const newPersons: Person[] = this.newEntity(persons);
+    const newCachedPersons = newPersons.map(p => new CachedEntity(p, p.id, new Date()));
     this._persons = !isNullOrUndefined(newPersons) ?
-      this._persons.concat(this.setEntity(EntityType.Person, newPersons))
-      : [].concat(this.setEntity(EntityType.Person, newPersons));
+      this._persons.concat(this.setEntity(EntityType.Person, newCachedPersons))
+      : [].concat(this.setEntity(EntityType.Person, newCachedPersons));
   }
 
   public addContentBlocks(bioBlockId: number, blocks: ContentBlock[]) {
     if (!this.isValid()) {
       this.throwStorageError();
     }
-    const newBlocks = this.newEntity(blocks);
+    const newBlocks: ContentBlock[] = this.newEntity(blocks);
+    const newCachedBlocks = [new CachedEntity(newBlocks, bioBlockId, new Date())];
     this._contentBlocks = !isNullOrUndefined(newBlocks) ?
-      this._contentBlocks.concat(this.setEntity(EntityType.ContentBlock, [new CachedEntity(newBlocks, bioBlockId)]))
-      : [].concat(this.setEntity(EntityType.Person, [new CachedEntity(newBlocks, bioBlockId)]));
+      this._contentBlocks.concat(this.setEntity(EntityType.ContentBlock, newCachedBlocks))
+      : [].concat(this.setEntity(EntityType.Person, newCachedBlocks));
+  }
+
+  getAveragePersonsCacheTime(): number | null {
+    if (isNullOrUndefined(this._persons) || this._persons.length === 0) {
+      return null;
+    }
+    const reducer = (accumulator: number, currentValue: number) => accumulator + currentValue;
+    const result = this._persons.map(p => Math.round((p.setTime.getTime() / 1000))).reduce(reducer);
+    return result / this._persons.length;
+  }
+
+  getPersonCacheTime(id: number): number | null {
+    if (isNullOrUndefined(this._persons) || this._persons.length === 0) {
+      return null;
+    }
+    const person = this._persons.find(p => p.id === id);
+    if (isNullOrUndefined(person)) {
+      return null;
+    }
+    return Math.round((person.setTime.getTime() / 1000));
+  }
+
+  getContentBlocksCacheTime(bioBlockId: number): number {
+    if (isNullOrUndefined(this._contentBlocks) || this._contentBlocks.length === 0) {
+      return null;
+    }
+    const blocks = this._contentBlocks.find(c => c.id === bioBlockId);
+    if (isNullOrUndefined(blocks)) {
+      return null;
+    }
+    return Math.round((blocks.setTime.getTime() / 1000));
   }
 
   public clearStorage() {
@@ -157,24 +191,35 @@ export class LocalStorageService implements ILocalStorage {
       return false;
     }
     let result: boolean;
-    let idsToDelete;
+    let idsToDelete: number[];
+    let bioIdsToDelete: BaseBioBlock[];
     if (TypeChecker.isNumberArray(ids)) {
+      bioIdsToDelete = this.getPersons().filter(p => ids.includes(p.id)).map(p => p.bioBlock);
       idsToDelete = ids;
     } else {
+      bioIdsToDelete = ids.map(p => p.bioBlock);
       idsToDelete = ids.map(p => p.id);
     }
-    result = this.deleteEntity(EntityType.ContentBlock, idsToDelete);
+    result = this.deleteEntity(EntityType.Person, idsToDelete);
     if (result) {
-      this.updateCache(EntityType.ContentBlock, idsToDelete);
+      bioIdsToDelete.forEach(b => {
+        this.deleteContentBlocks(b.id, b.contentBlocks);
+      });
+      this.updateCache(EntityType.Person, idsToDelete);
     }
     return result;
   }
 
-  public deleteContentBlocks(bioBlockId: number, ids: ContentBlock[] | number[]) {
+  public deleteContentBlocks(bioBlockId: number, ids: ContentBlock[] | number[] = null) {
     if (!this._isValid) {
       this.throwStorageError();
     }
     if (isNullOrUndefined(ids) || ids.length === 0) {
+      if (this.deleteEntity(EntityType.ContentBlock, [bioBlockId])) {
+        const toDelete = this._contentBlocks.find(b => b.id === bioBlockId).entity.map(b => b.id);
+        this.updateCache(EntityType.ContentBlock, toDelete, bioBlockId);
+        return true;
+      }
       return false;
     }
     let idsToDelete;
@@ -258,8 +303,8 @@ export class LocalStorageService implements ILocalStorage {
         this._persons = this._persons.filter(p => !ids.includes(p.id));
         break;
       case EntityType.ContentBlock:
-        const blocks = this._contentBlocks.find(c => c.id === parentId);
-        blocks.entity = blocks.entity.filter(b => !ids.includes(b.id));
+          const blocks = this._contentBlocks.find(c => c.id === parentId);
+          blocks.entity = blocks.entity.filter(b => !ids.includes(b.id));
         break;
     }
   }

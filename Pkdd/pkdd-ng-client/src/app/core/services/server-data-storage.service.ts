@@ -21,16 +21,16 @@ export class ServerDataStorageService {
   };
 
   private _persons: Person[] = [];
-  public async getPersons() {
-    if (!this._isLoaded.persons) {
+  public async getPersons(flagToUpdate = false) {
+    if (!this._isLoaded.persons || flagToUpdate) {
       this._persons = this._factory.createPersons(await this.loadEntity(EntityType.Person));
       this._isLoaded.persons = true;
     }
     return this._persons;
   }
 
-  public async getPerson(id: number) {
-    if (isNullOrUndefined(this._persons.find(p => p.id === id))) {
+  public async getPerson(id: number, flagToUpdate = false) {
+    if (isNullOrUndefined(this._persons.find(p => p.id === id)) || flagToUpdate) {
       const person = this._factory.createPerson(await this.loadEntity(EntityType.Person, id));
       this._persons.push(person);
     }
@@ -38,11 +38,11 @@ export class ServerDataStorageService {
   }
 
   private _contentBlocks: CachedEntity<ContentBlock[]>[] = [];
-  public async getContentBlocks(baseBioBlockId: number) {
-    if (isNullOrUndefined(this._contentBlocks.find(b => b.id === baseBioBlockId))) {
+  public async getContentBlocks(baseBioBlockId: number, flagToUpdate = false) {
+    if (isNullOrUndefined(this._contentBlocks.find(b => b.id === baseBioBlockId)) || flagToUpdate) {
       const blocks = this._factory.createContentBlocks(baseBioBlockId,
         await this.loadEntity(EntityType.ContentBlock, null, baseBioBlockId));
-      this._contentBlocks.push(new CachedEntity(blocks, baseBioBlockId));
+      this._contentBlocks.push(new CachedEntity(blocks, baseBioBlockId, new Date()));
     }
     return this._contentBlocks.find(b => b.id === baseBioBlockId).entity;
   }
