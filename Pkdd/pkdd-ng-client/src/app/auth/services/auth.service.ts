@@ -5,36 +5,40 @@ import { SignUpModel } from '../../models/auth/sign-up-model';
 import { SignInModel } from '../../models/auth/sign-in-model';
 import { SignOutModel } from '../../models/auth/sign-out-model';
 import { RestorePasswordModel } from '../../models/auth/restore-password-model';
+import { Router } from '@angular/router';
+import { EnvironmentService } from '../../core/services/environment.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private _isAuthorized: Promise<boolean> = null;
+  private _user: PkddUser = undefined;
 
-  private _user: PkddUser = null;
+  private gettingUser: Promise<void>;
 
-  public get user() {
+  public async getUserAsync(): Promise<PkddUser> {
+    if (this._user === undefined) {
+      await this.gettingUser;
+    }
     return this._user;
   }
 
-  public isAuthorizedAsync() {
-    if (this._isAuthorized === null) {
-      this._isAuthorized = this.getUserAsync();
-    }
-    return this._isAuthorized;
+  public async isAuthedAsync() {
+    return await this.getUserAsync() !== null;
   }
 
   constructor(
-    private readonly http: PkddHttpService
-  ) { }
+    private readonly http: PkddHttpService,
+    private readonly router: Router,
+    private readonly env: EnvironmentService
+  ) {
+    this.gettingUser = this.getUserFromServerAsync();
+  }
 
   public async signInAsync(email: string, password: string, remeber = false): Promise<PkddUser> {
     const model = new SignInModel(email, password, remeber);
     this._user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
-    this._isAuthorized = this.getUserAsync();
-    console.log(this._user);
     return this._user;
   }
 
@@ -44,9 +48,10 @@ export class AuthService {
   }
 
   public async signOutAsync(fromEverywhere = false) {
+    this._user = null;
     const model = new SignOutModel(fromEverywhere);
     await this.http.post('/api/auth/sign-out', model);
-    this._isAuthorized = this.getUserAsync();
+    this.router.navigate(['/auth']);
   }
 
   public async restorePasswordAsync(email: string, surname: string) {
@@ -54,18 +59,7 @@ export class AuthService {
     await this.http.post('/api/auth/restore-password', model);
   }
 
-  private async getUserAsync() {
-    try {
-      const result = await this.http.get<PkddUser>('/api/auth/get-user');
-      if (!result) {
-        this._user = null;
-      }
-      console.log(result, this.user);
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
+  private async getUserFromServerAsync() {
+    this._user = await this.http.get<PkddUser>('/api/auth/get-user');
   }
-
 }

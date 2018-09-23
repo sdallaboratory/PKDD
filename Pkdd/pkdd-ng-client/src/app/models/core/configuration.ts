@@ -12,5 +12,5 @@ export interface Configuration {
 
     productName: string;
 
-    backendUrl: string;
+    backendOrigin: string;
 }

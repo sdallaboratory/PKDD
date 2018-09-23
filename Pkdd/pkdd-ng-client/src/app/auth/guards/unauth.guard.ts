@@ -20,10 +20,10 @@ export class UnauthGuard implements CanActivate, CanActivateChild {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-    if (await this.auth.isAuthorizedAsync()) {
+    if (await this.auth.isAuthedAsync()) {
       console.log('redirected to persons');
       this.router.navigate(['/persons']);
     }
-    return !await this.auth.isAuthorizedAsync();
+    return !await this.auth.isAuthedAsync();
   }
 }

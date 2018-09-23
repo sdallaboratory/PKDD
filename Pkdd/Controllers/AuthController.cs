@@ -76,8 +76,11 @@ namespace Pkdd.Controllers
         {
             try
             {
+                // return PkddOk(_users.FindAsync("s@s"));
+                var a = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 PkddUser user = await _auth.GetUserAsync();
                 return PkddOk(user);
+
             }
             catch (Exception e)
             {

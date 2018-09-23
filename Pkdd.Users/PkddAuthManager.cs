@@ -56,6 +56,7 @@ namespace Pkdd.Users
 
         public async Task<PkddUser> GetUserAsync()
         {
+            return await _userManager.GetUserAsync(_accessor.HttpContext.User);
             var userId = _accessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                 ?? throw new Exception("Пользователь не авторизован.");
             return await _userManager.FindByIdAsync(userId);
