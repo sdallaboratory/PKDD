@@ -31,7 +31,7 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(person)) {
       throw new Error('Empty person');
     }
-    const bioBlock = this.createBaseBioBlock(person.bioBlock);
+    const bioBlock = !isNullOrUndefined(person.bioBlock) ? this.createBaseBioBlock(person.bioBlock) : null;
     const newPerson = new Person(person, bioBlock);
     return newPerson;
   }
@@ -48,6 +48,9 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(bioBlock)) {
       throw new Error('Empty bio block!');
     }
+    if (isNullOrUndefined(bioBlock.contentBlocks) || bioBlock.contentBlocks.length === 0) {
+      return new BaseBioBlock(bioBlock, null);
+    }
     const subBlocks: ContentBlock[] = [];
     bioBlock.contentBlocks.forEach(b => {
       subBlocks.push(this.createContentBlock(bioBlock.id, b));
@@ -58,22 +61,25 @@ export class EntitiesFactoryService {
 
   public createContentBlocks(mainBlockId: number, blocks: ContentBlockBackend[]): ContentBlock[] {
     const newBlocks = [];
+    if (isNullOrUndefined(blocks)) {
+      return null;
+    }
     blocks.forEach(b => {
       newBlocks.push(this.createContentBlock(mainBlockId, b));
     });
     return newBlocks;
   }
 
-  public createContentBlock(mainBlockId: number, block: ContentBlockBackend): ContentBlock {
+  public createContentBlock(mainBlockId: number, block: ContentBlockBackend, parentId = -1): ContentBlock {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
     const content = this.createBlockContent(block);
     const subBlocks: ContentBlock[] = [];
     block.subBlocks.forEach(b => {
-      subBlocks.push(this.createContentBlock(mainBlockId, b));
+      subBlocks.push(this.createContentBlock(mainBlockId, b, block.id));
     });
-    const newBlock = new ContentBlock(block, mainBlockId, content, subBlocks);
+    const newBlock = new ContentBlock(block, mainBlockId, content, subBlocks, parentId);
     return newBlock;
   }
 
@@ -114,7 +120,7 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(person)) {
       throw new Error('Empty person');
     }
-    const bioBlock = this.createBaseBioBlockBackend(person.bioBlock);
+    const bioBlock = isNullOrUndefined(person.bioBlock) ? this.createBaseBioBlockBackend(person.bioBlock) : null;
     const newPerson = new PersonBackend(person, bioBlock);
     return newPerson;
   }
@@ -131,6 +137,9 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(bioBlock)) {
       throw new Error('Empty bio block!');
     }
+    if (isNullOrUndefined(bioBlock.contentBlocks) || bioBlock.contentBlocks.length === 0) {
+      return new BaseBioBlockBackend(bioBlock, null);
+    }
     const subBlocks: ContentBlockBackend[] = [];
     bioBlock.contentBlocks.forEach(b => {
       subBlocks.push(this.createContentBlockBackend(b));
@@ -141,6 +150,9 @@ export class EntitiesFactoryService {
 
   public createContentBlocksBackend(blocks: ContentBlock[]): ContentBlockBackend[] {
     const newBlocks = [];
+    if (isNullOrUndefined(blocks)) {
+      return null;
+    }
     blocks.forEach(b => {
       newBlocks.push(this.createContentBlockBackend(b));
     });

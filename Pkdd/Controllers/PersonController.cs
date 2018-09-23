@@ -72,7 +72,7 @@ namespace Pkdd.Controllers
         {
             try
             {
-                var mainBlock = await _personRepository.GetMainBlock(id);
+                var mainBlock = await _personRepository.GetContentBlock(id);
                 return Ok(mainBlock);
             }
             catch (Exception ex)

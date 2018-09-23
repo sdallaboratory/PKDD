@@ -27,15 +27,12 @@ export class RepositoryService {
     if (!isNullOrUndefined(this._persons)) {
       return this._persons;
     }
-    const localPersons = this._localStorage.getPersons();
+    const localPersons = this._localStorage.getPersons().map(p => p.entity);
     const isNeedToUpdate = this.needToUpdate(this._localStorage.getAveragePersonsCacheTime());
     if (isNullOrUndefined(localPersons) || localPersons.length === 0 || isNeedToUpdate) {
       const serverPersons = await this._serverStorage.getPersons(isNeedToUpdate);
       this._localStorage.addPersons(serverPersons);
-      this._persons = this._localStorage.getPersons();
-      this._persons.forEach(p => {
-        this._localStorage.addContentBlocks(p.bioBlock.id, p.bioBlock.contentBlocks);
-      });
+      this._persons = this._localStorage.getPersons().map(p => p.entity);
     } else {
       this._persons = localPersons;
     }
@@ -52,7 +49,7 @@ export class RepositoryService {
     if (!isNullOrUndefined(result)) {
       return result;
     }
-    result = this._localStorage.getPerson(id);
+    result = this._localStorage.getPerson(id).entity;
     const isNeedToUpdate = this.needToUpdate(this._localStorage.getPersonCacheTime(id));
     if (isNullOrUndefined(result) || isNeedToUpdate) {
       const serverPerson = await this._serverStorage.getPerson(id, isNeedToUpdate);
@@ -60,8 +57,7 @@ export class RepositoryService {
         this._localStorage.deletePersons([result]);
       }
       this._localStorage.addPersons([serverPerson]);
-      result = this._localStorage.getPerson(id);
-      this._localStorage.addContentBlocks(result.bioBlock.id, result.bioBlock.contentBlocks);
+      result = this._localStorage.getPerson(id).entity;
     }
     return result;
   }
@@ -78,7 +74,7 @@ export class RepositoryService {
       if (isNeedToUpdate) {
         this._localStorage.deleteContentBlocks(bioBlockId, localBlocks);
       }
-      this._localStorage.addContentBlocks(bioBlockId, serverBlocks);
+      this._localStorage.addContentBlocks(bioBlockId, serverBlocks, null);
       this._contentBlocks = this._localStorage.getContentBlocks(bioBlockId);
     } else {
       this._contentBlocks = localBlocks;
@@ -86,7 +82,35 @@ export class RepositoryService {
     return this._contentBlocks;
   }
 
+  public addPerson(person: Person) {
+    this._localStorage.addPersons([person]);
+  }
+
+  public deletePerson(personId: number) {
+    this._localStorage.deletePersons([personId]);
+  }
+
+  public addContentBlock(bioblockId: number, block: ContentBlock, parentId: number | null = null) {
+    this._localStorage.addContentBlocks(bioblockId, [block], parentId);
+  }
+
+  public deleteContentBlock(bioBlocId, id: number) {
+    this._localStorage.deleteContentBlocks(bioBlocId, [id]);
+  }
+
+  /**
+   * updateData
+   * Very important method. It deletes, updates and adds server data
+   */
+  public updateData() {
+  }
+
+  private async addData() {
+    const serverPersons = (await this._serverStorage.getPersons()).map(p => p.id);
+    const personsToAdd = this._localStorage.getPersons().filter(p => !serverPersons.includes(p.id)).map(p => p.entity);
+  }
+
   private needToUpdate(time: number | null) {
-    return isNullOrUndefined(time) ? false : ((Date.now() * 1000) - time) > this.UNIX_ONE_DAY ? true : false;
+    return isNullOrUndefined(time) ? false : ((Date.now() / 1000) - time) > this.UNIX_ONE_DAY ? true : false;
   }
 }

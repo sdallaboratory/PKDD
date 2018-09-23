@@ -1,6 +1,7 @@
 import { ContentBlockBackend, ContentBlock } from './content-block';
 import { IEntity } from './interfaces/iEntity';
 import { TimeTrack } from '../common/time-track';
+import { isNullOrUndefined } from 'util';
 
 abstract class AbstractBaseBioBlock implements IEntity {
     id: number;
@@ -31,5 +32,16 @@ export class BaseBioBlock extends AbstractBaseBioBlock {
     constructor(bioBlock: AbstractBaseBioBlock, contentBlocks: ContentBlock[]) {
         super(bioBlock);
         this.contentBlocks = contentBlocks;
+    }
+
+    public static blocksInRow(block: BaseBioBlock): ContentBlock[] {
+        if (isNullOrUndefined(block.contentBlocks) || block.contentBlocks.length === 0) {
+            return null;
+        }
+        let result: ContentBlock[] = [].concat(block.contentBlocks);
+        block.contentBlocks.forEach(b => {
+           result = result.concat(ContentBlock.inRow(b));
+        });
+        return result;
     }
 }
