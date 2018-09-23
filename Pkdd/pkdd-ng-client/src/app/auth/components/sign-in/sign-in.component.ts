@@ -25,6 +25,12 @@ export class SignInComponent {
 
   public error: string;
 
+  public onPasswordKeydown(event: KeyboardEvent) {
+    if (event.keyCode === 13) {
+      this.signIn();
+    }
+  }
+
   public async signIn() {
     try {
       const user = await this.auth.signInAsync(this.email, this.password, this.remember);

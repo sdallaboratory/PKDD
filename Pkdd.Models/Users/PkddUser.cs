@@ -17,6 +17,10 @@ namespace Pkdd.Models.Users
 
         public bool IsDeleted { get; set; }
 
+        public string FullName { get; set; }
+
+        public DateTime Birthdate { get; set; }
+
         public void FillUserName()
         {
             UserName = Email + DateTime.Now.Millisecond;

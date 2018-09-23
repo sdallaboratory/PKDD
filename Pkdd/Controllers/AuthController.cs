@@ -15,12 +15,15 @@ namespace Pkdd.Controllers
     [ApiController]
     public class AuthController : PkddControllerBase
     {
-        private readonly IPkddUserManager _users;
-        private readonly IPkddAuthManager _auth;
-        public AuthController(IPkddUserManager users, IPkddAuthManager auth)
+        private readonly IPkddUserManager users;
+        private readonly IPkddAuthManager auth;
+        private readonly IPkddUserRepository repository;
+
+        public AuthController(IPkddUserManager users, IPkddAuthManager auth, IPkddUserRepository repository)
         {
-            _users = users;
-            _auth = auth;
+            this.users = users;
+            this.auth = auth;
+            this.repository = repository;
         }
 
         [HttpPost("sign-in")]
@@ -28,7 +31,7 @@ namespace Pkdd.Controllers
         {
             try
             {
-                PkddUser user = await _auth.SignInAsync(model.Email, model.Password, model.Remember);
+                PkddUser user = await auth.SignInAsync(model.Email, model.Password, model.Remember);
                 return PkddOk(user, nameof(PkddUser)); 
             }
             catch (Exception e)
@@ -42,7 +45,7 @@ namespace Pkdd.Controllers
         {
             try
             {
-                await _auth.SignOutAsync();
+                await auth.SignOutAsync();
                 return PkddOk();
             }
             catch(Exception e)
@@ -56,7 +59,7 @@ namespace Pkdd.Controllers
         {
             try
             {
-                PkddUser user = await _users.CreateAsync(model.Email, model.Password, model.Name);
+                PkddUser user = await users.CreateAsync(model.Email, model.Password, model.Name);
                 return PkddOk(user, nameof(PkddUser));
             }
             catch (Exception e)
@@ -76,10 +79,9 @@ namespace Pkdd.Controllers
         {
             try
             {
-                // return PkddOk(_users.FindAsync("s@s"));
-                var a = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                PkddUser user = await _auth.GetUserAsync();
-                return PkddOk(user);
+                PkddUser user = await auth.GetUserAsync();
+                PkddUserInfo userInfo = await repository.GetAsync(user.Id);
+                return PkddOk(userInfo);
 
             }
             catch (Exception e)

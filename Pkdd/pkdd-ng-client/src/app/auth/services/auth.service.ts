@@ -13,15 +13,15 @@ import { EnvironmentService } from '../../core/services/environment.service';
 })
 export class AuthService {
 
-  private _user: PkddUser = undefined;
+  private user: PkddUser = undefined;
 
   private gettingUser: Promise<void>;
 
   public async getUserAsync(): Promise<PkddUser> {
-    if (this._user === undefined) {
+    if (this.user === undefined) {
       await this.gettingUser;
     }
-    return this._user;
+    return this.user;
   }
 
   public async isAuthedAsync() {
@@ -38,8 +38,8 @@ export class AuthService {
 
   public async signInAsync(email: string, password: string, remeber = false): Promise<PkddUser> {
     const model = new SignInModel(email, password, remeber);
-    this._user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
-    return this._user;
+    this.user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
+    return this.user;
   }
 
   public async signUpAsync(name: string, email: string, password: string): Promise<void> {
@@ -48,7 +48,7 @@ export class AuthService {
   }
 
   public async signOutAsync(fromEverywhere = false) {
-    this._user = null;
+    this.user = null;
     const model = new SignOutModel(fromEverywhere);
     await this.http.post('/api/auth/sign-out', model);
     this.router.navigate(['/auth']);
@@ -60,6 +60,10 @@ export class AuthService {
   }
 
   private async getUserFromServerAsync() {
-    this._user = await this.http.get<PkddUser>('/api/auth/get-user');
+    try {
+      this.user = await this.http.get<PkddUser>('/api/auth/get-user');
+    } catch {
+      this.user = null;
+    }
   }
 }

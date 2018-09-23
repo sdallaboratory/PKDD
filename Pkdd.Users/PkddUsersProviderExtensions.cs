@@ -16,6 +16,7 @@ namespace Pkdd.Users
         {
             services.AddTransient<IPkddUserManager, PkddUserManager>();
             services.AddTransient<IPkddAuthManager, PkddAuthManager>();
+            services.AddTransient<IPkddUserRepository, PkddUsersRepository>();
             return services;
         }
     }

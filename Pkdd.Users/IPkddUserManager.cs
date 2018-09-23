@@ -38,6 +38,13 @@ namespace Pkdd.Users
         Task<PkddUser> FindAsync(string email);
 
         /// <summary>
+        /// Returns an instance of a user with specified id or <see cref="null"/> if the one doesn't exist.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<PkddUser> FindAsync(int id);
+
+        /// <summary>
         /// Marks a user as banned.
         /// </summary>
         /// <param name="user"></param>
@@ -106,5 +113,12 @@ namespace Pkdd.Users
         /// <param name="role"></param>
         /// <returns></returns>
         Task<bool> IsInRoleAsync(PkddUser user, string roleName);
+
+        /// <summary>
+        /// Returns an array of user's roles
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<string[]> GetRolesAsync(PkddUser user);
     }
 }
