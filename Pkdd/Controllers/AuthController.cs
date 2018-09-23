@@ -4,6 +4,7 @@ using Pkdd.Abstractions;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Auth;
 using Pkdd.Models.Users;
+using Pkdd.Models.Users.Roles;
 using Pkdd.Users;
 using System;
 using System.Security.Claims;
@@ -60,6 +61,7 @@ namespace Pkdd.Controllers
             try
             {
                 PkddUser user = await users.CreateAsync(model.Email, model.Password, model.Name);
+                await users.AddToRoleAsync(user, PkddRoles.Expert);
                 return PkddOk(user, nameof(PkddUser));
             }
             catch (Exception e)
