@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from 'util';
 export class TypeChecker {
 
   private static primitiveTypes: string[] = ['string', 'number', 'boolean', 'symbol'];
@@ -6,7 +7,7 @@ export class TypeChecker {
    * returns true if the object can be iterated
    * @param value value to be checked
    */
-  static isIterable(value): boolean {
+  static isIterable(value): value is any[] {
     if (value === undefined) {
       throw new Error('Type checker: object is undefined');
     }
@@ -30,6 +31,17 @@ export class TypeChecker {
       return false;
     }
     if (typeof array[0] === 'number') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static isNumber(obj: any): obj is number {
+    if (isNullOrUndefined(obj)) {
+      return false;
+    }
+    if (typeof obj === 'number') {
       return true;
     } else {
       return false;

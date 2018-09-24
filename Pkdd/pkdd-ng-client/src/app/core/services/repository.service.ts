@@ -5,6 +5,7 @@ import { LocalStorageService } from './local-storage.service';
 import { ServerDataStorageService } from './server-data-storage.service';
 import { Injectable } from '@angular/core';
 import { ILocalStorage } from '../../models/entities/interfaces/local-storage';
+import { ServerIdStorageService } from './server-id-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,9 @@ export class RepositoryService {
 
   private readonly _localStorage: ILocalStorage;
 
-  private readonly UNIX_ONE_DAY = 60 * 60 * 24;
-
   constructor(
     private readonly _serverStorage: ServerDataStorageService,
+    private readonly _idsStorage: ServerIdStorageService,
     localStorage: LocalStorageService
   ) {
     this._localStorage = localStorage;
@@ -28,14 +28,11 @@ export class RepositoryService {
       return this._persons;
     }
     const localPersons = this._localStorage.getPersons().map(p => p.entity);
-    const isNeedToUpdate = this.needToUpdate(this._localStorage.getAveragePersonsCacheTime());
-    if (isNullOrUndefined(localPersons) || localPersons.length === 0 || isNeedToUpdate) {
-      const serverPersons = await this._serverStorage.getPersons(isNeedToUpdate);
-      this._localStorage.addPersons(serverPersons);
-      this._persons = this._localStorage.getPersons().map(p => p.entity);
-    } else {
-      this._persons = localPersons;
+    const serverPersons = await this._serverStorage.getPersons();
+    if (serverPersons.fromServer) {
+      this._idsStorage.updatePersonsIds(serverPersons.entity);
     }
+    this._persons = serverPersons.entity.concat(localPersons).filter(p => !isNullOrUndefined(p));
     return this._persons;
   }
 
@@ -50,14 +47,12 @@ export class RepositoryService {
       return result;
     }
     result = this._localStorage.getPerson(id).entity;
-    const isNeedToUpdate = this.needToUpdate(this._localStorage.getPersonCacheTime(id));
-    if (isNullOrUndefined(result) || isNeedToUpdate) {
-      const serverPerson = await this._serverStorage.getPerson(id, isNeedToUpdate);
-      if (isNeedToUpdate && isNullOrUndefined(result)) {
-        this._localStorage.deletePersons([result]);
+    if (isNullOrUndefined(result)) {
+      const response = await this._serverStorage.getPerson(id);
+      result = response.entity;
+      if (response.fromServer) {
+        this._idsStorage.updatePersonId(result);
       }
-      this._localStorage.addPersons([serverPerson]);
-      result = this._localStorage.getPerson(id).entity;
     }
     return result;
   }
@@ -68,18 +63,14 @@ export class RepositoryService {
       return this._contentBlocks;
     }
     const localBlocks = this._localStorage.getContentBlocks(bioBlockId);
-    const isNeedToUpdate = this.needToUpdate(this._localStorage.getContentBlocksCacheTime(bioBlockId));
-    if (isNullOrUndefined(localBlocks) || localBlocks.length === 0 || isNeedToUpdate) {
-      const serverBlocks = await this._serverStorage.getContentBlocks(bioBlockId, isNeedToUpdate);
-      if (isNeedToUpdate) {
-        this._localStorage.deleteContentBlocks(bioBlockId, localBlocks);
-      }
-      this._localStorage.addContentBlocks(bioBlockId, serverBlocks, null);
-      this._contentBlocks = this._localStorage.getContentBlocks(bioBlockId);
-    } else {
-      this._contentBlocks = localBlocks;
+    const serverBlocks = await this._serverStorage.getContentBlocks(bioBlockId);
+    if (serverBlocks.fromServer) {
+      let blocks = [];
+      serverBlocks.entity.entity.forEach(b => blocks = blocks.concat(ContentBlock.inRow(b)));
+      blocks = blocks.filter(b => !isNullOrUndefined(b));
+      this._idsStorage.updateBlocksIds(blocks.concat(serverBlocks.entity.entity));
     }
-    return this._contentBlocks;
+    return serverBlocks.entity.entity.concat(localBlocks).filter(b => !isNullOrUndefined(b));
   }
 
   public addPerson(person: Person) {
@@ -87,7 +78,11 @@ export class RepositoryService {
   }
 
   public deletePerson(personId: number) {
-    this._localStorage.deletePersons([personId]);
+    if (this._idsStorage.isInPersons(personId)) {
+      this._idsStorage.deletePersonIds([personId]);
+    } else {
+      this._localStorage.deletePersons([personId]);
+    }
   }
 
   public addContentBlock(bioblockId: number, block: ContentBlock, parentId: number | null = null) {
@@ -95,22 +90,49 @@ export class RepositoryService {
   }
 
   public deleteContentBlock(bioBlocId, id: number) {
-    this._localStorage.deleteContentBlocks(bioBlocId, [id]);
+    if (this._idsStorage.isInBlocks(id)) {
+      this._idsStorage.deleteBlocksIds([id]);
+    } else {
+      this._localStorage.deleteContentBlocks(bioBlocId, [id]);
+    }
   }
 
   /**
    * updateData
    * Very important method. It deletes, updates and adds server data
    */
-  public updateData() {
+  public async updateData() {
+    await this.addData();
   }
 
   private async addData() {
-    const serverPersons = (await this._serverStorage.getPersons()).map(p => p.id);
-    const personsToAdd = this._localStorage.getPersons().filter(p => !serverPersons.includes(p.id)).map(p => p.entity);
+    const personsToAdd = this._localStorage.getPersons().map(p => p.entity);
+    if (!isNullOrUndefined(personsToAdd) && personsToAdd.length > 0) {
+      const result: Person[] = [];
+      for (let i = 0; i < personsToAdd.length; i++) {
+        const person = personsToAdd[i];
+        person.bioBlock.contentBlocks = this._localStorage.getContentBlocks(person.bioBlock.id);
+        result.push(await this._serverStorage.addPerson(person));
+      }
+      this.deletePersons(result.filter(p => !isNullOrUndefined(p)));
+    }
   }
 
-  private needToUpdate(time: number | null) {
-    return isNullOrUndefined(time) ? false : ((Date.now() / 1000) - time) > this.UNIX_ONE_DAY ? true : false;
+  private deletePersons(persons: Person[]) {
+    if (isNullOrUndefined(persons) || persons.length === 0) {
+      return;
+    }
+    this.deleteContentBlocks(persons);
+    this._localStorage.deletePersons(persons);
   }
+
+  private deleteContentBlocks(persons: Person[]) {
+    if (isNullOrUndefined(persons) || persons.length === 0) {
+      return;
+    }
+    persons.forEach(p => {
+      this._localStorage.deleteContentBlocks(p.bioBlock.id, p.bioBlock.contentBlocks);
+    });
+  }
+
 }

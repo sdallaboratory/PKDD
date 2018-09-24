@@ -21,39 +21,47 @@ export class ServerDataStorageService {
   };
 
   private _persons: Person[] = [];
-  public async getPersons(flagToUpdate = false) {
-    try {
-      if (!this._isLoaded.persons || flagToUpdate) {
+  public async getPersons(flagToUpdate = false): Promise<ServerStorageResponse<Person[]>> {
+    let fromServer = false;
+    if (!this._isLoaded.persons || flagToUpdate) {
+      try {
         this._persons = this._factory.createPersons(await this.makeAction(ActionType.Get, EntityType.Person));
         this._isLoaded.persons = true;
+      } catch {
+        this._persons = [];
+      } finally {
+        fromServer = true;
       }
-    } catch {
-      this._persons = [];
     }
-    return this._persons;
+    return new ServerStorageResponse(this._persons, fromServer);
   }
 
   public async getPerson(id: number, flagToUpdate = false) {
-    if (isNullOrUndefined(this._persons.find(p => p.id === id)) || flagToUpdate) {
+    let result = new ServerStorageResponse(this._persons.find(p => p.id === id), false);
+    if (isNullOrUndefined(result.entity) || flagToUpdate) {
       const person = this._factory.createPerson(await this.makeAction(ActionType.Get, EntityType.Person, id));
       this._persons.push(person);
+      result = new ServerStorageResponse(person, true);
     }
-    return this._persons.find(p => p.id === id);
+    return result;
   }
 
   private _contentBlocks: CachedEntity<ContentBlock[]>[] = [];
   public async getContentBlocks(baseBioBlockId: number, flagToUpdate = false) {
-    try {
-      if (isNullOrUndefined(this._contentBlocks.find(b => b.id === baseBioBlockId)) || flagToUpdate) {
+    let result = new ServerStorageResponse(this._contentBlocks.find(b => b.id === baseBioBlockId), false);
+    if (isNullOrUndefined(result.entity) || flagToUpdate) {
+      try {
         const blocks = this._factory.createContentBlocks(baseBioBlockId,
           await this.makeAction(ActionType.Get, EntityType.ContentBlock, null, baseBioBlockId));
-        this._contentBlocks.push(new CachedEntity(blocks, baseBioBlockId, new Date()));
+        const cachedBlock = new CachedEntity(blocks, baseBioBlockId, new Date());
+        this._contentBlocks.push(cachedBlock);
+      } catch {
+
+      } finally {
+        result = new ServerStorageResponse(this._contentBlocks.find(b => b.id === baseBioBlockId), true);
       }
-    } catch {
-      this._contentBlocks = [];
     }
-    const entity = this._contentBlocks.find(b => b.id === baseBioBlockId);
-    return !isNullOrUndefined(entity) ? entity.entity : null;
+    return !isNullOrUndefined(result.entity) ? result : null;
   }
 
   public async addPerson(person: Person): Promise<Person> {
@@ -127,7 +135,7 @@ export class ServerDataStorageService {
       await this.makeAction(ActionType.Delete, EntityType.ContentBlock, id, baseBioBlockId);
       const baseBlock = this.findBlock(baseBioBlockId, id);
       if (isNullOrUndefined(baseBioBlockId)) {
-        const mainBlock =  this._contentBlocks.find(b => b.id === baseBioBlockId);
+        const mainBlock = this._contentBlocks.find(b => b.id === baseBioBlockId);
         mainBlock.entity.splice(mainBlock.entity.findIndex(b => b.id === id), 1);
       } else {
         baseBlock.subBlocks.splice(baseBlock.subBlocks.findIndex(b => b.id === id), 1);
@@ -194,6 +202,16 @@ export class ServerDataStorageService {
     return resultArray.find(b => b.id === id);
   }
 
+}
+
+class ServerStorageResponse<T> {
+  entity: T;
+  fromServer: boolean;
+
+  constructor(entity: T, fromServer: boolean) {
+    this.entity = entity,
+      this.fromServer = fromServer;
+  }
 }
 
 enum ActionType {
