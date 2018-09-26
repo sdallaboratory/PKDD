@@ -33,7 +33,8 @@ namespace Pkdd.Controllers
             try
             {
                 PkddUser user = await auth.SignInAsync(model.Email, model.Password, model.Remember);
-                return PkddOk(user, nameof(PkddUser)); 
+                var userInfo = repository.GetAsync(user.Id);
+                return PkddOk(userInfo, nameof(PkddUser)); 
             }
             catch (Exception e)
             {
@@ -61,7 +62,7 @@ namespace Pkdd.Controllers
             try
             {
                 PkddUser user = await users.CreateAsync(model.Email, model.Password, model.Name);
-                await users.AddToRoleAsync(user, PkddRoles.Expert);
+                await users.AddToRoleAsync(user, "expert");
                 return PkddOk(user, nameof(PkddUser));
             }
             catch (Exception e)

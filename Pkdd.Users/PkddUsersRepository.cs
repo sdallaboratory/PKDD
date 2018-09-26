@@ -33,7 +33,7 @@ namespace Pkdd.Users
             PkddUserInfo userInfo = new PkddUserInfo()
             {
                 Id = user.Id,
-                Name = user.FullName,
+                Name = user.Name,
                 Email = user.Email
             };
             userInfo.Roles = (await users.GetRolesAsync(user)).ToList();

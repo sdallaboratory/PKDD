@@ -9,7 +9,7 @@ import { RestoreComponent } from './components/restore/restore.component';
 import { MaterialImportsModule } from '../material-imports/material-imports.module';
 import { CoreModule } from '../core/core.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthGuard } from './guards/auth.guard';
+import { ForRolesDirective } from './directives/for-roles.directive';
 
 @NgModule({
   imports: [
@@ -18,13 +18,17 @@ import { AuthGuard } from './guards/auth.guard';
     CoreModule,
     MaterialImportsModule,
     AuthRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   declarations: [
     AuthPageComponent,
     SignInComponent,
     SignUpComponent,
     RestoreComponent,
+    ForRolesDirective,
   ],
+  exports: [
+    ForRolesDirective
+  ]
 })
 export class AuthModule { }

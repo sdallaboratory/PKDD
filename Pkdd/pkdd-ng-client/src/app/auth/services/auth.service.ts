@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { PkddUser } from '../../models/auth/pkdd-user';
 import { PkddHttpService } from '../../core/services/pkdd-http.service';
 import { SignUpModel } from '../../models/auth/sign-up-model';
@@ -17,6 +17,13 @@ export class AuthService {
 
   private gettingUser: Promise<void>;
 
+  public readonly userChanged = new EventEmitter<PkddUser>();
+
+  private setUser(user: PkddUser) {
+    this.user = user;
+    this.userChanged.emit(user);
+  }
+
   public async getUserAsync(): Promise<PkddUser> {
     if (this.user === undefined) {
       await this.gettingUser;
@@ -31,7 +38,6 @@ export class AuthService {
   constructor(
     private readonly http: PkddHttpService,
     private readonly router: Router,
-    private readonly env: EnvironmentService
   ) {
     this.gettingUser = this.getUserFromServerAsync();
   }
