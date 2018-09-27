@@ -15,7 +15,7 @@ export class EntityScanner {
         return JSON.stringify(first) === JSON.stringify(second);
     }
 
-    public static newEntity(entity: any) {
+    public static newEntity<T>(entity: T): T {
         if (!isNullOrUndefined(entity)) {
           return JSON.parse(JSON.stringify(entity));
         } else {

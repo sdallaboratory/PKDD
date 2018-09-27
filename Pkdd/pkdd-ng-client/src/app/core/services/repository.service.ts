@@ -68,7 +68,7 @@ export class RepositoryService {
       let blocks = [];
       serverBlocks.entity.entity.forEach(b => blocks = blocks.concat(ContentBlock.inRow(b)));
       blocks = blocks.filter(b => !isNullOrUndefined(b));
-      this._idsStorage.updateBlocksIds(blocks.concat(serverBlocks.entity.entity));
+      this._idsStorage.updateBlocksIds(bioBlockId, blocks.concat(serverBlocks.entity.entity));
     }
     return serverBlocks.entity.entity.concat(localBlocks).filter(b => !isNullOrUndefined(b));
   }
@@ -89,11 +89,11 @@ export class RepositoryService {
     this._localStorage.addContentBlocks(bioblockId, [block], parentId);
   }
 
-  public deleteContentBlock(bioBlocId, id: number) {
+  public deleteContentBlock(bioBlockId: number, id: number) {
     if (this._idsStorage.isInBlocks(id)) {
-      this._idsStorage.deleteBlocksIds([id]);
+      this._idsStorage.deleteBlocksIds(bioBlockId, [id]);
     } else {
-      this._localStorage.deleteContentBlocks(bioBlocId, [id]);
+      this._localStorage.deleteContentBlocks(bioBlockId, [id]);
     }
   }
 
@@ -103,6 +103,28 @@ export class RepositoryService {
    */
   public async updateData() {
     await this.addData();
+    this.deleteData();
+  }
+
+  private deleteData() {
+    const promises: Promise<any>[] = [];
+    for (let i = 0; i < this._idsStorage.blocksIdsToDelete.length; i++) {
+      const item = this._idsStorage.blocksIdsToDelete[i];
+      promises.push(this._serverStorage.deleteContentBlock(item.baseId, item.blockId).then(
+        () => {
+          this._idsStorage.removeBlocksIds(item.baseId, [item.blockId]);
+        }
+      ));
+    }
+    Promise.all(promises).then(() => {
+      for (let i = 0; i < this._idsStorage.personsIdsToDelete.length; i++) {
+        const item = this._idsStorage.personsIdsToDelete[i];
+        promises.push(this._serverStorage.deletePerson(item).then(
+          () => {
+            this._idsStorage.removePersonIds([item.blockId]);
+          }
+        ));
+    }});
   }
 
   private async addData() {

@@ -15,9 +15,9 @@ export class ServerIdStorageService {
     return [].concat(this._personsIds);
   }
 
-  private _blocksIds: number[] = [];
+  private _blocksIds: BlockDictionary[] = [];
   public get blocksIds() {
-    return [].concat(this._blocksIds);
+    return [].concat(this._blocksIds) as BlockDictionary[];
   }
 
   private _personsIdsToDelete: number[] = [];
@@ -25,9 +25,9 @@ export class ServerIdStorageService {
     return [].concat(this._personsIdsToDelete);
   }
 
-  private _blocksIdsToDelete: number[] = [];
-  public get blocksIdsToDelete() {
-    return [].concat(this._blocksIdsToDelete);
+  private _blocksIdsToDelete: BlockDictionary[] = [];
+  public get blocksIdsToDelete():  BlockDictionary[] {
+    return [].concat(this._blocksIdsToDelete) as BlockDictionary[];
   }
 
   public constructor() {
@@ -58,19 +58,27 @@ export class ServerIdStorageService {
   }
 
   public isInPersons(id: number | number[]) {
-    return TypeChecker.isIterable(id) ? id.every(item => this._personsIds.includes(item)) : this._personsIds.includes(id);
+    return TypeChecker.isIterable(id) ? id.every(item =>
+      this._personsIds.includes(item))
+      : this._personsIds.includes(id);
   }
 
   public isInPersonsToDelete(id: number | number[]) {
-    return TypeChecker.isIterable(id) ? id.every(item => this._personsIdsToDelete.includes(item)) : this._personsIdsToDelete.includes(id);
+    return TypeChecker.isIterable(id) ? id.every(item =>
+      this._personsIdsToDelete.includes(item))
+      : this._personsIdsToDelete.includes(id);
   }
 
   public isInBlocks(id: number | number[]) {
-    return TypeChecker.isIterable(id) ? id.every(item => this._blocksIds.includes(item)) : this._blocksIds.includes(id);
+    return TypeChecker.isIterable(id) ? id.every(item =>
+      this.blocksIds.map(b => b.blockId).includes(item))
+      : this.blocksIds.map(b => b.blockId).includes(id);
   }
 
   public isInBlocksToDelete(id: number | number[]) {
-    return TypeChecker.isIterable(id) ? id.every(item => this._blocksIdsToDelete.includes(item)) : this.blocksIdsToDelete.includes(id);
+    return TypeChecker.isIterable(id) ? id.every(item =>
+      this.blocksIdsToDelete.map(b => b.blockId).includes(item))
+      : this.blocksIdsToDelete.map(b => b.blockId).includes(id);
   }
 
   public deletePersonIds(persons: number[] | Person[]) {
@@ -83,21 +91,23 @@ export class ServerIdStorageService {
       return;
     }
     ids.forEach(id => this._personsIds.splice(this._personsIds.findIndex(i => i === id), 1));
-    this._personsIds = this.personsIds.concat(ids);
+    this._personsIds = this._personsIds.concat(ids);
     this.savePersonsIds();
   }
 
-  public deleteBlocksIds(blocks: number[] | ContentBlock[]) {
+  public deleteBlocksIds(baseId: number, blocks: number[] | ContentBlock[]) {
     if (isNullOrUndefined(blocks) || blocks.length === 0) {
       return;
     }
     let ids = TypeChecker.isNumberArray(blocks) ? blocks : blocks.map(p => p.id);
-    ids = ids.filter(id => this._blocksIds.includes(id) && !this._blocksIdsToDelete.includes(id));
+    ids = ids.filter(id =>
+      this._blocksIds.map(b => b.blockId).includes(id)
+      && !this._blocksIdsToDelete.map(b => b.blockId).includes(id));
     if (ids.length === 0) {
       return;
     }
-    ids.forEach(id => this._blocksIds.splice(this._blocksIds.findIndex(i => i === id), 1));
-    this._blocksIds = this.blocksIds.concat(ids);
+    ids.forEach(id => this._blocksIds.splice(this._blocksIds.map(b => b.blockId).findIndex(i => i === id), 1));
+    this._blocksIds = this.blocksIds.concat(ids.map(id => new BlockDictionary(baseId, id)));
     this.saveBlocksIds();
   }
 
@@ -122,13 +132,15 @@ export class ServerIdStorageService {
     this.savePersonsIds();
   }
 
-  public updateBlocksIds(blocks: number[] | ContentBlock[]) {
+  public updateBlocksIds(baseId: number, blocks: ContentBlock[]) {
     if (isNullOrUndefined(blocks) || blocks.length === 0) {
       return;
     }
     const ids = TypeChecker.isNumberArray(blocks) ? blocks : blocks.map(b => b.id);
-    this._blocksIdsToDelete = this._blocksIdsToDelete.filter(id => ids.includes(id));
-    this._blocksIds = EntityScanner.newEntity(ids.filter(id => !this._blocksIdsToDelete.includes(id)));
+    this._blocksIdsToDelete = this.blocksIdsToDelete.filter(id => id.baseId === baseId && ids.includes(id.blockId));
+    this._blocksIds = EntityScanner.newEntity(
+      ids.filter(
+        id => !this.blocksIdsToDelete.map(b => b.blockId).includes(id)).map(b => new BlockDictionary(baseId, b)));
     this.saveBlocksIds();
   }
 
@@ -142,6 +154,43 @@ export class ServerIdStorageService {
     localStorage[IdType.BlockDelete] = JSON.stringify(this._blocksIdsToDelete);
   }
 
+  public removePersonIds(persons: number[] | Person[]) {
+    if (isNullOrUndefined(persons) || persons.length === 0) {
+      return;
+    }
+    let ids = TypeChecker.isNumberArray(persons) ? persons : persons.map(p => p.id);
+    ids = ids.filter(id => this._personsIdsToDelete.includes(id));
+    if (ids.length === 0) {
+      return;
+    }
+    ids.forEach(id => this._personsIdsToDelete.splice(id, 1));
+    this._personsIds = this._personsIds.concat(ids);
+    this.savePersonsIds();
+  }
+
+  public removeBlocksIds(baseId: number, blocks: number[] | ContentBlock[]) {
+    if (isNullOrUndefined(blocks) || blocks.length === 0) {
+      return;
+    }
+    let ids = TypeChecker.isNumberArray(blocks) ? blocks : blocks.map(p => p.id);
+    ids = ids.filter(id => this._blocksIdsToDelete.map(b => b.blockId).includes(id));
+    if (ids.length === 0) {
+      return;
+    }
+    ids.forEach(id => this._blocksIdsToDelete.splice(id, 1));
+    this._blocksIds = this.blocksIds.concat(ids.map(id => new BlockDictionary(baseId, id)));
+    this.saveBlocksIds();
+  }
+
+}
+
+class BlockDictionary {
+  baseId: number;
+  blockId: number;
+  constructor (baseId: number, id: number) {
+    this.baseId = baseId;
+    this.blockId = id;
+  }
 }
 
 enum IdType {

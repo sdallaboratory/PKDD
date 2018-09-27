@@ -118,7 +118,7 @@ export class LocalStorageService implements ILocalStorage {
     } else {
       const parent = this.findBlock(bioBlockId, parentId);
       if (!isNullOrUndefined(parent)) {
-        parent.subBlocks.push(EntityScanner.newEntity(blocks));
+        parent.subBlocks.push(...EntityScanner.newEntity(blocks));
         this.saveContentBlocks();
       }
     }
