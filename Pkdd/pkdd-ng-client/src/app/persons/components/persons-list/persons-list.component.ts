@@ -1,5 +1,4 @@
 import { Person } from './../../../models/entities/person';
-import { RepositoryService } from './../../../core/services/repository.service';
 import { Component, OnInit } from '@angular/core';
 import { ContentBlock } from '../../../models/entities/content-block';
 
