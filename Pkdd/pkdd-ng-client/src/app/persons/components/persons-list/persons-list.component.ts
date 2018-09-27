@@ -17,13 +17,12 @@ export class PersonsListComponent implements OnInit {
     public repository: RepositoryService
   ) { }
 
-  ngOnInit() {
-    this.repository.getPersons().then((value) => {
-      this.persons = value;
-      this.repository.getContentBlock(this.persons[0].bioBlock.id).then(v => {
-        this.blocks = v;
-      });
-    });
+  async ngOnInit() {
+    console.log(this.persons, this.blocks);
+    this.persons = await this.repository.getPersons();
+    console.log(this.persons, this.blocks);
+    this.blocks = await this.repository.getContentBlock(this.persons[0].bioBlock.id);
+    console.log(this.persons, this.blocks);
   }
 
 }

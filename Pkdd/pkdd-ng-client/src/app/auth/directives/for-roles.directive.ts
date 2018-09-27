@@ -46,7 +46,7 @@ export class ForRolesDirective implements OnInit {
     if (!user || !user.roles || !this.roles) {
       return false;
     }
-    
+
     return this.roles.some(role => user.roles.includes(role));
   }
 }

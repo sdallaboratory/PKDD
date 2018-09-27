@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Pkdd.Abstractions;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Auth;
 using Pkdd.Models.Users;
-using Pkdd.Models.Users.Roles;
 using Pkdd.Users;
 using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
@@ -33,8 +29,8 @@ namespace Pkdd.Controllers
             try
             {
                 PkddUser user = await auth.SignInAsync(model.Email, model.Password, model.Remember);
-                var userInfo = repository.GetAsync(user.Id);
-                return PkddOk(userInfo, nameof(PkddUser)); 
+                PkddUserInfo userInfo = await repository.GetAsync(user.Id);
+                return PkddOk(userInfo);
             }
             catch (Exception e)
             {
@@ -63,7 +59,8 @@ namespace Pkdd.Controllers
             {
                 PkddUser user = await users.CreateAsync(model.Email, model.Password, model.Name);
                 await users.AddToRoleAsync(user, "expert");
-                return PkddOk(user, nameof(PkddUser));
+                PkddUserInfo userInfo = await repository.GetAsync(user.Id);
+                return PkddOk(userInfo);
             }
             catch (Exception e)
             {
@@ -89,7 +86,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception e)
             {
-                return PkddError("You are not authorized.");
+                return PkddError("Вы не авторизованы.");
             }
         }
     }

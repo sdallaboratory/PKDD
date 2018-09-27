@@ -5,12 +5,13 @@ import { PkddPageComponent } from './components/pkdd-page/pkdd-page.component';
 import { PersonsListComponent } from '../persons/components/persons-list/persons-list.component';
 import { AccountPageComponent } from '../account/components/account-page/account-page.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { PkddRoles } from '../models/auth/pkdd-roles.enum';
 
 const routes: Routes = [
   {
     path: '',
     component: PkddPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AuthGuard.forRoles(PkddRoles.expert)],
     canActivateChild: [AuthGuard],
     children: [
       {
