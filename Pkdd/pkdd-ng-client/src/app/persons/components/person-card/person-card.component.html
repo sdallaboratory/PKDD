@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-title>
+    {{person.name}}
+  </mat-card-title>
+  <mat-card-content>
+    <img src="http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif" alt="person">
+  </mat-card-content>
+  <mat-card-actions>
+    <button *pkddForRoles="'tech'" mat-button>Редактировать</button>
+    <a href="https://cyberleninka.ru/article/n/gumanitarnye-tehnologii-kak-novaya-forma-funktsionirovaniya-gumanitarnogo-znaniya">
+      <button *pkddForRoles="'expert'" mat-button>Оценить</button>
+    </a>
+    <button *pkddForRoles="'admin'" mat-button>Удалить</button>
+  </mat-card-actions>
+  <!-- <div>{{person.bir}}</div> -->
+</mat-card>

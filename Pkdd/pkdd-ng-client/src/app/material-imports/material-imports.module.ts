@@ -10,7 +10,7 @@ import {
   MatInputModule,
   MatCheckboxModule,
   MatProgressSpinnerModule,
-  MatTooltipModule
+  MatTooltipModule,
 } from '@angular/material';
 
 const imports = [

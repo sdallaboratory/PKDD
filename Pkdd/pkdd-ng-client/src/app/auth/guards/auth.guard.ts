@@ -13,14 +13,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     private readonly router: Router
   ) { }
 
-  async canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot) {
-    if (!await this.auth.isAuthedAsync()) {
-      console.log('redirected to auth');
+  async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const authed = await this.auth.isAuthedAsync();
+    if (!authed) {
       this.router.navigate(['/auth']);
     }
-    return await this.auth.isAuthedAsync();
+    return authed;
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

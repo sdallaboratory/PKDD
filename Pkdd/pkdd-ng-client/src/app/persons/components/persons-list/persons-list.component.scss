@@ -1,0 +1,11 @@
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+pkdd-person-card {
+    flex: 1 1 200;
+    margin: 15px;
+}
