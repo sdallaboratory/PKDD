@@ -3,7 +3,9 @@ using Pkdd.Abstractions.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Enums = Pkdd.Models.Person.Enums;
 
 namespace Pkdd.Models.Person
@@ -32,9 +34,9 @@ namespace Pkdd.Models.Person
         public string Comment { get; set; }
 
         /// <summary>
-        /// String with format  "\/*\d+" (int/int/int/...)
+        /// String with format  "\/?\d+" (int/int/int/...)
         /// </summary>
-        [RegularExpression(@"\/*\d+")]
+        [RegularExpression(@"\/?\d+")]
         [JsonProperty("order")]
         public string Order { get; set; }
 
@@ -48,6 +50,24 @@ namespace Pkdd.Models.Person
             Order = content.Order;
             MarkUpdated();
             return this;
+        }
+
+        private readonly string orderPattern = @"\/?\d+";
+
+        public bool CheckOrder(string order)
+        {
+            bool isMatch = Regex.IsMatch(order, orderPattern);
+            if(!isMatch)
+            {
+                return false;
+            }
+            string[] thisOrder = Order.Split('/');
+            string[] checkOrder = order.Split('/');
+            if(thisOrder.Length != checkOrder.Length)
+            {
+                return false;
+            }
+            return thisOrder.SequenceEqual(checkOrder);
         }
     }
 }

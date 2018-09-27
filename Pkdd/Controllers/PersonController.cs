@@ -97,12 +97,12 @@ namespace Pkdd.Controllers
         }
 
         [HttpPost]
-        [Route("bio/contents")]
-        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block)
+        [Route("bio/{id?}/contents")]
+        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int? id = null)
         {
             try
             {
-                var newBlock = await _personRepository.AddContentBlock(block);
+                var newBlock = await _personRepository.AddContentBlock(id, block);
                 return Ok(newBlock);
             }
             catch (Exception ex)

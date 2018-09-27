@@ -16,7 +16,7 @@ namespace Pkdd.Repositories
         Task<BaseBioBlock> GetMainBlock(int personId);
 
         Task<List<ContentBlock>> GetContentBlock(int baseBlockId);
-        Task<ContentBlock> AddContentBlock(ContentBlock content);
+        Task<ContentBlock> AddContentBlock(int? bioBlockId, ContentBlock content);
         Task UpdateContentBlock(ContentBlock content);
         Task RemoveContentBlock(int id);
     }

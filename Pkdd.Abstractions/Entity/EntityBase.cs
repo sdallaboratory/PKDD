@@ -16,7 +16,7 @@ namespace Pkdd.Abstractions.Entity
         [JsonProperty("id")]
         public virtual int Id { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("timeTrack")]
         public virtual TimeTrack TimeTrack { get; set; }
 
         [JsonProperty("isDeleted")]
