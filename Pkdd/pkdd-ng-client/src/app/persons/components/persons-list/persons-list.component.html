@@ -1,3 +1,4 @@
-<p>
-  persons-list works!
-</p>
+<!-- <div *ngFor="let person of (repository.getPersons() | async)"> </div> -->
+<div *ngFor="let person of persons">{{person.name}}
+    <div *ngFor="let block of blocks">{{block.id}}</div>
+</div>

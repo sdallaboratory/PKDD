@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pkdd.Abstractions;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Auth;
 using Pkdd.Models.Users;
@@ -20,7 +21,7 @@ namespace Pkdd.Controllers
             _auth = auth;
         }
 
-        [HttpPost("signin")]
+        [HttpPost("sign-in")]
         public async Task<JsonResult> SignIn([FromBody] SignInModel model)
         {
             try
@@ -34,7 +35,7 @@ namespace Pkdd.Controllers
             }
         }
 
-        [HttpPost("signout")]
+        [HttpPost("sign-out")]
         public async Task<JsonResult> SignOut([FromBody] SignOutModel model)
         {
             try
@@ -48,7 +49,7 @@ namespace Pkdd.Controllers
             }
         }
         
-        [HttpPost("signup")]
+        [HttpPost("sign-up")]
         public async Task<JsonResult> SignUp([FromBody] SignUpModel model)
         {
             try
@@ -62,7 +63,7 @@ namespace Pkdd.Controllers
             }
         }
 
-        [HttpPost("restorepassword")]
+        [HttpPost("restore-password")]
         public async Task<JsonResult> RestorePassword([FromBody] RestorePasswordModel model)
         {
             return PkddError("Not implemented.");

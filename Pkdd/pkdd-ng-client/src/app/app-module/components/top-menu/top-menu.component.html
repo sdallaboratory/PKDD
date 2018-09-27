@@ -1,6 +1,8 @@
 <mat-toolbar>
   <span class="left-item">
-    <img src="assets/img/pkdd-logo.png" *ngIf="win.currentDeviceType === 'pc' || !menu.sideMenuItems.length" [class.not-pc]="win.currentDeviceType !== 'pc'">
+    <a *ngIf="win.currentDeviceType === 'pc' || !menu.sideMenuItems.length" routerLink="/">
+      <img src="assets/img/pkdd-logo.png" [class.not-pc]="win.currentDeviceType !== 'pc'">
+    </a>
     <button *ngIf="win.currentDeviceType !== 'pc' && menu.sideMenuItems.length" mat-button (click)="menu.sideMenuOpened = !menu.sideMenuOpened">
       <mat-icon *ngIf="win.currentDeviceType !== 'pc' && !menu.sideMenuOpened && menu.sideMenuItems.length">menu</mat-icon>
       <mat-icon *ngIf="win.currentDeviceType !== 'pc' && menu.sideMenuOpened && menu.sideMenuItems.length">close</mat-icon>

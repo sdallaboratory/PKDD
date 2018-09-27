@@ -1,3 +1,11 @@
-<p>
-  auth-page works!
-</p>
+<div class="wrapper" [class.mobile]="isMobile">
+  <mat-card [class.mobile]="isMobile">
+    <div class="pkdd-logo-wrapper" [class.mobile]="isMobile">
+      <img class="pkdd-logo" [class.mobile]="isMobile" src="assets/img/pkdd-logo.png">
+    </div>
+    <div class="outlet" [class.mobile]="isMobile">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-card>
+  <pkdd-copyright></pkdd-copyright>
+</div>

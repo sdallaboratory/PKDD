@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <h1>
+    Регистрация
+  </h1>
+  <div *ngIf="error?.length" class="error">{{error}}</div>
+  <mat-form-field class="password-field">
+    <mat-label>ФИО</mat-label>
+    <input matInput type="text" placeholder="например, Иванов Иван Иванович" required [(ngModel)]="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput type="text" placeholder="например, example@email.com" required [(ngModel)]="email">
+  </mat-form-field>
+  <mat-form-field class="password-field">
+    <mat-label>Пароль</mat-label>
+    <input matInput [type]="hide ? 'password' : 'text'" placeholder="например, Abc123Moscow!" required [(ngModel)]="password">
+    <mat-icon class="suffix" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+  </mat-form-field>
+  <mat-form-field class="password-field">
+    <!-- <mat-label>Подтверждение пароля</mat-label> -->
+    <input matInput [type]="hide ? 'password' : 'text'" placeholder="somepassword" required [(ngModel)]="confirmation">
+    <mat-error *ngIf="password !== confirmation">Пароли не совпадают</mat-error>
+  </mat-form-field>
+
+  <div class="row">
+  <div class="flex-splitter"></div>
+  <button mat-button [disabled]="!name?.length || !email?.length || !password?.length || password !== confirmation" (click)="signUp()">Зарегистрироваться</button>
+  </div>
+
+  <div class="flex-splitter"></div>
+  <div class="row bottom">
+      <a routerLink="/auth"><button mat-button>Вход</button></a>
+    <div class="flex-splitter"></div>
+    <button mat-button>Информация</button>
+  </div>
+</div>

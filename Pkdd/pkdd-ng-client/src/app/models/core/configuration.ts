@@ -6,4 +6,11 @@ export interface Configuration {
 
     cssBreakpoints: CssBreakpoint[];
 
+    version: string;
+
+    developers: string;
+
+    productName: string;
+
+    backendUrl: string;
 }
