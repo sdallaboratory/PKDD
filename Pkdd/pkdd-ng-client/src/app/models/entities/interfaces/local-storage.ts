@@ -1,11 +1,12 @@
 import { ContentBlock } from './../content-block';
 import { Person } from '../person';
+import { ICachedEntity } from '../../core/cached-entity';
 
 export interface ILocalStorage {
     isValid();
 
-    getPersons(): Person[];
-    getPerson(id: number): Person;
+    getPersons(): ICachedEntity<Person>[];
+    getPerson(id: number): ICachedEntity<Person>;
     getContentBlocks(bioBlockId: number): ContentBlock[];
 
     getAveragePersonsCacheTime(): number | null;
@@ -13,7 +14,7 @@ export interface ILocalStorage {
     getContentBlocksCacheTime(bioBlockId: number): number | null;
 
     addPersons(persons: Person[]);
-    addContentBlocks(bioBlockId: number, blocks: ContentBlock[]);
+    addContentBlocks(bioBlockId: number, blocks: ContentBlock[], parentId: number | null);
 
     clearStorage(): void;
     clearPersons(): void;

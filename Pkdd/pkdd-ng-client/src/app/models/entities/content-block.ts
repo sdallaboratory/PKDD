@@ -6,6 +6,7 @@ import { TimeTrack } from '../common/time-track';
 import { Photo } from './content-entities/photo';
 import { Video } from './content-entities/video';
 import { Publication } from './content-entities/publication';
+import { isNullOrUndefined } from 'util';
 
 abstract class AbstractContentBlock implements IEntity {
     id: number;
@@ -48,17 +49,31 @@ export class ContentBlock extends AbstractContentBlock {
     baseBlockId: number;
     content: ContentTypes;
     subBlocks: ContentBlock[];
+    parentId = -1;
 
     constructor(
         contentBlock: AbstractContentBlock,
         baseBlockId: number,
         content: ContentTypes,
         subBlocks: ContentBlock[],
+        parentId = -1
     ) {
         super(contentBlock);
         this.baseBlockId = baseBlockId;
         this.content = content;
         this.subBlocks = subBlocks;
+        this.parentId = parentId;
+    }
+
+    public static inRow(block: ContentBlock): ContentBlock[] {
+        if (isNullOrUndefined(block.subBlocks) || block.subBlocks.length === 0) {
+            return null;
+        }
+        let result: ContentBlock[] = [].concat(block.subBlocks);
+        block.subBlocks.forEach(b => {
+            result = result.concat(ContentBlock.inRow(b));
+        });
+        return result;
     }
 }
 

@@ -7,6 +7,7 @@ import { Person } from '../../models/entities/person';
 import { ContentBlock } from '../../models/entities/content-block';
 import { EntityType } from '../../models/entities/enums/entity-type';
 import { TypeChecker } from '../utils/type-checker';
+import { EntityScanner } from '../utils/entity-scanner';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class LocalStorageService implements ILocalStorage {
   }
 
   private _persons: CachedEntity<Person>[] = [];
-  public getPersons(): Person[] {
+  public getPersons(): CachedEntity<Person>[] {
     if (!this._isValid) {
       this.throwStorageError();
     }
@@ -46,12 +47,13 @@ export class LocalStorageService implements ILocalStorage {
       this._persons = this.getEntity(EntityType.Person);
       this._persons.forEach(p => {
         p.entity.bioBlock.contentBlocks = this.getContentBlocks(p.entity.bioBlock.id);
+        p.setTime = new Date(p.setTime);
       });
     }
-    return this._persons.map(p => p.entity);
+    return this._persons;
   }
 
-  public getPerson(id: number): Person {
+  public getPerson(id: number): CachedEntity<Person> {
     if (!this._isValid) {
       this.throwStorageError();
     }
@@ -59,8 +61,12 @@ export class LocalStorageService implements ILocalStorage {
       this._persons = this.getEntity(EntityType.Person);
     }
     const person = this._persons.find(p => p.id === id);
+    if (isNullOrUndefined(person)) {
+      return null;
+    }
     person.entity.bioBlock.contentBlocks = this.getContentBlocks(person.entity.bioBlock.id);
-    return person.entity;
+    person.setTime = new Date(person.setTime);
+    return person;
   }
 
   private _contentBlocks: CachedEntity<ContentBlock[]>[] = [];
@@ -71,6 +77,12 @@ export class LocalStorageService implements ILocalStorage {
     if (isNullOrUndefined(this._contentBlocks) || this._contentBlocks.length === 0) {
       this._contentBlocks = this.getEntity(EntityType.ContentBlock);
     }
+    if (isNullOrUndefined(this._contentBlocks) || this._contentBlocks.length === 0) {
+      return null;
+    }
+    this._contentBlocks.forEach(c => {
+      c.setTime = new Date(c.setTime);
+    });
     return this._contentBlocks.find(c => c.id === bioBlockId).entity;
   }
 
@@ -79,25 +91,37 @@ export class LocalStorageService implements ILocalStorage {
       this.throwStorageError();
     }
     persons.forEach(p => {
-      this.addContentBlocks(p.bioBlock.id, p.bioBlock.contentBlocks);
       p.bioBlock.contentBlocks = [];
     });
-    const newPersons: Person[] = this.newEntity(persons);
+    const newPersons: Person[] = EntityScanner.newEntity(persons);
     const newCachedPersons = newPersons.map(p => new CachedEntity(p, p.id, new Date()));
+    newCachedPersons.forEach(p => {
+      p.markAdded();
+    });
     this._persons = !isNullOrUndefined(newPersons) ?
       this._persons.concat(this.setEntity(EntityType.Person, newCachedPersons))
       : [].concat(this.setEntity(EntityType.Person, newCachedPersons));
   }
 
-  public addContentBlocks(bioBlockId: number, blocks: ContentBlock[]) {
+  public addContentBlocks(bioBlockId: number, blocks: ContentBlock[], parentId: number | null = null) {
     if (!this.isValid()) {
       this.throwStorageError();
     }
-    const newBlocks: ContentBlock[] = this.newEntity(blocks);
-    const newCachedBlocks = [new CachedEntity(newBlocks, bioBlockId, new Date())];
-    this._contentBlocks = !isNullOrUndefined(newBlocks) ?
-      this._contentBlocks.concat(this.setEntity(EntityType.ContentBlock, newCachedBlocks))
-      : [].concat(this.setEntity(EntityType.Person, newCachedBlocks));
+    if (parentId === null) {
+      const newBlocks: ContentBlock[] = EntityScanner.newEntity(blocks);
+      const cached = new CachedEntity(newBlocks, bioBlockId, new Date());
+      cached.markAdded();
+      const newCachedBlocks = [cached];
+      this._contentBlocks = !isNullOrUndefined(newBlocks) ?
+        this._contentBlocks.concat(this.setEntity(EntityType.ContentBlock, newCachedBlocks))
+        : [].concat(this.setEntity(EntityType.Person, newCachedBlocks));
+    } else {
+      const parent = this.findBlock(bioBlockId, parentId);
+      if (!isNullOrUndefined(parent)) {
+        parent.subBlocks.push(...EntityScanner.newEntity(blocks));
+        this.saveContentBlocks();
+      }
+    }
   }
 
   getAveragePersonsCacheTime(): number | null {
@@ -169,7 +193,7 @@ export class LocalStorageService implements ILocalStorage {
     }
     const persons = this.getPersons();
     this.clearPersons();
-    this.addPersons(persons);
+    this.addPersons(persons.map(p => p.entity));
   }
 
   public saveContentBlocks() {
@@ -194,7 +218,7 @@ export class LocalStorageService implements ILocalStorage {
     let idsToDelete: number[];
     let bioIdsToDelete: BaseBioBlock[];
     if (TypeChecker.isNumberArray(ids)) {
-      bioIdsToDelete = this.getPersons().filter(p => ids.includes(p.id)).map(p => p.bioBlock);
+      bioIdsToDelete = this.getPersons().filter(p => ids.includes(p.id)).map(p => p.entity.bioBlock);
       idsToDelete = ids;
     } else {
       bioIdsToDelete = ids.map(p => p.bioBlock);
@@ -303,18 +327,22 @@ export class LocalStorageService implements ILocalStorage {
         this._persons = this._persons.filter(p => !ids.includes(p.id));
         break;
       case EntityType.ContentBlock:
-          const blocks = this._contentBlocks.find(c => c.id === parentId);
-          blocks.entity = blocks.entity.filter(b => !ids.includes(b.id));
+        const blocks = this._contentBlocks.find(c => c.id === parentId);
+        blocks.entity = blocks.entity.filter(b => !ids.includes(b.id));
         break;
     }
   }
 
-  private newEntity(entity: any) {
-    if (!isNullOrUndefined(entity)) {
-      return JSON.parse(JSON.stringify(entity));
-    } else {
+  private findBlock(baseBlockId: number, id: number) {
+    const block = this._contentBlocks.find(b => b.id === baseBlockId);
+    if (isNullOrUndefined(block)) {
       return null;
     }
+    let resultArray: ContentBlock[] = [];
+    block.entity.forEach(b => {
+      resultArray = resultArray.concat(ContentBlock.inRow(b));
+    });
+    return resultArray.find(b => b.id === id);
   }
 
   private throwStorageError() {

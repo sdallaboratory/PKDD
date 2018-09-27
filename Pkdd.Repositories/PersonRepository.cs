@@ -76,18 +76,8 @@ namespace Pkdd.Repositories
             List<Person> persons = null;
             try
             {
-                persons = await _dbContext.Persons.Include(p => p.BioBlock).ThenInclude(b => b.ContentBlocks).ToListAsync();
-                if (persons != null || persons.Any())
-                {
-                    foreach (Person person in persons)
-                    {
-                        foreach (ContentBlock block in person.BioBlock.ContentBlocks)
-                        {
-                            await LoadBlocks(block);
-                        }
-                    }
-                }
-                else
+                persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
+                if (persons == null || !persons.Any())
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }
@@ -104,7 +94,7 @@ namespace Pkdd.Repositories
             List<ContentBlock> result = null;
             try
             { 
-                BaseBioBlock mainBlock = await _dbContext.MainBioBlocks.FirstOrDefaultAsync(b => b.Id == baseBlockId);
+                BaseBioBlock mainBlock = await _dbContext.MainBioBlocks.Include(b => b.ContentBlocks).FirstOrDefaultAsync(b => b.Id == baseBlockId);
                 if(mainBlock != null)
                 {
                     foreach(ContentBlock block in mainBlock.ContentBlocks)
@@ -130,15 +120,8 @@ namespace Pkdd.Repositories
             Person person = null;
             try
             {
-                person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).ThenInclude(b => b.ContentBlocks).FirstOrDefaultAsync();
-                if (person != null)
-                {
-                    foreach (ContentBlock block in person.BioBlock.ContentBlocks)
-                    {
-                        await LoadBlocks(block);
-                    }
-                }
-                else
+                person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync();
+                if(person == null)
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }
