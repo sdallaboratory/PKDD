@@ -7,9 +7,9 @@ import { Injectable } from '@angular/core';
 import { ILocalStorage } from '../../models/entities/interfaces/local-storage';
 import { ServerIdStorageService } from './server-id-storage.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+// @Injectable({
+//   providedIn: 'root'
+// })
 export class RepositoryService {
 
   private readonly _localStorage: ILocalStorage;
@@ -90,71 +90,7 @@ export class RepositoryService {
   }
 
   public deleteContentBlock(bioBlockId: number, id: number) {
-    if (this._idsStorage.isInBlocks(id)) {
-      this._idsStorage.deleteBlocksIds(bioBlockId, [id]);
-    } else {
-      this._localStorage.deleteContentBlocks(bioBlockId, [id]);
-    }
+    
   }
-
-  /**
-   * updateData
-   * Very important method. It deletes, updates and adds server data
-   */
-  public async updateData() {
-    await this.addData();
-    this.deleteData();
-  }
-
-  private deleteData() {
-    const promises: Promise<any>[] = [];
-    for (let i = 0; i < this._idsStorage.blocksIdsToDelete.length; i++) {
-      const item = this._idsStorage.blocksIdsToDelete[i];
-      promises.push(this._serverStorage.deleteContentBlock(item.baseId, item.blockId).then(
-        () => {
-          this._idsStorage.removeBlocksIds(item.baseId, [item.blockId]);
-        }
-      ));
-    }
-    Promise.all(promises).then(() => {
-      for (let i = 0; i < this._idsStorage.personsIdsToDelete.length; i++) {
-        const item = this._idsStorage.personsIdsToDelete[i];
-        promises.push(this._serverStorage.deletePerson(item).then(
-          () => {
-            this._idsStorage.removePersonIds([item.blockId]);
-          }
-        ));
-    }});
-  }
-
-  private async addData() {
-    const personsToAdd = this._localStorage.getPersons().map(p => p.entity);
-    if (!isNullOrUndefined(personsToAdd) && personsToAdd.length > 0) {
-      const result: Person[] = [];
-      for (let i = 0; i < personsToAdd.length; i++) {
-        const person = personsToAdd[i];
-        person.bioBlock.contentBlocks = this._localStorage.getContentBlocks(person.bioBlock.id);
-        result.push(await this._serverStorage.addPerson(person));
-      }
-      this.deletePersons(result.filter(p => !isNullOrUndefined(p)));
-    }
-  }
-
-  private deletePersons(persons: Person[]) {
-    if (isNullOrUndefined(persons) || persons.length === 0) {
-      return;
-    }
-    this.deleteContentBlocks(persons);
-    this._localStorage.deletePersons(persons);
-  }
-
-  private deleteContentBlocks(persons: Person[]) {
-    if (isNullOrUndefined(persons) || persons.length === 0) {
-      return;
-    }
-    persons.forEach(p => {
-      this._localStorage.deleteContentBlocks(p.bioBlock.id, p.bioBlock.contentBlocks);
-    });
-  }
-
+ 
 }

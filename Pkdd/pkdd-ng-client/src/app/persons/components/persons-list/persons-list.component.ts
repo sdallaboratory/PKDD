@@ -14,16 +14,9 @@ export class PersonsListComponent implements OnInit {
   public blocks: ContentBlock[];
 
   constructor(
-    public repository: RepositoryService
   ) { }
 
   ngOnInit() {
-    this.repository.getPersons().then((value) => {
-      this.persons = value;
-      this.repository.getContentBlock(this.persons[0].bioBlock.id).then(v => {
-        this.blocks = v;
-      });
-    });
   }
 
 }
