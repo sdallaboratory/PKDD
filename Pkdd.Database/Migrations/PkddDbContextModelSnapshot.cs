@@ -201,6 +201,8 @@ namespace Pkdd.Database.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<DateTime>("Birthdate");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -208,6 +210,8 @@ namespace Pkdd.Database.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FullName");
 
                     b.Property<bool>("IsBanned");
 

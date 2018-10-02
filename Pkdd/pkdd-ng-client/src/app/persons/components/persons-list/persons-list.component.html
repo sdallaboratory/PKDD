@@ -1,0 +1,10 @@
+<p>
+    persons-list works!
+</p>
+
+<div class="exp" *pkddForRoles="'expert'">Hellow, expert</div>
+<div class="exp" *pkddForRoles="'admin'">Hellow, admin</div>
+
+<div class="cards-container">
+    <pkdd-person-card *ngFor="let person of persons" [person]="person"></pkdd-person-card>
+</div>

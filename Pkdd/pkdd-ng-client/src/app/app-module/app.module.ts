@@ -14,6 +14,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { AuthModule } from '../auth/auth.module';
 import { PersonsModule } from '../persons/persons.module';
 import { AccountModule } from '../account/account.module';
+import { AdminModule } from '../admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AccountModule } from '../account/account.module';
     AuthModule,
     PersonsModule,
     AccountModule,
+    AdminModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent]

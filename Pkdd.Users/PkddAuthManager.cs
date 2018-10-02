@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Pkdd.Models.Users;
 
@@ -11,11 +13,13 @@ namespace Pkdd.Users
     {
         private readonly UserManager<PkddUser> _userManager;
         private readonly SignInManager<PkddUser> _signInManager;
+        private readonly IHttpContextAccessor _accessor;
 
-        public PkddAuthManager(UserManager<PkddUser> userManager, SignInManager<PkddUser> signInManager)
+        public PkddAuthManager(UserManager<PkddUser> userManager, SignInManager<PkddUser> signInManager, IHttpContextAccessor accessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _accessor = accessor;
         }
 
         /// <summary>
@@ -33,11 +37,13 @@ namespace Pkdd.Users
             PkddUser user = await _userManager.FindByEmailAsync(email)
                 ?? throw new Exception("Пользователя с таким Email нет в системе.");
 
+            // TODO: implement check if a user is confirmed and not banned.
+
             var result = await _signInManager.PasswordSignInAsync(user, password, remember, false);
 
             if(!result.Succeeded)
                 throw new Exception("Введён неверный пароль.");
-            
+
             return user;
         }
 
@@ -48,6 +54,12 @@ namespace Pkdd.Users
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<PkddUser> GetUserAsync()
+        {
+            return await _userManager.GetUserAsync(_accessor.HttpContext.User)
+                ?? throw new Exception("Пользователь не авторизован!");
         }
     }
 }

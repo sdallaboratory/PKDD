@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -81,6 +82,8 @@ namespace Pkdd.Users
         /// <returns></returns>
         public async Task<PkddUser> CreateAsync(string email, string password, string name)
         {
+            var a = _roleManager.Roles;
+
             if (await _userManager.FindByEmailAsync(email) != null)
                 throw new Exception("Пользователь с таким адресом электронной почты уже зарегистрирован в системе.");
 
@@ -113,7 +116,32 @@ namespace Pkdd.Users
         /// <returns></returns>
         public async Task<PkddUser> FindAsync(string email)
         {
-            return await _userManager.FindByEmailAsync(email);
+            try
+            {
+                return await _userManager.FindByEmailAsync(email);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<PkddUser> FindAsync(int id)
+        {
+            try
+            {
+                return await _userManager.FindByIdAsync(id.ToString());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<string[]> GetRolesAsync(PkddUser user)
+        {
+            return (await _userManager.GetRolesAsync(user)).ToArray();
         }
 
         /// <summary>

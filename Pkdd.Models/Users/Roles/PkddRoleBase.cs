@@ -10,6 +10,7 @@ namespace Pkdd.Models.Users.Roles
     {
         public PkddRoleBase(string roleName) : base(roleName)
         {
+            MarkCreated();
         }
 
         [NotMapped]

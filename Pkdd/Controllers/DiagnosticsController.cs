@@ -20,7 +20,7 @@ namespace Pkdd.Controllers
         [HttpGet("healthcheck")]
         public async Task<JsonResult> HealthCheck()
         {
-            await _seeder.SeedData();
+            await _seeder.Seed();
             return PkddOk(new HealthCheckInfo(), "HealthCheckInfo");
         }
     }
