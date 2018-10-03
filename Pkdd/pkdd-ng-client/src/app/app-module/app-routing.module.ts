@@ -7,8 +7,11 @@ import { AccountPageComponent } from '../account/components/account-page/account
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { AdminPageComponent } from '../admin/components/admin-page/admin-page.component';
 import { PkddRoles } from '../models/auth/pkdd-roles.enum';
+import { MenuResolver } from '../core/resolvers/menu.resolver';
+import { MenuItem } from '../models/core/menu-item';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/persons', pathMatch: 'full', },
   {
     path: '',
     component: PkddPageComponent,
@@ -18,15 +21,19 @@ const routes: Routes = [
       {
         path: '',
         children: [
-          { path: 'persons', component: PersonsListComponent, },
-          { path: 'account', component: AccountPageComponent, },
+          // { path: 'persons', component: PersonsListComponent, resolve: { menu: MenuResolver.noItems() } },
+          {
+            path: 'account', component: AccountPageComponent, resolve: {
+              menu: MenuResolver.forItems([new MenuItem('Профиль', 'asd', 'person', true),
+              new MenuItem('Настройки', 's', 'build', true)])
+            }
+          },
           {
             path: 'admin',
             component: AdminPageComponent,
             canActivate: [AuthGuard.forRoles(PkddRoles.admin)],
             canActivateChild: [AuthGuard.forRoles(PkddRoles.admin)]
           },
-          { path: '', redirectTo: '/persons', pathMatch: 'full', },
         ]
       }]
   },

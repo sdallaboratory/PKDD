@@ -7,6 +7,7 @@ import { SignOutModel } from '../../models/auth/sign-out-model';
 import { RestorePasswordModel } from '../../models/auth/restore-password-model';
 import { Router } from '@angular/router';
 import { EnvironmentService } from '../../core/services/environment.service';
+import { PkddRoles } from '../../models/auth/pkdd-roles.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,8 @@ export class AuthService {
   private async getUserFromServerAsync() {
     try {
       this.user = await this.http.get<PkddUser>('/api/auth/get-user');
+      // Test purposes
+      this.user.roles = [PkddRoles.admin, PkddRoles.expert, PkddRoles.tech];
     } catch {
       this.user = null;
     }

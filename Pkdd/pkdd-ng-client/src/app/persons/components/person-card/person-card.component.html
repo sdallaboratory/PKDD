@@ -1,16 +1,27 @@
-<mat-card>
+<mat-card [style.backgroundImage]="'url(http://podrobnosti.ua/media/pictures/2016/11/26/thumbs/740x415/tram-poobeschal-pomoch-kubinskomu-narodu-posle-smerti-fidelja-kastro_rect_3b8bbf9635b09bd697e93be971264d95.jpg)'">
   <mat-card-title>
     {{person.name}}
   </mat-card-title>
   <mat-card-content>
-    <img src="http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif" alt="person">
+    <!-- <img src="http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif" alt="person"> -->
   </mat-card-content>
+  <div class="flex-splitter"></div>
   <mat-card-actions>
-    <button *pkddForRoles="'tech'" mat-button>Редактировать</button>
-    <a href="https://cyberleninka.ru/article/n/gumanitarnye-tehnologii-kak-novaya-forma-funktsionirovaniya-gumanitarnogo-znaniya">
-      <button *pkddForRoles="'expert'" mat-button>Оценить</button>
+    <a class="action" matTooltip="Перейти в профиль персоны для просмотра информации" [routerLink]="'/persons/' + person.id">
+      <mat-icon [inline]="false">info_outlined</mat-icon>
     </a>
-    <button *pkddForRoles="'admin'" mat-button>Удалить</button>
+    <a class="action" *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны" [routerLink]="'/persons/' + person.id + '/mmpi'">
+      <mat-icon [inline]="false">assignment</mat-icon>
+    </a>
+    <a class="action" *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами"  [routerLink]="'/persons/' + person.id + '/results'">
+      <mat-icon [inline]="false">assignment_turned_in</mat-icon>
+    </a>
+    <a class="action" *pkddForRoles="'tech'" matTooltip="Перейти в интерфейс редактирования профиля персоны"  [routerLink]="'/persons/' + person.id + '/edit'">
+      <mat-icon [inline]="false">edit</mat-icon>
+    </a>
+    <div (click)="onDelete()" class="action" *pkddForRoles="'tech'" matTooltip="Удалить персону из системы">
+      <mat-icon [inline]="false">delete_forever</mat-icon>
+    </div>
   </mat-card-actions>
   <!-- <div>{{person.bir}}</div> -->
 </mat-card>
