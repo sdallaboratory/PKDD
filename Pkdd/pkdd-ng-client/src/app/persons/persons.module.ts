@@ -9,17 +9,18 @@ import { PersonDetailsPageComponent } from './components/person-details-page/per
 import { PersonsRoutingModule } from './persons-routing.module';
 import { PersonInfoComponent } from './components/person-info/person-info.component';
 import { PersonEditComponent } from './components/person-edit/person-edit.component';
-import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.component';
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
+import { MmpiTestModule } from '../mmpi-test/mmpi-test.module';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthModule,
     MaterialImportsModule,
-    PersonsRoutingModule
+    PersonsRoutingModule,
+    MmpiTestModule
   ],
   declarations: [
     PersonsListComponent,
@@ -28,7 +29,6 @@ import { PersonResultsComponent } from './components/person-results/person-resul
     PersonDetailsPageComponent,
     PersonInfoComponent,
     PersonEditComponent,
-    PersonMmpiComponent,
     PersonLuscherComponent,
     PersonPhysiognomyComponent,
     PersonResultsComponent]

@@ -8,16 +8,18 @@ import { PkddPageComponent } from '../app-module/components/pkdd-page/pkdd-page.
 import { MenuResolver } from '../core/resolvers/menu.resolver';
 import { PersonInfoComponent } from './components/person-info/person-info.component';
 import { PersonEditComponent } from './components/person-edit/person-edit.component';
-import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.component';
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
 import { MenuItem } from '../models/core/menu-item';
 import { PersonMenuResolver } from './resolvers/person-menu-resolver';
 import { PersonsResolverService } from './resolvers/persons-resolver.service';
+import { PersonMmpiComponent } from '../mmpi-test/components/person-mmpi/person-mmpi.component';
 
 const personsRoutes: Routes = [
   {
+    path: '', pathMatch: 'full', redirectTo: '/persons'
+  }, {
     path: '', component: PkddPageComponent, children: [{
       path: 'persons',
       component: PersonsPageComponent,
