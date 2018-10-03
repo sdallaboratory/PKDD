@@ -19,5 +19,11 @@ namespace Pkdd.Users
         /// </summary>
         /// <returns></returns>
         Task SignOutAsync();
+
+        /// <summary>
+        /// Returns a current authorized user.
+        /// </summary>
+        /// <returns></returns>
+        Task<PkddUser> GetUserAsync();
     }
 }

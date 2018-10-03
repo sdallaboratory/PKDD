@@ -52,6 +52,9 @@ mat-card.mobile {
 }
 
 .outlet {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 20px 45px;
     min-width: 280px;
     flex: 1 0 auto;

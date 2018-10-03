@@ -1,0 +1,12 @@
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+pkdd-person-card, .add-card {
+    margin: 15px;
+    width: 280px;
+    box-sizing: border-box;
+}

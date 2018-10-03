@@ -2,6 +2,7 @@
   <h1>
     Регистрация
   </h1>
+  <ng-container *ngIf="!success">
   <div *ngIf="error?.length" class="error">{{error}}</div>
   <mat-form-field class="password-field">
     <mat-label>ФИО</mat-label>
@@ -17,7 +18,7 @@
     <mat-icon class="suffix" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
   </mat-form-field>
   <mat-form-field class="password-field">
-    <!-- <mat-label>Подтверждение пароля</mat-label> -->
+    <mat-label>Подтверждение пароля</mat-label>
     <input matInput [type]="hide ? 'password' : 'text'" placeholder="somepassword" required [(ngModel)]="confirmation">
     <mat-error *ngIf="password !== confirmation">Пароли не совпадают</mat-error>
   </mat-form-field>
@@ -25,8 +26,11 @@
   <div class="row">
   <div class="flex-splitter"></div>
   <button mat-button [disabled]="!name?.length || !email?.length || !password?.length || password !== confirmation" (click)="signUp()">Зарегистрироваться</button>
-  </div>
-
+</div>
+</ng-container>
+<div *ngIf="success">
+  Аккаунт успешно создан. Дождитесь, когда администратор его подтвердит.
+</div>
   <div class="flex-splitter"></div>
   <div class="row bottom">
       <a routerLink="/auth"><button mat-button>Вход</button></a>

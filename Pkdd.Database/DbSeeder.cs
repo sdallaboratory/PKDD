@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Pkdd.Models.Person;
+using Pkdd.Models.Users.Roles;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,24 +12,49 @@ namespace Pkdd.Database
     public class DbSeeder
     {
         private readonly PkddDbContext _context;
+        private readonly RoleManager<PkddRoleBase> _roleManager;
 
         private readonly int seedVersion = 1;
 
-        public DbSeeder(PkddDbContext context)
+        public DbSeeder(PkddDbContext context, RoleManager<PkddRoleBase> roleManager)
         {
             _context = context;
+            _roleManager = roleManager;
         }
 
-        public async Task SeedData()
+        public async Task Seed()
         {
-            if (!await IsDataAlreadySeeded())
-            {
-                await SeedMetaInformation();
-                await SeedPersons();
-            }
+            await _context.Database.EnsureCreatedAsync();
+
+            if (await IsAlreadySeededAsync())
+                return;
+
+            await SeedRolesAsync();
+            await SeedPersonsAsync();
+            await SeedMetaInformationAsync();
         }
 
-        private async Task SeedPersons()
+        private async Task SeedRolesAsync()
+        {
+            List<PkddRoleBase> roles = new List<PkddRoleBase>() { new PkddRoleAdmin(), new PkddRoleExpert(), new PkddRoleTech() };
+            foreach (PkddRoleBase role in roles)
+                if (!await _roleManager.RoleExistsAsync(role.Name))
+                    await _roleManager.CreateAsync(role);
+        }
+
+        private async Task<bool> IsAlreadySeededAsync()
+        {
+            MetaInformation info = await _context.MetaInfos.FirstOrDefaultAsync();
+            return info != null && info.Version >= seedVersion;
+        }
+
+        private async Task SeedMetaInformationAsync()
+        {
+            await _context.MetaInfos.AddAsync(new MetaInformation(seedVersion));
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task SeedPersonsAsync()
         {
             List<Person> persons = new List<Person>()
             {
@@ -97,32 +124,6 @@ namespace Pkdd.Database
             await _context.AddRangeAsync(persons);
             await _context.SaveChangesAsync();
         }
-
-        private async Task SeedMetaInformation()
-        {
-            List<MetaInformation> info = new List<MetaInformation>()
-            {
-                new MetaInformation()
-                {
-                    Version = seedVersion
-                }
-            };
-            await _context.MetaInfos.AddRangeAsync(info);
-            await _context.SaveChangesAsync();
-        }
-
-        private async Task<bool> IsDataAlreadySeeded()
-        {
-            MetaInformation info = null;
-            try
-            {
-                info = await _context.MetaInfos.FirstOrDefaultAsync();
-            }
-            catch (Exception e)
-            {
-
-            }
-            return info != null && info.Version >= seedVersion;
-        }
     }
+
 }

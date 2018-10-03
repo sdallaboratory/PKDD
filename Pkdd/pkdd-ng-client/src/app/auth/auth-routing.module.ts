@@ -5,15 +5,21 @@ import { AuthPageComponent } from 'src/app/auth/components/auth-page/auth-page.c
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { RestoreComponent } from './components/restore/restore.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { AuthGuard } from './guards/auth.guard';
+import { UnauthGuard } from './guards/unauth.guard';
 
 const authRoutes: Routes = [
-  { path: 'auth',
-  component: AuthPageComponent,
-  children: [
-    {path: '', component: SignInComponent },
-    {path: 'sign-up', component: SignUpComponent },
-    {path: 'restore', component: RestoreComponent },
-  ]},
+  {
+    path: 'auth',
+    component: AuthPageComponent,
+    canActivate: [UnauthGuard],
+    canActivateChild: [UnauthGuard],
+    children: [
+      { path: '', component: SignInComponent },
+      { path: 'sign-up', component: SignUpComponent },
+      { path: 'restore', component: RestoreComponent },
+    ]
+  },
 ];
 
 @NgModule({
