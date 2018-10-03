@@ -3,7 +3,8 @@ import { MmpiResult } from './mmpi-result';
 import { PhysiognomyResult } from './physiognomy-result';
 
 export class Results {
-    luscher: LuscherResult;
     mmpi: MmpiResult;
+    luscher: LuscherResult;
     physiognomy: PhysiognomyResult;
+    comment: string;
 }
