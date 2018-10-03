@@ -1,5 +1,6 @@
 export enum EntityType {
     Person = 'Persons',
     BioBlock = 'BioBlocks',
-    ContentBlock = 'ContentBlock'
+    ContentBlock = 'ContentBlock',
+    User = 'User'
 }

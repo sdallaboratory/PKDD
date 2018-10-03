@@ -16,6 +16,12 @@ namespace Pkdd.Users
             this.users = users;
         }
 
+        public async Task<List<PkddUserInfo>> GetAllAsync()
+        {
+            List<PkddUserInfo> resultUsers = await ToPkddUsersInfoAsync(await users.FindAllAsync());
+            return resultUsers;
+        }
+
         public async Task<PkddUserInfo> GetAsync(int id)
         {
             PkddUser user = await users.FindAsync(id);
@@ -26,6 +32,17 @@ namespace Pkdd.Users
         {
             // TODO: handle roles changes. Handle fields changes
             return;
+        }
+
+        private async Task<List<PkddUserInfo>> ToPkddUsersInfoAsync(List<PkddUser> users)
+        {
+            List<Task<PkddUserInfo>> infos = new List<Task<PkddUserInfo>>();
+            foreach (PkddUser user in users)
+            {
+                infos.Add(ToPkddUserInfoAsync(user));
+            }
+            await Task.WhenAll(infos.ToArray());
+            return infos.Select(i => i.Result).ToList();
         }
 
         private async Task<PkddUserInfo> ToPkddUserInfoAsync(PkddUser user)

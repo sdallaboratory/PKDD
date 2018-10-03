@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pkdd.Database;
 
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    partial class PkddDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181002183722_BlockTimeTrack")]
+    partial class BlockTimeTrack
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

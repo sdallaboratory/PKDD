@@ -13,6 +13,8 @@ export class ApiUrlConstructorService {
   private readonly bioUrl = `${this.personsUrl}/bio`;
   private readonly contentUrl = `contents`;
 
+  private readonly adminUrl = `admin`;
+
   constructor(
   ) {
   }
@@ -30,5 +32,10 @@ export class ApiUrlConstructorService {
   public getContentsUrl(bioId: null | number, contentsId: null | number): string {
     const baseUrl = `${this.getBioUrl(bioId)}/${this.contentUrl}`;
     return isNullOrUndefined(contentsId) ? baseUrl : `${baseUrl}/${contentsId}`;
+  }
+
+  public getUsersUrl(id: null | number = null) {
+    const baseUrl = `${this.backendApiUrl}/${this.adminUrl}`;
+    return isNullOrUndefined(id) ? baseUrl : `${baseUrl}/${id}`;
   }
 }
