@@ -14,6 +14,7 @@ import { PersonPhysiognomyComponent } from './components/person-physiognomy/pers
 import { PersonResultsComponent } from './components/person-results/person-results.component';
 import { MenuItem } from '../models/core/menu-item';
 import { PersonMenuResolver } from './resolvers/person-menu-resolver';
+import { PersonsResolverService } from './resolvers/persons-resolver.service';
 
 const personsRoutes: Routes = [
   {
@@ -23,7 +24,7 @@ const personsRoutes: Routes = [
       canActivate: [AuthGuard],
       canActivateChild: [AuthGuard],
       children: [
-        { path: '', component: PersonsListComponent, resolve: { menu: MenuResolver.noItems() } },
+        { path: '', component: PersonsListComponent, resolve: { persons: PersonsResolverService, menu: MenuResolver.noItems() } },
         {
           path: ':id',
           component: PersonDetailsPageComponent,
