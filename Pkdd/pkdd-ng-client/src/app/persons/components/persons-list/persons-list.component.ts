@@ -1,8 +1,7 @@
-import { Person } from './../../../models/entities/person';
-import { RepositoryService } from './../../../core/services/repository.service';
 import { Component, OnInit } from '@angular/core';
 import { ContentBlock } from '../../../models/entities/content-block';
 import { PkddHttpService } from '../../../core/services/pkdd-http.service';
+import { Person } from '../../../models/entities/person';
 
 @Component({
   selector: 'pkdd-persons-list',
@@ -15,7 +14,6 @@ export class PersonsListComponent implements OnInit {
   public blocks: ContentBlock[];
 
   constructor(
-    public repository: RepositoryService,
     public хттп: PkddHttpService
   ) { }
 
@@ -27,7 +25,7 @@ export class PersonsListComponent implements OnInit {
         this.persons.push(this.persons[0]);
       }
     }
-    this.blocks = await this.repository.getContentBlock(this.persons[0].bioBlock.id);
+    // this.blocks = await this.repository.getContentBlock(this.persons[0].bioBlock.id);
   }
 
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Pkdd.Database;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Pkdd
 {
@@ -27,6 +28,9 @@ namespace Pkdd
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .UseKestrel()
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseIISIntegration()
+            .UseStartup<Startup>();
     }
 }
