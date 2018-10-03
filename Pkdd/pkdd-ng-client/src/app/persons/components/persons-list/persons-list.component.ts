@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ContentBlock } from '../../../models/entities/content-block';
 import { PkddHttpService } from '../../../core/services/pkdd-http.service';
 import { Person } from '../../../models/entities/person';
+import { Router } from '@angular/router';
+import { ServerDataStorageService } from '../../../core/services/server-data-storage.service';
 
 @Component({
   selector: 'pkdd-persons-list',
@@ -14,7 +16,9 @@ export class PersonsListComponent implements OnInit {
   public blocks: ContentBlock[];
 
   constructor(
-    public хттп: PkddHttpService
+    public хттп: PkddHttpService,
+    private readonly router: Router,
+    private readonly storage: ServerDataStorageService
   ) { }
 
   async ngOnInit() {
@@ -25,7 +29,14 @@ export class PersonsListComponent implements OnInit {
         this.persons.push(this.persons[0]);
       }
     }
+    this.persons[0].name = 'Дональд Алексеич Трамп';
+    // this.persons[2].name = 'Алексей Евпатьевич Щекочихин-Крестовоздвиженский';
     // this.blocks = await this.repository.getContentBlock(this.persons[0].bioBlock.id);
+  }
+
+  public async onAdd() {
+    const person = this.persons[1]; // await this.storage.addPerson(new Person());
+    this.router.navigate([`persons/${this.persons[0].id}/edit`]);
   }
 
 }
