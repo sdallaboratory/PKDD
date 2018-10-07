@@ -7,6 +7,7 @@ import { PkddHttpService } from '../../core/services/pkdd-http.service';
 import { isNullOrUndefined } from 'util';
 import { RoleRequest, RoleActions } from '../models/role-request';
 import { BanRequest, BanActions } from '../models/ban-request';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class UserRepositoryService {
 
   constructor(
     private readonly url: ApiUrlConstructorService,
-    private readonly http: PkddHttpService
+    private readonly http: PkddHttpService,
+    private readonly auth: AuthService
   ) { }
 
 
@@ -85,6 +87,10 @@ export class UserRepositoryService {
       return false;
     }
     if (!this.users.find(u => u.id === id)) {
+      return false;
+    }
+    if (this.users.find(u => u.id === id) && (await this.auth.getUserAsync()).id === id) {
+      alert('Самурай недостоин такой простой участи!');
       return false;
     }
     try {
