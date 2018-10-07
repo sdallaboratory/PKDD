@@ -1,10 +1,22 @@
 .list-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.flex-card {
-    margin: 15px;
+.flex-card, mat-card,
+pkdd-user-card,
+pkdd-user-create {
+  margin: 15px;
+  width: 310px !important;
+  height: 330px !important;
+}
+
+mat-card {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20%;
+  cursor: pointer;
 }

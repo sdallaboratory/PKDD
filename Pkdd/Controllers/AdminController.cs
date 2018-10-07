@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
+using Pkdd.Models.Common;
+using Pkdd.Models.Common.Enums;
 using Pkdd.Models.Users;
 using Pkdd.Users;
 
@@ -36,8 +38,8 @@ namespace Pkdd.Controllers
             }
         }
 
-        [HttpPost("{id}/role-actions/{role}/{flag}")]
-        public async Task<IActionResult> RoleActions([FromRoute] int id, [FromRoute] bool flag, [FromRoute] string role)
+        [HttpPost("{id}/role-actions")]
+        public async Task<IActionResult> RoleActions([FromRoute] int id, [FromBody] RolesRequest request)
         {
             IActionResult result = null;
             try
@@ -49,26 +51,26 @@ namespace Pkdd.Controllers
                 }
                 else
                 {
-                    if (flag)
+                    if (request.Action == RolesActions.Add)
                     {
-                        await userManager.AddToRoleAsync(user, role);
+                        await userManager.AddToRoleAsync(user, request.Role);
                     }
                     else
                     {
-                        await userManager.RemoveFromRoleAsync(user, role);
+                        await userManager.RemoveFromRoleAsync(user, request.Role);
                     }
                     result = Ok();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                result = StatusCode(500);
+                result = PkddError(ex.Message);
             }
             return result;
         }
 
-        [HttpPost("{id}/ban/{flag}")]
-        public async Task<IActionResult> BanOrUnbanUser([FromRoute] int id, [FromRoute] bool flag)
+        [HttpPost("{id}/ban")]
+        public async Task<IActionResult> BanOrUnbanUser([FromRoute] int id, [FromBody] BanRequest request)
         {
             IActionResult result = null;
             try
@@ -80,7 +82,7 @@ namespace Pkdd.Controllers
                 }
                 else
                 {
-                    if (flag)
+                    if (request.Action == BanActions.Ban)
                     {
                         await userManager.BanAsync(user);
                     }
@@ -91,11 +93,64 @@ namespace Pkdd.Controllers
                     result = Ok();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                result = StatusCode(500);
+                result = PkddError(ex.Message);
             }
             return result;
+        }
+
+        [HttpPost("")]
+        public async Task<JsonResult> CreateUser([FromBody] UserCreateInfo user)
+        {
+            try
+            {
+                PkddUser result = await userManager.CreateAsync(user.Email, user.Password, user.Name);
+                await userManager.AddToRolesAsync(result, user.Roles);
+                return PkddOk(await repository.GetAsync(user.Email));
+            }
+            catch (Exception e)
+            {
+                return PkddError(e.Message);
+            }
+        }
+
+        [HttpPost("{id}/confirm")]
+        public async Task<IActionResult> Confirm([FromRoute] int id)
+        {
+            try
+            {
+                PkddUser user = await userManager.FindAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                await userManager.ConfirmAsync(user);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return PkddError(e.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                PkddUser user = await userManager.FindAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                await userManager.DeleteAsync(user);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return PkddError(ex.Message);
+            }
         }
 
     }

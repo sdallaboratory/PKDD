@@ -6,6 +6,7 @@ import { AdminMenuResolverService } from './resolvers/admin-menu-resolver.servic
 import { PkddPageComponent } from '../app-module/components/pkdd-page/pkdd-page.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { PkddRoles } from '../models/auth/pkdd-roles.enum';
+import { UserCreateComponent } from './components/user-create/user-create.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
           {
             path: 'user-list',
             component: UsersListComponent
+          },
+          {
+            path: 'user-create',
+            component: UserCreateComponent
           }
         ]
       },

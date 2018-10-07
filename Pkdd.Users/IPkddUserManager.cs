@@ -84,6 +84,13 @@ namespace Pkdd.Users
         /// <returns></returns>
         Task AddToRoleAsync(PkddUser user, string roleName);
 
+        /// <summary>
+        /// Add user to specified roles
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleNames"></param>
+        /// <returns></returns>
+        Task AddToRolesAsync(PkddUser user, List<string> roleNames);
 
         /// <summary>
         /// Removes a user from specified role.

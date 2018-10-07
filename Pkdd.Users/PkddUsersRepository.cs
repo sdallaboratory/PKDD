@@ -28,6 +28,12 @@ namespace Pkdd.Users
             return await ToPkddUserInfoAsync(user);
         }
 
+        public async Task<PkddUserInfo> GetAsync(string email)
+        {
+            PkddUser user = await users.FindAsync(email);
+            return await ToPkddUserInfoAsync(user);
+        }
+
         public async Task UpdateAsync(PkddUserInfo userInfo)
         {
             // TODO: handle roles changes. Handle fields changes
@@ -51,7 +57,10 @@ namespace Pkdd.Users
             {
                 Id = user.Id,
                 Name = user.Name,
-                Email = user.Email
+                Email = user.Email,
+                IsBanned = user.IsBanned,
+                IsConfirmed = user.IsConfirmed,
+                IsDeleted = user.IsDeleted,
             };
             userInfo.Roles = (await users.GetRolesAsync(user)).ToList();
             return userInfo;

@@ -10,6 +10,8 @@ namespace Pkdd.Users
 
         Task<PkddUserInfo> GetAsync(int id);
 
+        Task<PkddUserInfo> GetAsync(string email);
+
         Task UpdateAsync(PkddUserInfo userInfo);
 
     }

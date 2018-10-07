@@ -1,9 +1,12 @@
+import { UserCreateModel } from './../models/user-create-model';
 import { PkddRoles } from './../../models/auth/pkdd-roles.enum';
 import { PkddUser } from './../../models/auth/pkdd-user';
 import { ApiUrlConstructorService } from './../../core/services/api-url-constructor.service';
 import { Injectable } from '@angular/core';
 import { PkddHttpService } from '../../core/services/pkdd-http.service';
 import { isNullOrUndefined } from 'util';
+import { RoleRequest, RoleActions } from '../models/role-request';
+import { BanRequest, BanActions } from '../models/ban-request';
 
 @Injectable({
   providedIn: 'root'
@@ -24,36 +27,72 @@ export class UserRepositoryService {
     }
     try {
       this.users = await this.http.get<PkddUser[]>(this.url.getUsersUrl());
-      const user = this.users[0];
-      for (let i = 0; i < 60; i++) {
-        this.users.push(user);
-      }
     } catch (error) {
     }
     return this.users;
   }
 
-  public async banUser(id: number, flag: boolean) {
+  public async banOrUnbanUser(id: number, isBanned: boolean) {
     if (isNullOrUndefined(this.users) || this.users.length === 0) {
-     return false;
+      return false;
     }
     try {
-      await this.http.post(`${this.url.getUsersUrl(id)}/ban/${flag}`, {});
+      await this.http.post(`${this.url.getUsersUrl(id)}/ban`,
+        new BanRequest(isBanned ? BanActions.Unban : BanActions.Ban));
       return true;
     } catch (error) {
       return false;
     }
   }
 
-  public async roleActions(id: number, flag: boolean, role: string) {
+  public async addOrRemoveRole(id: number, isInRole: boolean, role: PkddRoles) {
     if (isNullOrUndefined(this.users) || this.users.length === 0) {
       return false;
-     }
-     try {
-       await this.http.post(`${this.url.getUsersUrl(id)}/role-actions/${role}/${flag}`, {});
-       return true;
-     } catch (error) {
-       return false;
-     }
+    }
+    try {
+      await this.http.post(`${this.url.getUsersUrl(id)}/role-actions/`,
+        new RoleRequest(role, isInRole ? RoleActions.Remove : RoleActions.Add));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public async confirm(id: number) {
+    if (isNullOrUndefined(this.users) || this.users.length === 0) {
+      return false;
+    }
+    try {
+      await this.http.post(`${this.url.getUsersUrl(id)}/confirm/`, {});
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public async addUser(user: UserCreateModel) {
+    try {
+      const newUser = await this.http.post<PkddUser>(`${this.url.getUsersUrl()}/`, user);
+      this.users.unshift(newUser);
+      return newUser;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  public async deleteUser(id: number) {
+    if (isNullOrUndefined(this.users) || this.users.length === 0) {
+      return false;
+    }
+    if (!this.users.find(u => u.id === id)) {
+      return false;
+    }
+    try {
+      await this.http.delete(`${this.url.getUsersUrl(id)}`);
+      this.users.splice(this.users.findIndex(u => u.id === id), 1);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }

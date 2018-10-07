@@ -9,6 +9,8 @@ import { MaterialImportsModule } from '../material-imports/material-imports.modu
 import { CoreModule } from '../core/core.module';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
+import { UserCreateComponent } from './components/user-create/user-create.component';
+import { StrongestRolePipe } from './pipes/strongest-role.pipe';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import { AuthModule } from '../auth/auth.module';
   declarations: [
     UsersListComponent,
     UserCardComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    UserCreateComponent,
+    StrongestRolePipe
   ]
 })
 export class AdminModule { }

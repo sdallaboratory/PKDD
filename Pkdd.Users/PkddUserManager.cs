@@ -201,6 +201,11 @@ namespace Pkdd.Users
             await _userManager.RemoveFromRoleAsync(user, roleName);
         }
 
+        public async Task AddToRolesAsync(PkddUser user, List<string> roleNames)
+        {
+            await _userManager.AddToRolesAsync(user, roleNames);
+        }
+
         /// <summary>
         /// Unbans a user.
         /// </summary>
