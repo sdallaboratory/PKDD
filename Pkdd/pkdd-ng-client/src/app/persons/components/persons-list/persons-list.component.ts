@@ -13,7 +13,6 @@ import { RouteDataProviderService } from '../../../core/services/route-data-prov
   providers: [RouteDataProviderService]
 })
 export class PersonsListComponent implements OnInit {
-  persons: any[];
 
   public persons: Person[];
   public blocks: ContentBlock[];

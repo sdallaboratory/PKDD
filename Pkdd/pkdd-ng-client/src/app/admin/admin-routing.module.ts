@@ -2,15 +2,33 @@ import { UsersListComponent } from './components/users-list/users-list.component
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AdminMenuResolverService } from './resolvers/admin-menu-resolver.service';
+import { PkddPageComponent } from '../app-module/components/pkdd-page/pkdd-page.component';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { PkddRoles } from '../models/auth/pkdd-roles.enum';
 
 const routes: Routes = [
   {
-    path: 'auth',
-    component: AdminPageComponent,
-    canActivate: [],
-    canActivateChild: [],
+    path: '',
+    component: PkddPageComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
-      { path: 'user-list', component: UsersListComponent },
+      {
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        path: 'admin',
+        component: AdminPageComponent,
+        resolve: {
+          menu: AdminMenuResolverService
+        },
+        children: [
+          {
+            path: 'user-list',
+            component: UsersListComponent
+          }
+        ]
+      },
     ]
   },
 ];

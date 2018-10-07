@@ -8,6 +8,7 @@ import { UserCardComponent } from './components/user-card/user-card.component';
 import { MaterialImportsModule } from '../material-imports/material-imports.module';
 import { CoreModule } from '../core/core.module';
 import { FormsModule } from '@angular/forms';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     CoreModule,
     MaterialImportsModule,
+    AuthModule,
   ],
   declarations: [
     UsersListComponent,

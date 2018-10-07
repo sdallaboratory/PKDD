@@ -18,7 +18,8 @@ import { PersonsResolverService } from './resolvers/persons-resolver.service';
 
 const personsRoutes: Routes = [
   {
-    path: '', component: PkddPageComponent, children: [{
+    path: '', component: PkddPageComponent, canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard], children: [{
       path: 'persons',
       component: PersonsPageComponent,
       canActivate: [AuthGuard],

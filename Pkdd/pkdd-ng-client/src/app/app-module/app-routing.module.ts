@@ -1,3 +1,4 @@
+import { AdminMenuResolverService } from './../admin/resolvers/admin-menu-resolver.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -27,12 +28,6 @@ const routes: Routes = [
               menu: MenuResolver.forItems([new MenuItem('Профиль', 'asd', 'person', true),
               new MenuItem('Настройки', 's', 'build', true)])
             }
-          },
-          {
-            path: 'admin',
-            component: AdminPageComponent,
-            canActivate: [AuthGuard.forRoles(PkddRoles.admin)],
-            canActivateChild: [AuthGuard.forRoles(PkddRoles.admin)]
           },
         ]
       }]

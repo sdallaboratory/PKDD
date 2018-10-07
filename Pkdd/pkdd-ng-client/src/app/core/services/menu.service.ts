@@ -17,14 +17,16 @@ export class MenuService {
   }
 
   private onUserChanged(user: PkddUser) {
-    this.topMenuItems = [
-      new MenuItem('Персоны', '/persons', 'people', true),
-      new MenuItem('Аккаунт', '/account', 'settings', true),
-      new MenuItem('Помощь', '/help', 'help_outline', true),
-      ...(user.roles.includes(PkddRoles.admin) ? [
-        new MenuItem('Администрирование', '/admin', 'verified_user', true)
-      ] : [])
-    ];
+    if (user) {
+      this.topMenuItems = [
+        new MenuItem('Персоны', '/persons', 'people', true),
+        new MenuItem('Аккаунт', '/account', 'settings', true),
+        new MenuItem('Помощь', '/help', 'help_outline', true),
+        ...(user.roles.includes(PkddRoles.admin) ? [
+          new MenuItem('Администрирование', '/admin', 'verified_user', true)
+        ] : [])
+      ];
+    }
   }
 
   public topMenuItems: MenuItem[];
