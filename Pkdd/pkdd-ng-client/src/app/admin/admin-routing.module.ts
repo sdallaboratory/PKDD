@@ -26,12 +26,10 @@ const routes: Routes = [
         children: [
           {
             path: 'user-list',
-            component: UsersListComponent
+            component: UsersListComponent,
+            canActivate: [AuthGuard.forRoles(PkddRoles.admin)]
           },
-          {
-            path: 'user-create',
-            component: UserCreateComponent
-          }
+
         ]
       },
     ]
