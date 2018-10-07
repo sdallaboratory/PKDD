@@ -16,9 +16,21 @@ namespace Pkdd.Users
             this.users = users;
         }
 
+        public async Task<List<PkddUserInfo>> GetAllAsync()
+        {
+            List<PkddUserInfo> resultUsers = await ToPkddUsersInfoAsync(await users.FindAllAsync());
+            return resultUsers;
+        }
+
         public async Task<PkddUserInfo> GetAsync(int id)
         {
             PkddUser user = await users.FindAsync(id);
+            return await ToPkddUserInfoAsync(user);
+        }
+
+        public async Task<PkddUserInfo> GetAsync(string email)
+        {
+            PkddUser user = await users.FindAsync(email);
             return await ToPkddUserInfoAsync(user);
         }
 
@@ -28,13 +40,27 @@ namespace Pkdd.Users
             return;
         }
 
+        private async Task<List<PkddUserInfo>> ToPkddUsersInfoAsync(List<PkddUser> users)
+        {
+            List<Task<PkddUserInfo>> infos = new List<Task<PkddUserInfo>>();
+            foreach (PkddUser user in users)
+            {
+                infos.Add(ToPkddUserInfoAsync(user));
+            }
+            await Task.WhenAll(infos.ToArray());
+            return infos.Select(i => i.Result).ToList();
+        }
+
         private async Task<PkddUserInfo> ToPkddUserInfoAsync(PkddUser user)
         {
             PkddUserInfo userInfo = new PkddUserInfo()
             {
                 Id = user.Id,
                 Name = user.Name,
-                Email = user.Email
+                Email = user.Email,
+                IsBanned = user.IsBanned,
+                IsConfirmed = user.IsConfirmed,
+                IsDeleted = user.IsDeleted,
             };
             userInfo.Roles = (await users.GetRolesAsync(user)).ToList();
             return userInfo;

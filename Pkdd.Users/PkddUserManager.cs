@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Pkdd.Abstractions.Entity;
 using Pkdd.Database;
 using Pkdd.Models.Users;
@@ -139,6 +140,18 @@ namespace Pkdd.Users
             }
         }
 
+        public async Task<List<PkddUser>> FindAllAsync()
+        {
+            try
+            {
+                return await _context.Users.ToListAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public async Task<string[]> GetRolesAsync(PkddUser user)
         {
             return (await _userManager.GetRolesAsync(user)).ToArray();
@@ -186,6 +199,11 @@ namespace Pkdd.Users
         public async Task RemoveFromRoleAsync(PkddUser user, string roleName)
         {
             await _userManager.RemoveFromRoleAsync(user, roleName);
+        }
+
+        public async Task AddToRolesAsync(PkddUser user, List<string> roleNames)
+        {
+            await _userManager.AddToRolesAsync(user, roleNames);
         }
 
         /// <summary>

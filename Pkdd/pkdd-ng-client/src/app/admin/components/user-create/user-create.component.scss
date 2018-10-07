@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card {
+  max-width: 310px !important;
+  height: 282px !important;
+}
+
+mat-form-field {
+  margin: 1px;
+}

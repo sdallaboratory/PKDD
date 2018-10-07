@@ -1,3 +1,4 @@
+import { PkddUser } from './../../models/auth/pkdd-user';
 import { PkddHttpService } from './pkdd-http.service';
 import { Injectable } from '@angular/core';
 import { ApiUrlConstructorService } from './api-url-constructor.service';
