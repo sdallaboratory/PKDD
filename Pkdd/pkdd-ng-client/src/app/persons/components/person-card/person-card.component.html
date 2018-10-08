@@ -7,21 +7,31 @@
   </mat-card-content>
   <div class="flex-splitter"></div>
   <mat-card-actions>
-    <a class="action" matTooltip="Перейти в профиль персоны для просмотра информации" [routerLink]="'/persons/' + person.id">
-      <mat-icon [inline]="false">info_outlined</mat-icon>
-    </a>
-    <a class="action" *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны" [routerLink]="'/persons/' + person.id + '/mmpi'">
-      <mat-icon [inline]="false">assignment</mat-icon>
-    </a>
-    <a class="action" *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами"  [routerLink]="'/persons/' + person.id + '/results'">
-      <mat-icon [inline]="false">assignment_turned_in</mat-icon>
-    </a>
-    <a class="action" *pkddForRoles="'tech'" matTooltip="Перейти в интерфейс редактирования профиля персоны"  [routerLink]="'/persons/' + person.id + '/edit'">
-      <mat-icon [inline]="false">edit</mat-icon>
-    </a>
-    <div (click)="onDelete()" class="action" *pkddForRoles="'tech'" matTooltip="Удалить персону из системы">
-      <mat-icon [inline]="false">delete_forever</mat-icon>
-    </div>
+    <pkdd-hover-pulse class="action">
+      <a matTooltip="Перейти в профиль персоны для просмотра информации" [routerLink]="'/persons/' + person.id">
+        <mat-icon [inline]="false">info_outlined</mat-icon>
+      </a>
+    </pkdd-hover-pulse>
+    <pkdd-hover-pulse class="action">
+      <a *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны" [routerLink]="'/persons/' + person.id + '/mmpi'">
+        <mat-icon [inline]="false">assignment</mat-icon>
+      </a>
+    </pkdd-hover-pulse>
+    <pkdd-hover-pulse class="action">
+      <a *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами" [routerLink]="'/persons/' + person.id + '/results'">
+        <mat-icon [inline]="false">assignment_turned_in</mat-icon>
+      </a>
+    </pkdd-hover-pulse>
+    <pkdd-hover-pulse class="action">
+      <a *pkddForRoles="'tech'" matTooltip="Перейти в интерфейс редактирования профиля персоны" [routerLink]="'/persons/' + person.id + '/edit'">
+        <mat-icon [inline]="false">edit</mat-icon>
+      </a>
+    </pkdd-hover-pulse>
+    <pkdd-hover-pulse class="action">
+      <div (click)="onDelete()" class="action" *pkddForRoles="'tech'" matTooltip="Удалить персону из системы">
+        <mat-icon [inline]="false">delete_forever</mat-icon>
+      </div>
+    </pkdd-hover-pulse>
   </mat-card-actions>
   <!-- <div>{{person.bir}}</div> -->
 </mat-card>

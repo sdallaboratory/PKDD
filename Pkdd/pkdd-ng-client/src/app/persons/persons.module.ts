@@ -13,6 +13,7 @@ import { PersonLuscherComponent } from './components/person-luscher/person-lusch
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
 import { MmpiTestModule } from '../mmpi-test/mmpi-test.module';
+import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { MmpiTestModule } from '../mmpi-test/mmpi-test.module';
     AuthModule,
     MaterialImportsModule,
     PersonsRoutingModule,
-    MmpiTestModule
+    MmpiTestModule,
+    LayoutModule
   ],
   declarations: [
     PersonsListComponent,
