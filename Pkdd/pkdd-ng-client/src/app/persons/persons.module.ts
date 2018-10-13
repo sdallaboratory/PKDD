@@ -13,7 +13,6 @@ import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.compon
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
-import { PersonsCreateComponent } from './components/persons-create/persons-create.component';
 import { ContentBlockComponent } from './components/content-blocks/content-block/content-block.component';
 import { TextBlockComponent } from './components/content-blocks/text-block/text-block.component';
 import { DateTextBlockComponent } from './components/content-blocks/date-text-block/date-text-block.component';
@@ -39,7 +38,6 @@ import { PublicationBlockComponent } from './components/content-blocks/publicati
     PersonLuscherComponent,
     PersonPhysiognomyComponent,
     PersonResultsComponent,
-    PersonsCreateComponent,
     ContentBlockComponent,
     TextBlockComponent,
     DateTextBlockComponent,

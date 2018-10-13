@@ -37,7 +37,7 @@ export class PersonsListComponent implements OnInit {
   }
 
   public async onAdd() {
-    const person = this.persons[1]; // await this.storage.addPerson(new Person());
+    const person = await this.storage.addPerson();
     this.router.navigate([`persons/${person.id}/edit`]);
   }
 

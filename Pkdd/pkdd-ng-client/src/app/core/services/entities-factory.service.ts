@@ -8,6 +8,8 @@ import { DateText } from '../../models/entities/content-entities/date-text';
 import { Video } from '../../models/entities/content-entities/video';
 import { Publication } from '../../models/entities/content-entities/publication';
 import { Photo } from '../../models/entities/content-entities/photo';
+import { TimeTrack } from '../../models/common/time-track';
+import { Sexes } from '../../models/entities/enums/sexes';
 
 @Injectable({
   providedIn: 'root'
@@ -170,5 +172,25 @@ export class EntitiesFactoryService {
     });
     const newBlock = new ContentBlockBackend(block, content, subBlocks);
     return newBlock;
+  }
+
+  public createNewPerson(): Person {
+    const id = +(Math.random() * 1000).toFixed(0);
+    const abstractPerson = {
+      id: id,
+      isDeleted: false,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date()),
+      name: `Новая персона ${id}`,
+      sex: Sexes.Undefined,
+      birthday: new Date(),
+      position: 'Неопределена',
+    };
+    const baseBioBlock = new BaseBioBlock({
+      id: 0,
+      isDeleted: false,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date),
+      personId: id
+    }, []);
+    return new Person(abstractPerson, baseBioBlock);
   }
 }

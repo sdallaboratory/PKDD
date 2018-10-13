@@ -60,10 +60,11 @@ export class ServerDataStorageService {
     return !isNullOrUndefined(result) ? result : null;
   }
 
-  public async addPerson(person: Person): Promise<Person> {
+  public async addPerson(person?: Person): Promise<Person> {
     let result = null;
+    const newPerson = !isNullOrUndefined(person) ? person : this._factory.createNewPerson();
     try {
-      const body = this._factory.createPersonBackend(person);
+      const body = this._factory.createPersonBackend(newPerson);
       result = this._factory.createPerson(await this.makeAction(ActionType.Post, EntityType.Person, null, null, body));
       this._persons.push(result);
     } catch {
