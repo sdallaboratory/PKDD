@@ -18,7 +18,6 @@ export class PersonMenuResolver implements Resolve<MenuItem[]> {
     ) {
         const user = await this.auth.getUserAsync();
         const id = route.paramMap.get('id');
-        console.log(id);
         const items = [
             new MenuItem('Информация', `/persons/${id}`, 'info', true),
             ...(user.roles.includes(PkddRoles.expert) ? [

@@ -122,7 +122,7 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(person)) {
       throw new Error('Empty person');
     }
-    const bioBlock = isNullOrUndefined(person.bioBlock) ? this.createBaseBioBlockBackend(person.bioBlock) : null;
+    const bioBlock = !isNullOrUndefined(person.bioBlock) ? this.createBaseBioBlockBackend(person.bioBlock) : null;
     const newPerson = new PersonBackend(person, bioBlock);
     return newPerson;
   }

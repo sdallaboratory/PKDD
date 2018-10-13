@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -188,9 +189,13 @@ namespace Pkdd.Repositories
                                                         .FirstOrDefaultAsync(p => p.Id == id);
                 if (person != null)
                 {
-                    foreach(ContentBlock block in person.BioBlock.ContentBlocks)
+                    if (person.BioBlock != null && person.BioBlock.ContentBlocks != null)
                     {
-                        await RemoveBlocks(block);
+                        ImmutableList<ContentBlock> immutableBlocks = person.BioBlock.ContentBlocks.ToImmutableList();
+                        foreach (ContentBlock block in immutableBlocks)
+                        {
+                            await RemoveBlocks(block);
+                        }
                     }
                     _dbContext.Persons.Remove(person);
                     await _dbContext.SaveChangesAsync();

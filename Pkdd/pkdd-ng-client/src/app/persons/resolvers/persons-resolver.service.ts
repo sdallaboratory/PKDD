@@ -11,12 +11,11 @@ export class PersonsResolverService implements Resolve<Person[]> {
 
   constructor(
     private readonly storage: ServerDataStorageService,
-    private readonly хттп: PkddHttpService
   ) { }
 
   public async resolve() {
     // TODO: fetch data through ServerDataStorageServicec
-    const persons = await this.хттп.get<Person[]>('/api/persons');
+    const persons = await this.storage.getPersons();
     return persons;
   }
 

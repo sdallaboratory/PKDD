@@ -167,6 +167,8 @@ export class ServerDataStorageService {
       case ActionType.Put:
         return await this._httpClient.put(url, body);
       case ActionType.Delete:
+      console.log(url);
+      
         return await this._httpClient.delete(url);
     }
   }
