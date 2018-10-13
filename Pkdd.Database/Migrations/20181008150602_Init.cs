@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Pkdd.Database.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
@@ -33,7 +33,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -54,7 +54,9 @@ namespace Pkdd.Database.Migrations
                     TimeTrack_Created = table.Column<DateTime>(nullable: false),
                     TimeTrack_Updated = table.Column<DateTime>(nullable: false),
                     TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    FullName = table.Column<string>(nullable: true),
+                    Birthdate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,11 +64,48 @@ namespace Pkdd.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MetaInfos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    TimeTrack_Created = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Updated = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Version = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MetaInfos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Persons",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    TimeTrack_Created = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Updated = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 200, nullable: false),
+                    Sex = table.Column<int>(nullable: false),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    Position = table.Column<string>(maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Persons", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -87,7 +126,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -167,6 +206,66 @@ namespace Pkdd.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MainBioBlocks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    TimeTrack_Created = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Updated = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    PersonId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MainBioBlocks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MainBioBlocks_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContentBlocks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    TimeTrack_Created = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Updated = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
+                    TimeTrack_ContentBlockId = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Tilte = table.Column<string>(nullable: true),
+                    Subtitle = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    Order = table.Column<string>(nullable: true),
+                    BaseBioBlockId = table.Column<int>(nullable: true),
+                    ContentBlockId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContentBlocks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContentBlocks_MainBioBlocks_BaseBioBlockId",
+                        column: x => x.BaseBioBlockId,
+                        principalTable: "MainBioBlocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ContentBlocks_ContentBlocks_ContentBlockId",
+                        column: x => x.ContentBlockId,
+                        principalTable: "ContentBlocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -176,8 +275,7 @@ namespace Pkdd.Database.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -203,8 +301,23 @@ namespace Pkdd.Database.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentBlocks_BaseBioBlockId",
+                table: "ContentBlocks",
+                column: "BaseBioBlockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentBlocks_ContentBlockId",
+                table: "ContentBlocks",
+                column: "ContentBlockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MainBioBlocks_PersonId",
+                table: "MainBioBlocks",
+                column: "PersonId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -225,10 +338,22 @@ namespace Pkdd.Database.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ContentBlocks");
+
+            migrationBuilder.DropTable(
+                name: "MetaInfos");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "MainBioBlocks");
+
+            migrationBuilder.DropTable(
+                name: "Persons");
         }
     }
 }
