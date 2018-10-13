@@ -13,6 +13,13 @@ import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.compon
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
+import { PersonsCreateComponent } from './components/persons-create/persons-create.component';
+import { ContentBlockComponent } from './components/content-blocks/content-block/content-block.component';
+import { TextBlockComponent } from './components/content-blocks/text-block/text-block.component';
+import { DateTextBlockComponent } from './components/content-blocks/date-text-block/date-text-block.component';
+import { PhotoBlockComponent } from './components/content-blocks/photo-block/photo-block.component';
+import { VideoBlockComponent } from './components/content-blocks/video-block/video-block.component';
+import { PublicationBlockComponent } from './components/content-blocks/publication-block/publication-block.component';
 
 @NgModule({
   imports: [
@@ -31,6 +38,13 @@ import { PersonResultsComponent } from './components/person-results/person-resul
     PersonMmpiComponent,
     PersonLuscherComponent,
     PersonPhysiognomyComponent,
-    PersonResultsComponent]
+    PersonResultsComponent,
+    PersonsCreateComponent,
+    ContentBlockComponent,
+    TextBlockComponent,
+    DateTextBlockComponent,
+    PhotoBlockComponent,
+    VideoBlockComponent,
+    PublicationBlockComponent]
 })
 export class PersonsModule { }
