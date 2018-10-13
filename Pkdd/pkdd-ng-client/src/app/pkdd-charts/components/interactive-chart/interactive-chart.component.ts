@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
+import * as Chart from 'chart.js';
 
 @Component({
   selector: 'pkdd-interactive-chart',
@@ -12,18 +14,37 @@ export class InteractiveChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  public barChartOptions: any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-  public barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartType = 'bar';
-  public barChartLegend = true;
-
-  public barChartData: any[] = [
+  public lineChartData: Array<any> = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
   ];
+  public lineChartLabels = Object.keys(new MmpiResult); // ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartOptions = {
+    responsive: true,
+    pointRadius: 15,
+  };
+  public lineChartColors = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
+  ];
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+
+  public randomize(): void {
+    const _lineChartData: Array<any> = new Array(this.lineChartData.length);
+    for (let i = 0; i < this.lineChartData.length; i++) {
+      _lineChartData[i] = { data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label };
+      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
+        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+      }
+    }
+    this.lineChartData = _lineChartData;
+  }
 
   // events
   public chartClicked(e: any): void {
@@ -32,27 +53,6 @@ export class InteractiveChartComponent implements OnInit {
 
   public chartHovered(e: any): void {
     console.log(e);
-  }
-
-  public randomize(): void {
-    // Only Change 3 values
-    const data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40];
-    const clone = JSON.parse(JSON.stringify(this.barChartData));
-    clone[0].data = data;
-    this.barChartData = clone;
-    /**
-     * (My guess), for Angular to recognize the change in the dataset
-     * it has to change the dataset variable directly,
-     * so one way around it, is to clone the data, change it and then
-     * assign it;
-     */
   }
 
 }
