@@ -19,6 +19,8 @@ import { DateTextBlockComponent } from './components/content-blocks/date-text-bl
 import { PhotoBlockComponent } from './components/content-blocks/photo-block/photo-block.component';
 import { VideoBlockComponent } from './components/content-blocks/video-block/video-block.component';
 import { PublicationBlockComponent } from './components/content-blocks/publication-block/publication-block.component';
+import { AddCardComponent } from './components/content-blocks/add-card/add-card.component';
+import { ContentComponent } from './components/content-blocks/content/content.component';
 
 @NgModule({
   imports: [
@@ -43,6 +45,8 @@ import { PublicationBlockComponent } from './components/content-blocks/publicati
     DateTextBlockComponent,
     PhotoBlockComponent,
     VideoBlockComponent,
-    PublicationBlockComponent]
+    PublicationBlockComponent,
+    AddCardComponent,
+    ContentComponent]
 })
 export class PersonsModule { }

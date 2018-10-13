@@ -1,1 +1,19 @@
+<div class="person-wrapper">
 
+  <div class="base-info">
+    <mat-card>
+      <mat-card-title>
+        {{person?.name}}
+      </mat-card-title>
+      <mat-card-content>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="true">
+
+  </pkdd-content-block>
+  <pkdd-add-card (click)="onBlockAdd()" ></pkdd-add-card>
+
+</div>

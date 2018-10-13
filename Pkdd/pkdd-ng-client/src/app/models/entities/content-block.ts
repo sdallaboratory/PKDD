@@ -16,6 +16,7 @@ abstract class AbstractContentBlock implements IEntity {
     subtitle: string;
     type: ContentType;
     comment: string;
+    order: string;
 
     constructor(block: AbstractContentBlock) {
         this.id = block.id;
@@ -25,6 +26,7 @@ abstract class AbstractContentBlock implements IEntity {
         this.subtitle = block.subtitle;
         this.type = block.type;
         this.comment = block.comment;
+        this.order = block.order;
     }
 }
 

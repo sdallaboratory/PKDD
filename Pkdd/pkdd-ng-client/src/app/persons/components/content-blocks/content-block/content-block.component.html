@@ -1,3 +1,31 @@
-<p>
-  content-block works!
-</p>
+<mat-card class="wrapper" [class.mat-elevation-z0]="!isTopBlock"
+[class.border]="!isTopBlock"
+[class.video-container]="isVideoContainer"
+[class.photo-container]="isPhotoContainer">
+  <mat-card-title>
+    {{contentBlock.title}} {{contentBlock.order}}
+  </mat-card-title>
+  <mat-card-subtitle>
+    {{contentBlock.subtitle}}
+  </mat-card-subtitle>
+  <div *ngIf="edit">
+    <mat-form-field>
+      <mat-select  [(value)]="contentBlock.type">
+        <mat-option *ngFor="let type of contentTypes" [value]="type.value">
+          {{type.type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+    <div *ngIf="isContainer">
+      <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="true"></pkdd-content-block>
+    </div>
+    <div *ngIf="!isContainer">
+      <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
+    </div>
+  <mat-card-actions>
+    <button mat-icon-button (click)="onBlockAdd()" [hidden]="!isContainer">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

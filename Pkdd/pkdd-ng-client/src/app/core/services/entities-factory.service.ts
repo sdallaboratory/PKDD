@@ -10,6 +10,7 @@ import { Publication } from '../../models/entities/content-entities/publication'
 import { Photo } from '../../models/entities/content-entities/photo';
 import { TimeTrack } from '../../models/common/time-track';
 import { Sexes } from '../../models/entities/enums/sexes';
+import { ContentType } from '../../models/entities/enums/content-type';
 
 @Injectable({
   providedIn: 'root'
@@ -165,7 +166,7 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
-    const content = JSON.stringify(block.content);
+    const content = !isNullOrUndefined(block.content) ? JSON.stringify(block.content) : '';
     const subBlocks: ContentBlockBackend[] = [];
     block.subBlocks.forEach(b => {
       subBlocks.push(this.createContentBlockBackend(b));
@@ -175,7 +176,7 @@ export class EntitiesFactoryService {
   }
 
   public createNewPerson(): Person {
-    const id = +(Math.random() * 1000).toFixed(0);
+    const id = 0;
     const abstractPerson = {
       id: id,
       isDeleted: false,
@@ -192,5 +193,18 @@ export class EntitiesFactoryService {
       personId: id
     }, []);
     return new Person(abstractPerson, baseBioBlock);
+  }
+
+  public createNewContentBlock(order: string = '', baseBioBlockId: number, parentId: number = -1): ContentBlock {
+    return new ContentBlock({
+      id: 0,
+      isDeleted: false,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date()),
+      title: 'Заголовок',
+      subtitle: 'Подзаголовок',
+      type: ContentType.Container,
+      comment: 'Некоторый важный комментарий',
+      order: order
+    }, baseBioBlockId, null, [], parentId);
   }
 }

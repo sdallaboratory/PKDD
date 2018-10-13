@@ -81,6 +81,19 @@ namespace Pkdd.Controllers
             }
         }
 
+        [HttpGet("contents")]
+        public async Task<IActionResult> GetAllBlocks()
+        {
+            try
+            {
+                return PkddOk(await _personRepository.GetAllContentBlocks());
+            }
+            catch (Exception ex)
+            {
+                return PkddError(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddPerson([FromBody] Person person)
@@ -97,12 +110,12 @@ namespace Pkdd.Controllers
         }
 
         [HttpPost]
-        [Route("bio/{id?}/contents")]
-        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int? id = null)
+        [Route("bio/{id}/contents/{parentId?}")]
+        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int id, int? parentId)
         {
             try
             {
-                var newBlock = await _personRepository.AddContentBlock(id, block);
+                var newBlock = await _personRepository.AddContentBlock(id, block, parentId);
                 return Ok(newBlock);
             }
             catch (Exception ex)

@@ -43,7 +43,6 @@ export class PkddHttpService {
 
   private pipe<T>(observable: Observable<T>) {
     return observable.pipe(last(), map(value => {
-      console.log(value);
       return value;
     })).toPromise();
   }

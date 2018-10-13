@@ -20,16 +20,16 @@ namespace Pkdd.Repositories
             _dbContext = context;
         }
 
-        public async Task<ContentBlock> AddContentBlock(int? bioBlockId, ContentBlock content)
+        public async Task<ContentBlock> AddContentBlock(int bioBlockId, ContentBlock content, int? parentId)
         {
             ContentBlock result = null;
             try
             {
-                if (bioBlockId.HasValue)
+                if (!parentId.HasValue)
                 {
                     BaseBioBlock mainBlock = await _dbContext.MainBioBlocks
                                                              .Include(b => b.ContentBlocks)
-                                                             .FirstOrDefaultAsync(b => b.Id == bioBlockId.Value);
+                                                             .FirstOrDefaultAsync(b => b.Id == bioBlockId);
                     if (mainBlock != null)
                     {
                         var entity = _dbContext.Entry(content);
@@ -44,7 +44,7 @@ namespace Pkdd.Repositories
                 }
                 else
                 {
-                    var block = await AddToParent(content);
+                    var block = await AddToParent(content, parentId.Value);
                     await LoadBlocks(block);
                     result = block;
                 }
@@ -105,6 +105,25 @@ namespace Pkdd.Repositories
                     result = mainBlock.ContentBlocks;
                 }
                 else
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
+            }
+            catch (Exception ex)
+            {
+                ThrowException(ex);
+            }
+            return result;
+        }
+
+        public async Task<List<ContentBlock>> GetAllContentBlocks()
+        {
+
+            List<ContentBlock> result = null;
+            try
+            {
+                result = await _dbContext.ContentBlocks.ToListAsync();
+                if (result == null || !result.Any())
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }
@@ -264,9 +283,9 @@ namespace Pkdd.Repositories
             }
         }
 
-        private async Task<ContentBlock> AddToParent(ContentBlock content)
+        private async Task<ContentBlock> AddToParent(ContentBlock content, int parentId)
         {
-            ContentBlock parent = await _dbContext.ContentBlocks.Where(b => b.CheckOrder(content.Order))
+            ContentBlock parent = await _dbContext.ContentBlocks.Where(b => b.Id == parentId)
                                                                 .Include(b => b.SubBlocks)
                                                                 .FirstOrDefaultAsync();
             if(parent == null)

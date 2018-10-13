@@ -31,7 +31,7 @@ const personsRoutes: Routes = [
           path: ':id',
           component: PersonDetailsPageComponent,
           resolve: {
-            menu: PersonMenuResolver
+            menu: PersonMenuResolver,
           },
           children: [
             { path: '', component: PersonInfoComponent },
