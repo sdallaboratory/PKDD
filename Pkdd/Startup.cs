@@ -36,7 +36,7 @@ namespace Pkdd
             }));
 
             services.AddDbContext<PkddDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<PkddUser, PkddRoleBase>(options =>
             {
