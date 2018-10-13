@@ -8,6 +8,7 @@ import { RestorePasswordModel } from '../../models/auth/restore-password-model';
 import { Router } from '@angular/router';
 import { EnvironmentService } from '../../core/services/environment.service';
 import { PkddRoles } from '../../models/auth/pkdd-roles.enum';
+import { TimeTrack } from 'src/app/models/common/time-track';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,7 @@ export class AuthService {
   constructor(
     private readonly http: PkddHttpService,
     private readonly router: Router,
+    private readonly env: EnvironmentService
   ) {
     this.gettingUser = this.getUserFromServerAsync();
   }

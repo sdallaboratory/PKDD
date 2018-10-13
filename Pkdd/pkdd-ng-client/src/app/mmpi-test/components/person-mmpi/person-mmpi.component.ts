@@ -13,7 +13,7 @@ export class PersonMmpiComponent implements OnInit {
   public results: Results;
 
   public get scales() {
-    return Object.keys(this.results.mmpi).map(key => ({ name: key, value: this.results.mmpi[key] }));
+    return this.results && Object.keys(this.results.mmpi).map(key => ({ name: key, value: this.results.mmpi[key] }));
   }
 
   constructor(

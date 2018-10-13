@@ -27,7 +27,7 @@ const personsRoutes: Routes = [
       canActivate: [AuthGuard],
       canActivateChild: [AuthGuard],
       children: [
-        { path: '', component: PersonsListComponent, resolve: { persons: PersonsResolverService, menu: MenuResolver.noItems() } },
+        { path: '', component: PersonsListComponent, resolve: { persons: PersonsResolverService } },
         {
           path: ':id',
           component: PersonDetailsPageComponent,
