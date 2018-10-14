@@ -19,10 +19,8 @@
   </div>
   <div class="text-column">
     <div *ngIf="edit" class="text-wrapper">
-      <mat-form-field>
         <textarea matInput [(ngModel)]="content.text.content" [matTextareaAutosize]="true">
         </textarea>
-      </mat-form-field>
     </div>
     <div *ngIf="!edit" class="text">
       {{content.text.content}}

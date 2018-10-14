@@ -28,11 +28,13 @@
   
   <section>
 
-    <mat-select *ngIf="edit" [(value)]="contentBlock.type" (valueChange)="onTypeChanged()">
-      <mat-option *ngFor="let type of contentTypes" [value]="type.value">
-        {{type.type}}
-      </mat-option>
-    </mat-select>
+    <div *ngIf="edit" >
+      <mat-select matInput [(value)]="contentBlock.type" (valueChange)="onTypeChanged()">
+        <mat-option *ngFor="let type of contentTypes" [value]="type.value">
+          {{type.type}}
+        </mat-option>
+      </mat-select>
+    </div>
 
     <div *ngIf="isContainer">
       <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="edit"></pkdd-content-block>
@@ -41,14 +43,14 @@
       <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
     </div>
 
-    <div class="actions">
+    <div class="actions" *ngIf="edit">
 
-        <button mat-icon-button  (click)="onBlockDelete()">
+        <button mat-icon-button (click)="onBlockDelete()">
           <mat-icon>
             delete_forever
           </mat-icon>
         </button>
-        <button [disabled]="!isLevelLessOrEqual(3)" mat-icon-button (click)="onBlockAdd()">
+        <button [disabled]="!isLevelLessOrEqual(3)"  mat-icon-button (click)="onBlockAdd()">
           <mat-icon>add</mat-icon>
         </button>
         <button mat-icon-button  (click)="onBlockSave()">

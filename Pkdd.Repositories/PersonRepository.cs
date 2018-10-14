@@ -160,7 +160,7 @@ namespace Pkdd.Repositories
                 ContentBlock contentBlock = await _dbContext.ContentBlocks.FirstOrDefaultAsync(b => b.Id == id);
                 if (contentBlock != null)
                 {
-                    _dbContext.ContentBlocks.Remove(contentBlock);
+                    await RemoveBlocks(contentBlock);
                     await _dbContext.SaveChangesAsync();
                 }
                 else
