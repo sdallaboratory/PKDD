@@ -26,8 +26,7 @@ namespace Pkdd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddCors(cors => cors.AddPolicy("AllowAny", options =>
+           services.AddCors(cors => cors.AddPolicy("AllowAny", options =>
             {
                 options.AllowAnyHeader();
                 options.AllowAnyMethod();
@@ -36,7 +35,8 @@ namespace Pkdd
             }));
 
             services.AddDbContext<PkddDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                //options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
 
             services.AddIdentity<PkddUser, PkddRoleBase>(options =>
             {

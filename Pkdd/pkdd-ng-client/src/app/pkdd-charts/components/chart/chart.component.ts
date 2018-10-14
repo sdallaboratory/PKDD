@@ -31,7 +31,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
 
   private InitializeCanvas() {
-    return new Chart(this.ctx, {
+    const config = {
       type: 'line',
       data: {
         labels: Object.keys(new MmpiResult()),
@@ -49,15 +49,17 @@ export class ChartComponent implements OnInit, AfterViewInit {
         }]
       },
       options: {
-        responsive: true,
-        onClick: (event, active) => {
-          console.log(event, active);
+        plugins: {
+          dragData: true,
         },
-        onHover: (event, active) => {
-          console.log(active);
-          console.log(event.buttons);
-        }
+        responsive: true,
       },
-    });
+    };
+    (<any>config.options).dragData = true;
+    (<any>config.options).onDragEnd = () => console.log(config.data.datasets[0].data);
+    console.log(config);
+    const chart  = new Chart(this.ctx, config);
+    console.log(chart);
+    return chart;
   }
 }

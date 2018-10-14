@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChartsModule } from 'ng2-charts';
-import { InteractiveChartComponent } from './components/interactive-chart/interactive-chart.component';
 import { ChartComponent } from './components/chart/chart.component';
+import 'chartjs-plugin-dragdata';
 
 @NgModule({
   imports: [
     CommonModule,
-    ChartsModule
   ],
-  declarations: [InteractiveChartComponent, ChartComponent],
-  exports: [InteractiveChartComponent, ChartComponent]
+  declarations: [ ChartComponent],
+  exports: [ChartComponent]
 })
 export class PkddChartsModule { }

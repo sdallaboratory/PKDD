@@ -17,7 +17,6 @@ namespace XTool.Models.EvaluationModels
 
         public DateTime LastChange { get; set; }
 
-
         public int PersonId { get; set; }
 
         public virtual Person Person { get; set; }
