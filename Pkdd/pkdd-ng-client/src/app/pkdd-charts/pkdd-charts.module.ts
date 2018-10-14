@@ -10,6 +10,6 @@ import { ChartComponent } from './components/chart/chart.component';
     ChartsModule
   ],
   declarations: [InteractiveChartComponent, ChartComponent],
-  exports: [InteractiveChartComponent]
+  exports: [InteractiveChartComponent, ChartComponent]
 })
 export class PkddChartsModule { }
