@@ -1,3 +1,17 @@
-<p>
-  person-info works!
-</p>
+<div class="person-wrapper">
+
+  <div class="base-info">
+    <mat-card>
+      <mat-card-title>
+        {{person?.name}}
+      </mat-card-title>
+      <mat-card-content>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="false">
+
+  </pkdd-content-block>
+</div>

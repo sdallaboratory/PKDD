@@ -16,7 +16,8 @@ export class PersonResolverService implements Resolve<PersonResolverModel> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<PersonResolverModel> {
-    const id = +route.parent.paramMap.get('id');
+    let id = +route.parent.paramMap.get('id');
+    id = id === 0 ? +route.paramMap.get('id') : id;
     const person = await this._storage.getPerson(id);
     const blocks = await this._storage.getContentBlocks(person.bioBlock.id);
     return { person: person, contentBlocks: blocks.entity };

@@ -1,12 +1,32 @@
-.wrapper {}
-
-mat-card-title,
-mat-card-subtitle {
-  display: flex;
-  justify-content: center;
+.wrapper {
+  border: 7px solid rgb(255, 255, 0);
 }
 
-.border {
+mat-card {
+  border: 1px solid yellow;
   margin: 3px;
-  border: 1px solid #c9c7c7;
+  padding: 0;
+}
+
+header {
+  padding: 12px;
+  background: rgb(255, 255, 90);
+}
+
+section {
+  padding: 24px;
+}
+
+.title-input,
+.subtitle-input,
+mat-select {
+  max-width: 400px;
+}
+
+.subtitle, .subtitle-input {
+  color: #494949;
+}
+
+mat-select {
+  margin: 3px;
 }

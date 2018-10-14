@@ -11,6 +11,11 @@
     max-width: 800px;
 }
 
+.base-info {
+    box-sizing: border-box;
+    border: 7px solid #f8fa7d;
+    outline: 0.7px solid black;
+}
 
 mat-card-title {
     display: flex;

@@ -118,7 +118,7 @@ export class ServerDataStorageService {
         null,
         baseBioBlockId,
         parentId
-        )));
+        )), parentId);
       const baseBlock = this.findBlock(baseBioBlockId, block.parentId);
       if (isNullOrUndefined(baseBlock)) {
         this._contentBlocks.find(b => b.id === baseBioBlockId).entity.push(result);
@@ -130,15 +130,17 @@ export class ServerDataStorageService {
     }
   }
 
-  public async deleteContentBlock(baseBioBlockId: number, id: number) {
+  public async deleteContentBlock(baseBioBlockId: number, block: ContentBlock) {
     try {
-      await this.makeAction(ActionType.Delete, EntityType.ContentBlock, id, baseBioBlockId);
-      const baseBlock = this.findBlock(baseBioBlockId, id);
-      if (isNullOrUndefined(baseBioBlockId)) {
+      await this.makeAction(ActionType.Delete, EntityType.ContentBlock, null, block.id, baseBioBlockId);
+      const baseBlock = this.findBlock(baseBioBlockId, block.parentId);
+      console.log(block, baseBlock);
+      
+      if (isNullOrUndefined(baseBlock)) {
         const mainBlock = this._contentBlocks.find(b => b.id === baseBioBlockId);
-        mainBlock.entity.splice(mainBlock.entity.findIndex(b => b.id === id), 1);
+        mainBlock.entity.splice(mainBlock.entity.findIndex(b => b.id === block.id), 1);
       } else {
-        baseBlock.subBlocks.splice(baseBlock.subBlocks.findIndex(b => b.id === id), 1);
+        baseBlock.subBlocks.splice(baseBlock.subBlocks.findIndex(b => b.id === block.id), 1);
       }
     } catch {
     }
@@ -169,8 +171,6 @@ export class ServerDataStorageService {
       case ActionType.Post:
         return await this._httpClient.post(url, body);
       case ActionType.Put:
-      console.log(url);
-      
         return await this._httpClient.put(url, body);
       case ActionType.Delete:
         return await this._httpClient.delete(url);
@@ -198,11 +198,16 @@ export class ServerDataStorageService {
     if (isNullOrUndefined(block)) {
       return null;
     }
+    if (id === -1) {
+      return null;
+    }
     let resultArray: ContentBlock[] = [].concat(block.entity);
     block.entity.forEach(b => {
       resultArray = resultArray.concat(ContentBlock.inRow(b));
     });
     resultArray = resultArray.filter(b => !isNullOrUndefined(b));
+    console.log(resultArray, id);
+    
     return resultArray.find(b => b.id === id);
   }
 

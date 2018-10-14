@@ -17,8 +17,10 @@ export class DateTextBlockComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.content);
-    
+  }
+
+  public isEmptyContent() {
+    return this.content.text.content === '' || this.content.period.firstDate === '';
   }
 
 }

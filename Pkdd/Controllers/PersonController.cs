@@ -170,7 +170,7 @@ namespace Pkdd.Controllers
         }
 
         [HttpDelete]
-        [Route("bio/contents/{id}")]
+        [Route("bio/{bioId}/contents/{id}")]
         public async Task<IActionResult> DeleteContentBlock([FromRoute] int id)
         {
             try

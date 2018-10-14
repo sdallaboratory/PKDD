@@ -1,5 +1,8 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="!(!edit && content.content === '')">
     <mat-form-field *ngIf="edit">
         <textarea matInput [(ngModel)]="content.content" [matTextareaAutosize]="true"></textarea>
     </mat-form-field>
+    <div *ngIf="!edit && content.content !== ''">
+        {{content.content}}
+    </div>
 </div>

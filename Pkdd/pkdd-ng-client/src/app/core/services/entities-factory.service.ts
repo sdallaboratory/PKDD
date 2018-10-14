@@ -73,16 +73,17 @@ export class EntitiesFactoryService {
     return newBlocks;
   }
 
-  public createContentBlock(mainBlockId: number, block: ContentBlockBackend, parentId = -1): ContentBlock {
+  public createContentBlock(mainBlockId: number, block: ContentBlockBackend, parentId: null | number = null): ContentBlock {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
+    const parent = parentId ? parentId : -1;
     const content = this.createBlockContent(block);
     const subBlocks: ContentBlock[] = [];
     block.subBlocks.forEach(b => {
       subBlocks.push(this.createContentBlock(mainBlockId, b, block.id));
     });
-    const newBlock = new ContentBlock(block, mainBlockId, content, subBlocks, parentId);
+    const newBlock = new ContentBlock(block, mainBlockId, content, subBlocks, parent);
     return newBlock;
   }
 

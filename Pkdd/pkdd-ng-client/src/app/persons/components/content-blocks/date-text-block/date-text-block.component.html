@@ -1,17 +1,31 @@
-<div class="table-wrapper">
+<div class="table-wrapper" *ngIf="!(!edit && !isEmptyContent)">
   <div class="date-column">
     <div *ngIf="edit">
       <input matInput class="date-input" [(ngModel)]="content.period.firstDate">
       <input matInput class="date-input" [(ngModel)]="content.period.secondDate">
     </div>
+    <div *ngIf="!edit" class="date-wrapper">
+      <span class="text">
+        {{content.period.firstDate}}
+      </span>
+      <span class="text">
+        -
+      </span>
+      <span class="text">
+        {{content.period.secondDate === '' ? 'По настоящее время' : content.period.secondDate }}
+      </span>
+    </div>
 
   </div>
   <div class="text-column">
-    <div *ngIf="edit" class="text">
+    <div *ngIf="edit" class="text-wrapper">
       <mat-form-field>
         <textarea matInput [(ngModel)]="content.text.content" [matTextareaAutosize]="true">
         </textarea>
       </mat-form-field>
+    </div>
+    <div *ngIf="!edit" class="text">
+      {{content.text.content}}
     </div>
   </div>
 </div>

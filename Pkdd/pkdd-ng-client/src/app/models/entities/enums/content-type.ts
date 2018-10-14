@@ -1,7 +1,5 @@
 export enum ContentType {
     Container,
-    PhotoContainer,
-    VideoContainer,
     Text,
     DateText,
     Photo,

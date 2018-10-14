@@ -1,30 +1,62 @@
-<mat-card class="wrapper" [class.mat-elevation-z0]="!isTopBlock" [class.video-container]="isVideoContainer"
-  [class.photo-container]="isPhotoContainer">
-  <!-- <mat-card-title *ngIf="isContainer">
-    {{contentBlock.title}} {{contentBlock.order}}
-  </mat-card-title>
-  <mat-card-subtitle *ngIf="isContainer">
-    {{contentBlock.subtitle}}
-  </mat-card-subtitle> -->
-  <mat-form-field *ngIf="edit">
-    <mat-select [(value)]="contentBlock.type" (valueChange)="onTypeChanged()">
+<mat-card [class.wrapper]="isLevelLessOrEqual(2)" [class.mat-elevation-z0]="!isLevelLessOrEqual(2)">
+  
+  <header *ngIf="needDrawHeader" [ngStyle]="{'background': countYellow()}">
+   
+    <div *ngIf="edit">
+   
+      <div class="title" [ngStyle]="{'font-size.px': countFontSize()}">
+        <input matInput class="title-input" [(ngModel)]="contentBlock.title" placeholder="Заголовок">
+      </div>
+      <div class="subtitle" class="subtitle-input" [ngStyle]="{'font-size.px': countFontSize(true)}">
+        <input matInput [(ngModel)]="contentBlock.subtitle" placeholder="Подзаголовок">
+      </div>
+   
+    </div>
+
+    <div *ngIf="!edit">
+  
+      <div class="title" *ngIf="contentBlock.title !== ''" [ngStyle]="{'font-size.px': countFontSize()}">
+        {{contentBlock.title}}
+      </div>
+      <div class="subtitle" *ngIf="contentBlock.subtitle !== ''" [ngStyle]="{'font-size.px': countFontSize(true)}">
+        {{contentBlock.subtitle}}
+      </div>
+  
+    </div>
+
+  </header>
+  
+  <section>
+
+    <mat-select *ngIf="edit" [(value)]="contentBlock.type" (valueChange)="onTypeChanged()">
       <mat-option *ngFor="let type of contentTypes" [value]="type.value">
         {{type.type}}
       </mat-option>
     </mat-select>
-  </mat-form-field>
-  <div *ngIf="isContainer" [class.border]="isContainer && contentBlock.subBlocks.length > 0 ">
-    <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="true"></pkdd-content-block>
-  </div>
-  <div *ngIf="!isContainer">
-    <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
-  </div>
-  <mat-card-actions *ngIf="isContainer">
-    <button mat-icon-button (click)="onBlockAdd()">
-      <mat-icon>add</mat-icon>
-    </button>
-    <button mat-icon-button (click)="onBlockSave()">
-      <mat-icon>save</mat-icon>
-    </button>
-  </mat-card-actions>
+
+    <div *ngIf="isContainer">
+      <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="edit"></pkdd-content-block>
+    </div>
+    <div *ngIf="!isContainer">
+      <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
+    </div>
+
+    <div class="actions">
+
+        <button mat-icon-button  (click)="onBlockDelete()">
+          <mat-icon>
+            delete_forever
+          </mat-icon>
+        </button>
+        <button [disabled]="!isLevelLessOrEqual(3)" mat-icon-button (click)="onBlockAdd()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button  (click)="onBlockSave()">
+          <mat-icon>save</mat-icon>
+        </button>
+    
+    </div>
+
+  </section>
+
 </mat-card>
