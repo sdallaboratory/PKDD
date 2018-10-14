@@ -1,31 +1,30 @@
-<mat-card class="wrapper" [class.mat-elevation-z0]="!isTopBlock"
-[class.border]="!isTopBlock"
-[class.video-container]="isVideoContainer"
-[class.photo-container]="isPhotoContainer">
-  <mat-card-title>
+<mat-card class="wrapper" [class.mat-elevation-z0]="!isTopBlock" [class.video-container]="isVideoContainer"
+  [class.photo-container]="isPhotoContainer">
+  <!-- <mat-card-title *ngIf="isContainer">
     {{contentBlock.title}} {{contentBlock.order}}
   </mat-card-title>
-  <mat-card-subtitle>
+  <mat-card-subtitle *ngIf="isContainer">
     {{contentBlock.subtitle}}
-  </mat-card-subtitle>
-  <div *ngIf="edit">
-    <mat-form-field>
-      <mat-select  [(value)]="contentBlock.type">
-        <mat-option *ngFor="let type of contentTypes" [value]="type.value">
-          {{type.type}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  </mat-card-subtitle> -->
+  <mat-form-field *ngIf="edit">
+    <mat-select [(value)]="contentBlock.type" (valueChange)="onTypeChanged()">
+      <mat-option *ngFor="let type of contentTypes" [value]="type.value">
+        {{type.type}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="isContainer" [class.border]="isContainer && contentBlock.subBlocks.length > 0 ">
+    <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="true"></pkdd-content-block>
   </div>
-    <div *ngIf="isContainer">
-      <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="true"></pkdd-content-block>
-    </div>
-    <div *ngIf="!isContainer">
-      <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
-    </div>
-  <mat-card-actions>
-    <button mat-icon-button (click)="onBlockAdd()" [hidden]="!isContainer">
+  <div *ngIf="!isContainer">
+    <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
+  </div>
+  <mat-card-actions *ngIf="isContainer">
+    <button mat-icon-button (click)="onBlockAdd()">
       <mat-icon>add</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onBlockSave()">
+      <mat-icon>save</mat-icon>
     </button>
   </mat-card-actions>
 </mat-card>

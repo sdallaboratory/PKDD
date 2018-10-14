@@ -1,15 +1,14 @@
 .person-wrapper {
     display: flex;
     flex-direction: column;
-    align-content: center;
     justify-content: center;
     align-items: center;
 }
 
 .base-info, pkdd-add-card, pkdd-content-block {
-    margin: 30px;
-    width: 80%;
-    max-width: 900px;
+    margin: 15px;
+    width: 95%;
+    max-width: 800px;
 }
 
 

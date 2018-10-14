@@ -237,9 +237,8 @@ namespace Pkdd.Repositories
                 ContentBlock contentBlock = await _dbContext.ContentBlocks.FirstOrDefaultAsync(b => b.Id == block.Id);
                 if (contentBlock != null)
                 {
-                    contentBlock.Update(block);
-                    _dbContext.ContentBlocks.Update(contentBlock);
-                    await _dbContext.SaveChangesAsync();
+                    await LoadBlocks(contentBlock);
+                    await UpdateBlocks(contentBlock, block);
                 }
                 else
                 {
@@ -299,13 +298,24 @@ namespace Pkdd.Repositories
             
         }
 
+        private async Task UpdateBlocks(ContentBlock target, ContentBlock source)
+        {
+            target.Update(source);
+            _dbContext.ContentBlocks.Update(target);
+            foreach (ContentBlock subblock in target.SubBlocks)
+            {
+                await UpdateBlocks(subblock, source.SubBlocks.Where(b => b.Id == subblock.Id).First());
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
         private async Task RemoveBlocks(ContentBlock block)
         {
             await _dbContext.Entry(block).Collection(b => b.SubBlocks).LoadAsync();
             _dbContext.ContentBlocks.Remove(block);
             foreach (ContentBlock subblock in block.SubBlocks)
             {
-                await LoadBlocks(subblock);
+                await RemoveBlocks(subblock);
             }
             await _dbContext.SaveChangesAsync();
         }

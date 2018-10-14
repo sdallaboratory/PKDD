@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Publication } from './../../../../models/entities/content-entities/publication';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'pkdd-publication-block',
@@ -6,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./publication-block.component.scss']
 })
 export class PublicationBlockComponent implements OnInit {
+
+  @Input()
+  public content: Publication;
+
+  @Input()
+  public edit: boolean;
 
   constructor() { }
 

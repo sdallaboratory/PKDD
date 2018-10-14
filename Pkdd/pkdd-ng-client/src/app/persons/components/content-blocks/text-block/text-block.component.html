@@ -1,3 +1,5 @@
-<p>
-  text-block works!
-</p>
+<div class="wrapper">
+    <mat-form-field *ngIf="edit">
+        <textarea matInput [(ngModel)]="content.content" [matTextareaAutosize]="true"></textarea>
+    </mat-form-field>
+</div>

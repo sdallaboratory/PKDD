@@ -1,5 +1,5 @@
-<pkdd-text-block *ngIf="isText"></pkdd-text-block>
-<pkdd-date-text-block *ngIf="isDateText"></pkdd-date-text-block>
-<pkdd-photo-block *ngIf="isPhoto"></pkdd-photo-block>
-<pkdd-video-block *ngIf="isVideo"></pkdd-video-block>
-<pkdd-publication-block *ngIf="isPublication"></pkdd-publication-block>
+<pkdd-text-block *ngIf="isText" [content]="content" [edit]="edit"></pkdd-text-block>
+<pkdd-date-text-block *ngIf="isDateText" [content]="content" [edit]="edit"></pkdd-date-text-block>
+<pkdd-photo-block *ngIf="isPhoto" [content]="content" [edit]="edit"></pkdd-photo-block>
+<pkdd-video-block *ngIf="isVideo" [content]="content" [edit]="edit"></pkdd-video-block>
+<pkdd-publication-block *ngIf="isPublication" [content]="content" [edit]="edit"></pkdd-publication-block>

@@ -92,13 +92,7 @@ export class EntitiesFactoryService {
     }
     try {
       const content = JSON.parse(block.content);
-      if (content instanceof ContentText
-        || content instanceof DateText
-        || content instanceof Video
-        || content instanceof Photo
-        || content instanceof Publication) {
-        return content;
-      }
+      return content;
     } catch (error) {
 
     }

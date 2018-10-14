@@ -140,7 +140,7 @@ namespace Pkdd.Controllers
         }
 
         [HttpPut]
-        [Route("bio/contents")]
+        [Route("bio/{id}/contents")]
         public async Task<IActionResult> UpdateContentBlock([FromBody] ContentBlock block)
         {
             try

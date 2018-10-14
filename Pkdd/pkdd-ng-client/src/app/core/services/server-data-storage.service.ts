@@ -99,7 +99,7 @@ export class ServerDataStorageService {
     let result = null;
     try {
       const body = this._factory.createContentBlockBackend(block);
-      const responseResult = await this.makeAction(ActionType.Put, EntityType.ContentBlock, body, block.id, baseBioBlockId);
+      const responseResult = await this.makeAction(ActionType.Put, EntityType.ContentBlock, body, null, baseBioBlockId);
       result = this._factory.createContentBlock(baseBioBlockId, responseResult);
       this._persons.push(result);
     } catch {
@@ -169,6 +169,8 @@ export class ServerDataStorageService {
       case ActionType.Post:
         return await this._httpClient.post(url, body);
       case ActionType.Put:
+      console.log(url);
+      
         return await this._httpClient.put(url, body);
       case ActionType.Delete:
         return await this._httpClient.delete(url);

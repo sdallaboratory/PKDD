@@ -1,3 +1,17 @@
-<p>
-  date-text-block works!
-</p>
+<div class="table-wrapper">
+  <div class="date-column">
+    <div *ngIf="edit">
+      <input matInput class="date-input" [(ngModel)]="content.period.firstDate">
+      <input matInput class="date-input" [(ngModel)]="content.period.secondDate">
+    </div>
+
+  </div>
+  <div class="text-column">
+    <div *ngIf="edit" class="text">
+      <mat-form-field>
+        <textarea matInput [(ngModel)]="content.text.content" [matTextareaAutosize]="true">
+        </textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

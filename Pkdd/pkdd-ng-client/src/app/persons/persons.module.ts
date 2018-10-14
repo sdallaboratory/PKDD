@@ -21,13 +21,15 @@ import { VideoBlockComponent } from './components/content-blocks/video-block/vid
 import { PublicationBlockComponent } from './components/content-blocks/publication-block/publication-block.component';
 import { AddCardComponent } from './components/content-blocks/add-card/add-card.component';
 import { ContentComponent } from './components/content-blocks/content/content.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthModule,
     MaterialImportsModule,
-    PersonsRoutingModule
+    PersonsRoutingModule,
+    FormsModule
   ],
   declarations: [
     PersonsListComponent,
@@ -47,6 +49,7 @@ import { ContentComponent } from './components/content-blocks/content/content.co
     VideoBlockComponent,
     PublicationBlockComponent,
     AddCardComponent,
-    ContentComponent]
+    ContentComponent,
+    ]
 })
 export class PersonsModule { }
