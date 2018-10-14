@@ -21,7 +21,9 @@ const personsRoutes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: '/persons'
   }, {
-    path: '', component: PkddPageComponent, children: [{
+    // path: '', component: PkddPageComponent, children: [{
+    path: '', component: PkddPageComponent, canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard], children: [{
       path: 'persons',
       component: PersonsPageComponent,
       canActivate: [AuthGuard],

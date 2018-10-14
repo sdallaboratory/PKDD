@@ -1,0 +1,26 @@
+mat-card {
+  height: 282px;
+}
+
+.text-block {
+  margin: 5px;
+  font-size: 15px;
+}
+
+.info {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  overflow-y: auto; 
+}
+
+.title {
+  font-weight: bold;
+}
+
+.not-confirmed {
+    -webkit-box-shadow: 0px 0px 77px -5px rgba(196,12,48,0.94) !important;
+    -moz-box-shadow: 0px 0px 77px -5px rgba(196,12,48,0.94) !important;
+    box-shadow: 0px 0px 77px -5px rgba(196,12,48,0.94) !important;
+}
