@@ -1,4 +1,4 @@
-﻿using Pkdd.Models.Person;
+﻿using Pkdd.Models.Persons;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

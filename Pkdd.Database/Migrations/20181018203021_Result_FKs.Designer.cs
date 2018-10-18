@@ -2,29 +2,30 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pkdd.Database;
 
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    [Migration("20181008150602_Init")]
-    partial class Init
+    [Migration("20181018203021_Result_FKs")]
+    partial class Result_FKs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -42,7 +43,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -105,7 +107,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Database.MetaInformation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -116,10 +119,11 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("MetaInfos");
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Person.BaseBioBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Persons.BaseBioBlock", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -133,10 +137,11 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("MainBioBlocks");
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Person.ContentBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Persons.ContentBlock", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("BaseBioBlockId");
 
@@ -166,10 +171,11 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("ContentBlocks");
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
+            modelBuilder.Entity("Pkdd.Models.Persons.Person", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Birthday");
 
@@ -182,6 +188,8 @@ namespace Pkdd.Database.Migrations
                     b.Property<string>("Position")
                         .HasMaxLength(500);
 
+                    b.Property<int>("Priority");
+
                     b.Property<int>("Sex");
 
                     b.HasKey("Id");
@@ -189,10 +197,40 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("Persons");
                 });
 
+            modelBuilder.Entity("Pkdd.Models.Results.TestResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("LuscherComplete");
+
+                    b.Property<bool>("MmpiComplete");
+
+                    b.Property<int>("PersonId");
+
+                    b.Property<bool>("PhysiognomyComplete");
+
+                    b.Property<int>("PkddUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("PkddUserId");
+
+                    b.ToTable("TestResults");
+                });
+
             modelBuilder.Entity("Pkdd.Models.Users.PkddUser", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount");
 
@@ -246,7 +284,8 @@ namespace Pkdd.Database.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -254,7 +293,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Models.Users.Roles.PkddRoleBase", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -274,7 +314,8 @@ namespace Pkdd.Database.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
 
@@ -360,7 +401,9 @@ namespace Pkdd.Database.Migrations
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("MetaInformationId");
+                            b1.Property<int>("MetaInformationId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -377,16 +420,18 @@ namespace Pkdd.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Person.BaseBioBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Persons.BaseBioBlock", b =>
                 {
-                    b.HasOne("Pkdd.Models.Person.Person", "Person")
+                    b.HasOne("Pkdd.Models.Persons.Person", "Person")
                         .WithOne("BioBlock")
-                        .HasForeignKey("Pkdd.Models.Person.BaseBioBlock", "PersonId")
+                        .HasForeignKey("Pkdd.Models.Persons.BaseBioBlock", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("BaseBioBlockId");
+                            b1.Property<int>("BaseBioBlockId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -396,28 +441,28 @@ namespace Pkdd.Database.Migrations
 
                             b1.ToTable("MainBioBlocks");
 
-                            b1.HasOne("Pkdd.Models.Person.BaseBioBlock")
+                            b1.HasOne("Pkdd.Models.Persons.BaseBioBlock")
                                 .WithOne("TimeTrack")
                                 .HasForeignKey("Pkdd.Abstractions.TimeTrack", "BaseBioBlockId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Person.ContentBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Persons.ContentBlock", b =>
                 {
-                    b.HasOne("Pkdd.Models.Person.BaseBioBlock")
+                    b.HasOne("Pkdd.Models.Persons.BaseBioBlock")
                         .WithMany("ContentBlocks")
                         .HasForeignKey("BaseBioBlockId");
 
-                    b.HasOne("Pkdd.Models.Person.ContentBlock")
+                    b.HasOne("Pkdd.Models.Persons.ContentBlock")
                         .WithMany("SubBlocks")
                         .HasForeignKey("ContentBlockId");
 
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("ContentBlockId1");
-
-                            b1.Property<int>("ContentBlockId");
+                            b1.Property<int>("ContentBlockId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -427,18 +472,20 @@ namespace Pkdd.Database.Migrations
 
                             b1.ToTable("ContentBlocks");
 
-                            b1.HasOne("Pkdd.Models.Person.ContentBlock")
+                            b1.HasOne("Pkdd.Models.Persons.ContentBlock")
                                 .WithOne("TimeTrack")
-                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "ContentBlockId1")
+                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "ContentBlockId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
+            modelBuilder.Entity("Pkdd.Models.Persons.Person", b =>
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("PersonId");
+                            b1.Property<int>("PersonId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -448,9 +495,104 @@ namespace Pkdd.Database.Migrations
 
                             b1.ToTable("Persons");
 
-                            b1.HasOne("Pkdd.Models.Person.Person")
+                            b1.HasOne("Pkdd.Models.Persons.Person")
                                 .WithOne("TimeTrack")
                                 .HasForeignKey("Pkdd.Abstractions.TimeTrack", "PersonId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+                });
+
+            modelBuilder.Entity("Pkdd.Models.Results.TestResult", b =>
+                {
+                    b.HasOne("Pkdd.Models.Persons.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pkdd.Models.Users.PkddUser", "PkddUser")
+                        .WithMany()
+                        .HasForeignKey("PkddUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("Pkdd.Models.Results.LuscherResult", "Luscher", b1 =>
+                        {
+                            b1.Property<int>("TestResultId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.ToTable("TestResults");
+
+                            b1.HasOne("Pkdd.Models.Results.TestResult")
+                                .WithOne("Luscher")
+                                .HasForeignKey("Pkdd.Models.Results.LuscherResult", "TestResultId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Pkdd.Models.Results.MmpiResult", "Mmpi", b1 =>
+                        {
+                            b1.Property<int>("TestResultId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Depression");
+
+                            b1.Property<int>("Hypochondriasis");
+
+                            b1.Property<int>("Hypomania");
+
+                            b1.Property<int>("Hysteria");
+
+                            b1.Property<int>("Masculinity");
+
+                            b1.Property<int>("Paranoia");
+
+                            b1.Property<int>("Psychasthenia");
+
+                            b1.Property<int>("Psychopathia");
+
+                            b1.Property<int>("Schizophrenia");
+
+                            b1.Property<int>("Sociality");
+
+                            b1.ToTable("TestResults");
+
+                            b1.HasOne("Pkdd.Models.Results.TestResult")
+                                .WithOne("Mmpi")
+                                .HasForeignKey("Pkdd.Models.Results.MmpiResult", "TestResultId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Pkdd.Models.Results.PhysiognomyResult", "Physiognomy", b1 =>
+                        {
+                            b1.Property<int>("TestResultId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.ToTable("TestResults");
+
+                            b1.HasOne("Pkdd.Models.Results.TestResult")
+                                .WithOne("Physiognomy")
+                                .HasForeignKey("Pkdd.Models.Results.PhysiognomyResult", "TestResultId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
+                        {
+                            b1.Property<int>("TestResultId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Created");
+
+                            b1.Property<DateTime>("Deleted");
+
+                            b1.Property<DateTime>("Updated");
+
+                            b1.ToTable("TestResults");
+
+                            b1.HasOne("Pkdd.Models.Results.TestResult")
+                                .WithOne("TimeTrack")
+                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "TestResultId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
@@ -459,7 +601,9 @@ namespace Pkdd.Database.Migrations
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("PkddUserId");
+                            b1.Property<int>("PkddUserId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -480,7 +624,9 @@ namespace Pkdd.Database.Migrations
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("PkddRoleBaseId");
+                            b1.Property<int>("PkddRoleBaseId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 

@@ -5,48 +5,14 @@ using System.Text;
 
 namespace Pkdd.Abstractions.Entity
 {
-    [JsonObject]
     public abstract class EntityBase<TEntity> : IEntity<TEntity>
     {
-        public EntityBase()
-        {
-            MarkCreated();
-        }
+        public int Id { get; set; }
 
-        [JsonProperty("id")]
-        public virtual int Id { get; set; }
+        public TimeTrack TimeTrack { get; set; } = new TimeTrack();
 
-        [JsonProperty("timeTrack")]
-        public virtual TimeTrack TimeTrack { get; set; }
+        public bool IsDeleted { get; set; }
 
-        [JsonProperty("isDeleted")]
-        public virtual bool IsDeleted { get; set; }
-
-        public abstract TEntity Update(TEntity entity); 
-
-        public virtual void MarkDeleted()
-        {
-            if (!IsDeleted)
-            {
-                IsDeleted = true;
-                TimeTrack.Deleted = DateTime.Now;
-            }
-        }
-
-        public virtual void  MarkCreated()
-        {
-            TimeTrack = new TimeTrack
-            {
-                Created = DateTime.Now
-            };
-        }
-
-        public virtual void MarkUpdated()
-        {
-            TimeTrack = new TimeTrack
-            {
-                Updated = DateTime.Now
-            };
-        }
+        public abstract TEntity Update(TEntity entity);
     }
 }

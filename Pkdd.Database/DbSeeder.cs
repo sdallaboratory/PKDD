@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Pkdd.Models.Person;
+using Pkdd.Abstractions.Entity;
+using Pkdd.Models.Persons;
+using Pkdd.Models.Persons.Enums;
 using Pkdd.Models.Users.Roles;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Pkdd.Database
@@ -14,7 +15,7 @@ namespace Pkdd.Database
         private readonly PkddDbContext _context;
         private readonly RoleManager<PkddRoleBase> _roleManager;
 
-        private readonly int seedVersion = 1;
+        private readonly int seedVersion = 2;
 
         public DbSeeder(PkddDbContext context, RoleManager<PkddRoleBase> roleManager)
         {
@@ -22,7 +23,7 @@ namespace Pkdd.Database
             _roleManager = roleManager;
         }
 
-        public async Task Seed()
+        public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
 
@@ -39,7 +40,7 @@ namespace Pkdd.Database
             List<PkddRoleBase> roles = new List<PkddRoleBase>() { new PkddRoleAdmin(), new PkddRoleExpert(), new PkddRoleTech() };
             foreach (PkddRoleBase role in roles)
                 if (!await _roleManager.RoleExistsAsync(role.Name))
-                    await _roleManager.CreateAsync(role);
+                    await _roleManager.CreateAsync(role.MarkCreated());
         }
 
         private async Task<bool> IsAlreadySeededAsync()
@@ -61,7 +62,7 @@ namespace Pkdd.Database
                 new Person()
                 {
                     Name = "test",
-                    Sex = Models.Sexes.Male,
+                    Sex = Sexes.Male,
                     Birthday = DateTime.Now,
                     Position = "asdasd",
                     BioBlock = new BaseBioBlock()
@@ -72,20 +73,20 @@ namespace Pkdd.Database
                             {
                                 Tilte = "with inside",
                                 Content = "sadsad",
-                                Type = Models.Person.Enums.ContentType.Container,
+                                Type = Models.Persons.Enums.ContentType.Container,
                                 SubBlocks = new List<ContentBlock>()
                                 {
                                     new ContentBlock()
                                     {
                                         Tilte = "sub",
                                         Content = "subcont",
-                                        Type = Models.Person.Enums.ContentType.DateText,
+                                        Type = Models.Persons.Enums.ContentType.DateText,
                                         SubBlocks = new List<ContentBlock>()
                                         {
                                             new ContentBlock()
                                             {
                                                 Tilte = "subsub",
-                                                Type = Models.Person.Enums.ContentType.Photo,
+                                                Type = Models.Persons.Enums.ContentType.Photo,
                                                 Content = "asd"
                                             }
                                         }
@@ -94,13 +95,13 @@ namespace Pkdd.Database
                                     {
                                         Tilte = "sub",
                                         Content = "subcont",
-                                        Type = Models.Person.Enums.ContentType.DateText,
+                                        Type = Models.Persons.Enums.ContentType.DateText,
                                     },
                                     new ContentBlock()
                                     {
                                         Tilte = "sub",
                                         Content = "subcont",
-                                        Type = Models.Person.Enums.ContentType.DateText,
+                                        Type = Models.Persons.Enums.ContentType.DateText,
                                     },
 
                                 }
@@ -109,13 +110,13 @@ namespace Pkdd.Database
                             {
                                 Tilte = "sadsad",
                                 Content = "sadsad",
-                                Type = Models.Person.Enums.ContentType.Container,
+                                Type = Models.Persons.Enums.ContentType.Container,
                             },
                             new ContentBlock()
                             {
                                 Tilte = "sadsad",
                                 Content = "sadsad",
-                                Type = Models.Person.Enums.ContentType.Container,
+                                Type = Models.Persons.Enums.ContentType.Container,
                             }
                         }
                     }

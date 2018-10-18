@@ -1,5 +1,9 @@
-﻿namespace Pkdd.Models
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Pkdd.Models.Persons
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum Priority
     {
         /// <summary>

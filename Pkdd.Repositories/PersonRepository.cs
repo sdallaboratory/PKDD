@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pkdd.Database;
-using Pkdd.Models.Person;
+using Pkdd.Models.Persons;
 using Pkdd.Repositories.Exceptions;
 
 namespace Pkdd.Repositories
@@ -93,11 +93,11 @@ namespace Pkdd.Repositories
         {
             List<ContentBlock> result = null;
             try
-            { 
+            {
                 BaseBioBlock mainBlock = await _dbContext.MainBioBlocks.Include(b => b.ContentBlocks).FirstOrDefaultAsync(b => b.Id == baseBlockId);
-                if(mainBlock != null)
+                if (mainBlock != null)
                 {
-                    foreach(ContentBlock block in mainBlock.ContentBlocks)
+                    foreach (ContentBlock block in mainBlock.ContentBlocks)
                     {
                         await LoadBlocks(block);
                     }
@@ -121,7 +121,7 @@ namespace Pkdd.Repositories
             try
             {
                 person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync();
-                if(person == null)
+                if (person == null)
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }
@@ -188,7 +188,7 @@ namespace Pkdd.Repositories
                                                         .FirstOrDefaultAsync(p => p.Id == id);
                 if (person != null)
                 {
-                    foreach(ContentBlock block in person.BioBlock.ContentBlocks)
+                    foreach (ContentBlock block in person.BioBlock.ContentBlocks)
                     {
                         await RemoveBlocks(block);
                     }
@@ -253,7 +253,7 @@ namespace Pkdd.Repositories
         private async Task LoadBlocks(ContentBlock block)
         {
             await _dbContext.Entry(block).Collection(b => b.SubBlocks).LoadAsync();
-            foreach(ContentBlock subblock in block.SubBlocks)
+            foreach (ContentBlock subblock in block.SubBlocks)
             {
                 await LoadBlocks(subblock);
             }
@@ -264,15 +264,15 @@ namespace Pkdd.Repositories
             ContentBlock parent = await _dbContext.ContentBlocks.Where(b => b.CheckOrder(content.Order))
                                                                 .Include(b => b.SubBlocks)
                                                                 .FirstOrDefaultAsync();
-            if(parent == null)
+            if (parent == null)
             {
                 throw new NotFoundException("Сущность не найдена");
             }
-            var entity  = _dbContext.Entry(content);
+            var entity = _dbContext.Entry(content);
             parent.SubBlocks.Add(content);
             await _dbContext.SaveChangesAsync();
             return entity.Entity;
-            
+
         }
 
         private async Task RemoveBlocks(ContentBlock block)

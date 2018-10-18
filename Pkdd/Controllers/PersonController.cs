@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Common;
-using Pkdd.Models.Person;
+using Pkdd.Models.Persons;
 using Pkdd.Repositories;
 
 namespace Pkdd.Controllers
 {
     [Route("api/persons")]
+    [ApiController]
     public class PersonController : PkddControllerBase
     {
         private readonly IPersonRepository _personRepository;
@@ -83,6 +85,7 @@ namespace Pkdd.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> AddPerson([FromBody] Person person)
         {
             try
@@ -98,6 +101,7 @@ namespace Pkdd.Controllers
 
         [HttpPost]
         [Route("bio/{id?}/contents")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int? id = null)
         {
             try
@@ -113,6 +117,7 @@ namespace Pkdd.Controllers
 
         [HttpPut]
         [Route("")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> UpdatePerson([FromBody] Person person)
         {
             try
@@ -128,6 +133,7 @@ namespace Pkdd.Controllers
 
         [HttpPut]
         [Route("bio/contents")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> UpdateContentBlock([FromBody] ContentBlock block)
         {
             try
@@ -143,6 +149,7 @@ namespace Pkdd.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> DeletePerson([FromRoute] int id)
         {
             try
@@ -158,6 +165,7 @@ namespace Pkdd.Controllers
 
         [HttpDelete]
         [Route("bio/contents/{id}")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> DeleteContentBlock([FromRoute] int id)
         {
             try

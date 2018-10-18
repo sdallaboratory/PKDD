@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pkdd.Database;
 
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    partial class PkddDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181018183006_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +119,7 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("MetaInfos");
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Persons.BaseBioBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Person.BaseBioBlock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +137,7 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("MainBioBlocks");
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Persons.ContentBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Person.ContentBlock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +171,7 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("ContentBlocks");
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Persons.Person", b =>
+            modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -186,8 +188,6 @@ namespace Pkdd.Database.Migrations
                     b.Property<string>("Position")
                         .HasMaxLength(500);
 
-                    b.Property<int>("Priority");
-
                     b.Property<int>("Sex");
 
                     b.HasKey("Id");
@@ -201,25 +201,15 @@ namespace Pkdd.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Comment");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("LuscherComplete");
 
                     b.Property<bool>("MmpiComplete");
 
-                    b.Property<int>("PersonId");
-
                     b.Property<bool>("PhysiognomyComplete");
 
-                    b.Property<int>("PkddUserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PersonId");
-
-                    b.HasIndex("PkddUserId");
 
                     b.ToTable("TestResults");
                 });
@@ -418,11 +408,11 @@ namespace Pkdd.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Persons.BaseBioBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Person.BaseBioBlock", b =>
                 {
-                    b.HasOne("Pkdd.Models.Persons.Person", "Person")
+                    b.HasOne("Pkdd.Models.Person.Person", "Person")
                         .WithOne("BioBlock")
-                        .HasForeignKey("Pkdd.Models.Persons.BaseBioBlock", "PersonId")
+                        .HasForeignKey("Pkdd.Models.Person.BaseBioBlock", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
@@ -439,20 +429,20 @@ namespace Pkdd.Database.Migrations
 
                             b1.ToTable("MainBioBlocks");
 
-                            b1.HasOne("Pkdd.Models.Persons.BaseBioBlock")
+                            b1.HasOne("Pkdd.Models.Person.BaseBioBlock")
                                 .WithOne("TimeTrack")
                                 .HasForeignKey("Pkdd.Abstractions.TimeTrack", "BaseBioBlockId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Persons.ContentBlock", b =>
+            modelBuilder.Entity("Pkdd.Models.Person.ContentBlock", b =>
                 {
-                    b.HasOne("Pkdd.Models.Persons.BaseBioBlock")
+                    b.HasOne("Pkdd.Models.Person.BaseBioBlock")
                         .WithMany("ContentBlocks")
                         .HasForeignKey("BaseBioBlockId");
 
-                    b.HasOne("Pkdd.Models.Persons.ContentBlock")
+                    b.HasOne("Pkdd.Models.Person.ContentBlock")
                         .WithMany("SubBlocks")
                         .HasForeignKey("ContentBlockId");
 
@@ -470,14 +460,14 @@ namespace Pkdd.Database.Migrations
 
                             b1.ToTable("ContentBlocks");
 
-                            b1.HasOne("Pkdd.Models.Persons.ContentBlock")
+                            b1.HasOne("Pkdd.Models.Person.ContentBlock")
                                 .WithOne("TimeTrack")
                                 .HasForeignKey("Pkdd.Abstractions.TimeTrack", "ContentBlockId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Pkdd.Models.Persons.Person", b =>
+            modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
@@ -493,7 +483,7 @@ namespace Pkdd.Database.Migrations
 
                             b1.ToTable("Persons");
 
-                            b1.HasOne("Pkdd.Models.Persons.Person")
+                            b1.HasOne("Pkdd.Models.Person.Person")
                                 .WithOne("TimeTrack")
                                 .HasForeignKey("Pkdd.Abstractions.TimeTrack", "PersonId")
                                 .OnDelete(DeleteBehavior.Cascade);
@@ -502,16 +492,6 @@ namespace Pkdd.Database.Migrations
 
             modelBuilder.Entity("Pkdd.Models.Results.TestResult", b =>
                 {
-                    b.HasOne("Pkdd.Models.Persons.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pkdd.Models.Users.PkddUser", "PkddUser")
-                        .WithMany()
-                        .HasForeignKey("PkddUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.OwnsOne("Pkdd.Models.Results.LuscherResult", "Luscher", b1 =>
                         {
                             b1.Property<int>("TestResultId")

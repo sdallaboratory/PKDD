@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Enums = Pkdd.Models.Person.Enums;
+using Enums = Pkdd.Models.Persons.Enums;
 
-namespace Pkdd.Models.Person
+namespace Pkdd.Models.Persons
 {
     [JsonObject]
     public class ContentBlock: EntityBase<ContentBlock>
@@ -36,7 +36,7 @@ namespace Pkdd.Models.Person
         /// <summary>
         /// String with format  "\/?\d+" (int/int/int/...)
         /// </summary>
-        [RegularExpression(@"\/?\d+")]
+        [RegularExpression(orderPattern)]
         [JsonProperty("order")]
         public string Order { get; set; }
 
@@ -48,11 +48,11 @@ namespace Pkdd.Models.Person
             Content = content.Content;
             Comment = content.Comment;
             Order = content.Order;
-            MarkUpdated();
+            this.MarkUpdated();
             return this;
         }
 
-        private readonly string orderPattern = @"\/?\d+";
+        private const string orderPattern = @"\/?\d+";
 
         public bool CheckOrder(string order)
         {

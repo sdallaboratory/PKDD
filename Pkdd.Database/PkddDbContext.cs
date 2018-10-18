@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Pkdd.Models.Person;
+using Pkdd.Models.Persons;
+using Pkdd.Models.Results;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 
@@ -19,6 +20,8 @@ namespace Pkdd.Database
         public DbSet<MetaInformation> MetaInfos { get; set; }
 
         public DbSet<BaseBioBlock> MainBioBlocks { get; set; }
+
+        public DbSet<TestResult> TestResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

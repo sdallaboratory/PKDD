@@ -26,31 +26,6 @@ namespace Pkdd.Models.Users
             UserName = Email + DateTime.Now.Millisecond;
         }
 
-        public void MarkDeleted()
-        {
-            if (!IsDeleted)
-            {
-                IsDeleted = true;
-                TimeTrack.Deleted = DateTime.Now;
-            }
-        }
-
-        public void MarkCreated()
-        {
-            TimeTrack = new TimeTrack
-            {
-                Created = DateTime.Now
-            };
-        }
-
-        public void MarkUpdated()
-        {
-            TimeTrack = new TimeTrack
-            {
-                Updated = DateTime.Now
-            };
-        }
-
         public PkddUser Update(PkddUser entity)
         {
             Name = entity.Name;

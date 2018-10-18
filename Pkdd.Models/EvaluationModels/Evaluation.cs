@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Pkdd.Models;
-using Pkdd.Models.Person;
+using Pkdd.Models.Persons;
 
 namespace XTool.Models.EvaluationModels
 {

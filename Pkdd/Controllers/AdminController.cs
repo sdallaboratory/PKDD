@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Common;
@@ -14,6 +15,8 @@ using Pkdd.Users;
 namespace Pkdd.Controllers
 {
     [Route("api/admin")]
+    [ApiController]
+    [Authorize(Roles = "admin")]
     public class AdminController : PkddControllerBase
     {
         private readonly IPkddUserRepository repository;
@@ -70,7 +73,7 @@ namespace Pkdd.Controllers
         }
 
         [HttpPost("{id}/ban")]
-        public async Task<IActionResult> BanOrUnbanUser([FromRoute] int id, [FromBody] BanRequest request)
+        public async Task<IActionResult> SetUserBanStatus([FromRoute] int id, [FromBody] BanRequest request)
         {
             IActionResult result = null;
             try
