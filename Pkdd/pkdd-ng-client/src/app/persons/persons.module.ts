@@ -1,3 +1,4 @@
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonsListComponent } from './components/persons-list/persons-list.component';
@@ -13,13 +14,27 @@ import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.compon
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
+import { ContentBlockComponent } from './components/content-blocks/content-block/content-block.component';
+import { TextBlockComponent } from './components/content-blocks/text-block/text-block.component';
+import { DateTextBlockComponent } from './components/content-blocks/date-text-block/date-text-block.component';
+import { PhotoBlockComponent } from './components/content-blocks/photo-block/photo-block.component';
+import { VideoBlockComponent } from './components/content-blocks/video-block/video-block.component';
+import { PublicationBlockComponent } from './components/content-blocks/publication-block/publication-block.component';
+import { AddCardComponent } from './components/content-blocks/add-card/add-card.component';
+import { ContentComponent } from './components/content-blocks/content/content.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { SexTypePipe } from './pipes/sex-type.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthModule,
     MaterialImportsModule,
-    PersonsRoutingModule
+    PersonsRoutingModule,
+    FormsModule,
+    BrowserModule,
+    MDBBootstrapModule,
   ],
   declarations: [
     PersonsListComponent,
@@ -31,6 +46,16 @@ import { PersonResultsComponent } from './components/person-results/person-resul
     PersonMmpiComponent,
     PersonLuscherComponent,
     PersonPhysiognomyComponent,
-    PersonResultsComponent]
+    PersonResultsComponent,
+    ContentBlockComponent,
+    TextBlockComponent,
+    DateTextBlockComponent,
+    PhotoBlockComponent,
+    VideoBlockComponent,
+    PublicationBlockComponent,
+    AddCardComponent,
+    ContentComponent,
+    SexTypePipe,
+    ],
 })
 export class PersonsModule { }

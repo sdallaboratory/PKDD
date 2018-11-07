@@ -1,10 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Pkdd.Database.Migrations
 {
-    public partial class Init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
@@ -33,7 +33,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -68,7 +68,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TimeTrack_Created = table.Column<DateTime>(nullable: false),
                     TimeTrack_Updated = table.Column<DateTime>(nullable: false),
                     TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
@@ -85,7 +85,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TimeTrack_Created = table.Column<DateTime>(nullable: false),
                     TimeTrack_Updated = table.Column<DateTime>(nullable: false),
                     TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
@@ -93,7 +93,9 @@ namespace Pkdd.Database.Migrations
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Sex = table.Column<int>(nullable: false),
                     Birthday = table.Column<DateTime>(nullable: false),
-                    Position = table.Column<string>(maxLength: 500, nullable: true)
+                    Position = table.Column<string>(maxLength: 500, nullable: true),
+                    PhotoUrl = table.Column<string>(nullable: true),
+                    IsPublished = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,7 +107,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -126,7 +128,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -211,7 +213,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TimeTrack_Created = table.Column<DateTime>(nullable: false),
                     TimeTrack_Updated = table.Column<DateTime>(nullable: false),
                     TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
@@ -234,7 +236,7 @@ namespace Pkdd.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TimeTrack_Created = table.Column<DateTime>(nullable: false),
                     TimeTrack_Updated = table.Column<DateTime>(nullable: false),
                     TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
@@ -275,7 +277,8 @@ namespace Pkdd.Database.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -301,7 +304,8 @@ namespace Pkdd.Database.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContentBlocks_BaseBioBlockId",

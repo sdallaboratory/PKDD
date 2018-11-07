@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+
 
 import {
   MatButtonModule,
@@ -11,7 +13,15 @@ import {
   MatCheckboxModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
-  MatChipsModule
+  MatChipsModule,
+  MatSelectModule,
+  MatMenuModule,
+  MatListModule,
+  MatDatepickerModule,
+  DateAdapter,
+  MatRadioModule,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
 } from '@angular/material';
 
 const imports = [
@@ -25,11 +35,30 @@ const imports = [
   MatCheckboxModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
-  MatChipsModule
+  MatChipsModule,
+  MatSelectModule,
+  MatMenuModule,
+  MatListModule,
+  MatDatepickerModule,
+  MatMomentDateModule,
+  MatRadioModule
 ];
 
 @NgModule({
   imports: imports,
-  exports: imports
+  exports: imports,
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    {
+      provide: MAT_DATE_FORMATS, useValue: {
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'DD/MM/YYYY',
+          dateA11yLabel: 'DD/MM/YYYY',
+          monthYearA11yLabel: 'DD/MM/YYYY',
+        },
+      }
+    },
+  ]
 })
 export class MaterialImportsModule { }

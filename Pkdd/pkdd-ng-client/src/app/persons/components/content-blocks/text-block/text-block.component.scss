@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    height: 100%;
+}
+
+mat-form-field {
+    height: 100%;
+    width: 100%;
+}
+
+.text {
+    display: flex;
+    word-break: break-all;
+}

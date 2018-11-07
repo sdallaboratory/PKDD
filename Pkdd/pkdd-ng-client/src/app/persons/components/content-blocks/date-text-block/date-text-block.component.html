@@ -1,0 +1,39 @@
+<div class="table-wrapper" *ngIf="!(!edit && !isEmptyContent)">
+  <div class="date-column">
+    <div *ngIf="edit" class="date-wrapper">
+      <mat-form-field class="date-input">
+        <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="firstDate" [(ngModel)]="content.period.firstDate">
+        <mat-datepicker-toggle matSuffix [for]="firstDate"></mat-datepicker-toggle>
+      </mat-form-field>
+      <mat-datepicker #firstDate></mat-datepicker>
+      <mat-form-field class="date-input">
+        <input matInput placeholder="MM/DD/YYYY" class="date-input" [matDatepicker]="secondDate" [(ngModel)]="content.period.secondDate">
+        <mat-datepicker-toggle matSuffix [for]="secondDate"></mat-datepicker-toggle>
+      </mat-form-field>
+      <mat-datepicker #secondDate></mat-datepicker>
+    </div>
+    <div *ngIf="!edit" class="date-wrapper">
+      <span class="text">
+        {{content.period.firstDate | date : 'dd/MM/yyyy'}}
+      </span>
+      <span class="text">
+        -
+      </span>
+      <span class="text">
+        {{content.period.secondDate | date : 'dd/MM/yyyy'}}
+      </span>
+    </div>
+
+  </div>
+  <div class="text-column">
+    <div *ngIf="edit" class="text-wrapper">
+      <mat-form-field class="text-wrapper">
+        <textarea matInput [(ngModel)]="content.text.content" [matTextareaAutosize]="true">
+        </textarea>
+      </mat-form-field>
+    </div>
+    <div *ngIf="!edit" class="text">
+      {{content.text.content}}
+    </div>
+  </div>
+</div>

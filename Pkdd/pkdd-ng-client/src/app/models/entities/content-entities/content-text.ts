@@ -1,4 +1,7 @@
 export class ContentText {
-    content: string;
-    isQuote: boolean;
+    constructor(
+        public content = '',
+        public isQuote = false) {
+
+    }
 }

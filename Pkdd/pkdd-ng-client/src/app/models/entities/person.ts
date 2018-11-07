@@ -11,6 +11,8 @@ abstract class AbstractPerson implements IEntity {
     sex: Sexes;
     birthday: Date;
     position: string;
+    photoUrl: string;
+    isPublished: boolean;
 
     constructor(person: AbstractPerson) {
         this.id = person.id;
@@ -20,6 +22,8 @@ abstract class AbstractPerson implements IEntity {
         this.sex = person.sex;
         this.birthday = person.birthday;
         this.position = person.position;
+        this.photoUrl = person.photoUrl;
+        this.isPublished = person.isPublished;
     }
 }
 

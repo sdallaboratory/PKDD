@@ -11,7 +11,7 @@ using Enums = Pkdd.Models.Person.Enums;
 namespace Pkdd.Models.Person
 {
     [JsonObject]
-    public class ContentBlock: EntityBase<ContentBlock>
+    public class ContentBlock: IEntity<ContentBlock>
     {
         [JsonProperty("title")]
         public string Tilte { get; set; }   
@@ -39,8 +39,10 @@ namespace Pkdd.Models.Person
         [RegularExpression(@"\/?\d+")]
         [JsonProperty("order")]
         public string Order { get; set; }
+        public int Id { get; set; }
+        public bool IsDeleted { get; set; }
 
-        public override ContentBlock Update(ContentBlock content)
+        public ContentBlock Update(ContentBlock content)
         {
             Tilte = content.Tilte;
             Subtitle = content.Subtitle;
@@ -48,7 +50,6 @@ namespace Pkdd.Models.Person
             Content = content.Content;
             Comment = content.Comment;
             Order = content.Order;
-            MarkUpdated();
             return this;
         }
 
@@ -68,6 +69,21 @@ namespace Pkdd.Models.Person
                 return false;
             }
             return thisOrder.SequenceEqual(checkOrder);
+        }
+
+        public void MarkCreated()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDeleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkUpdated()
+        {
+            throw new NotImplementedException();
         }
     }
 }

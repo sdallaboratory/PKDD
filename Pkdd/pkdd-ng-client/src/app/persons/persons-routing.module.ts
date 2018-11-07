@@ -15,6 +15,7 @@ import { PersonResultsComponent } from './components/person-results/person-resul
 import { MenuItem } from '../models/core/menu-item';
 import { PersonMenuResolver } from './resolvers/person-menu-resolver';
 import { PersonsResolverService } from './resolvers/persons-resolver.service';
+import { PersonResolverService } from './resolvers/person-resolver.service';
 
 const personsRoutes: Routes = [
   {
@@ -30,11 +31,18 @@ const personsRoutes: Routes = [
           path: ':id',
           component: PersonDetailsPageComponent,
           resolve: {
-            menu: PersonMenuResolver
-          },
+            menu: PersonMenuResolver,
+            personModel: PersonResolverService
+            },
           children: [
             { path: '', component: PersonInfoComponent },
-            { path: 'edit', component: PersonEditComponent },
+            {
+              path: 'edit',
+              component: PersonEditComponent,
+              resolve: {
+                personModel: PersonResolverService
+              }
+            },
             { path: 'mmpi', component: PersonMmpiComponent },
             { path: 'luscher', component: PersonLuscherComponent },
             { path: 'physiognomy', component: PersonPhysiognomyComponent },

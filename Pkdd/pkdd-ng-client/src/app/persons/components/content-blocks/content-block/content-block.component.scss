@@ -1,0 +1,32 @@
+.wrapper {
+  border: 7px solid rgb(255, 255, 0);
+}
+
+.block {
+  border: 2px solid yellow;
+  margin: 3px;
+  padding: 0;
+  background: white;
+}
+
+header {
+  padding: 6px;
+  background: rgb(255, 255, 90);
+}
+
+section {
+  padding: 12px;
+}
+
+.title-input,
+.subtitle-input {
+  width: 80%;
+}
+
+.subtitle, .subtitle-input {
+  color: #494949;
+}
+
+mat-select {
+  margin: 3px;
+}

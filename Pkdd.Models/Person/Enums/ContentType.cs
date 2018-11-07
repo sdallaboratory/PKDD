@@ -7,8 +7,6 @@ namespace Pkdd.Models.Person.Enums
     public enum ContentType
     {
         Container,
-        PhotoContainer,
-        VideoConteiner,
         Text,
         DateText,
         Photo,

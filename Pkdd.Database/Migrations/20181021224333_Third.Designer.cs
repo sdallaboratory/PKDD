@@ -2,29 +2,30 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pkdd.Database;
 
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    [Migration("20181008150602_Init")]
-    partial class Init
+    [Migration("20181021224333_Third")]
+    partial class Third
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -42,7 +43,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -105,7 +107,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Database.MetaInformation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -119,7 +122,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Models.Person.BaseBioBlock", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -136,7 +140,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Models.Person.ContentBlock", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("BaseBioBlockId");
 
@@ -169,15 +174,20 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Birthday");
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsPublished");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
+
+                    b.Property<string>("PhotoUrl");
 
                     b.Property<string>("Position")
                         .HasMaxLength(500);
@@ -192,7 +202,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Models.Users.PkddUser", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount");
 
@@ -246,7 +257,8 @@ namespace Pkdd.Database.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -254,7 +266,8 @@ namespace Pkdd.Database.Migrations
             modelBuilder.Entity("Pkdd.Models.Users.Roles.PkddRoleBase", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -274,7 +287,8 @@ namespace Pkdd.Database.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
 
@@ -360,7 +374,9 @@ namespace Pkdd.Database.Migrations
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("MetaInformationId");
+                            b1.Property<int>("MetaInformationId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -386,7 +402,9 @@ namespace Pkdd.Database.Migrations
 
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("BaseBioBlockId");
+                            b1.Property<int>("BaseBioBlockId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -412,33 +430,15 @@ namespace Pkdd.Database.Migrations
                     b.HasOne("Pkdd.Models.Person.ContentBlock")
                         .WithMany("SubBlocks")
                         .HasForeignKey("ContentBlockId");
-
-                    b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
-                        {
-                            b1.Property<int>("ContentBlockId1");
-
-                            b1.Property<int>("ContentBlockId");
-
-                            b1.Property<DateTime>("Created");
-
-                            b1.Property<DateTime>("Deleted");
-
-                            b1.Property<DateTime>("Updated");
-
-                            b1.ToTable("ContentBlocks");
-
-                            b1.HasOne("Pkdd.Models.Person.ContentBlock")
-                                .WithOne("TimeTrack")
-                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "ContentBlockId1")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("Pkdd.Models.Person.Person", b =>
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("PersonId");
+                            b1.Property<int>("PersonId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -459,7 +459,9 @@ namespace Pkdd.Database.Migrations
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("PkddUserId");
+                            b1.Property<int>("PkddUserId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 
@@ -480,7 +482,9 @@ namespace Pkdd.Database.Migrations
                 {
                     b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
                         {
-                            b1.Property<int>("PkddRoleBaseId");
+                            b1.Property<int>("PkddRoleBaseId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("Created");
 

@@ -36,7 +36,7 @@ namespace Pkdd
             }));
 
             services.AddDbContext<PkddDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<PkddUser, PkddRoleBase>(options =>
             {
@@ -56,6 +56,8 @@ namespace Pkdd
             services.AddTransient<DbSeeder, DbSeeder>();
 
             services.AddPkddUsers();
+
+            services.AddLogging();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
