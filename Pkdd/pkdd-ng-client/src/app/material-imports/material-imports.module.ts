@@ -20,6 +20,7 @@ import {
   MatDatepickerModule,
   DateAdapter,
   MatRadioModule,
+  MatExpansionModule,
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
 } from '@angular/material';
@@ -41,7 +42,8 @@ const imports = [
   MatListModule,
   MatDatepickerModule,
   MatMomentDateModule,
-  MatRadioModule
+  MatRadioModule,
+  MatExpansionModule
 ];
 
 @NgModule({

@@ -17,14 +17,12 @@ export class PersonsResolverService implements Resolve<Person[]> {
   ) { }
 
   // public async resolve() {
-  //   // TODO: fetch data through PersonProviderService
   //   const persons = await this.хттп.get<Person[]>('/api/persons');
   //   this.menu.sideMenuItems = null;
   //   return persons;
   // }
 
   public async resolve() {
-    // TODO: fetch data through ServerDataStorageServicec
     const persons = await this.storage.getPersons();
     this.menu.sideMenuItems = null;
     return persons;

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestResult } from '../../models/persons/results/test-result';
 import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { ServerDataStorageService } from '../../core/services/server-data-storage.service';
 import { AuthService } from '../../auth/services/auth.service';
-import { MmpiResult } from '../../models/persons/results/mmpi-result';
 import { ResultsProviderService } from 'src/app/test/services/results-provider.service';
 
 @Injectable({
@@ -21,7 +19,9 @@ export class ResultsResolverService implements Resolve<TestResult> {
     state: RouterStateSnapshot
   ): Promise<TestResult> {
     const user = await this.auth.getUserAsync();
-    const result = await this.provider.get(1, user.id);
+    // TODO: универсализировать источник id
+    const personId = +route.parent.paramMap.get('id');
+    const result = await this.provider.get(personId, user.id);
     return result;
   }
 }

@@ -1,18 +1,18 @@
-<p>
-  person-mmpi works!
-</p>
-<!-- <div *ngFor="let scale of scales">
-  {{scale.name}} => {{scale.value}}
-</div> -->
-<pkdd-aligner>
+<div class="wrapper">
+  <h1>Тест MMPI</h1>
+  Внимательно изучите <a routerLink="..">информацию о персоне</a>. Примените полученные знания для определения значений каждой из 10 шкал MMPI.
+  <div class="columns-container">
     <pkdd-chart [config]="chartConfig"></pkdd-chart>
+    <!-- <mat-expansion-panel *ngIf="scales">
+    <mat-expansion-panel-header>
+      Ввести с помощью обычных числовых полей.
+    </mat-expansion-panel-header>
+    <div *ngFor="let scale of scales">
+      <input matInput type="number" [placeholder]="scale.name" [(ngModel)]="scale.value">
+    </div>
+  </mat-expansion-panel> -->
     <button mat-button (click)="onSave()">
       Сохранить результаты
     </button>
-</pkdd-aligner>
-<div class="columns-container">
-  <pkdd-chart [config]="chartConfig"></pkdd-chart>
-  <button mat-button (click)="onSave()">
-    Сохранить результаты
-  </button>
+  </div>
 </div>

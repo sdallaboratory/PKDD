@@ -12,7 +12,7 @@ html, body {
     min-height: 500px;
     font-family: Helvetica, Arial, sans-serif;
     background: lightgray;
-    overflow: hidden;
+    // overflow: hidden;
 }
 
 @media(max-width: 900px) {
@@ -22,7 +22,6 @@ html, body {
 a {
     color: black;
     text-decoration: none !important;
-
 }
 
 .flex-splitter {
