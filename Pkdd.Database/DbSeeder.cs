@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Pkdd.Abstractions.Entity;
 using Pkdd.Models.Persons;
 using Pkdd.Models.Persons.Enums;
-using Pkdd.Models.Person;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 using System;
@@ -74,7 +73,7 @@ namespace Pkdd.Database
             Person person = new Person()
             {
                 Name = "Первый",
-                Sex = Models.Sexes.Undefined,
+                Sex = Sexes.Undefined,
                 Birthday = new DateTime(),
                 Position = "",
                 PhotoUrl = "",
@@ -87,7 +86,7 @@ namespace Pkdd.Database
                         {
                             Tilte = "Title",
                             Subtitle = "",
-                            Type = Models.Person.Enums.ContentType.Container,
+                            Type = ContentType.Container,
                             Content = "",
                             Order = "0/",
                             SubBlocks = new List<ContentBlock>(),

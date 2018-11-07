@@ -12,7 +12,8 @@ export class PersonsResolverService implements Resolve<Person[]> {
 
   constructor(
     private readonly menu: MenuService,
-    private readonly хттп: PkddHttpService
+    private readonly хттп: PkddHttpService,
+    private readonly storage: ServerDataStorageService
   ) { }
 
   // public async resolve() {

@@ -32,8 +32,6 @@ namespace Pkdd.Models.Persons
         [JsonProperty("bioBlock")]
         public BaseBioBlock BioBlock { get; set; }
 
-        public BaseBioBlock BioBlock { get; set; }
-
         public override Person Update(Person entity)
         {
             Name = entity.Name;

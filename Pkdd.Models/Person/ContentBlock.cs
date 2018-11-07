@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Pkdd.Abstractions;
 using Pkdd.Abstractions.Entity;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ namespace Pkdd.Models.Persons
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
 
+        public TimeTrack TimeTrack { get; set; } = new TimeTrack();
+
         public ContentBlock Update(ContentBlock content)
         {
             Tilte = content.Tilte;
@@ -70,21 +73,6 @@ namespace Pkdd.Models.Persons
                 return false;
             }
             return thisOrder.SequenceEqual(checkOrder);
-        }
-
-        public void MarkCreated()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MarkDeleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MarkUpdated()
-        {
-            throw new NotImplementedException();
         }
     }
 }

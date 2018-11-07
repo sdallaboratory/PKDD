@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Pkdd.Models.Results;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Pkdd.Models.Person;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
+using Pkdd.Models.Persons;
 
 namespace Pkdd.Database
 {
