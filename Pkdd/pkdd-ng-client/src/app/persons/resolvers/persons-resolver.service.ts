@@ -15,10 +15,16 @@ export class PersonsResolverService implements Resolve<Person[]> {
     private readonly хттп: PkddHttpService
   ) { }
 
+  // public async resolve() {
+  //   // TODO: fetch data through PersonProviderService
+  //   const persons = await this.хттп.get<Person[]>('/api/persons');
+  //   this.menu.sideMenuItems = null;
+  //   private readonly storage: ServerDataStorageService,
+  // ) { }
+
   public async resolve() {
-    // TODO: fetch data through PersonProviderService
-    const persons = await this.хттп.get<Person[]>('/api/persons');
-    this.menu.sideMenuItems = null;
+    // TODO: fetch data through ServerDataStorageServicec
+    const persons = await this.storage.getPersons();
     return persons;
   }
 

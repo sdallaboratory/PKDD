@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { last, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
-import { PkddUser } from '../../models/auth/pkdd-user';
 import { promisify } from 'src/app/core/utils/promisify';
 
 @Injectable({

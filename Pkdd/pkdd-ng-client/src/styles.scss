@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~bootstrap/dist/css/bootstrap.css";
 
 html, body {
     width: 100%;
@@ -20,7 +21,7 @@ html, body {
 
 a {
     color: black;
-    text-decoration: none;
+    text-decoration: none !important;
 
 }
 

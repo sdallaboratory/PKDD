@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Pkdd.Abstractions.Entity;
 using Pkdd.Models.Persons;
 using Pkdd.Models.Persons.Enums;
+using Pkdd.Models.Person;
+using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 using System;
 using System.Collections.Generic;
@@ -14,13 +16,15 @@ namespace Pkdd.Database
     {
         private readonly PkddDbContext _context;
         private readonly RoleManager<PkddRoleBase> _roleManager;
+        private readonly UserManager<PkddUser> _userManager;
 
         private readonly int seedVersion = 2;
 
-        public DbSeeder(PkddDbContext context, RoleManager<PkddRoleBase> roleManager)
+        public DbSeeder(PkddDbContext context, RoleManager<PkddRoleBase> roleManager, UserManager<PkddUser> userManager)
         {
             _context = context;
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public async Task SeedAsync()
@@ -31,6 +35,7 @@ namespace Pkdd.Database
                 return;
 
             await SeedRolesAsync();
+            await SeedAdmin();
             await SeedPersonsAsync();
             await SeedMetaInformationAsync();
         }
@@ -41,6 +46,15 @@ namespace Pkdd.Database
             foreach (PkddRoleBase role in roles)
                 if (!await _roleManager.RoleExistsAsync(role.Name))
                     await _roleManager.CreateAsync(role.MarkCreated());
+        }
+
+        private async Task SeedAdmin()
+        {
+            PkddUser admin = new PkddUser() { Name = "Петр Андреевич Вяземский", Email = "admin@email.io" };
+            admin.FillUserName();
+            var result = await _userManager.CreateAsync(admin, "admin123321");
+            var person = await _userManager.FindByEmailAsync("admin@email.io");
+            await _userManager.AddToRolesAsync(person, new List<string>() { "admin", "tech", "expert" });
         }
 
         private async Task<bool> IsAlreadySeededAsync()
@@ -57,72 +71,31 @@ namespace Pkdd.Database
 
         private async Task SeedPersonsAsync()
         {
-            List<Person> persons = new List<Person>()
+            Person person = new Person()
             {
-                new Person()
+                Name = "Первый",
+                Sex = Models.Sexes.Undefined,
+                Birthday = new DateTime(),
+                Position = "",
+                PhotoUrl = "",
+                IsPublished = true,
+                BioBlock = new BaseBioBlock()
                 {
-                    Name = "test",
-                    Sex = Sexes.Male,
-                    Birthday = DateTime.Now,
-                    Position = "asdasd",
-                    BioBlock = new BaseBioBlock()
+                    ContentBlocks = new List<ContentBlock>()
                     {
-                        ContentBlocks = new List<ContentBlock>()
+                        new ContentBlock()
                         {
-                            new ContentBlock()
-                            {
-                                Tilte = "with inside",
-                                Content = "sadsad",
-                                Type = Models.Persons.Enums.ContentType.Container,
-                                SubBlocks = new List<ContentBlock>()
-                                {
-                                    new ContentBlock()
-                                    {
-                                        Tilte = "sub",
-                                        Content = "subcont",
-                                        Type = Models.Persons.Enums.ContentType.DateText,
-                                        SubBlocks = new List<ContentBlock>()
-                                        {
-                                            new ContentBlock()
-                                            {
-                                                Tilte = "subsub",
-                                                Type = Models.Persons.Enums.ContentType.Photo,
-                                                Content = "asd"
-                                            }
-                                        }
-                                    },
-                                    new ContentBlock()
-                                    {
-                                        Tilte = "sub",
-                                        Content = "subcont",
-                                        Type = Models.Persons.Enums.ContentType.DateText,
-                                    },
-                                    new ContentBlock()
-                                    {
-                                        Tilte = "sub",
-                                        Content = "subcont",
-                                        Type = Models.Persons.Enums.ContentType.DateText,
-                                    },
-
-                                }
-                            },
-                            new ContentBlock()
-                            {
-                                Tilte = "sadsad",
-                                Content = "sadsad",
-                                Type = Models.Persons.Enums.ContentType.Container,
-                            },
-                            new ContentBlock()
-                            {
-                                Tilte = "sadsad",
-                                Content = "sadsad",
-                                Type = Models.Persons.Enums.ContentType.Container,
-                            }
+                            Tilte = "Title",
+                            Subtitle = "",
+                            Type = Models.Person.Enums.ContentType.Container,
+                            Content = "",
+                            Order = "0/",
+                            SubBlocks = new List<ContentBlock>(),
                         }
                     }
                 }
             };
-            await _context.AddRangeAsync(persons);
+            await _context.Persons.AddAsync(person);
             await _context.SaveChangesAsync();
         }
     }

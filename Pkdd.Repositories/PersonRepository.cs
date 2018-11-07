@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Pkdd.Database;
 using Pkdd.Models.Persons;
 using Pkdd.Repositories.Exceptions;
@@ -19,16 +21,16 @@ namespace Pkdd.Repositories
             _dbContext = context;
         }
 
-        public async Task<ContentBlock> AddContentBlock(int? bioBlockId, ContentBlock content)
+        public async Task<ContentBlock> AddContentBlock(int bioBlockId, ContentBlock content, int? parentId)
         {
             ContentBlock result = null;
             try
             {
-                if (bioBlockId.HasValue)
+                if (!parentId.HasValue)
                 {
                     BaseBioBlock mainBlock = await _dbContext.MainBioBlocks
                                                              .Include(b => b.ContentBlocks)
-                                                             .FirstOrDefaultAsync(b => b.Id == bioBlockId.Value);
+                                                             .FirstOrDefaultAsync(b => b.Id == bioBlockId);
                     if (mainBlock != null)
                     {
                         var entity = _dbContext.Entry(content);
@@ -43,14 +45,14 @@ namespace Pkdd.Repositories
                 }
                 else
                 {
-                    var block = await AddToParent(content);
+                    var block = await AddToParent(content, parentId.Value);
                     await LoadBlocks(block);
                     result = block;
                 }
             }
             catch (Exception ex)
             {
-                ThrowException(ex);
+                throw ex;
             }
             return result;
         }
@@ -60,9 +62,13 @@ namespace Pkdd.Repositories
             Person result = null;
             try
             {
-                var entity = await _dbContext.Persons.AddAsync(person);
+                person.Id = default;
+                var entity = _dbContext.Persons.Add(person);
                 await _dbContext.SaveChangesAsync();
                 result = entity.Entity;
+                result.Name = $"Новая персона {result.Id}";
+                _dbContext.Update(result);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -77,7 +83,7 @@ namespace Pkdd.Repositories
             try
             {
                 persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
-                if (persons == null || !persons.Any())
+                if (persons == null)
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }
@@ -115,6 +121,25 @@ namespace Pkdd.Repositories
             return result;
         }
 
+        public async Task<List<ContentBlock>> GetAllContentBlocks()
+        {
+
+            List<ContentBlock> result = null;
+            try
+            {
+                result = await _dbContext.ContentBlocks.ToListAsync();
+                if (result == null || !result.Any())
+                {
+                    throw new NotFoundException("Сущность не найдена");
+                }
+            }
+            catch (Exception ex)
+            {
+                ThrowException(ex);
+            }
+            return result;
+        }
+
         public async Task<Person> GetPerson(int id)
         {
             Person person = null;
@@ -140,7 +165,7 @@ namespace Pkdd.Repositories
                 ContentBlock contentBlock = await _dbContext.ContentBlocks.FirstOrDefaultAsync(b => b.Id == id);
                 if (contentBlock != null)
                 {
-                    _dbContext.ContentBlocks.Remove(contentBlock);
+                    await RemoveBlocks(contentBlock);
                     await _dbContext.SaveChangesAsync();
                 }
                 else
@@ -188,9 +213,13 @@ namespace Pkdd.Repositories
                                                         .FirstOrDefaultAsync(p => p.Id == id);
                 if (person != null)
                 {
-                    foreach (ContentBlock block in person.BioBlock.ContentBlocks)
+                    if (person.BioBlock != null && person.BioBlock.ContentBlocks != null)
                     {
-                        await RemoveBlocks(block);
+                        ImmutableList<ContentBlock> immutableBlocks = person.BioBlock.ContentBlocks.ToImmutableList();
+                        foreach (ContentBlock block in immutableBlocks)
+                        {
+                            await RemoveBlocks(block);
+                        }
                     }
                     _dbContext.Persons.Remove(person);
                     await _dbContext.SaveChangesAsync();
@@ -213,9 +242,8 @@ namespace Pkdd.Repositories
                 ContentBlock contentBlock = await _dbContext.ContentBlocks.FirstOrDefaultAsync(b => b.Id == block.Id);
                 if (contentBlock != null)
                 {
-                    contentBlock.Update(block);
-                    _dbContext.ContentBlocks.Update(contentBlock);
-                    await _dbContext.SaveChangesAsync();
+                    await LoadBlocks(contentBlock);
+                    await UpdateBlocks(contentBlock, block);
                 }
                 else
                 {
@@ -259,9 +287,9 @@ namespace Pkdd.Repositories
             }
         }
 
-        private async Task<ContentBlock> AddToParent(ContentBlock content)
+        private async Task<ContentBlock> AddToParent(ContentBlock content, int parentId)
         {
-            ContentBlock parent = await _dbContext.ContentBlocks.Where(b => b.CheckOrder(content.Order))
+            ContentBlock parent = await _dbContext.ContentBlocks.Where(b => b.Id == parentId)
                                                                 .Include(b => b.SubBlocks)
                                                                 .FirstOrDefaultAsync();
             if (parent == null)
@@ -275,13 +303,24 @@ namespace Pkdd.Repositories
 
         }
 
+        private async Task UpdateBlocks(ContentBlock target, ContentBlock source)
+        {
+            target.Update(source);
+            _dbContext.ContentBlocks.Update(target);
+            foreach (ContentBlock subblock in target.SubBlocks)
+            {
+                await UpdateBlocks(subblock, source.SubBlocks.Where(b => b.Id == subblock.Id).First());
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
         private async Task RemoveBlocks(ContentBlock block)
         {
             await _dbContext.Entry(block).Collection(b => b.SubBlocks).LoadAsync();
             _dbContext.ContentBlocks.Remove(block);
             foreach (ContentBlock subblock in block.SubBlocks)
             {
-                await LoadBlocks(subblock);
+                await RemoveBlocks(subblock);
             }
             await _dbContext.SaveChangesAsync();
         }

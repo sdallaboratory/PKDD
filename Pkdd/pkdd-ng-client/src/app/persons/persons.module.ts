@@ -1,3 +1,4 @@
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonsListComponent } from './components/persons-list/persons-list.component';
@@ -14,6 +15,17 @@ import { PersonPhysiognomyComponent } from './components/person-physiognomy/pers
 import { PersonResultsComponent } from './components/person-results/person-results.component';
 import { MmpiTestModule } from '../mmpi-test/mmpi-test.module';
 import { LayoutModule } from '../layout/layout.module';
+import { ContentBlockComponent } from './components/content-blocks/content-block/content-block.component';
+import { TextBlockComponent } from './components/content-blocks/text-block/text-block.component';
+import { DateTextBlockComponent } from './components/content-blocks/date-text-block/date-text-block.component';
+import { PhotoBlockComponent } from './components/content-blocks/photo-block/photo-block.component';
+import { VideoBlockComponent } from './components/content-blocks/video-block/video-block.component';
+import { PublicationBlockComponent } from './components/content-blocks/publication-block/publication-block.component';
+import { AddCardComponent } from './components/content-blocks/add-card/add-card.component';
+import { ContentComponent } from './components/content-blocks/content/content.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { SexTypePipe } from './pipes/sex-type.pipe';
 
 @NgModule({
   imports: [
@@ -22,7 +34,10 @@ import { LayoutModule } from '../layout/layout.module';
     MaterialImportsModule,
     PersonsRoutingModule,
     MmpiTestModule,
-    LayoutModule
+    LayoutModule,
+    FormsModule,
+    BrowserModule,
+    MDBBootstrapModule,
   ],
   declarations: [
     PersonsListComponent,
@@ -33,6 +48,16 @@ import { LayoutModule } from '../layout/layout.module';
     PersonEditComponent,
     PersonLuscherComponent,
     PersonPhysiognomyComponent,
-    PersonResultsComponent]
+    PersonResultsComponent,
+    ContentBlockComponent,
+    TextBlockComponent,
+    DateTextBlockComponent,
+    PhotoBlockComponent,
+    VideoBlockComponent,
+    PublicationBlockComponent,
+    AddCardComponent,
+    ContentComponent,
+    SexTypePipe,
+    ],
 })
 export class PersonsModule { }

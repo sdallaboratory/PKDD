@@ -29,9 +29,10 @@ export class ApiUrlConstructorService {
     return isNullOrUndefined(id) ? baseUrl : `${baseUrl}/${id}`;
   }
 
-  public getContentsUrl(bioId: null | number, contentsId: null | number): string {
+  public getContentsUrl(bioId: number, contentsId: null | number, parentId: null | number): string {
     const baseUrl = `${this.getBioUrl(bioId)}/${this.contentUrl}`;
-    return isNullOrUndefined(contentsId) ? baseUrl : `${baseUrl}/${contentsId}`;
+    const contentsUrl = isNullOrUndefined(contentsId) ? baseUrl : `${baseUrl}/${contentsId}`;
+    return isNullOrUndefined(parentId) ? contentsUrl : `${contentsUrl}/${parentId}`;
   }
 
   public getUsersUrl(id: null | number = null) {

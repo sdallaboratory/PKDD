@@ -8,6 +8,9 @@ import { DateText } from '../../models/entities/content-entities/date-text';
 import { Video } from '../../models/entities/content-entities/video';
 import { Publication } from '../../models/entities/content-entities/publication';
 import { Photo } from '../../models/entities/content-entities/photo';
+import { TimeTrack } from '../../models/common/time-track';
+import { Sexes } from '../../models/entities/enums/sexes';
+import { ContentType } from '../../models/entities/enums/content-type';
 
 @Injectable({
   providedIn: 'root'
@@ -70,16 +73,17 @@ export class EntitiesFactoryService {
     return newBlocks;
   }
 
-  public createContentBlock(mainBlockId: number, block: ContentBlockBackend, parentId = -1): ContentBlock {
+  public createContentBlock(mainBlockId: number, block: ContentBlockBackend, parentId: null | number = null): ContentBlock {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
+    const parent = parentId ? parentId : -1;
     const content = this.createBlockContent(block);
     const subBlocks: ContentBlock[] = [];
     block.subBlocks.forEach(b => {
       subBlocks.push(this.createContentBlock(mainBlockId, b, block.id));
     });
-    const newBlock = new ContentBlock(block, mainBlockId, content, subBlocks, parentId);
+    const newBlock = new ContentBlock(block, mainBlockId, content, subBlocks, parent);
     return newBlock;
   }
 
@@ -89,13 +93,7 @@ export class EntitiesFactoryService {
     }
     try {
       const content = JSON.parse(block.content);
-      if (content instanceof ContentText
-        || content instanceof DateText
-        || content instanceof Video
-        || content instanceof Photo
-        || content instanceof Publication) {
-        return content;
-      }
+      return content;
     } catch (error) {
 
     }
@@ -120,7 +118,7 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(person)) {
       throw new Error('Empty person');
     }
-    const bioBlock = isNullOrUndefined(person.bioBlock) ? this.createBaseBioBlockBackend(person.bioBlock) : null;
+    const bioBlock = !isNullOrUndefined(person.bioBlock) ? this.createBaseBioBlockBackend(person.bioBlock) : null;
     const newPerson = new PersonBackend(person, bioBlock);
     return newPerson;
   }
@@ -163,12 +161,46 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
-    const content = JSON.stringify(block.content);
+    const content = !isNullOrUndefined(block.content) ? JSON.stringify(block.content) : '';
     const subBlocks: ContentBlockBackend[] = [];
     block.subBlocks.forEach(b => {
       subBlocks.push(this.createContentBlockBackend(b));
     });
     const newBlock = new ContentBlockBackend(block, content, subBlocks);
     return newBlock;
+  }
+
+  public createNewPerson(): Person {
+    const id = 0;
+    const abstractPerson = {
+      id: id,
+      isDeleted: false,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date()),
+      name: `Новая персона ${id}`,
+      sex: Sexes.Undefined,
+      birthday: new Date(),
+      position: 'Неопределена',
+      photoUrl: '',
+      isPublished: false,
+    };
+    const baseBioBlock = new BaseBioBlock({
+      id: 0,
+      isDeleted: false,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date),
+      personId: id
+    }, []);
+    return new Person(abstractPerson, baseBioBlock);
+  }
+
+  public createNewContentBlock(order: string = '', baseBioBlockId: number, parentId: number = -1): ContentBlock {
+    return new ContentBlock({
+      id: 0,
+      isDeleted: false,
+      title: 'Заголовок',
+      subtitle: 'Подзаголовок',
+      type: ContentType.Container,
+      comment: 'Некоторый важный комментарий',
+      order: order
+    }, baseBioBlockId, null, [], parentId);
   }
 }

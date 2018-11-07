@@ -14,6 +14,7 @@ import { PersonMenuResolver } from './resolvers/person-menu-resolver';
 import { PersonsResolverService } from './resolvers/persons-resolver.service';
 import { PersonMmpiComponent } from '../mmpi-test/components/person-mmpi/person-mmpi.component';
 import { ResultsResolverService } from '../mmpi-test/resolvers/results-resolver.service';
+import { PersonResolverService } from './resolvers/person-resolver.service';
 
 const personsRoutes: Routes = [
   {
@@ -32,12 +33,19 @@ const personsRoutes: Routes = [
           path: ':id',
           component: PersonDetailsPageComponent,
           resolve: {
-            menu: PersonMenuResolver
-          },
+            menu: PersonMenuResolver,
+            personModel: PersonResolverService
+            },
           children: [
             { path: '', component: PersonInfoComponent },
-            { path: 'edit', component: PersonEditComponent },
             { path: 'mmpi', component: PersonMmpiComponent, resolve: { results: ResultsResolverService } },
+            {
+              path: 'edit',
+              component: PersonEditComponent,
+              resolve: {
+                personModel: PersonResolverService
+              }
+            },
             { path: 'luscher', component: PersonLuscherComponent },
             { path: 'physiognomy', component: PersonPhysiognomyComponent },
             { path: 'results', component: PersonResultsComponent },

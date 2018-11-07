@@ -27,4 +27,11 @@ export class PersonCardComponent implements OnInit {
       this.storage.deletePerson(this.person.id);
     }
   }
+
+  public backgroundImage() {
+    if (this.person.photoUrl === '') {
+      return `url(http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif)`;
+    }
+    return `url(${this.person.photoUrl})`;
+  }
 }

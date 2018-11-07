@@ -1,5 +1,13 @@
-mat-card {
-  height: 282px;
+mat-card:hover {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+.not-confirmed:hover {
+  -webkit-box-shadow: 0px 0px 45px -5px rgba(196, 12, 48, 0.94);
+  -moz-box-shadow: 0px 0px 45px -5px rgba(196, 12, 48, 0.94);
+  box-shadow: 0px 0px 45px -5px rgba(196, 12, 48, 0.94);
 }
 
 .text-block {
@@ -12,7 +20,7 @@ mat-card {
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .title {
@@ -20,7 +28,7 @@ mat-card {
 }
 
 .not-confirmed {
-    -webkit-box-shadow: 0px 0px 77px -5px rgba(196,12,48,0.94) !important;
-    -moz-box-shadow: 0px 0px 77px -5px rgba(196,12,48,0.94) !important;
-    box-shadow: 0px 0px 77px -5px rgba(196,12,48,0.94) !important;
+  -webkit-box-shadow: 0px 0px 77px -5px rgba(196, 12, 48, 0.94);
+  -moz-box-shadow: 0px 0px 77px -5px rgba(196, 12, 48, 0.94);
+  box-shadow: 0px 0px 77px -5px rgba(196, 12, 48, 0.94);
 }

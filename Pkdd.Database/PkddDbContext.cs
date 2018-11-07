@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Pkdd.Models.Persons;
 using Pkdd.Models.Results;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Pkdd.Models.Person;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 
@@ -29,7 +30,6 @@ namespace Pkdd.Database
             builder.Entity<PkddRoleExpert>();
             builder.Entity<PkddRoleTech>();
             builder.Entity<Person>();
-            builder.Entity<ContentBlock>();
             builder.Entity<MetaInformation>();
             base.OnModelCreating(builder);
         }

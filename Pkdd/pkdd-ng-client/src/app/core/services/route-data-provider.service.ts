@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { promisify } from '../utils/promisify';
+
 @Injectable()
 export class RouteDataProviderService {
 

@@ -15,7 +15,7 @@ namespace Pkdd.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -179,9 +179,13 @@ namespace Pkdd.Database.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsPublished");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
+
+                    b.Property<string>("PhotoUrl");
 
                     b.Property<string>("Position")
                         .HasMaxLength(500);
@@ -455,26 +459,6 @@ namespace Pkdd.Database.Migrations
                     b.HasOne("Pkdd.Models.Persons.ContentBlock")
                         .WithMany("SubBlocks")
                         .HasForeignKey("ContentBlockId");
-
-                    b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
-                        {
-                            b1.Property<int>("ContentBlockId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("Created");
-
-                            b1.Property<DateTime>("Deleted");
-
-                            b1.Property<DateTime>("Updated");
-
-                            b1.ToTable("ContentBlocks");
-
-                            b1.HasOne("Pkdd.Models.Persons.ContentBlock")
-                                .WithOne("TimeTrack")
-                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "ContentBlockId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("Pkdd.Models.Persons.Person", b =>

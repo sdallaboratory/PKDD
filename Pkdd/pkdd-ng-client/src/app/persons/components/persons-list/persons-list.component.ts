@@ -18,7 +18,6 @@ export class PersonsListComponent implements OnInit {
   public blocks: ContentBlock[];
 
   constructor(
-    public хттп: PkddHttpService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly storage: ServerDataStorageService,
@@ -27,17 +26,10 @@ export class PersonsListComponent implements OnInit {
 
   async ngOnInit() {
     this.persons = await this.data.get<Person[]>('persons');
-
-    if (this.persons && this.persons.length) {
-      for (let i = 0; i < 50; i++) {
-        this.persons.push(this.persons[0]);
-      }
-      this.persons[0].name = 'Дональд Алексеич Трамп';
-    }
   }
 
   public async onAdd() {
-    const person = this.persons[1]; // await this.storage.addPerson(new Person());
+    const person = await this.storage.addPerson();
     this.router.navigate([`persons/${person.id}/edit`]);
   }
 

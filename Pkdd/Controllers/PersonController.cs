@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Common;
 using Pkdd.Models.Persons;
@@ -17,10 +18,12 @@ namespace Pkdd.Controllers
     public class PersonController : PkddControllerBase
     {
         private readonly IPersonRepository _personRepository;
+        private readonly ILogger<PersonController> _logger;
 
-        public PersonController(IPersonRepository repository)
+        public PersonController(IPersonRepository repository, ILogger<PersonController> logger)
         {
             _personRepository = repository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -83,6 +86,19 @@ namespace Pkdd.Controllers
             }
         }
 
+        [HttpGet("contents")]
+        public async Task<IActionResult> GetAllBlocks()
+        {
+            try
+            {
+                return PkddOk(await _personRepository.GetAllContentBlocks());
+            }
+            catch (Exception ex)
+            {
+                return PkddError(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("")]
         [Authorize(Roles = "tech")]
@@ -100,24 +116,23 @@ namespace Pkdd.Controllers
         }
 
         [HttpPost]
-        [Route("bio/{id?}/contents")]
-        [Authorize(Roles = "tech")]
-        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int? id = null)
+        [Route("bio/{id}/contents/{parentId?}")]
+        public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int id, int? parentId)
         {
             try
             {
-                var newBlock = await _personRepository.AddContentBlock(id, block);
+                var newBlock = await _personRepository.AddContentBlock(id, block, parentId);
                 return Ok(newBlock);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                _logger.LogWarning(ex, ex.Message);
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.InnerException.Message, data: ex.InnerException));
             }
         }
 
         [HttpPut]
-        [Route("")]
-        [Authorize(Roles = "tech")]
+        [Route("{id}")]
         public async Task<IActionResult> UpdatePerson([FromBody] Person person)
         {
             try
@@ -132,8 +147,7 @@ namespace Pkdd.Controllers
         }
 
         [HttpPut]
-        [Route("bio/contents")]
-        [Authorize(Roles = "tech")]
+        [Route("bio/{id}/contents")]
         public async Task<IActionResult> UpdateContentBlock([FromBody] ContentBlock block)
         {
             try
@@ -143,6 +157,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, ex.Message);
                 return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
@@ -159,13 +174,13 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, ex.Message);
                 return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
         [HttpDelete]
-        [Route("bio/contents/{id}")]
-        [Authorize(Roles = "tech")]
+        [Route("bio/{bioId}/contents/{id}")]
         public async Task<IActionResult> DeleteContentBlock([FromRoute] int id)
         {
             try
@@ -175,6 +190,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, ex.Message);
                 return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
