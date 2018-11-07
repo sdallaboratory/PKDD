@@ -15,6 +15,7 @@ export class ResultsProviderService {
 
   public async get(personId: number, userId: number) {
     // TODO: provide url with ApiUrlConstructorService
+    console.log('fetching results', personId, userId);
     return this.http.get<TestResult>(`api/test-result/${personId}/${userId}`);
   }
 

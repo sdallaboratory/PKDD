@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestResult } from '../../models/persons/results/test-result';
 import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { ServerDataStorageService } from '../services/server-data-storage.service';
+import { ServerDataStorageService } from '../../core/services/server-data-storage.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { MmpiResult } from '../../models/persons/results/mmpi-result';
+import { ResultsProviderService } from 'src/app/test/services/results-provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +12,16 @@ import { MmpiResult } from '../../models/persons/results/mmpi-result';
 export class ResultsResolverService implements Resolve<TestResult> {
 
   constructor(
-    private readonly storage: ServerDataStorageService,
     private readonly auth: AuthService,
+    private readonly provider: ResultsProviderService
   ) { }
 
   public async resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<TestResult> {
-    // return this.storage.getResults(+route.paramMap.get('id'));
-    const results = new TestResult();
-    results.mmpi = new MmpiResult();
-    for (const key of Object.keys( results.mmpi)) {
-      results.mmpi[key] = Math.random() * 100;
-    }
-    return results;
+    const user = await this.auth.getUserAsync();
+    const result = await this.provider.get(1, user.id);
+    return result;
   }
 }

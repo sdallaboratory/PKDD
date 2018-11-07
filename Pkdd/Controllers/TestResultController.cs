@@ -14,7 +14,7 @@ namespace Pkdd.Controllers
 {
     [Route("api/test-result")]
     [ApiController]
-    [Authorize(Roles = "tech")]
+    //[Authorize(Roles = "tech")]
     public class TestResultController : PkddControllerBase
     {
         private readonly IResultRepository _repo;
@@ -57,7 +57,8 @@ namespace Pkdd.Controllers
         {
             try
             {
-                TestResult result = _repo.GetResult(personId, userId) ?? throw new Exception("Этот эксперт ещё не оценил эту персону.");
+                TestResult result = _repo.GetResult(personId, userId) 
+                    ?? new TestResult() { PersonId = personId, PkddUserId = userId }; //throw new Exception("Этот эксперт ещё не оценил эту персону.");
                 return PkddOk(result);
             }
             catch (Exception e)

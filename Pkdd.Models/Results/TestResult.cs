@@ -17,15 +17,15 @@ namespace Pkdd.Models.Results
 
         public PkddUser PkddUser { get; set; }
 
-        public MmpiResult Mmpi { get; set; }
+        public MmpiResult Mmpi { get; set; } = new MmpiResult();
 
         public bool MmpiComplete { get; set; }
 
-        public LuscherResult Luscher { get; set; }
+        public LuscherResult Luscher { get; set; } = new LuscherResult();
 
         public bool LuscherComplete { get; set; }
 
-        public PhysiognomyResult Physiognomy { get; set; }
+        public PhysiognomyResult Physiognomy { get; set; } = new PhysiognomyResult();
 
         public bool PhysiognomyComplete { get; set; }
 
@@ -33,7 +33,8 @@ namespace Pkdd.Models.Results
 
         public override TestResult Update(TestResult entity)
         {
-            throw new NotImplementedException();
+            Mmpi.Update(entity.Mmpi);
+            return this;
         }
     }
 }

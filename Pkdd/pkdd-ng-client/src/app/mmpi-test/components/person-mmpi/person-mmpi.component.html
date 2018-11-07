@@ -7,11 +7,10 @@
 
 <div class="columns-container">
   <!-- <pkdd-interactive-chart>
-    
-  </pkdd-interactive-chart>
- -->
- <pkdd-chart>
-   
- </pkdd-chart>
-  <!-- <pkdd-mmpi-column *ngFor="let scale of scales"></pkdd-mmpi-column> -->
+  </pkdd-interactive-chart> -->
+
+  <pkdd-chart [config]="chartConfig"></pkdd-chart>
+<button mat-button (click)="onSave()">
+  Сохранить результаты
+</button>
 </div>

@@ -1,6 +1,10 @@
 .columns-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: stretch;
+}
+
+pkdd-chart {
+    min-height: 400px;
 }

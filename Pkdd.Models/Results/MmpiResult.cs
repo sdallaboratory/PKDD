@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pkdd.Abstractions.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Text;
 namespace Pkdd.Models.Results
 {
     [Owned]
-    public class MmpiResult
+    public class MmpiResult : IUpdatable<MmpiResult>
     {
         public int Hypochondriasis { get; set; }
 
@@ -27,5 +28,14 @@ namespace Pkdd.Models.Results
         public int Hypomania { get; set; }
 
         public int Sociality { get; set; }
+
+        public MmpiResult Update(MmpiResult source)
+        {
+            foreach(var prop in GetType().GetProperties())
+            {
+                prop.SetValue(this, prop.GetValue(source));
+            }
+            return this;
+        }
     }
 }

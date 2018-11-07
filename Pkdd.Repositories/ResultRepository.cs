@@ -28,7 +28,7 @@ namespace Pkdd.Repositories
             else
             {
                 storedResult.Update(result);
-                _context.Update(result);
+                _context.Update(storedResult);
             }
             _context.SaveChanges();
             return storedResult;
