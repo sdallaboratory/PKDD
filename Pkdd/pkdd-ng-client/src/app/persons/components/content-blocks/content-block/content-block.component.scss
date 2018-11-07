@@ -2,25 +2,25 @@
   border: 7px solid rgb(255, 255, 0);
 }
 
-mat-card {
+.block {
   border: 2px solid yellow;
   margin: 3px;
   padding: 0;
+  background: white;
 }
 
 header {
-  padding: 12px;
+  padding: 6px;
   background: rgb(255, 255, 90);
 }
 
 section {
-  padding: 24px;
+  padding: 12px;
 }
 
 .title-input,
-.subtitle-input,
-mat-select {
-  max-width: 400px;
+.subtitle-input {
+  width: 80%;
 }
 
 .subtitle, .subtitle-input {

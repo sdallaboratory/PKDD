@@ -6,8 +6,6 @@ namespace Pkdd.Abstractions.Entity
 {
     public interface IEntityStatus
     {
-        TimeTrack TimeTrack { get; set; }
-
         bool IsDeleted { get; set; }
 
         void MarkCreated();

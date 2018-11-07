@@ -180,6 +180,8 @@ export class EntitiesFactoryService {
       sex: Sexes.Undefined,
       birthday: new Date(),
       position: 'Неопределена',
+      photoUrl: '',
+      isPublished: false,
     };
     const baseBioBlock = new BaseBioBlock({
       id: 0,
@@ -194,7 +196,6 @@ export class EntitiesFactoryService {
     return new ContentBlock({
       id: 0,
       isDeleted: false,
-      timeTrack: new TimeTrack(new Date(), new Date(), new Date()),
       title: 'Заголовок',
       subtitle: 'Подзаголовок',
       type: ContentType.Container,

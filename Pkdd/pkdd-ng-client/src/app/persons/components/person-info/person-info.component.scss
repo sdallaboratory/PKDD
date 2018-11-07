@@ -1,23 +1,54 @@
 .person-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.base-info, pkdd-add-card, pkdd-content-block {
-    margin: 15px;
-    width: 95%;
-    max-width: 800px;
+.base-info,
+pkdd-add-card,
+pkdd-content-block {
+  margin: 15px;
+  width: 95%;
+  max-width: 800px;
 }
 
 .base-info {
-    box-sizing: border-box;
-    border: 7px solid #f8fa7d;
-    outline: 0.7px solid black;
+  background: white;
+  box-sizing: border-box;
+  border: 3px solid #f8fa7d;
+  margin-top: 15px;
+}
+
+header {
+  padding: 6px;
+  background: rgb(255, 255, 160);
+  font-size: 31px;
+}
+
+@media(max-width: 600px) {
+    .text, .title {
+        font-size: 14px !important;
+    }
+}
+
+.text, .title {
+    font-size: 20px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+section {
+  padding: 12px;
 }
 
 mat-card-title {
-    display: flex;
-    justify-content: center;
+  display: flex;
+}
+
+.main-photo {
+  margin-top: 12px;
+  margin-bottom: 12px;
 }

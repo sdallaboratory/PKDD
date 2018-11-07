@@ -111,6 +111,8 @@ export class ServerDataStorageService {
     let result = null;
     try {
       const body = this._factory.createContentBlockBackend(block);
+      console.log(body);
+      
       result = this._factory.createContentBlock(baseBioBlockId, (await this.makeAction(
         ActionType.Post,
         EntityType.ContentBlock,
@@ -125,8 +127,9 @@ export class ServerDataStorageService {
       } else {
         baseBlock.subBlocks.push(result);
       }
-    } catch {
-
+    } catch (ex) {
+      console.log(ex);
+      
     }
   }
 

@@ -5,5 +5,10 @@
 
 mat-form-field {
     height: 100%;
-    width: 80%;
+    width: 100%;
+}
+
+.text {
+    display: flex;
+    word-break: break-all;
 }

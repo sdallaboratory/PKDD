@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Common;
 using Pkdd.Models.Person;
@@ -15,10 +16,12 @@ namespace Pkdd.Controllers
     public class PersonController : PkddControllerBase
     {
         private readonly IPersonRepository _personRepository;
+        private readonly ILogger<PersonController> _logger;
 
-        public PersonController(IPersonRepository repository)
+        public PersonController(IPersonRepository repository, ILogger<PersonController> logger)
         {
             _personRepository = repository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -120,12 +123,13 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                _logger.LogWarning(ex, ex.Message);
+                return StatusCode(500, new PkddResponse(isOk: false, message: ex.InnerException.Message, data: ex.InnerException));
             }
         }
 
         [HttpPut]
-        [Route("")]
+        [Route("{id}")]
         public async Task<IActionResult> UpdatePerson([FromBody] Person person)
         {
             try
@@ -150,6 +154,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, ex.Message);
                 return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
@@ -165,6 +170,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, ex.Message);
                 return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
@@ -180,6 +186,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, ex.Message);
                 return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }

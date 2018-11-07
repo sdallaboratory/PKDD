@@ -25,7 +25,7 @@ export class ContentBlockComponent implements OnInit {
   public get needDrawHeader() {
     return this.edit
       || (this.contentBlock.title !== ''
-        && this.contentBlock.subtitle !== '');
+        || this.contentBlock.subtitle !== '');
   }
 
   public readonly contentTypes = types;
@@ -51,10 +51,13 @@ export class ContentBlockComponent implements OnInit {
     return this.level <= level;
   }
 
-  public async onBlockAdd() {
+  public async onBlockAdd(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
     const newBlock = this.factory.createNewContentBlock(
       `${this.contentBlock.order}${this.contentBlock.subBlocks.length}/`,
       this.contentBlock.baseBlockId, this.contentBlock.id);
+    const content = this.getTypeAndContent(type);
+    newBlock.type = content.type;
+    newBlock.content = content.content;
     this.storage.addContentBlock(this.contentBlock.baseBlockId, newBlock, this.contentBlock.id);
   }
 
@@ -66,25 +69,32 @@ export class ContentBlockComponent implements OnInit {
     await this.storage.updateContentBlock(this.contentBlock.baseBlockId, this.contentBlock);
   }
 
-  public onTypeChanged() {
-    if (this.contentBlock.type === ContentType.Text) {
-      this.contentBlock.content = new ContentText();
+  public contentFromType(type: ContentType) {
+    if (type === ContentType.Text) {
+      return new ContentText();
     }
-    if (this.contentBlock.type === ContentType.DateText) {
-      this.contentBlock.content = new DateText();
+    if (type === ContentType.DateText) {
+      return new DateText();
     }
-    if (this.contentBlock.type === ContentType.Photo) {
-      this.contentBlock.content = new Photo();
+    if (type === ContentType.Photo) {
+      return new Photo();
     }
-    if (this.contentBlock.type === ContentType.Video) {
-      this.contentBlock.content = new Video();
+    if (type === ContentType.Video) {
+      return new Video();
     }
-    if (this.contentBlock.type === ContentType.Publications) {
-      this.contentBlock.content = new Publication();
+    if (type === ContentType.Publications) {
+      return new Publication();
     }
-    if (this.contentBlock.type === ContentType.Container) {
-      this.contentBlock.content = null;
+    if (type === ContentType.Container) {
+      return null;
     }
+  }
+
+  private getTypeAndContent(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
+    const contentType = type === 'text' ? ContentType.Text : type === 'dateText' ? ContentType.DateText :
+    type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
+    const content = this.contentFromType(contentType);
+    return {type: contentType, content: content};
   }
 
   public countFontSize(isSublitle = false) {

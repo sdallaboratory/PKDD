@@ -11,8 +11,8 @@ export class DateText {
 
 export class Period {
     constructor(
-        public firstDate = '',
-        public secondDate = ''
+        public firstDate = new Date(),
+        public secondDate = new Date()
     ) {
     }
 }

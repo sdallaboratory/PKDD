@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pkdd.Database;
 
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    partial class PkddDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181021193957_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -428,6 +430,28 @@ namespace Pkdd.Database.Migrations
                     b.HasOne("Pkdd.Models.Person.ContentBlock")
                         .WithMany("SubBlocks")
                         .HasForeignKey("ContentBlockId");
+
+                    b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
+                        {
+                            b1.Property<int>("ContentBlockId1")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("ContentBlockId");
+
+                            b1.Property<DateTime>("Created");
+
+                            b1.Property<DateTime>("Deleted");
+
+                            b1.Property<DateTime>("Updated");
+
+                            b1.ToTable("ContentBlocks");
+
+                            b1.HasOne("Pkdd.Models.Person.ContentBlock")
+                                .WithOne("TimeTrack")
+                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "ContentBlockId1")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
             modelBuilder.Entity("Pkdd.Models.Person.Person", b =>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Pkdd.Database;
 using Pkdd.Models.Person;
 using Pkdd.Repositories.Exceptions;
@@ -51,7 +52,7 @@ namespace Pkdd.Repositories
             }
             catch (Exception ex)
             {
-                ThrowException(ex);
+                throw ex;
             }
             return result;
         }
@@ -61,9 +62,13 @@ namespace Pkdd.Repositories
             Person result = null;
             try
             {
-                var entity = await _dbContext.Persons.AddAsync(person);
+                person.Id = default;
+                var entity = _dbContext.Persons.Add(person);
                 await _dbContext.SaveChangesAsync();
                 result = entity.Entity;
+                result.Name = $"Новая персона {result.Id}";
+                _dbContext.Update(result);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -78,7 +83,7 @@ namespace Pkdd.Repositories
             try
             {
                 persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
-                if (persons == null || !persons.Any())
+                if (persons == null)
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }

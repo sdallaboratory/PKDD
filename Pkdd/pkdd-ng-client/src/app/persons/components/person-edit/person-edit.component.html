@@ -6,14 +6,47 @@
         {{person?.name}}
       </mat-card-title>
       <mat-card-content>
+        <div class="inputs">
 
+          <mat-form-field *ngIf="person">
+            <input matInput [(ngModel)]="person.name" placeholder="ФИО">
+          </mat-form-field>
+          <mat-form-field class="position" *ngIf="person">
+            <input matInput [(ngModel)]="person.position" placeholder="Должность">
+          </mat-form-field>
+          <mat-form-field class="url" *ngIf="person">
+            <input matInput [(ngModel)]="person.photoUrl" placeholder="Ссылка на фото">
+          </mat-form-field>
+          <mat-form-field *ngIf="person">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="person.birthday">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          </mat-form-field>
+          <mat-datepicker #picker></mat-datepicker>
+          <div *ngIf="person" class="checkbox">
+            <mat-checkbox [(ngModel)]="person.isPublished">
+              Опубликован?
+            </mat-checkbox>
+          </div>
+            <mat-radio-group class="radio-group" *ngIf="person">
+              <mat-radio-button value="male" [checked]="person.sex === male" (click)="setValue(male)">Мужской</mat-radio-button>
+              <mat-radio-button value="female" [checked]="person.sex === female" (click)="setValue(female)">Женский</mat-radio-button>
+              <mat-radio-button value="undef" [checked]="person.sex === undef" (click)="setValue(undef)">Неопределенный</mat-radio-button>
+            </mat-radio-group>
+        </div>
       </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="savePerson()">
+          <mat-icon>
+            save
+          </mat-icon>
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
 
   <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="true">
 
   </pkdd-content-block>
-  <pkdd-add-card (click)="onBlockAdd()" ></pkdd-add-card>
+  <pkdd-add-card (click)="onBlockAdd()"></pkdd-add-card>
 
 </div>

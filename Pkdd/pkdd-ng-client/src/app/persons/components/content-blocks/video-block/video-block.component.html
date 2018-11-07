@@ -1,3 +1,27 @@
-<p>
-  video-block works!
-</p>
+<div class="wrapper">
+  <div *ngIf="!edit">
+      <div class="embed-responsive embed-responsive-16by9 player">
+          <iframe class="embed-responsive-item" allowfullscreen [src]="url"></iframe>
+        </div>
+        <div class="description">
+          {{content.content.description}}
+        </div>
+  </div>
+  <div *ngIf='edit' class="edit-wrapper">
+    <div class="player-wrapper">
+
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" [src]="url"></iframe>
+      </div>
+
+    </div>
+    <div class="edit">
+      <mat-form-field>
+        <input matInput [(ngModel)]="content.content.url" placeholder="Ссылка" (ngModelChange)="onUrlChanged()">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="content.content.description" placeholder="Описание">
+      </mat-form-field>
+    </div>
+  </div>
+</div>

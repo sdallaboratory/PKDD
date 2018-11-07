@@ -39,6 +39,12 @@ namespace Pkdd.Models.Person
         [JsonProperty("position")]
         public string Position { get; set; }
 
+        [JsonProperty("photoUrl")]
+        public string PhotoUrl { get; set; }
+
+        [JsonProperty("isPublished")]
+        public bool IsPublished { get; set; }
+
         [JsonProperty("bioBlock")]
         public BaseBioBlock BioBlock { get; set; }
 
@@ -51,6 +57,8 @@ namespace Pkdd.Models.Person
             Sex = entity.Sex;
             Birthday = entity.Birthday;
             Position = entity.Position;
+            IsPublished = entity.IsPublished;
+            PhotoUrl = entity.PhotoUrl;
             MarkUpdated();
             return this;
         }

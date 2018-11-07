@@ -20,7 +20,7 @@ export class DateTextBlockComponent implements OnInit {
   }
 
   public isEmptyContent() {
-    return this.content.text.content === '' || this.content.period.firstDate === '';
+    return this.content.text.content === '' || this.content.period.firstDate === null;
   }
 
 }

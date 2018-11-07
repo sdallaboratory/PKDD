@@ -1,40 +1,37 @@
-<mat-card [class.wrapper]="isLevelLessOrEqual(2)" [class.mat-elevation-z0]="!isLevelLessOrEqual(2)">
-  
+<div [class.wrapper]="isLevelLessOrEqual(2)" class="block" [class.mat-elevation-z1]="isLevelLessOrEqual(2)">
+
   <header *ngIf="needDrawHeader" [ngStyle]="{'background': countYellow()}">
-   
+
     <div *ngIf="edit">
-   
+
       <div class="title" [ngStyle]="{'font-size.px': countFontSize()}">
-        <input matInput class="title-input" [(ngModel)]="contentBlock.title" placeholder="Заголовок">
+        <mat-form-field class="title-input">
+          <input matInput [(ngModel)]="contentBlock.title" placeholder="Заголовок">
+        </mat-form-field>
       </div>
-      <div class="subtitle" class="subtitle-input" [ngStyle]="{'font-size.px': countFontSize(true)}">
-        <input matInput [(ngModel)]="contentBlock.subtitle" placeholder="Подзаголовок">
+      <div class="subtitle" [ngStyle]="{'font-size.px': countFontSize(true)}">
+        <mat-form-field class="subtitle-input">
+          <input matInput [(ngModel)]="contentBlock.subtitle" placeholder="Подзаголовок">
+        </mat-form-field>
       </div>
-   
+
     </div>
 
     <div *ngIf="!edit">
-  
+
       <div class="title" *ngIf="contentBlock.title !== ''" [ngStyle]="{'font-size.px': countFontSize()}">
         {{contentBlock.title}}
       </div>
       <div class="subtitle" *ngIf="contentBlock.subtitle !== ''" [ngStyle]="{'font-size.px': countFontSize(true)}">
         {{contentBlock.subtitle}}
       </div>
-  
+
     </div>
 
   </header>
-  
+
   <section>
 
-    <div *ngIf="edit" >
-      <mat-select matInput [(value)]="contentBlock.type" (valueChange)="onTypeChanged()">
-        <mat-option *ngFor="let type of contentTypes" [value]="type.value">
-          {{type.type}}
-        </mat-option>
-      </mat-select>
-    </div>
 
     <div *ngIf="isContainer">
       <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="edit"></pkdd-content-block>
@@ -45,20 +42,27 @@
 
     <div class="actions" *ngIf="edit">
 
-        <button mat-icon-button (click)="onBlockDelete()">
-          <mat-icon>
-            delete_forever
-          </mat-icon>
-        </button>
-        <button [disabled]="!isLevelLessOrEqual(3)"  mat-icon-button (click)="onBlockAdd()">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button  (click)="onBlockSave()">
-          <mat-icon>save</mat-icon>
-        </button>
-    
+      <button mat-icon-button (click)="onBlockDelete()">
+        <mat-icon>
+          delete_forever
+        </mat-icon>
+      </button>
+      <button [disabled]="!isLevelLessOrEqual(2)" mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onBlockSave()">
+        <mat-icon>save</mat-icon>
+      </button>
+      <mat-menu #appMenu="matMenu">
+          <button mat-menu-item (click)="onBlockAdd('text')">Простой текст</button>
+          <button mat-menu-item (click)="onBlockAdd('dateText')">Текст и период</button>
+          <button mat-menu-item (click)="onBlockAdd('photo')">Фото</button>
+          <button mat-menu-item (click)="onBlockAdd('video')">Видео</button>
+          <button mat-menu-item (click)="onBlockAdd('public')">Публикация</button>
+      </mat-menu>
+
     </div>
 
   </section>
 
-</mat-card>
+</div>

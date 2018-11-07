@@ -1,14 +1,28 @@
 <div class="person-wrapper">
 
   <div class="base-info">
-    <mat-card>
-      <mat-card-title>
-        {{person?.name}}
-      </mat-card-title>
-      <mat-card-content>
-
-      </mat-card-content>
-    </mat-card>
+    <header>
+      {{person?.name}}
+    </header>
+    <section>
+        <img class="mx-auto d-block w-75 h-25 main-photo" src="{{mainImage()}}">
+      <div>
+        <span class="title">Должность: </span>
+        <span class="text">{{person?.position}}</span>
+      </div>
+      <div>
+        <span class="title">Дата рождения: </span>
+        <span class="text">{{person?.birthday | date : 'dd/MM/yyyy' }}</span>
+      </div>
+      <div>
+        <span class="title">
+          Пол: 
+        </span>
+        <span class="text">
+          {{person?.sex | sexType}}
+        </span>
+      </div>
+    </section>
   </div>
 
   <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="false">

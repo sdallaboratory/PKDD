@@ -1,23 +1,59 @@
 .person-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.base-info, pkdd-add-card, pkdd-content-block {
-    margin: 15px;
-    width: 95%;
-    max-width: 800px;
+.base-info,
+pkdd-add-card,
+pkdd-content-block {
+  margin: 15px;
+  width: 95%;
+  max-width: 800px;
 }
 
 .base-info {
-    box-sizing: border-box;
-    border: 7px solid #f8fa7d;
-    outline: 0.7px solid black;
+  margin-top: 15px;
+  box-sizing: border-box;
+  border: 3px solid #f8fa7d;
 }
 
 mat-card-title {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+}
+
+mat-form-field {
+  margin: 5px;
+}
+
+mat-radio-button {
+  margin: 3px;
+}
+
+.position {
+    width: 70%;
+    min-width: 180px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap
+}
+
+.url {
+  width: 100%;
 }

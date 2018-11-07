@@ -1,3 +1,4 @@
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonsListComponent } from './components/persons-list/persons-list.component';
@@ -22,6 +23,8 @@ import { PublicationBlockComponent } from './components/content-blocks/publicati
 import { AddCardComponent } from './components/content-blocks/add-card/add-card.component';
 import { ContentComponent } from './components/content-blocks/content/content.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { SexTypePipe } from './pipes/sex-type.pipe';
 
 @NgModule({
   imports: [
@@ -30,6 +33,8 @@ import { FormsModule } from '@angular/forms';
     MaterialImportsModule,
     PersonsRoutingModule,
     FormsModule,
+    BrowserModule,
+    MDBBootstrapModule,
   ],
   declarations: [
     PersonsListComponent,
@@ -50,6 +55,7 @@ import { FormsModule } from '@angular/forms';
     PublicationBlockComponent,
     AddCardComponent,
     ContentComponent,
-    ]
+    SexTypePipe,
+    ],
 })
 export class PersonsModule { }

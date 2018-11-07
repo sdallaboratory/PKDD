@@ -8,10 +8,9 @@ import { Video } from './content-entities/video';
 import { Publication } from './content-entities/publication';
 import { isNullOrUndefined } from 'util';
 
-abstract class AbstractContentBlock implements IEntity {
+abstract class AbstractContentBlock {
     id: number;
     isDeleted: boolean;
-    timeTrack: TimeTrack;
     title: string;
     subtitle: string;
     type: ContentType;
@@ -21,7 +20,6 @@ abstract class AbstractContentBlock implements IEntity {
     constructor(block: AbstractContentBlock) {
         this.id = block.id;
         this.isDeleted = block.isDeleted;
-        this.timeTrack = block.timeTrack;
         this.title = block.title;
         this.subtitle = block.subtitle;
         this.type = block.type;
@@ -63,7 +61,7 @@ export class ContentBlock extends AbstractContentBlock {
         super(contentBlock);
         this.baseBlockId = baseBlockId;
         this.content = content;
-        this.subBlocks = subBlocks;
+        this.subBlocks = subBlocks ?  subBlocks.sort((a, b) => ContentBlock.comparer(a, b)) : subBlocks;
         this.parentId = parentId;
     }
 
@@ -76,6 +74,15 @@ export class ContentBlock extends AbstractContentBlock {
             result = result.concat(ContentBlock.inRow(b));
         });
         return result;
+    }
+
+    public static comparer(a: ContentBlock, b: ContentBlock) {
+        if (a.order > b.order) {
+            return 1;
+        }
+        if (a.order < b.order) {
+            return -1;
+        }
     }
 }
 
