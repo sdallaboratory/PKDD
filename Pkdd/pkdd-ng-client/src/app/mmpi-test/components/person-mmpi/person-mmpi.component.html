@@ -1,10 +1,15 @@
 <p>
   person-mmpi works!
 </p>
-<div *ngFor="let scale of scales">
+<!-- <div *ngFor="let scale of scales">
   {{scale.name}} => {{scale.value}}
-</div>
-
+</div> -->
+<pkdd-aligner>
+    <pkdd-chart [config]="chartConfig"></pkdd-chart>
+    <button mat-button (click)="onSave()">
+      Сохранить результаты
+    </button>
+</pkdd-aligner>
 <div class="columns-container">
   <pkdd-chart [config]="chartConfig"></pkdd-chart>
   <button mat-button (click)="onSave()">

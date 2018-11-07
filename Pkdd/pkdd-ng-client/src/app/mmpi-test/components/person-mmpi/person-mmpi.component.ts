@@ -93,6 +93,7 @@ export class PersonMmpiComponent implements OnInit {
 
   public onSave() {
     try {
+      this.result.mmpiComplete = true;
       this.provider.send(this.result);
     } catch { }
   }

@@ -31,9 +31,15 @@ namespace Pkdd.Models.Results
 
         public string Comment { get; set; }
 
-        public override TestResult Update(TestResult entity)
+        public override TestResult Update(TestResult source)
         {
-            Mmpi.Update(entity.Mmpi);
+            Mmpi.Update(source.Mmpi);
+            MmpiComplete = source.MmpiComplete;
+            Luscher.Update(source.Luscher);
+            LuscherComplete = source.LuscherComplete;
+            Physiognomy.Update(source.Physiognomy);
+            PhysiognomyComplete = source.PhysiognomyComplete;
+            Comment = source.Comment;
             return this;
         }
     }
