@@ -39,7 +39,7 @@ namespace Pkdd.Controllers
         }
 
         [HttpGet("{personId}")]
-        public JsonResult GetResultsForPerson([FromRoute] int personId)
+        public JsonResult GetResult([FromRoute] int personId)
         {
             try
             {
