@@ -5,6 +5,7 @@ import { ResultsProviderService } from 'src/app/test/services/results-provider.s
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
+import { EnvironmentService } from 'src/app/core/services/environment.service';
 
 @Component({
   selector: 'pkdd-person-mmpi',
@@ -28,7 +29,8 @@ export class PersonMmpiComponent implements OnInit {
 
   constructor(
     private readonly data: RouteDataProviderService,
-    private readonly provider: ResultsProviderService
+    private readonly provider: ResultsProviderService,
+    private readonly env: EnvironmentService
   ) { }
 
   async ngOnInit() {
@@ -45,12 +47,13 @@ export class PersonMmpiComponent implements OnInit {
         datasets: [{
           data: this.scales.map(scale => scale.value),
           borderWidth: 6,
-          pointRadius: 10,
-          pointHoverRadius: 15,
+          pointRadius: 8,
+          pointHoverRadius: 20,
           fill: false,
           backgroundColor: 'purple',
           borderColor: 'purple',
-          pointHoverBackgroundColor: 'yellow'
+          pointHoverBackgroundColor: 'yellow',
+          pointHoverBorderWidth: 1
         }]
       },
       options: {
@@ -63,7 +66,7 @@ export class PersonMmpiComponent implements OnInit {
             {
               ticks: {
                 min: 0,
-                max: 100
+                max: this.env.config.mmpiResultMaxValue
               }
             }
           ]

@@ -14,7 +14,6 @@ namespace Pkdd.Controllers
 {
     [Route("api/test-result")]
     [ApiController]
-    //[Authorize(Roles = "tech")]
     public class TestResultController : PkddControllerBase
     {
         private readonly IResultRepository _repo;
