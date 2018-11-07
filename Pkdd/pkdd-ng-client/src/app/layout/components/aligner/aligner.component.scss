@@ -1,0 +1,12 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-items: center;
+}
+
+.container {
+    flex: 1 1 auto;
+}
