@@ -91,10 +91,10 @@ export class PersonMmpiComponent implements OnInit {
     });
   }
 
-  public onSave() {
+  public async onSave() {
     try {
       this.result.mmpiComplete = true;
-      this.provider.send(this.result);
+      this.result = await this.provider.send(this.result);
     } catch { }
   }
 
