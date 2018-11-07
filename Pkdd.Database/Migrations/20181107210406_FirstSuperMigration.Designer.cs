@@ -10,8 +10,8 @@ using Pkdd.Database;
 namespace Pkdd.Database.Migrations
 {
     [DbContext(typeof(PkddDbContext))]
-    [Migration("20181018203021_Result_FKs")]
-    partial class Result_FKs
+    [Migration("20181107210406_FirstSuperMigration")]
+    partial class FirstSuperMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,9 +181,13 @@ namespace Pkdd.Database.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsPublished");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
+
+                    b.Property<string>("PhotoUrl");
 
                     b.Property<string>("Position")
                         .HasMaxLength(500);

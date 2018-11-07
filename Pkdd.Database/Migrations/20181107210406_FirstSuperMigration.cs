@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pkdd.Database.Migrations
 {
-    public partial class Initial : Migration
+    public partial class FirstSuperMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,22 +32,22 @@ namespace Pkdd.Database.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     IsConfirmed = table.Column<bool>(nullable: false),
                     IsBanned = table.Column<bool>(nullable: false),
@@ -93,40 +93,14 @@ namespace Pkdd.Database.Migrations
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Sex = table.Column<int>(nullable: false),
                     Birthday = table.Column<DateTime>(nullable: false),
-                    Position = table.Column<string>(maxLength: 500, nullable: true)
+                    Position = table.Column<string>(maxLength: 500, nullable: true),
+                    Priority = table.Column<int>(nullable: false),
+                    PhotoUrl = table.Column<string>(nullable: true),
+                    IsPublished = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Persons", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TestResults",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TimeTrack_Created = table.Column<DateTime>(nullable: false),
-                    TimeTrack_Updated = table.Column<DateTime>(nullable: false),
-                    TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    Mmpi_Hypochondriasis = table.Column<int>(nullable: false),
-                    Mmpi_Depression = table.Column<int>(nullable: false),
-                    Mmpi_Hysteria = table.Column<int>(nullable: false),
-                    Mmpi_Psychopathia = table.Column<int>(nullable: false),
-                    Mmpi_Masculinity = table.Column<int>(nullable: false),
-                    Mmpi_Paranoia = table.Column<int>(nullable: false),
-                    Mmpi_Psychasthenia = table.Column<int>(nullable: false),
-                    Mmpi_Schizophrenia = table.Column<int>(nullable: false),
-                    Mmpi_Hypomania = table.Column<int>(nullable: false),
-                    Mmpi_Sociality = table.Column<int>(nullable: false),
-                    MmpiComplete = table.Column<bool>(nullable: false),
-                    LuscherComplete = table.Column<bool>(nullable: false),
-                    PhysiognomyComplete = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestResults", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -259,7 +233,7 @@ namespace Pkdd.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContentBlocks",
+                name: "TestResults",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -268,12 +242,56 @@ namespace Pkdd.Database.Migrations
                     TimeTrack_Updated = table.Column<DateTime>(nullable: false),
                     TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    PersonId = table.Column<int>(nullable: false),
+                    PkddUserId = table.Column<int>(nullable: false),
+                    Mmpi_Hypochondriasis = table.Column<int>(nullable: false),
+                    Mmpi_Depression = table.Column<int>(nullable: false),
+                    Mmpi_Hysteria = table.Column<int>(nullable: false),
+                    Mmpi_Psychopathia = table.Column<int>(nullable: false),
+                    Mmpi_Masculinity = table.Column<int>(nullable: false),
+                    Mmpi_Paranoia = table.Column<int>(nullable: false),
+                    Mmpi_Psychasthenia = table.Column<int>(nullable: false),
+                    Mmpi_Schizophrenia = table.Column<int>(nullable: false),
+                    Mmpi_Hypomania = table.Column<int>(nullable: false),
+                    Mmpi_Sociality = table.Column<int>(nullable: false),
+                    MmpiComplete = table.Column<bool>(nullable: false),
+                    LuscherComplete = table.Column<bool>(nullable: false),
+                    PhysiognomyComplete = table.Column<bool>(nullable: false),
+                    Comment = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestResults_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TestResults_AspNetUsers_PkddUserId",
+                        column: x => x.PkddUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContentBlocks",
+                columns: table => new
+                {
                     Tilte = table.Column<string>(nullable: true),
                     Subtitle = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     Order = table.Column<string>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    TimeTrack_Created = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Updated = table.Column<DateTime>(nullable: false),
+                    TimeTrack_Deleted = table.Column<DateTime>(nullable: false),
                     BaseBioBlockId = table.Column<int>(nullable: true),
                     ContentBlockId = table.Column<int>(nullable: true)
                 },
@@ -348,6 +366,16 @@ namespace Pkdd.Database.Migrations
                 table: "MainBioBlocks",
                 column: "PersonId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestResults_PersonId",
+                table: "TestResults",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestResults_PkddUserId",
+                table: "TestResults",
+                column: "PkddUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -380,10 +408,10 @@ namespace Pkdd.Database.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "MainBioBlocks");
 
             migrationBuilder.DropTable(
-                name: "MainBioBlocks");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Persons");

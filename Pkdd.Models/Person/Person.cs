@@ -22,7 +22,7 @@ namespace Pkdd.Models.Persons
         public string Position { get; set; }
 
         public Priority Priority { get; set; }
-        
+
         [JsonProperty("photoUrl")]
         public string PhotoUrl { get; set; }
 

@@ -12,10 +12,10 @@ using Enums = Pkdd.Models.Persons.Enums;
 namespace Pkdd.Models.Persons
 {
     [JsonObject]
-    public class ContentBlock: IEntity<ContentBlock>
+    public class ContentBlock : IEntity<ContentBlock>
     {
         [JsonProperty("title")]
-        public string Tilte { get; set; }   
+        public string Tilte { get; set; }
 
         [JsonProperty("subtitle")]
         public string Subtitle { get; set; }
@@ -53,7 +53,7 @@ namespace Pkdd.Models.Persons
             Content = content.Content;
             Comment = content.Comment;
             Order = content.Order;
-            this.MarkUpdated();
+            // this.MarkUpdated();
             return this;
         }
 
@@ -62,13 +62,13 @@ namespace Pkdd.Models.Persons
         public bool CheckOrder(string order)
         {
             bool isMatch = Regex.IsMatch(order, orderPattern);
-            if(!isMatch)
+            if (!isMatch)
             {
                 return false;
             }
             string[] thisOrder = Order.Split('/');
             string[] checkOrder = order.Split('/');
-            if(thisOrder.Length != checkOrder.Length)
+            if (thisOrder.Length != checkOrder.Length)
             {
                 return false;
             }
