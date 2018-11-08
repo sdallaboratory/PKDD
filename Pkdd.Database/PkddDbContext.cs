@@ -32,9 +32,10 @@ namespace Pkdd.Database
             builder.Entity<Person>();
             builder.Entity<MetaInformation>();
 
-            builder.Entity<Person>()
-                .Property(p => p.Id)
-                .ValueGeneratedOnAdd();
+            // TODO: Implement complex primary key for TestResult entity.
+
+            //builder.Entity<TestResult>()
+            //    .HasKey(r => new { r.PersonId, r.PkddUserId});
 
             base.OnModelCreating(builder);
         }

@@ -3,12 +3,15 @@ using Pkdd.Models.Persons;
 using Pkdd.Models.Users;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Pkdd.Models.Results
 {
     public class TestResult : EntityBase<TestResult>
     {
+        public override int Id {get;set;}
+
         public int PersonId { get; set; }
 
         public Person Person { get; set; }

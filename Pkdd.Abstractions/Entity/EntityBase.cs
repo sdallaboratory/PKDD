@@ -7,11 +7,11 @@ namespace Pkdd.Abstractions.Entity
 {
     public abstract class EntityBase<TEntity> : IEntity<TEntity>
     {
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
-        public TimeTrack TimeTrack { get; set; } = new TimeTrack();
+        public virtual TimeTrack TimeTrack { get; set; } = new TimeTrack();
 
-        public bool IsDeleted { get; set; }
+        public virtual bool IsDeleted { get; set; }
 
         public abstract TEntity Update(TEntity entity);
     }

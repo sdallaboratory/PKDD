@@ -56,8 +56,7 @@ namespace Pkdd.Controllers
         {
             try
             {
-                var a = _repo.GetUserResults(userId);
-                TestResult result = _repo.GetResult(personId, userId) 
+                TestResult result = _repo.GetResult(userId, personId) 
                     ?? new TestResult() { Id = 0, PersonId = personId, PkddUserId = userId }; //throw new Exception("Этот эксперт ещё не оценил эту персону.");
                 return PkddOk(result);
             }
