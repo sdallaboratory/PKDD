@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pkdd.Abstractions.Entity;
 using Pkdd.Database;
 using Pkdd.Models.Results;
 using System;
@@ -20,9 +21,10 @@ namespace Pkdd.Repositories
 
         public TestResult AddOrUpdateResult([FromBody] TestResult result)
         {
-            var storedResult = _context.Find<TestResult>(result.Id);
+            var storedResult = _context.TestResults.SingleOrDefault(res => res.PersonId == result.PersonId && res.PkddUserId == result.PkddUserId);
             if (storedResult == null)
             {
+                result.MarkCreated();
                 storedResult = _context.Add(result).Entity;
             }
             else
@@ -38,11 +40,11 @@ namespace Pkdd.Repositories
         {
             return _context.Find<TestResult>(id);
         }
-        
+
         // returns test result for specified person by specified expert if it exists, else null.
         public TestResult GetResult(int userId, int personId)
         {
-            return _context.TestResults.FirstOrDefault(r => r.PkddUserId == userId && r.PersonId == personId);
+            return _context.TestResults.SingleOrDefault(r => r.PkddUserId == userId && r.PersonId == personId);
         }
 
         public IEnumerable<TestResult> GetUserResults(int userId)

@@ -29,6 +29,11 @@ const routes: Routes = [
             component: UsersListComponent,
             canActivate: [AuthGuard.forRoles(PkddRoles.admin)]
           },
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'user-list'
+          }
 
         ]
       },

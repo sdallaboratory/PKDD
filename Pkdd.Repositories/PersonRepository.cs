@@ -79,20 +79,23 @@ namespace Pkdd.Repositories
 
         public async Task<List<Person>> GetAllPersons()
         {
+            // TODO: Remove unnecessary variable
             List<Person> persons = null;
             try
             {
-                persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
-                if (persons == null)
-                {
-                    throw new NotFoundException("Сущность не найдена");
-                }
+                persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync() ?? new List<Person>();
             }
             catch (Exception ex)
             {
                 ThrowException(ex);
             }
             return persons;
+        }
+
+        // TODO: Puts here user instance and return persons from his scope.
+        public Task<List<Person>> GetPersonsForExpert()
+        {
+            return _dbContext.Persons.Where(person => person.IsPublished).Include(p => p.BioBlock).ToListAsync();
         }
 
         public async Task<List<ContentBlock>> GetContentBlock(int baseBlockId)

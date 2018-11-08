@@ -61,12 +61,22 @@ export class PersonMmpiComponent implements OnInit {
         layout: {
           padding: 15
         },
+        legend: {
+          display: false,
+        },
         scales: {
           yAxes: [
             {
               ticks: {
                 min: 0,
                 max: this.env.config.mmpiResultMaxValue
+              }
+            }
+          ],
+          xAxes: [
+            {
+              ticks: {
+                autoSkip: false
               }
             }
           ]

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Common;
 using Pkdd.Models.Persons;
+using Pkdd.Models.Users.Roles;
 using Pkdd.Repositories;
+using Pkdd.Users;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
 {
@@ -19,11 +19,15 @@ namespace Pkdd.Controllers
     {
         private readonly IPersonRepository _personRepository;
         private readonly ILogger<PersonController> _logger;
+        private readonly IPkddUserManager _users;
+        private readonly IPkddAuthManager _auth;
 
-        public PersonController(IPersonRepository repository, ILogger<PersonController> logger)
+        public PersonController(IPersonRepository repository, ILogger<PersonController> logger, IPkddUserManager users, IPkddAuthManager auth)
         {
             _personRepository = repository;
             _logger = logger;
+            _users = users;
+            _auth = auth;
         }
 
         [HttpGet]
@@ -32,7 +36,13 @@ namespace Pkdd.Controllers
         {
             try
             {
-                var persons = await _personRepository.GetAllPersons();
+                List<Person> persons;
+
+                if (await _users.IsInRoleAsync(await _auth.GetUserAsync(), PkddRoles.Expert))
+                    persons = await _personRepository.GetAllPersons();
+                else
+                    persons = await _personRepository.GetPersonsForExpert();
+
                 return Ok(persons);
             }
             catch (Exception ex)

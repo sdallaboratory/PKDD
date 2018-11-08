@@ -40,6 +40,7 @@ namespace Pkdd.Models.Results
             Physiognomy.Update(source.Physiognomy);
             PhysiognomyComplete = source.PhysiognomyComplete;
             Comment = source.Comment;
+            this.MarkUpdated();
             return this;
         }
     }

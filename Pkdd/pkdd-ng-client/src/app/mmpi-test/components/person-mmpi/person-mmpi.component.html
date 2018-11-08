@@ -1,18 +1,22 @@
 <div class="wrapper">
   <h1>Тест MMPI</h1>
-  Внимательно изучите <a routerLink="..">информацию о персоне</a>. Примените полученные знания для определения значений каждой из 10 шкал MMPI.
+  Внимательно изучите <a routerLink="..">информацию о персоне</a>. Примените полученные знания для определения значений
+  каждой из 10 шкал MMPI.
   <div class="columns-container">
     <pkdd-chart [config]="chartConfig"></pkdd-chart>
-    <!-- <mat-expansion-panel *ngIf="scales">
+
+    <!-- TODO: Implement input via usual text fields -->
+
+    <!-- <mat-expansion-panel>
     <mat-expansion-panel-header>
-      Ввести с помощью обычных числовых полей.
+        Ввести с помощью обычных числовых полей.
     </mat-expansion-panel-header>
     <div *ngFor="let scale of scales">
-      <input matInput type="number" [placeholder]="scale.name" [(ngModel)]="scale.value">
+      <span>{{scale.name}} </span><input [placeholder]="scale.name" [value]="scale.value">
     </div>
   </mat-expansion-panel> -->
-  <div *ngFor="let scale of scales">{{scale.value}}</div>
-    <button mat-button (click)="onSave()">
+
+    <button mat-raised-button (click)="onSave()">
       Сохранить результаты
     </button>
   </div>

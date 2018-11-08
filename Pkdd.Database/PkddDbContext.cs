@@ -31,6 +31,11 @@ namespace Pkdd.Database
             builder.Entity<PkddRoleTech>();
             builder.Entity<Person>();
             builder.Entity<MetaInformation>();
+
+            builder.Entity<Person>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();
+
             base.OnModelCreating(builder);
         }
     }
