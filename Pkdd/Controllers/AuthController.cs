@@ -59,7 +59,6 @@ namespace Pkdd.Controllers
             {
                 PkddUser user = await users.CreateAsync(model.Email, model.Password, model.Name);
                 await users.AddToRoleAsync(user, "expert");
-                //await users.AddToRoleAsync(user, "admin");
                 PkddUserInfo userInfo = await repository.GetAsync(user.Id);
                 return PkddOk(userInfo);
             }

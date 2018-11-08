@@ -11,6 +11,7 @@
       <input matInput type="number" [placeholder]="scale.name" [(ngModel)]="scale.value">
     </div>
   </mat-expansion-panel> -->
+  <div *ngFor="let scale of scales">{{scale.value}}</div>
     <button mat-button (click)="onSave()">
       Сохранить результаты
     </button>
