@@ -12,7 +12,7 @@ using Enums = Pkdd.Models.Persons.Enums;
 namespace Pkdd.Models.Persons
 {
     [JsonObject]
-    public class ContentBlock : IEntity<ContentBlock>
+    public class ContentBlock : EntityBase<ContentBlock>
     {
         [JsonProperty("title")]
         public string Tilte { get; set; }
@@ -40,12 +40,12 @@ namespace Pkdd.Models.Persons
         [RegularExpression(orderPattern)]
         [JsonProperty("order")]
         public string Order { get; set; }
-        public int Id { get; set; }
-        public bool IsDeleted { get; set; }
 
-        public TimeTrack TimeTrack { get; set; } = new TimeTrack();
+        //public int Id { get; set; }
+        //public bool IsDeleted { get; set; }
+        //public TimeTrack TimeTrack { get; set; } = new TimeTrack();
 
-        public ContentBlock Update(ContentBlock content)
+        public override ContentBlock Update(ContentBlock content)
         {
             Tilte = content.Tilte;
             Subtitle = content.Subtitle;
