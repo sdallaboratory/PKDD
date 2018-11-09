@@ -24,7 +24,7 @@ namespace Pkdd.Models.Persons
         [Required]
         public Enums.ContentType Type { get; set; }
 
-        [JsonProperty("content")]
+        //[JsonProperty("content")]
         [Required]
         public string Content { get; set; }
 
@@ -57,7 +57,7 @@ namespace Pkdd.Models.Persons
             return this;
         }
 
-        private const string orderPattern = @"\/?\d+";
+        private const string orderPattern = @"(\d*\/)+";
 
         public bool CheckOrder(string order)
         {
