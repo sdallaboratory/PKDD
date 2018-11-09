@@ -14,5 +14,8 @@ namespace Pkdd.Users
 
         Task UpdateAsync(PkddUserInfo userInfo);
 
+        Task<List<PkddUserInfo>> ToPkddUsersInfoAsync(List<PkddUser> users);
+
+        Task<PkddUserInfo> ToPkddUserInfoAsync(PkddUser user);
     }
 }

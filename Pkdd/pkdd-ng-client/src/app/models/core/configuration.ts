@@ -13,4 +13,6 @@ export interface Configuration {
     productName: string;
 
     backendOrigin: string;
+
+    mmpiResultMaxValue: number;
 }

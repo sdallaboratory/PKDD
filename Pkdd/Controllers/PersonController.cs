@@ -1,27 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pkdd.Controllers.Base;
 using Pkdd.Models.Common;
-using Pkdd.Models.Person;
+using Pkdd.Models.Persons;
+using Pkdd.Models.Users.Roles;
 using Pkdd.Repositories;
+using Pkdd.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
 {
     [Route("api/persons")]
+    [ApiController]
     public class PersonController : PkddControllerBase
     {
         private readonly IPersonRepository _personRepository;
         private readonly ILogger<PersonController> _logger;
+        private readonly IPkddUserManager _users;
+        private readonly IPkddAuthManager _auth;
 
-        public PersonController(IPersonRepository repository, ILogger<PersonController> logger)
+        public PersonController(IPersonRepository repository, ILogger<PersonController> logger, IPkddUserManager users, IPkddAuthManager auth)
         {
             _personRepository = repository;
             _logger = logger;
+            _users = users;
+            _auth = auth;
         }
 
         [HttpGet]
@@ -30,12 +37,20 @@ namespace Pkdd.Controllers
         {
             try
             {
-                var persons = await _personRepository.GetAllPersons();
+                List<Person> persons;
+
+                var roles = await _users.GetRolesAsync(await _auth.GetUserAsync());
+                if (roles.Length == 1 && roles.Contains("expert"))
+                    persons = await _personRepository.GetPersonsForExpert();
+                else
+                    persons = await _personRepository.GetAllPersons();
+
                 return Ok(persons);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -50,7 +65,8 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -65,7 +81,8 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -75,12 +92,13 @@ namespace Pkdd.Controllers
         {
             try
             {
-                var mainBlock = await _personRepository.GetContentBlock(id);
-                return Ok(mainBlock);
+                List<ContentBlock> contents = await _personRepository.GetContentBlock(id);
+                return Ok(contents);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -99,6 +117,7 @@ namespace Pkdd.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> AddPerson([FromBody] Person person)
         {
             try
@@ -108,12 +127,13 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
         [HttpPost]
-        [Route("bio/{id}/contents/{parentId?}")]
+        [Route("bio/{id}/contents/{parentid?}")]
         public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int id, int? parentId)
         {
             try
@@ -161,6 +181,7 @@ namespace Pkdd.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "tech")]
         public async Task<IActionResult> DeletePerson([FromRoute] int id)
         {
             try

@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Pkdd.Models.Person;
+using Pkdd.Abstractions.Entity;
+using Pkdd.Models.Persons;
+using Pkdd.Models.Persons.Enums;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Pkdd.Database
@@ -16,7 +17,7 @@ namespace Pkdd.Database
         private readonly RoleManager<PkddRoleBase> _roleManager;
         private readonly UserManager<PkddUser> _userManager;
 
-        private readonly int seedVersion = 1;
+        private readonly int seedVersion = 2;
 
         public DbSeeder(PkddDbContext context, RoleManager<PkddRoleBase> roleManager, UserManager<PkddUser> userManager)
         {
@@ -25,7 +26,7 @@ namespace Pkdd.Database
             _userManager = userManager;
         }
 
-        public async Task Seed()
+        public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
 
@@ -43,7 +44,7 @@ namespace Pkdd.Database
             List<PkddRoleBase> roles = new List<PkddRoleBase>() { new PkddRoleAdmin(), new PkddRoleExpert(), new PkddRoleTech() };
             foreach (PkddRoleBase role in roles)
                 if (!await _roleManager.RoleExistsAsync(role.Name))
-                    await _roleManager.CreateAsync(role);
+                    await _roleManager.CreateAsync(role.MarkCreated());
         }
 
         private async Task SeedAdmin()
@@ -72,7 +73,7 @@ namespace Pkdd.Database
             Person person = new Person()
             {
                 Name = "Первый",
-                Sex = Models.Sexes.Undefined,
+                Sex = Sexes.Undefined,
                 Birthday = new DateTime(),
                 Position = "",
                 PhotoUrl = "",
@@ -85,7 +86,7 @@ namespace Pkdd.Database
                         {
                             Tilte = "Title",
                             Subtitle = "",
-                            Type = Models.Person.Enums.ContentType.Container,
+                            Type = ContentType.Container,
                             Content = "",
                             Order = "0/",
                             SubBlocks = new List<ContentBlock>(),

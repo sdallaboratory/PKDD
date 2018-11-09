@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Pkdd.Abstractions.Entity
 {
-    public interface IEntity<TEntity> : IEntityStatus, IEntityAction<TEntity>
+    public interface IEntity<TEntity> : IUpdatable<TEntity>
     {
         int Id { get; set; }
+
+        TimeTrack TimeTrack { get; set; }
+
+        bool IsDeleted { get; set; }
     }
 }

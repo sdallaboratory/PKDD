@@ -40,7 +40,7 @@ namespace Pkdd.Users
             return;
         }
 
-        private async Task<List<PkddUserInfo>> ToPkddUsersInfoAsync(List<PkddUser> users)
+        public async Task<List<PkddUserInfo>> ToPkddUsersInfoAsync(List<PkddUser> users)
         {
             List<Task<PkddUserInfo>> infos = new List<Task<PkddUserInfo>>();
             foreach (PkddUser user in users)
@@ -51,7 +51,7 @@ namespace Pkdd.Users
             return infos.Select(i => i.Result).ToList();
         }
 
-        private async Task<PkddUserInfo> ToPkddUserInfoAsync(PkddUser user)
+        public async Task<PkddUserInfo> ToPkddUserInfoAsync(PkddUser user)
         {
             PkddUserInfo userInfo = new PkddUserInfo()
             {

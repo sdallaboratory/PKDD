@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { promisify } from '../utils/promisify';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RouteDataProviderService {
 
   constructor(
@@ -13,6 +12,7 @@ export class RouteDataProviderService {
 
   async get<T>(name: string): Promise<T> {
     const data = await this.route.data.pipe(first()).toPromise();
+    // const data = await promisify(this.route.data);
     return data[name];
   }
 }

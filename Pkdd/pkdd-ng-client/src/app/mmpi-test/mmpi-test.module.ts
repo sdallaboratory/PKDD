@@ -1,10 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.component';
+import { CoreModule } from '../core/core.module';
+import { LayoutModule } from '../layout/layout.module';
+import { MaterialImportsModule } from '../material-imports/material-imports.module';
+import { PkddChartsModule } from '../pkdd-charts/pkdd-charts.module';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { TechMmpiComponent } from './components/tech-mmpi/tech-mmpi.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    CoreModule,
+    MaterialImportsModule,
+    LayoutModule,
+    PkddChartsModule
   ],
-  declarations: []
+  declarations: [PersonMmpiComponent, TechMmpiComponent],
+  exports: [TechMmpiComponent]
 })
 export class MmpiTestModule { }

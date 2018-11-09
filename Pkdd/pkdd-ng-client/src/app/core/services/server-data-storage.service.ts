@@ -112,7 +112,7 @@ export class ServerDataStorageService {
     try {
       const body = this._factory.createContentBlockBackend(block);
       console.log(body);
-      
+
       result = this._factory.createContentBlock(baseBioBlockId, (await this.makeAction(
         ActionType.Post,
         EntityType.ContentBlock,
@@ -120,7 +120,7 @@ export class ServerDataStorageService {
         null,
         baseBioBlockId,
         parentId
-        )), parentId);
+      )), parentId);
       const baseBlock = this.findBlock(baseBioBlockId, block.parentId);
       if (isNullOrUndefined(baseBlock)) {
         this._contentBlocks.find(b => b.id === baseBioBlockId).entity.push(result);
@@ -129,7 +129,7 @@ export class ServerDataStorageService {
       }
     } catch (ex) {
       console.log(ex);
-      
+
     }
   }
 
@@ -138,7 +138,7 @@ export class ServerDataStorageService {
       await this.makeAction(ActionType.Delete, EntityType.ContentBlock, null, block.id, baseBioBlockId);
       const baseBlock = this.findBlock(baseBioBlockId, block.parentId);
       console.log(block, baseBlock);
-      
+
       if (isNullOrUndefined(baseBlock)) {
         const mainBlock = this._contentBlocks.find(b => b.id === baseBioBlockId);
         mainBlock.entity.splice(mainBlock.entity.findIndex(b => b.id === block.id), 1);
@@ -210,7 +210,7 @@ export class ServerDataStorageService {
     });
     resultArray = resultArray.filter(b => !isNullOrUndefined(b));
     console.log(resultArray, id);
-    
+
     return resultArray.find(b => b.id === id);
   }
 

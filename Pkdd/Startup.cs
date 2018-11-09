@@ -26,16 +26,16 @@ namespace Pkdd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddCors(cors => cors.AddPolicy("AllowAny", options =>
-            {
-                options.AllowAnyHeader();
-                options.AllowAnyMethod();
-                options.AllowAnyOrigin();
-                options.AllowCredentials();
-            }));
+             {
+                 options.AllowAnyHeader();
+                 options.AllowAnyMethod();
+                 options.AllowAnyOrigin();
+                 options.AllowCredentials();
+             }));
 
             services.AddDbContext<PkddDbContext>(options =>
+                //options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<PkddUser, PkddRoleBase>(options =>
@@ -51,8 +51,9 @@ namespace Pkdd
             //    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
             //    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
             //})
-;
+            ;
             services.AddPersonRepository();
+            services.AddResultRepository();
             services.AddTransient<DbSeeder, DbSeeder>();
 
             services.AddPkddUsers();
@@ -81,6 +82,6 @@ namespace Pkdd
                     name: "Default",
                     template: "{*AngularRoute}",
                     defaults: new { controller = "Home", action = "Index" }));
+        }
     }
-}
 }

@@ -1,0 +1,21 @@
+.pulse-wrapper:hover {
+    animation: pulse 1.5s infinite;
+  }
+  .pulse-wrapper {
+    animation: none;
+  }
+
+  @keyframes pulse {
+    0% {
+        filter: invert(20%);
+        transform: scale(1);
+    }
+    70% {
+        filter: invert(40%);
+        transform: scale(1.1);
+    }
+    100% {
+        filter: invert(20%);
+        transform: scale(1);
+    }
+  }
