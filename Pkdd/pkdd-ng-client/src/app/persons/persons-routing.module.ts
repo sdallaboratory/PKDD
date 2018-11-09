@@ -35,20 +35,22 @@ const personsRoutes: Routes = [
           resolve: {
             menu: PersonMenuResolver,
             personModel: PersonResolverService
-            },
+          },
           children: [
             { path: '', component: PersonInfoComponent },
             { path: 'mmpi', component: PersonMmpiComponent, resolve: { results: ResultsResolverService } },
             {
               path: 'edit',
               component: PersonEditComponent,
-              resolve: {
-                personModel: PersonResolverService
-              }
+              resolve: { personModel: PersonResolverService }
             },
             { path: 'luscher', component: PersonLuscherComponent },
             { path: 'physiognomy', component: PersonPhysiognomyComponent },
-            { path: 'results', component: PersonResultsComponent },
+            {
+              path: 'results',
+              component: PersonResultsComponent,
+              resolve: { personModel: PersonResolverService }
+            },
           ]
         }
       ]

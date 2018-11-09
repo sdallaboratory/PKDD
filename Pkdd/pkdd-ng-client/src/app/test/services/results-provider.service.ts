@@ -6,21 +6,23 @@ import { TestResult } from 'src/app/models/persons/results/test-result';
 @Injectable({
   providedIn: 'root'
 })
+// TODO: provide url with ApiUrlConstructorService
 export class ResultsProviderService {
 
   constructor(
     private readonly http: PkddHttpService,
-    private readonly url: ApiUrlConstructorService
+    // private readonly url: ApiUrlConstructorService
   ) { }
 
   public async get(personId: number, userId: number) {
-    // TODO: provide url with ApiUrlConstructorService
-    console.log('fetching results', personId, userId);
     return this.http.get<TestResult>(`api/test-result/${personId}/${userId}`);
   }
 
+  public async getForPerson(personId: number) {
+    return this.http.get<TestResult[]>(`api/test-result/${personId}`);
+  }
+
   public async send(result: TestResult) {
-    // TODO: provide url with ApiUrlConstructorService
     return this.http.post<TestResult>(`api/test-result`, result);
   }
 

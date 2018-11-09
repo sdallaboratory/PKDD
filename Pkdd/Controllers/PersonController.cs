@@ -9,6 +9,7 @@ using Pkdd.Repositories;
 using Pkdd.Users;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pkdd.Controllers
@@ -38,16 +39,18 @@ namespace Pkdd.Controllers
             {
                 List<Person> persons;
 
-                if (await _users.IsInRoleAsync(await _auth.GetUserAsync(), PkddRoles.Expert))
-                    persons = await _personRepository.GetAllPersons();
-                else
+                var roles = await _users.GetRolesAsync(await _auth.GetUserAsync());
+                if (roles.Length == 1 && roles.Contains("expert"))
                     persons = await _personRepository.GetPersonsForExpert();
+                else
+                    persons = await _personRepository.GetAllPersons();
 
                 return Ok(persons);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -62,7 +65,8 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -77,7 +81,8 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -87,12 +92,13 @@ namespace Pkdd.Controllers
         {
             try
             {
-                var mainBlock = await _personRepository.GetContentBlock(id);
-                return Ok(mainBlock);
+                List<ContentBlock> contents = await _personRepository.GetContentBlock(id);
+                return Ok(contents);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
@@ -121,12 +127,13 @@ namespace Pkdd.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
+                return PkddError(ex.Message);
+                //return StatusCode(500, new PkddResponse(isOk: false, message: ex.Message));
             }
         }
 
         [HttpPost]
-        [Route("bio/{id}/contents/{parentId?}")]
+        [Route("bio/{id}/contents/{parentid?}")]
         public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int id, int? parentId)
         {
             try

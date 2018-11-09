@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Pkdd.Database\Pkdd.Database.csproj" />
     <ProjectReference Include="..\Pkdd.Models\Pkdd.Models.csproj" />
+    <ProjectReference Include="..\Pkdd.Users\Pkdd.Users.csproj" />
   </ItemGroup>
 
   <ItemGroup>

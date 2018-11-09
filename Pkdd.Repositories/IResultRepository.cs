@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Pkdd.Repositories
 {
@@ -16,6 +17,6 @@ namespace Pkdd.Repositories
 
         IEnumerable<TestResult> GetUserResults(int userId);
 
-        IEnumerable<TestResult> GetPersonResults(int personId);
+        Task<IEnumerable<TestResult>> GetPersonResults(int personId);
     }
 }

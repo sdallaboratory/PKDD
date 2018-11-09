@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input, OnChang
 import * as Chart from 'chart.js';
 import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { ChartConfiguration } from 'chart.js';
+import { PkddChartConfiguration } from '../../models/config';
 
 @Component({
   selector: 'pkdd-chart',
@@ -17,7 +18,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   @Input()
-  config: ChartConfiguration;
+  config: PkddChartConfiguration;
 
   @ViewChild('chartCanvas')
   private readonly canvas: ElementRef;
@@ -26,7 +27,6 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   public ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-    // this.chart = this.InitializeCanvas();
   }
 
   ngOnChanges() {
@@ -38,8 +38,15 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-
   private InitializeCanvas() {
+    if (this.config.dragData) {
+      (<any>this.config.options).dragData = true;
+    }
+    if (this.config.onDragEnd) {
+      (<any>this.config.options).onDragEnd = this.config.onDragEnd;
+    }
+    this.config.update = () => { chart.update(); console.log('updated'); };
+    console.log(this.config);
     const chart = new Chart(this.ctx, this.config);
     return chart;
   }

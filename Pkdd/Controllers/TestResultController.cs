@@ -38,11 +38,11 @@ namespace Pkdd.Controllers
         }
 
         [HttpGet("{personId}")]
-        public JsonResult GetResult([FromRoute] int personId)
+        public async Task<JsonResult> GetResults([FromRoute] int personId)
         {
             try
             {
-                IEnumerable<TestResult> results = _repo.GetPersonResults(personId);
+                IEnumerable<TestResult> results = await _repo.GetPersonResults(personId);
                 return PkddOk(results);
             }
             catch (Exception e)

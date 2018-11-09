@@ -11,4 +11,22 @@ export class MmpiResult {
         public hypomania: number = 0,
         public sociality: number = 0,
     ) { }
+
+    public static get keys(): string[] {
+        return Object.keys(new MmpiResult());
+    }
+
+    public static toNameValuePairs(mmpiResult: MmpiResult): { name: string, value: number }[] {
+        return mmpiResult && Object.keys(mmpiResult).map(key => ({ name: key, value: mmpiResult[key] }));
+    }
+
+    public static toArray(mmpiResult: MmpiResult): number[] {
+        return mmpiResult && MmpiResult.toNameValuePairs(mmpiResult).map(pair => pair.value);
+    }
+
+    public static fromArray(values: number[]): MmpiResult {
+        const mmpiResult = new MmpiResult();
+        MmpiResult.keys.forEach((name, i) => mmpiResult[name] = values[i]);
+        return mmpiResult;
+    }
 }

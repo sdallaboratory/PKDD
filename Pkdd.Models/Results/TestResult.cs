@@ -20,6 +20,9 @@ namespace Pkdd.Models.Results
 
         public PkddUser PkddUser { get; set; }
 
+        [NotMapped]
+        public PkddUserInfo UserInfo { get; set; }
+
         public MmpiResult Mmpi { get; set; } = new MmpiResult();
 
         public bool MmpiComplete { get; set; }

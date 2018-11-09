@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { EnvironmentService } from 'src/app/core/services/environment.service';
+import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
 
 @Component({
   selector: 'pkdd-person-mmpi',
@@ -17,14 +18,10 @@ export class PersonMmpiComponent implements OnInit {
 
   public result: TestResult;
 
-  public chartConfig: ChartConfiguration;
+  public chartConfig: PkddChartConfiguration;
 
   public get scales() {
-    return this.result && Object.keys(this.result.mmpi).map(key => ({ name: key, value: this.result.mmpi[key] }));
-  }
-
-  private get keys() {
-    return Object.keys(new MmpiResult());
+    return MmpiResult.toNameValuePairs(this.result.mmpi);
   }
 
   constructor(
@@ -43,9 +40,9 @@ export class PersonMmpiComponent implements OnInit {
     this.chartConfig = {
       type: 'line',
       data: {
-        labels: this.keys,
+        labels: MmpiResult.keys,
         datasets: [{
-          data: this.scales.map(scale => scale.value),
+          data: MmpiResult.toArray(this.result.mmpi), // this.scales.map(scale => scale.value),
           borderWidth: 6,
           pointRadius: 8,
           pointHoverRadius: 20,
@@ -86,9 +83,10 @@ export class PersonMmpiComponent implements OnInit {
         },
         responsive: true,
       },
+      dragData: true,
+      onDragEnd:  () => this.updateValues()
     };
-    (<any>this.chartConfig.options).dragData = true;
-    (<any>this.chartConfig.options).onDragEnd = () => this.updateValues();
+
   }
 
   private updateValues() {
@@ -96,7 +94,7 @@ export class PersonMmpiComponent implements OnInit {
     data.forEach((val, i) => {
       data[i] = +val.toFixed(0);
     });
-    this.keys.forEach((key, i) => {
+    MmpiResult.keys.forEach((key, i) => {
       this.result.mmpi[key] = data[i];
     });
   }

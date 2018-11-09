@@ -17,6 +17,7 @@ namespace Pkdd.Models.Users
 
         public bool IsDeleted { get; set; }
 
+        // TODO: Remove duplicated property
         public string FullName { get; set; }
 
         public DateTime Birthdate { get; set; }
@@ -26,12 +27,14 @@ namespace Pkdd.Models.Users
             UserName = Email + DateTime.Now.Millisecond;
         }
 
-        public PkddUser Update(PkddUser entity)
+        public PkddUser Update(PkddUser source)
         {
-            Name = entity.Name;
-            IsConfirmed = entity.IsConfirmed;
-            IsBanned = entity.IsBanned;
-            IsDeleted = entity.IsDeleted;
+            Name = source.Name;
+            IsConfirmed = source.IsConfirmed;
+            IsBanned = source.IsBanned;
+            IsDeleted = source.IsDeleted;
+            TimeTrack = source.TimeTrack;
+            Birthdate = source.Birthdate;
             return this;
         }
     }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MmpiColumnComponent } from './mmpi-column.component';
+import { TechMmpiComponent } from './tech-mmpi.component';
 
-describe('MmpiColumnComponent', () => {
-  let component: MmpiColumnComponent;
-  let fixture: ComponentFixture<MmpiColumnComponent>;
+describe('TechMmpiComponent', () => {
+  let component: TechMmpiComponent;
+  let fixture: ComponentFixture<TechMmpiComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MmpiColumnComponent ]
+      declarations: [ TechMmpiComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MmpiColumnComponent);
+    fixture = TestBed.createComponent(TechMmpiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
