@@ -161,7 +161,7 @@ export class EntitiesFactoryService {
     if (isNullOrUndefined(block)) {
       throw new Error('Empty block!');
     }
-    const content = !isNullOrUndefined(block.content) ? JSON.stringify(block.content) : '';
+    const content = !isNullOrUndefined(block.content) ? JSON.stringify(block.content) : 'empty';
     const subBlocks: ContentBlockBackend[] = [];
     block.subBlocks.forEach(b => {
       subBlocks.push(this.createContentBlockBackend(b));
@@ -200,7 +200,7 @@ export class EntitiesFactoryService {
       subtitle: 'Подзаголовок',
       type: ContentType.Container,
       comment: 'Некоторый важный комментарий',
-      order: order
+      order: order,
     }, baseBioBlockId, null, [], parentId);
   }
 }

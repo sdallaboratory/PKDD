@@ -122,6 +122,8 @@ namespace Pkdd.Controllers
         {
             try
             {
+                await _personRepository.AddContentBlock(1, new ContentBlock() { Order = "0/", Content = "", Type = Models.Persons.Enums.ContentType.Container }, null);
+
                 var newPerson = await _personRepository.AddPerson(person);
                 return Ok(newPerson);
             }
@@ -132,8 +134,7 @@ namespace Pkdd.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("bio/{id}/contents/{parentid?}")]
+        [HttpPost("bio/{id}/contents/{parentId?}")]
         public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int id, int? parentId)
         {
             try
