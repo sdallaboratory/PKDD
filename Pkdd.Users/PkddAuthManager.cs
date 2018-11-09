@@ -38,15 +38,15 @@ namespace Pkdd.Users
                 ?? throw new Exception("Пользователя с таким Email нет в системе.");
 
             if (user.IsBanned)
-                throw new Exception("Вы были забанены администратором!");
+                throw new Exception("Просим прощения, но вы забанены.");
 
             if (!user.IsConfirmed)
-                throw new Exception("Ваш аккаунт не был подтвержден. Дождитесь подтверждения администратором системы ");
+                throw new Exception("Администратор ещё не успел подтвердить ваш профиль.");
 
             var result = await _signInManager.PasswordSignInAsync(user, password, remember, false);
 
             if(!result.Succeeded)
-                throw new Exception("Введён неверный пароль.");
+                throw new Exception("Вы ввели неверный пароль.");
 
             return user;
         }

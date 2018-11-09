@@ -1,6 +1,10 @@
 ﻿
-namespace Pkdd.Models
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Pkdd.Models.Persons.Enums
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum Sexes
     {
         Undefined = 0,

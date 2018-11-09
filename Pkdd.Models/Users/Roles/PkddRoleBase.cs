@@ -10,7 +10,7 @@ namespace Pkdd.Models.Users.Roles
     {
         public PkddRoleBase(string roleName) : base(roleName)
         {
-            MarkCreated();
+            TimeTrack = new TimeTrack();
         }
 
         [NotMapped]
@@ -22,33 +22,8 @@ namespace Pkdd.Models.Users.Roles
 
         public PkddRoleBase Update(PkddRoleBase entity)
         {
-            IsDeleted = entity.IsDeleted;
+            //IsDeleted = entity.IsDeleted;
             return this;
-        }
-
-        public void MarkDeleted()
-        {
-            if (!IsDeleted)
-            {
-                IsDeleted = true;
-                TimeTrack.Deleted = DateTime.Now;
-            }
-        }
-
-        public void MarkCreated()
-        {
-            TimeTrack = new TimeTrack
-            {
-                Created = DateTime.Now
-            };
-        }
-
-        public void MarkUpdated()
-        {
-            TimeTrack = new TimeTrack
-            {
-                Updated = DateTime.Now
-            };
         }
     }
 }

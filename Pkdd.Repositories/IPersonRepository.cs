@@ -1,4 +1,4 @@
-﻿using Pkdd.Models.Person;
+﻿using Pkdd.Models.Persons;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ namespace Pkdd.Repositories
     public interface IPersonRepository
     {
         Task<List<Person>> GetAllPersons();
+        Task<List<Person>> GetPersonsForExpert();
         Task<Person> GetPerson(int id);
         Task<Person> AddPerson(Person person);
         Task UpdatePerson(Person person);

@@ -83,8 +83,6 @@ namespace Pkdd.Users
         /// <returns></returns>
         public async Task<PkddUser> CreateAsync(string email, string password, string name)
         {
-            var a = _roleManager.Roles;
-
             if (await _userManager.FindByEmailAsync(email) != null)
                 throw new Exception("Пользователь с таким адресом электронной почты уже зарегистрирован в системе.");
 

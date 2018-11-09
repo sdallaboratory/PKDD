@@ -13,4 +13,5 @@ export const environment: Configuration = {
   developers: 'Батин, Соловьев & Гончаров',
   productName: 'ПКДД',
   backendOrigin: '/../',
+  mmpiResultMaxValue: 120,
 };

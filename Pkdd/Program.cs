@@ -12,17 +12,25 @@ namespace Pkdd
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-            //SeedDatabase(host);
+            SeedDatabase(host);
             host.Run();
         }
 
         private async static Task SeedDatabase(IWebHost host)
         {
-            using (var scope = host.Services.CreateScope())
+            try
             {
-                var services = scope.ServiceProvider;
-                DbSeeder seeder = services.GetService<DbSeeder>();
-                await seeder.Seed();
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    DbSeeder seeder = services.GetService<DbSeeder>();
+                    await seeder.SeedAsync();
+                }
+            }
+            catch (System.Exception e)
+            {
+                var a = 2;
+                throw;
             }
         }
 

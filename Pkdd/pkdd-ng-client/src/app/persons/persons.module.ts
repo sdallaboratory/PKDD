@@ -10,10 +10,11 @@ import { PersonDetailsPageComponent } from './components/person-details-page/per
 import { PersonsRoutingModule } from './persons-routing.module';
 import { PersonInfoComponent } from './components/person-info/person-info.component';
 import { PersonEditComponent } from './components/person-edit/person-edit.component';
-import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.component';
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
+import { MmpiTestModule } from '../mmpi-test/mmpi-test.module';
+import { LayoutModule } from '../layout/layout.module';
 import { ContentBlockComponent } from './components/content-blocks/content-block/content-block.component';
 import { TextBlockComponent } from './components/content-blocks/text-block/text-block.component';
 import { DateTextBlockComponent } from './components/content-blocks/date-text-block/date-text-block.component';
@@ -32,6 +33,8 @@ import { SexTypePipe } from './pipes/sex-type.pipe';
     AuthModule,
     MaterialImportsModule,
     PersonsRoutingModule,
+    MmpiTestModule,
+    LayoutModule,
     FormsModule,
     BrowserModule,
     MDBBootstrapModule,
@@ -43,7 +46,6 @@ import { SexTypePipe } from './pipes/sex-type.pipe';
     PersonDetailsPageComponent,
     PersonInfoComponent,
     PersonEditComponent,
-    PersonMmpiComponent,
     PersonLuscherComponent,
     PersonPhysiognomyComponent,
     PersonResultsComponent,

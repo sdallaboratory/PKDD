@@ -5,20 +5,22 @@ import { PersonsListComponent } from './components/persons-list/persons-list.com
 import { PersonDetailsPageComponent } from './components/person-details-page/person-details-page.component';
 import { PersonsPageComponent } from './components/persons-page/persons-page.component';
 import { PkddPageComponent } from '../app-module/components/pkdd-page/pkdd-page.component';
-import { MenuResolver } from '../core/resolvers/menu.resolver';
 import { PersonInfoComponent } from './components/person-info/person-info.component';
 import { PersonEditComponent } from './components/person-edit/person-edit.component';
-import { PersonMmpiComponent } from './components/person-mmpi/person-mmpi.component';
 import { PersonLuscherComponent } from './components/person-luscher/person-luscher.component';
 import { PersonPhysiognomyComponent } from './components/person-physiognomy/person-physiognomy.component';
 import { PersonResultsComponent } from './components/person-results/person-results.component';
-import { MenuItem } from '../models/core/menu-item';
 import { PersonMenuResolver } from './resolvers/person-menu-resolver';
 import { PersonsResolverService } from './resolvers/persons-resolver.service';
+import { PersonMmpiComponent } from '../mmpi-test/components/person-mmpi/person-mmpi.component';
+import { ResultsResolverService } from '../mmpi-test/resolvers/results-resolver.service';
 import { PersonResolverService } from './resolvers/person-resolver.service';
 
 const personsRoutes: Routes = [
   {
+    path: '', pathMatch: 'full', redirectTo: '/persons'
+  }, {
+    // path: '', component: PkddPageComponent, children: [{
     path: '', component: PkddPageComponent, canActivate: [AuthGuard],
     canActivateChild: [AuthGuard], children: [{
       path: 'persons',
@@ -26,27 +28,29 @@ const personsRoutes: Routes = [
       canActivate: [AuthGuard],
       canActivateChild: [AuthGuard],
       children: [
-        { path: '', component: PersonsListComponent, resolve: { persons: PersonsResolverService, menu: MenuResolver.noItems() } },
+        { path: '', component: PersonsListComponent, resolve: { persons: PersonsResolverService } },
         {
           path: ':id',
           component: PersonDetailsPageComponent,
           resolve: {
             menu: PersonMenuResolver,
             personModel: PersonResolverService
-            },
+          },
           children: [
             { path: '', component: PersonInfoComponent },
+            { path: 'mmpi', component: PersonMmpiComponent, resolve: { results: ResultsResolverService } },
             {
               path: 'edit',
               component: PersonEditComponent,
-              resolve: {
-                personModel: PersonResolverService
-              }
+              resolve: { personModel: PersonResolverService }
             },
-            { path: 'mmpi', component: PersonMmpiComponent },
             { path: 'luscher', component: PersonLuscherComponent },
             { path: 'physiognomy', component: PersonPhysiognomyComponent },
-            { path: 'results', component: PersonResultsComponent },
+            {
+              path: 'results',
+              component: PersonResultsComponent,
+              resolve: { personModel: PersonResolverService }
+            },
           ]
         }
       ]

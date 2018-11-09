@@ -116,7 +116,7 @@ export class ServerDataStorageService {
         null,
         baseBioBlockId,
         parentId
-        )), parentId);
+      )), parentId);
       const baseBlock = this.findBlock(baseBioBlockId, block.parentId);
       if (isNullOrUndefined(baseBlock)) {
         this._contentBlocks.find(b => b.id === baseBioBlockId).entity.push(result);

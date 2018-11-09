@@ -8,11 +8,9 @@ import { isNullOrUndefined } from 'util';
 export class ApiUrlConstructorService {
 
   private readonly backendApiUrl = 'api';
-
   private readonly personsUrl = 'persons';
   private readonly bioUrl = `${this.personsUrl}/bio`;
   private readonly contentUrl = `contents`;
-
   private readonly adminUrl = `admin`;
 
   constructor(

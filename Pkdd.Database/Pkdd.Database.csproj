@@ -8,6 +8,7 @@
     <Compile Remove="Migrations\20181021220657_Try.cs" />
     <Compile Remove="Migrations\20181021221909_Try.cs" />
     <Compile Remove="Migrations\20181021222602_Try.cs" />
+    <Compile Remove="Migrations\20181107200637_Priority.cs" />
   </ItemGroup>
 
   <ItemGroup>

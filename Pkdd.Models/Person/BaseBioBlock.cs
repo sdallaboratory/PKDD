@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Pkdd.Models.Person
+namespace Pkdd.Models.Persons
 {
     [JsonObject]
     public class BaseBioBlock : EntityBase<BaseBioBlock>
