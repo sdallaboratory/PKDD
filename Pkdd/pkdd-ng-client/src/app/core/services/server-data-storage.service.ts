@@ -111,7 +111,8 @@ export class ServerDataStorageService {
     let result = null;
     try {
       const body = this._factory.createContentBlockBackend(block);
-      console.log(body, JSON.stringify(body));
+
+      // console.log(body, JSON.stringify(body));
 
       result = this._factory.createContentBlock(baseBioBlockId, (await this.makeAction(
         ActionType.Post,
