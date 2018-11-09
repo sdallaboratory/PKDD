@@ -16,7 +16,7 @@ export class ResultProcessorService {
 
   public root(results: MmpiResult[]): MmpiResult {
     const transposed = this.getColumns(results);
-    const rootArray = transposed.map(column => Math.sqrt(this.sum(column.map(value => value * value))));
+    const rootArray = transposed.map(column => Math.sqrt(this.sum(column.map(value => value * value)) / column.length));
     return MmpiResult.fromArray(rootArray);
   }
 
