@@ -37,7 +37,11 @@ namespace Pkdd.Users
             PkddUser user = await _userManager.FindByEmailAsync(email)
                 ?? throw new Exception("Пользователя с таким Email нет в системе.");
 
-            // TODO: implement check if a user is confirmed and not banned.
+            if (user.IsBanned)
+                throw new Exception("Вы были забанены администратором!");
+
+            if (!user.IsConfirmed)
+                throw new Exception("Ваш аккаунт не был подтвержден. Дождитесь подтверждения администратором системы ");
 
             var result = await _signInManager.PasswordSignInAsync(user, password, remember, false);
 

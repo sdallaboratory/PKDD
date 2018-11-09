@@ -83,6 +83,20 @@ namespace Pkdd.Repositories
             try
             {
                 persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
+                //BaseBioBlock mainBlock = await _dbContext.MainBioBlocks
+                //                                             .Include(b => b.ContentBlocks)
+                //                                             .FirstOrDefaultAsync(b => b.Id == 3);
+                //var content = new ContentBlock()
+                //{
+                //    Content = "",
+                //    Type = Models.Person.Enums.ContentType.Container,
+                //};
+                //if (mainBlock != null)
+                //{
+                //    var entity = _dbContext.Entry(content);
+                //    mainBlock.ContentBlocks.Add(content);
+                //    await _dbContext.SaveChangesAsync();
+                //}
                 if (persons == null)
                 {
                     throw new NotFoundException("Сущность не найдена");

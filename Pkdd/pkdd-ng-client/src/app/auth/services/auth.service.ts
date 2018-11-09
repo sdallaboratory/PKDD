@@ -69,8 +69,6 @@ export class AuthService {
   private async getUserFromServerAsync() {
     try {
       this.user = await this.http.get<PkddUser>('/api/auth/get-user');
-      // Test purposes
-      this.user.roles = [PkddRoles.admin, PkddRoles.expert, PkddRoles.tech];
     } catch {
       this.user = null;
     }
