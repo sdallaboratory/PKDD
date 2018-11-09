@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pkdd.Database;
 using Pkdd.Models.Persons;
+using Pkdd.Models.Persons.Enums;
 using Pkdd.Repositories.Exceptions;
 
 namespace Pkdd.Repositories
@@ -82,14 +83,15 @@ namespace Pkdd.Repositories
             // TODO: Remove unnecessary variable
             try
             {
-                persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
+                var persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
                 //BaseBioBlock mainBlock = await _dbContext.MainBioBlocks
                 //                                             .Include(b => b.ContentBlocks)
                 //                                             .FirstOrDefaultAsync(b => b.Id == 3);
                 //var content = new ContentBlock()
                 //{
                 //    Content = "",
-                //    Type = Models.Person.Enums.ContentType.Container,
+                //    Type = ContentType.Container,
+                //    TimeTrack = new Abstractions.TimeTrack()
                 //};
                 //if (mainBlock != null)
                 //{
@@ -101,6 +103,20 @@ namespace Pkdd.Repositories
                 {
                     throw new NotFoundException("Сущность не найдена");
                 }
+                return persons;
+            }
+            catch (Exception ex)
+            {
+                throw MakeException(ex);
+            }
+        }
+
+        // TODO: Puts here user instance and return persons from his scope.
+        public Task<List<Person>> GetPersonsForExpert()
+        {
+            try
+            {
+                return _dbContext.Persons.Where(person => person.IsPublished).Include(p => p.BioBlock).ToListAsync();
             }
             catch (Exception ex)
             {
