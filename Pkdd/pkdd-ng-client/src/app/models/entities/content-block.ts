@@ -54,8 +54,8 @@ export class ContentBlock extends AbstractContentBlock {
     constructor(
         contentBlock: AbstractContentBlock,
         baseBlockId: number,
-        content: ContentTypes,
-        subBlocks: ContentBlock[],
+        content: ContentTypes = new ContentText,
+        subBlocks: ContentBlock[] = [],
         parentId = -1
     ) {
         super(contentBlock);

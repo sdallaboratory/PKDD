@@ -4,6 +4,7 @@ using Pkdd.Abstractions.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,7 +25,7 @@ namespace Pkdd.Models.Persons
         [Required]
         public Enums.ContentType Type { get; set; }
 
-        [JsonProperty("content")]
+        //[JsonProperty("content")]
         [Required]
         public string Content { get; set; }
 
@@ -57,7 +58,10 @@ namespace Pkdd.Models.Persons
             return this;
         }
 
-        private const string orderPattern = @"\/?\d+";
+        [NotMapped]
+        public override TimeTrack TimeTrack { get; set; }
+
+        private const string orderPattern = @"(\d*\/)+";
 
         public bool CheckOrder(string order)
         {

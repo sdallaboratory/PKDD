@@ -132,8 +132,7 @@ namespace Pkdd.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("bio/{id}/contents/{parentid?}")]
+        [HttpPost("bio/{id}/contents/{parentId?}")]
         public async Task<IActionResult> AddContentBlock([FromBody] ContentBlock block, int id, int? parentId)
         {
             try

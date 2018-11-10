@@ -71,12 +71,9 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
           data: MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
           borderWidth: 6,
           pointRadius: 4,
-          // pointHoverRadius: 20,
           fill: false,
           backgroundColor: 'purple',
           borderColor: 'purple',
-          // pointHoverBackgroundColor: 'yellow',
-          // pointHoverBorderWidth: 1
         },
         {
           label: 'Среднее квадратическое',
