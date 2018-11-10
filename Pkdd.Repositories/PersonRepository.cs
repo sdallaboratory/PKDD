@@ -83,12 +83,7 @@ namespace Pkdd.Repositories
             // TODO: Remove unnecessary variable
             try
             {
-                var persons = await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync();
-                if (persons == null)
-                {
-                    throw new NotFoundException("Сущность не найдена");
-                }
-                return persons;
+                return await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync() ?? new List<Person>();
             }
             catch (Exception ex)
             {
