@@ -12,6 +12,8 @@ export class ApiUrlConstructorService {
   private readonly bioUrl = `${this.personsUrl}/bio`;
   private readonly contentUrl = `contents`;
   private readonly adminUrl = `admin`;
+  private readonly issueUrl = `issues`;
+  private readonly answerUrl = `answer`;
 
   constructor(
   ) {
@@ -36,5 +38,15 @@ export class ApiUrlConstructorService {
   public getUsersUrl(id: null | number = null) {
     const baseUrl = `${this.backendApiUrl}/${this.adminUrl}`;
     return isNullOrUndefined(id) ? baseUrl : `${baseUrl}/${id}`;
+  }
+
+  public getIssueUrl(id: null | number = null, userId: null | number = null) {
+    const baseUrl = `${this.backendApiUrl}/${userId ? userId : ''}/${this.issueUrl}`;
+    return isNullOrUndefined(userId) ? baseUrl : `${baseUrl}/${id}`;
+  }
+
+  public getAnswerUrl(issueId: number, answerId: null | number = null) {
+    const baseUrl = `${this.backendApiUrl}/${this.getIssueUrl(issueId)}/${this.answerUrl}`;
+    return isNullOrUndefined(answerId) ? baseUrl : `${baseUrl}/${answerId}`;
   }
 }

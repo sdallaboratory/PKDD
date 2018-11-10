@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
 using Pkdd.Models.Persons;
+using Pkdd.Models.Help;
 
 namespace Pkdd.Database
 {
@@ -24,6 +25,10 @@ namespace Pkdd.Database
 
         public DbSet<TestResult> TestResults { get; set; }
 
+        public DbSet<Issue> Issues { get; set; }
+
+        public DbSet<Answer> FeedbackAnswers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<PkddRoleAdmin>();
@@ -31,6 +36,7 @@ namespace Pkdd.Database
             builder.Entity<PkddRoleTech>();
             builder.Entity<Person>();
             builder.Entity<MetaInformation>();
+            builder.Entity<Issue>();
 
             // TODO: Implement complex primary key for TestResult entity.
 

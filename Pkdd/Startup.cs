@@ -54,6 +54,7 @@ namespace Pkdd
             ;
             services.AddPersonRepository();
             services.AddResultRepository();
+            services.AddFeedbackRepository();
             services.AddTransient<DbSeeder, DbSeeder>();
 
             services.AddPkddUsers();

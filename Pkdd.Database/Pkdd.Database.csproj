@@ -9,6 +9,9 @@
     <Compile Remove="Migrations\20181021221909_Try.cs" />
     <Compile Remove="Migrations\20181021222602_Try.cs" />
     <Compile Remove="Migrations\20181107200637_Priority.cs" />
+    <Compile Remove="Migrations\20181110155740_FeedbackCreate.cs" />
+    <Compile Remove="Migrations\20181110160121_FeedbackCreate.cs" />
+    <Compile Remove="Migrations\20181110161116_IssuesCreate.cs" />
   </ItemGroup>
 
   <ItemGroup>
