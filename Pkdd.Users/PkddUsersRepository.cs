@@ -61,6 +61,7 @@ namespace Pkdd.Users
                 IsBanned = user.IsBanned,
                 IsConfirmed = user.IsConfirmed,
                 IsDeleted = user.IsDeleted,
+                IsBaseUser = user.IsBaseUser,
             };
             userInfo.Roles = (await users.GetRolesAsync(user)).ToList();
             return userInfo;

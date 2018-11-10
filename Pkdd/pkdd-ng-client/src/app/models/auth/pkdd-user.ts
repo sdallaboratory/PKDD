@@ -11,5 +11,6 @@ export class PkddUser {
         public isBanned: boolean,
         public timeTrack: TimeTrack,
         public isDeleted: boolean,
+        public isBaseUser: boolean
     ) { }
 }

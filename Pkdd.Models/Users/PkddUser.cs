@@ -17,6 +17,8 @@ namespace Pkdd.Models.Users
 
         public bool IsDeleted { get; set; }
 
+        public bool IsBaseUser { get; set; }
+
         // TODO: Remove duplicated property
         public string FullName { get; set; }
 
