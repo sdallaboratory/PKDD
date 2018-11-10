@@ -4,6 +4,7 @@ using Pkdd.Abstractions.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -56,6 +57,9 @@ namespace Pkdd.Models.Persons
             // this.MarkUpdated();
             return this;
         }
+
+        [NotMapped]
+        public override TimeTrack TimeTrack { get; set; }
 
         private const string orderPattern = @"(\d*\/)+";
 
