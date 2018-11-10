@@ -6,15 +6,15 @@
     </header>
     <section>
         <img class="mx-auto d-block w-75 h-25 main-photo" src="{{mainImage()}}">
-      <div>
+      <div *ngIf="person?.position !== ''">
         <span class="title">Должность: </span>
         <span class="text">{{person?.position}}</span>
       </div>
-      <div>
+      <div *ngIf="person?.birthday" >
         <span class="title">Дата рождения: </span>
         <span class="text">{{person?.birthday | date : 'dd/MM/yyyy' }}</span>
       </div>
-      <div>
+      <div *ngIf="person.sex">
         <span class="title">
           Пол: 
         </span>

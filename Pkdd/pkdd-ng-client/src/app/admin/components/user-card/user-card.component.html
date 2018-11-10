@@ -38,29 +38,29 @@
     </div>
   <div class="chips-wrapper">
     <mat-chip-list [multiple]="true">
-      <mat-chip [color]="'warn'" [selected]="isInRole('admin')" (click)="addOrRemoveRole('admin')">
+      <mat-chip [disabled]="user.isBaseUser" [color]="'warn'" [selected]="isInRole('admin')" (click)="addOrRemoveRole('admin')">
         Админ
       </mat-chip>
-      <mat-chip [color]="'accent'" [selected]="isInRole('tech')" (click)="addOrRemoveRole('tech')">
+      <mat-chip [disabled]="user.isBaseUser" [color]="'accent'" [selected]="isInRole('tech')" (click)="addOrRemoveRole('tech')">
         Технолог
       </mat-chip>
-      <mat-chip [color]="'primary'" [selected]="isInRole('expert')" (click)="addOrRemoveRole('expert')">
+      <mat-chip [disabled]="user.isBaseUser" [color]="'primary'" [selected]="isInRole('expert')" (click)="addOrRemoveRole('expert')">
         Эксперт
       </mat-chip>
     </mat-chip-list>
   </div>
   <mat-card-actions>
-    <button mat-icon-button [matTooltip]="user.isBanned ? 'Разбанить' : 'Забанить'" (click)="banOrUnban()">
+    <button mat-icon-button [disabled]="user.isBaseUser" [matTooltip]="user.isBanned ? 'Разбанить' : 'Забанить'" (click)="banOrUnban()">
       <mat-icon>
         {{!user.isBanned ? 'block' : 'done'}}
       </mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Удалить" (click)="delete()">
+    <button mat-icon-button [disabled]="user.isBaseUser" matTooltip="Удалить" (click)="delete()">
       <mat-icon>
         delete_forever
       </mat-icon>
     </button>
-    <button mat-icon-button [disabled]="user.isConfirmed" matTooltip="Подтвердить" (click)="confirm()">
+    <button mat-icon-button [disabled]="user.isConfirmed && user.isBaseUser" matTooltip="Подтвердить" (click)="confirm()">
       <mat-icon>
         verified_user
       </mat-icon>

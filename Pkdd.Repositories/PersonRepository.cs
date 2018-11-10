@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pkdd.Database;
 using Pkdd.Models.Persons;
+using Pkdd.Models.Persons.Enums;
 using Pkdd.Repositories.Exceptions;
 
 namespace Pkdd.Repositories

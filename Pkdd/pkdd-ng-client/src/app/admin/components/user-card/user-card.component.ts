@@ -21,13 +21,15 @@ export class UserCardComponent implements OnInit {
   }
 
   public async addOrRemoveRole(role: PkddRoles) {
-    const roles = this.user.roles;
-    const isInRole = roles.includes(role);
-    const result = await this.repos.addOrRemoveRole(this.user.id, isInRole, role);
-    if (result && isInRole) {
-      roles.splice(roles.indexOf(role), 1);
-    } else if (result && !isInRole) {
-      roles.push(role);
+    if (!this.user.isBaseUser) {
+      const roles = this.user.roles;
+      const isInRole = roles.includes(role);
+      const result = await this.repos.addOrRemoveRole(this.user.id, isInRole, role);
+      if (result && isInRole) {
+        roles.splice(roles.indexOf(role), 1);
+      } else if (result && !isInRole) {
+        roles.push(role);
+      }
     }
   }
 

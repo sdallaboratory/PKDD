@@ -17,6 +17,8 @@ namespace Pkdd.Models.Users
 
         public bool IsBanned { get; set; }
 
+        public bool IsBaseUser { get; set; }
+
         public List<string> Roles { get; set; }
     }
     

@@ -88,8 +88,6 @@ export class ServerDataStorageService {
     try {
       const body = this._factory.createPersonBackend(person);
       result = this.makeAction(ActionType.Put, EntityType.Person, body, person.id);
-      this._persons.splice(this._persons.findIndex(p => p.id === result.id), 1);
-      this._persons.push(person);
     } catch {
 
     }
@@ -111,9 +109,6 @@ export class ServerDataStorageService {
     let result = null;
     try {
       const body = this._factory.createContentBlockBackend(block);
-
-      // console.log(body, JSON.stringify(body));
-
       result = this._factory.createContentBlock(baseBioBlockId, (await this.makeAction(
         ActionType.Post,
         EntityType.ContentBlock,
@@ -129,8 +124,6 @@ export class ServerDataStorageService {
         baseBlock.subBlocks.push(result);
       }
     } catch (ex) {
-      console.log(ex);
-
     }
   }
 
@@ -138,8 +131,6 @@ export class ServerDataStorageService {
     try {
       await this.makeAction(ActionType.Delete, EntityType.ContentBlock, null, block.id, baseBioBlockId);
       const baseBlock = this.findBlock(baseBioBlockId, block.parentId);
-      console.log(block, baseBlock);
-
       if (isNullOrUndefined(baseBlock)) {
         const mainBlock = this._contentBlocks.find(b => b.id === baseBioBlockId);
         mainBlock.entity.splice(mainBlock.entity.findIndex(b => b.id === block.id), 1);
@@ -210,8 +201,6 @@ export class ServerDataStorageService {
       resultArray = resultArray.concat(ContentBlock.inRow(b));
     });
     resultArray = resultArray.filter(b => !isNullOrUndefined(b));
-    console.log(resultArray, id);
-
     return resultArray.find(b => b.id === id);
   }
 

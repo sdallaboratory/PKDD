@@ -53,6 +53,9 @@ namespace Pkdd.Database
             admin.FillUserName();
             var result = await _userManager.CreateAsync(admin, "admin123321");
             var person = await _userManager.FindByEmailAsync("admin@email.io");
+            person.IsBaseUser = true;
+            person.IsConfirmed = true;
+            _context.Users.Update(person);
             await _userManager.AddToRolesAsync(person, new List<string>() { "admin", "tech", "expert" });
         }
 
