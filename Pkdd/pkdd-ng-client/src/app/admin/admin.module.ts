@@ -12,6 +12,7 @@ import { AuthModule } from '../auth/auth.module';
 import { UserCreateComponent } from './components/user-create/user-create.component';
 import { StrongestRolePipe } from './pipes/strongest-role.pipe';
 import { UserIssuesComponent } from './components/user-issues/user-issues.component';
+import { UserIssuesItemComponent } from './components/user-issues-item/user-issues-item.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { UserIssuesComponent } from './components/user-issues/user-issues.compon
     AdminPageComponent,
     UserCreateComponent,
     StrongestRolePipe,
-    UserIssuesComponent
+    UserIssuesComponent,
+    UserIssuesItemComponent
   ]
 })
 export class AdminModule { }

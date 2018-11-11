@@ -21,6 +21,7 @@ namespace Pkdd.Models.Help
         {
             AnswerText = entity.AnswerText;
             Order = entity.Order;
+            IsDeleted = entity.IsDeleted;
             return this;
         }
     }

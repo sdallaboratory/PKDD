@@ -25,6 +25,7 @@ namespace Pkdd.Models.Help
         {
             Question = entity.Question;
             IsSolved = entity.IsSolved;
+            IsDeleted = entity.IsDeleted;
             return this;
         }
     }

@@ -1,6 +1,6 @@
 <div class="wrapper" *ngIf="issue">
   <div class="answers-title">
-    Вопрос
+    Заявка
   </div>
 
   <mat-card>
@@ -26,10 +26,20 @@
       <span>Имя:</span><span class="footer-data">{{issue.user.name}}</span>
       <span>Email:</span><span class="footer-data">{{issue.user.email}}</span>
       <span>Роль:</span><span class="footer-data">{{issue.user.mainRole}}</span>
-      <span>Время создания:</span><span class="footer-data">{{issue.timeTrack.created | date : 'hh:mm:ss dd/MM/yyyy'}}</span>
+      <span>Дата создания:</span><span class="footer-data">{{issue.timeTrack.created | date : 'dd/MM/yyyy'}}</span>
     </mat-card-footer>
 
   </mat-card>
+
+
+
+  <div class="answers-title">
+    {{issue.answers.length === 0 ? 'Ответов еще нет' : 'Ответы'}}
+  </div>
+
+  <pkdd-answer *ngFor="let answer of issue.answers" [asnwer]="answer">
+
+  </pkdd-answer>
 
   <div *ngIf="issue.isSolved" class="answers-title">
     Добавление новых ответов невозможно
@@ -41,27 +51,20 @@
     </div>
   </div>
 
-      <mat-card>
-        <mat-form-field *ngIf="newAnswer" appearance="outline" class="text">
-          <mat-label>Текст Ответа</mat-label>
-          <textarea required [disabled]="!newAnswer || issue.isSolved" matInput [(ngModel)]="newAnswer.answerText" placeholder="Текст ответа"></textarea>
-          <mat-hint *ngIf="window.currentDeviceType === 'pc'" align="end">Потяните, чтобы увеличить поле ввода</mat-hint>
-        </mat-form-field>
-        <mat-card-actions>
-          <button [disabled]="newAnswer.answerText === '' || issue.isSolved" mat-icon-button (click)="addAnswer()">
-            <mat-icon>
-              add
-            </mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-
-  <div class="answers-title">
-    {{issue.answers.length === 0 ? 'Ответов еще нет' : 'Ответы'}}
-  </div>
-
-  <pkdd-answer *ngFor="let answer of issue.answers" [asnwer]="answer">
-
-  </pkdd-answer>
+  <mat-card *ngIf="!issue.isSolved">
+    <mat-form-field *ngIf="newAnswer" appearance="outline" class="text">
+      <mat-label>Текст Ответа</mat-label>
+      <textarea required [disabled]="!newAnswer || issue.isSolved" matInput [(ngModel)]="newAnswer.answerText"
+        placeholder="Текст ответа"></textarea>
+      <mat-hint *ngIf="window.currentDeviceType === 'pc'" align="end">Потяните, чтобы увеличить поле ввода</mat-hint>
+    </mat-form-field>
+    <mat-card-actions>
+      <button [disabled]="newAnswer.answerText === '' || issue.isSolved" mat-icon-button (click)="addAnswer()">
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
 
 </div>

@@ -1,3 +1,5 @@
+import { AboutMmpiComponent } from './components/about-mmpi/about-mmpi.component';
+import { AboutLucherComponent } from './components/about-lucher/about-lucher.component';
 import { FeedbackGuard } from './guards/feedback.guard';
 import { IssueComponent } from './components/issue/issue.component';
 import { IssuesResolverService } from './resolvers/issues-resolver.service';
@@ -47,8 +49,16 @@ const routes: Routes = [
             },
            },
           {
-            path: 'description',
+            path: 'about',
             component: ProjectDescriptionComponent,
+          },
+          {
+            path: 'about-mmpi',
+            component: AboutMmpiComponent,
+          },
+          {
+            path: 'about-color-test',
+            component: AboutLucherComponent,
           },
           {
             path: '',

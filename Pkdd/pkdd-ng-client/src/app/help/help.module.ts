@@ -12,6 +12,8 @@ import { AuthModule } from '../auth/auth.module';
 import { FeedbackListComponent } from './components/feedback-list/feedback-list.component';
 import { IssueComponent } from './components/issue/issue.component';
 import { AnswerComponent } from './components/answer/answer.component';
+import { AboutMmpiComponent } from './components/about-mmpi/about-mmpi.component';
+import { AboutLucherComponent } from './components/about-lucher/about-lucher.component';
 
 @NgModule({
   imports: [
@@ -29,6 +31,8 @@ import { AnswerComponent } from './components/answer/answer.component';
     FeedbackListComponent,
     IssueComponent,
     AnswerComponent,
+    AboutMmpiComponent,
+    AboutLucherComponent,
   ]
 })
 export class HelpModule {

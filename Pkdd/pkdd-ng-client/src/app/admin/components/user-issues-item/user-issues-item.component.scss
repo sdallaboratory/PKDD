@@ -1,0 +1,16 @@
+
+.mat-expansion-panel-header {
+    height: auto !important;
+    min-height: 48px;
+    font-weight: 600;
+}
+
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title{
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+.mat-expansion-panel-header-description {
+    justify-content: flex-end;
+}

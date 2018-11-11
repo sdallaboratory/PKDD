@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Issue } from 'src/app/help/models/Issue';
+import { Issue, IssueType } from 'src/app/help/models/Issue';
 import { first } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { FeedbackProviderService } from 'src/app/help/services/feedback-provider.service';
@@ -11,21 +11,34 @@ import { FeedbackProviderService } from 'src/app/help/services/feedback-provider
 })
 export class UserIssuesComponent implements OnInit {
 
-  public issues: Issue[];
+  public get improvment(): Issue[] {
+    if (!this.allIssues) {
+      return [];
+    }
+    return this.allIssues.filter(iss => iss.type === IssueType.Improvement && !iss.isDeleted);
+  }
+  public get error(): Issue[] {
+    if (!this.allIssues) {
+      return [];
+    }
+    return this.allIssues.filter(iss => iss.type === IssueType.Error && !iss.isDeleted);
+  }
+  public get comment(): Issue[] {
+    if (!this.allIssues) {
+      return [];
+    }
+    return this.allIssues.filter(iss => iss.type === IssueType.Comment && !iss.isDeleted);
+  }
+
+  public allIssues: Issue[];
 
   constructor(
     private route: ActivatedRoute,
-    private repos: FeedbackProviderService,
   ) { }
 
   async ngOnInit() {
-    this.issues = (await this.route.data.pipe(first()).toPromise())['issues'];
-    console.log(this.issues);
-    
+    this.allIssues = (await this.route.data.pipe(first()).toPromise())['issues'];
   }
 
-  public deleteIssue(issue: Issue) {
-    this.repos.deleteIssue(issue.id);
-  }
 
 }

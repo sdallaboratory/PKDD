@@ -23,7 +23,9 @@ export class HelpMenuResolverService implements Resolve<MenuItem[]> {
       ] : [
         ]),
       ...[
-        new MenuItem('Описание проекта', '/help/description', 'description', true),
+        new MenuItem('Описание проекта', '/help/about', 'description', true),
+        new MenuItem('Описание MMPI', '/help/about-mmpi', 'assessment', true),
+        new MenuItem('Описание Цветового теста', '/help/about-color-test', 'palette', true),
       ]
     ];
     this.menu.sideMenuItems = items;

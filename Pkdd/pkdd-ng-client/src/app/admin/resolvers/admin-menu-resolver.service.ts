@@ -28,6 +28,9 @@ public async resolve(
             new MenuItem('Фидбек', '/admin/issues', 'feedback', true)
         ] : []),
     ];
+    items.push(
+        new MenuItem('Возник вопрос? Нашли проблему?', '/help/feedback', 'feedback', true)
+    );
     this.menu.sideMenuItems = items;
     return items;
 }

@@ -40,7 +40,7 @@ const routes: Routes = [
             path: 'issues',
             component: UserIssuesComponent,
             resolve: {
-              issue: UserIssuesResolverService
+              issues: UserIssuesResolverService
             },
             canActivate: [AuthGuard.forRoles(PkddRoles.admin)]
           }
