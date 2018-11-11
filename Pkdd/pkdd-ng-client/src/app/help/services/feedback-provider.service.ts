@@ -92,7 +92,7 @@ export class FeedbackProviderService {
     }
   }
 
-  public async updateIssue(id) {
+  public async updateIssue(id: number) {
     const issue = this._allIssues.find(i => i.id === id);
     if (!issue) {
       return;
