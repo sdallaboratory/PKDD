@@ -22,7 +22,7 @@ export class UserIssuesItemComponent implements OnInit {
 
   public async deleteIssue() {
     this.issue.isDeleted = true;
-    await this.repos.updateIssue(this.issue);
+    await this.repos.updateIssue(this.issue.id);
   }
 
   public async solveIssue() {

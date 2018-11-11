@@ -17,13 +17,14 @@ export class FeedbackProviderService {
 
   private _allIssues: Issue[] = [];
   public async getAllIssues() {
-    if (this._allIssues.length > 0) {
-      return this._allIssues;
-    }
     try {
       const issues = await this.http.get<Issue[]>(this.url.getIssueUrl());
       if (this.userIssues.length > 0) {
-        this._allIssues.push(...this.userIssues);
+        this.userIssues.forEach(iss => {
+          if (!this._allIssues.map(i => i.id).includes(iss.id)) {
+            this._allIssues.push(iss);
+          }
+        });
       }
       issues.forEach(iss => {
         if (!this._allIssues.map(i => i.id).includes(iss.id)) {
@@ -38,17 +39,26 @@ export class FeedbackProviderService {
 
   private userIssues: Issue[] = [];
   public async getUserIssues(userId: number) {
-    if (this.userIssues.length > 0) {
-      return this.userIssues;
-    }
+    if (this.userIssues.length > 0 &&
+      this.userIssues[0].user.userId !== userId) {
+        this.userIssues = [];
+      }
     const issues = this._allIssues.filter(i => i.user.userId === userId);
     if (issues.length > 0) {
-      this.userIssues.push(...issues);
+      issues.forEach(iss => {
+        if (!this.userIssues.map(i => i.id).includes(iss.id)) {
+          this.userIssues.push(iss);
+        }
+      });
       return this.userIssues;
     }
     try {
       this.userIssues = await this.http.get<Issue[]>(this.url.getIssueUrl(null, userId));
-      this._allIssues.push(...this.userIssues);
+      this.userIssues.forEach(iss => {
+        if (!this._allIssues.map(i => i.id).includes(iss.id)) {
+          this._allIssues.push(iss);
+        }
+      });
       return this.userIssues;
     } catch (error) {
       return this.userIssues;
@@ -82,7 +92,7 @@ export class FeedbackProviderService {
     }
   }
 
-  public async updateIssue(id) {
+  public async updateIssue(id: number) {
     const issue = this._allIssues.find(i => i.id === id);
     if (!issue) {
       return;
