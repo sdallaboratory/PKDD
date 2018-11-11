@@ -47,7 +47,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception)
             {
-                return PkddError("Вопрос не был добавлен");
+                return PkddError("Заявка не был добавлена");
             }
         }
 
@@ -75,7 +75,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception)
             {
-                return PkddError("Вопрос не был удален");
+                return PkddError("Заявка не был удалена");
             }
         }
 
@@ -101,7 +101,7 @@ namespace Pkdd.Controllers
             }
             catch (Exception)
             {
-                return PkddError("Ошибка при получении вопросов");
+                return PkddError("Ошибка при получении заявок");
             }
         }
 
@@ -129,7 +129,21 @@ namespace Pkdd.Controllers
             }
             catch (Exception)
             {
-                return PkddError("Вопрос не был обновлен");
+                return PkddError("Заявка не был обновлена");
+            }
+        }
+
+        [HttpPost("issues/{id}/solve")]
+        public async Task<IActionResult> SolveIssue(int id)
+        {
+            try
+            {
+                await repository.SolveIssue(id);
+                return PkddOk();
+            }
+            catch (Exception)
+            {
+                return PkddError("Ошибка при обновлении статуса заявки");
             }
         }
 

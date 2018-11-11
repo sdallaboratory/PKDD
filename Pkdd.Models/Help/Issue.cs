@@ -9,9 +9,10 @@ namespace Pkdd.Models.Help
 {
     public class Issue : EntityBase<Issue>
     {
+        public string Title { get; set; }
+
         public IssueType Type { get; set; }
 
-        [Required]
         public string Question { get; set; }
 
         public List<Answer> Answers { get; set; }

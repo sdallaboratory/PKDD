@@ -26,7 +26,6 @@ namespace Pkdd.Repositories
                 if (issue == null)
                     throw new Exception();
                 answer.IssueId = issueId;
-                issue.Answers.Add(answer);
                 var entity = await context.FeedbackAnswers.AddAsync(answer);
                 await context.SaveChangesAsync();
                 return entity.Entity;
@@ -100,7 +99,7 @@ namespace Pkdd.Repositories
             try
             {
                 return await context.Issues
-                    .Where(iss => iss.User.Id == userId)
+                    .Where(iss => iss.User.UserId == userId)
                     .Include(iss => iss.Answers)
                     .ToListAsync() ?? new List<Issue>();
             }
@@ -134,6 +133,23 @@ namespace Pkdd.Repositories
                 if (oldIssue == null)
                     throw new Exception();
                 context.Issues.Update(oldIssue.Update(issue));
+                await context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task SolveIssue(int id)
+        {
+            try
+            {
+                Issue issue = await context.Issues.FirstOrDefaultAsync(iss => iss.Id == id);
+                if (issue == null)
+                    throw new Exception();
+                issue.IsSolved = !issue.IsSolved;
+                context.Issues.Update(issue);
                 await context.SaveChangesAsync();
             }
             catch (Exception)

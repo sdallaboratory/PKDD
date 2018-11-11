@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
 import { UserCreateComponent } from './components/user-create/user-create.component';
 import { StrongestRolePipe } from './pipes/strongest-role.pipe';
+import { UserIssuesComponent } from './components/user-issues/user-issues.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { StrongestRolePipe } from './pipes/strongest-role.pipe';
     UserCardComponent,
     AdminPageComponent,
     UserCreateComponent,
-    StrongestRolePipe
+    StrongestRolePipe,
+    UserIssuesComponent
   ]
 })
 export class AdminModule { }

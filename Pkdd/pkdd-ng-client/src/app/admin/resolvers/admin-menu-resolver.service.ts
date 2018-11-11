@@ -1,8 +1,8 @@
+import { MenuItem } from './../../models/core/menu-item';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { MenuService } from '../../core/services/menu.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
-import { MenuItem } from '../../models/core/menu-item';
 import { PkddRoles } from '../../models/auth/pkdd-roles.enum';
 
 @Injectable({
@@ -25,6 +25,7 @@ public async resolve(
         ] : []),
         ...(user.roles.includes(PkddRoles.admin) ? [
             new MenuItem('Пользователи', `/admin/user-list`, 'list', true),
+            new MenuItem('Фидбек', '/admin/issues', 'feedback', true)
         ] : []),
     ];
     this.menu.sideMenuItems = items;

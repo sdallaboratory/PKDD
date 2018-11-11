@@ -123,8 +123,7 @@ namespace Pkdd.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AnswerText")
-                        .IsRequired();
+                    b.Property<string>("AnswerText");
 
                     b.Property<bool>("IsDeleted");
 
@@ -149,8 +148,9 @@ namespace Pkdd.Database.Migrations
 
                     b.Property<bool>("IsSolved");
 
-                    b.Property<string>("Question")
-                        .IsRequired();
+                    b.Property<string>("Question");
+
+                    b.Property<string>("Title");
 
                     b.Property<int>("Type");
 
@@ -497,9 +497,11 @@ namespace Pkdd.Database.Migrations
 
                     b.OwnsOne("Pkdd.Models.Help.IssueUserInfo", "User", b1 =>
                         {
-                            b1.Property<int>("Id")
+                            b1.Property<int>("AnswerId1")
                                 .ValueGeneratedOnAdd()
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("AnswerId");
 
                             b1.Property<string>("Email");
 
@@ -507,11 +509,13 @@ namespace Pkdd.Database.Migrations
 
                             b1.Property<string>("Name");
 
+                            b1.Property<int>("UserId");
+
                             b1.ToTable("FeedbackAnswers");
 
                             b1.HasOne("Pkdd.Models.Help.Answer")
                                 .WithOne("User")
-                                .HasForeignKey("Pkdd.Models.Help.IssueUserInfo", "Id")
+                                .HasForeignKey("Pkdd.Models.Help.IssueUserInfo", "AnswerId1")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
@@ -540,7 +544,7 @@ namespace Pkdd.Database.Migrations
 
                     b.OwnsOne("Pkdd.Models.Help.IssueUserInfo", "User", b1 =>
                         {
-                            b1.Property<int>("Id")
+                            b1.Property<int>("IssueId")
                                 .ValueGeneratedOnAdd()
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -550,11 +554,13 @@ namespace Pkdd.Database.Migrations
 
                             b1.Property<string>("Name");
 
+                            b1.Property<int>("UserId");
+
                             b1.ToTable("Issues");
 
                             b1.HasOne("Pkdd.Models.Help.Issue")
                                 .WithOne("User")
-                                .HasForeignKey("Pkdd.Models.Help.IssueUserInfo", "Id")
+                                .HasForeignKey("Pkdd.Models.Help.IssueUserInfo", "IssueId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

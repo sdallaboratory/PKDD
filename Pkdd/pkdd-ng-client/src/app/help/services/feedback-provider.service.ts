@@ -3,6 +3,7 @@ import { PkddHttpService } from 'src/app/core/services/pkdd-http.service';
 import { Issue } from '../models/Issue';
 import { ApiUrlConstructorService } from 'src/app/core/services/api-url-constructor.service';
 import { Answer } from '../models/answer';
+import { TimeTrack } from 'src/app/models/common/time-track';
 
 @Injectable({
   providedIn: 'root'
@@ -20,33 +21,50 @@ export class FeedbackProviderService {
       return this._allIssues;
     }
     try {
-      this._allIssues = await this.http.get<Issue[]>(this.url.getIssueUrl());
+      const issues = await this.http.get<Issue[]>(this.url.getIssueUrl());
+      if (this.userIssues.length > 0) {
+        this._allIssues.push(...this.userIssues);
+      }
+      issues.forEach(iss => {
+        if (!this._allIssues.map(i => i.id).includes(iss.id)) {
+          this._allIssues.push(iss);
+        }
+      });
       return this._allIssues;
     } catch {
       return [];
     }
   }
 
+  private userIssues: Issue[] = [];
   public async getUserIssues(userId: number) {
-    let issues = this._allIssues.filter(i => i.user.id === userId);
+    if (this.userIssues.length > 0) {
+      return this.userIssues;
+    }
+    const issues = this._allIssues.filter(i => i.user.userId === userId);
     if (issues.length > 0) {
-      return issues;
+      this.userIssues.push(...issues);
+      return this.userIssues;
     }
     try {
-      issues = await this.http.get<Issue[]>(this.url.getIssueUrl(null, userId));
-      this._allIssues = this._allIssues.concat(issues);
-      return issues;
+      this.userIssues = await this.http.get<Issue[]>(this.url.getIssueUrl(null, userId));
+      this._allIssues.push(...this.userIssues);
+      return this.userIssues;
     } catch (error) {
-      return [];
+      return this.userIssues;
     }
   }
 
   public async addIssue(issue: Issue) {
     try {
       issue.id = 0;
+      issue.timeTrack = new TimeTrack(new Date(), new Date(), new Date());
       const newIssue = await this.http.post<Issue>(this.url.getIssueUrl(), issue);
       this._allIssues.push(newIssue);
+      this.userIssues.push(newIssue);
+      return newIssue;
     } catch {
+      return null;
     }
   }
 
@@ -57,6 +75,9 @@ export class FeedbackProviderService {
     try {
       await this.http.delete(this.url.getIssueUrl(id));
       this._allIssues.splice(this._allIssues.findIndex(i => i.id === id), 1);
+      if (this.userIssues.map(i => i.id).includes(id)) {
+        this.userIssues.splice(this.userIssues.findIndex(i => i.id === id), 1);
+      }
     } catch (error) {
     }
   }
@@ -75,6 +96,7 @@ export class FeedbackProviderService {
   public async addAnswer(issueId: number, answer: Answer) {
     try {
       answer.id = 0;
+      answer.timeTrack = new TimeTrack(new Date(), new Date(), new Date());
       const newAnser = await this.http.post<Answer>(this.url.getAnswerUrl(issueId), answer);
       const issue = this._allIssues.find(i => i.id === issueId);
       issue.answers.push(newAnser);
@@ -99,6 +121,15 @@ export class FeedbackProviderService {
     try {
       await this.http.put<Answer>(this.url.getAnswerUrl(issueId), answer);
     } catch {
+    }
+  }
+
+  public async solveIssue(issue: Issue) {
+    try {
+      await this.http.post(this.url.getIssueUrl(issue.id) + '/solve', {});
+      issue.isSolved = !issue.isSolved;
+    } catch {
+
     }
   }
 

@@ -41,12 +41,12 @@ export class ApiUrlConstructorService {
   }
 
   public getIssueUrl(id: null | number = null, userId: null | number = null) {
-    const baseUrl = `${this.backendApiUrl}/${userId ? userId : ''}/${this.issueUrl}`;
-    return isNullOrUndefined(userId) ? baseUrl : `${baseUrl}/${id}`;
+    const baseUrl = `${this.backendApiUrl}/help/${userId ? `${userId}/` : ''}${this.issueUrl}`;
+    return isNullOrUndefined(id) ? baseUrl : `${baseUrl}/${id}`;
   }
 
   public getAnswerUrl(issueId: number, answerId: null | number = null) {
-    const baseUrl = `${this.backendApiUrl}/${this.getIssueUrl(issueId)}/${this.answerUrl}`;
+    const baseUrl = `${this.getIssueUrl(issueId)}/${this.answerUrl}`;
     return isNullOrUndefined(answerId) ? baseUrl : `${baseUrl}/${answerId}`;
   }
 }

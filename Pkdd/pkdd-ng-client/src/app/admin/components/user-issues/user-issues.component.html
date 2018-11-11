@@ -1,0 +1,32 @@
+<div class="wrapper">
+  <mat-expansion-panel #panel *ngFor="let issue of issues">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="word-break-wrapper" *ngIf="!panel.expanded">
+        {{(!issue.title || (issue.title === '') ? 'Заголовок' : issue.title) | truncate : 30}}
+      </mat-panel-title>
+      <mat-panel-title class="word-break-wrapper" *ngIf="panel.expanded">
+        {{(!issue.title || (issue.title === '') ? 'Заголовок' : issue.title)}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon [matTooltip]="issue.isSolved ? 'Заявка была закрыта' : 'Заявка еще не была рассмотрена и закрыта'"
+          [ngStyle]="{'color': issue.isSolved ? 'green' : 'red'}">{{issue.isSolved ? 'check_circle' : 'highlight_off'}}
+        </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="word-break-wrapper">
+      
+    </div>
+    <mat-action-row>
+      <button mat-icon-button routerLink="{{issue.user.userId}}/{{issue.id}}">
+        <mat-icon>
+          exit_to_app
+        </mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteIssue(issue)">
+        <mat-icon>
+          delete_forever
+        </mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</div>

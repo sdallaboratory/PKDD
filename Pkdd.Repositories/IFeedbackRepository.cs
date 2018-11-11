@@ -24,5 +24,7 @@ namespace Pkdd.Repositories
 
         Task UpdateAnswer(Answer answer);
 
+        Task SolveIssue(int id);
+
     }
 }

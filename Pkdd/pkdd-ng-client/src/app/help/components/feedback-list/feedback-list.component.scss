@@ -1,0 +1,40 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+}
+
+pkdd-feedback-form,
+mat-expansion-panel {
+  width: 100%;
+  max-width: 800px;
+  margin: 3px;
+}
+
+.question-title {
+    font-weight: 700;
+    font-size: 24px;
+    margin: 5px;
+    margin-bottom: 10px;
+}
+
+.type {
+  font-weight: bold;
+}
+
+.mat-expansion-panel-header {
+    height: auto !important;
+    min-height: 48px;
+    font-weight: 600;
+}
+
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title{
+    text-overflow: ellipsis;
+}
+
+.mat-expansion-panel-header-description {
+    justify-content: flex-end;
+    align-items: center;
+}

@@ -6,6 +6,7 @@ import { MenuService } from './services/menu.service';
 import { CopyrightComponent } from './components/copyright/copyright.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MenuNoItems } from './resolvers/menu-no-items';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -18,7 +19,13 @@ import { MenuNoItems } from './resolvers/menu-no-items';
     WindowService,
     MenuNoItems
   ],
-  declarations: [CopyrightComponent],
-  exports: [CopyrightComponent]
+  declarations: [
+    CopyrightComponent,
+    TruncatePipe
+  ],
+  exports: [
+    CopyrightComponent,
+    TruncatePipe
+  ]
 })
 export class CoreModule { }

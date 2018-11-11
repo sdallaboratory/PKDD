@@ -11,7 +11,6 @@ namespace Pkdd.Models.Help
     {
         public int IssueId { get; set; }
 
-        [Required]
         public string AnswerText { get; set; }
 
         public IssueUserInfo User { get; set; }

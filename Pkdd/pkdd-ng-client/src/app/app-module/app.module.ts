@@ -16,6 +16,7 @@ import { PersonsModule } from '../persons/persons.module';
 import { AccountModule } from '../account/account.module';
 import { AdminModule } from '../admin/admin.module';
 import { LayoutModule } from '../layout/layout.module';
+import { HelpModule } from '../help/help.module';
 
 @NgModule({
   declarations: [
@@ -34,8 +35,9 @@ import { LayoutModule } from '../layout/layout.module';
     PersonsModule,
     AccountModule,
     AdminModule,
+    HelpModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
   ],
   bootstrap: [AppComponent]
 })
