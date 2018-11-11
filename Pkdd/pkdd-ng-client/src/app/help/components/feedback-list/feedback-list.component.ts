@@ -43,6 +43,8 @@ export class FeedbackListComponent implements OnInit {
   }
 
   public deleteIssue(issue: Issue) {
+    console.log('delete');
+    
     this.repos.deleteIssue(issue.id);
   }
 
