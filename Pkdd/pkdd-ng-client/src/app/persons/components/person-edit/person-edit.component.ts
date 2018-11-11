@@ -41,7 +41,6 @@ export class PersonEditComponent implements OnInit {
   }
 
   public async savePerson() {
-    console.log(this.person.birthday);
     await this.storage.updatePerson(this.person);
   }
 

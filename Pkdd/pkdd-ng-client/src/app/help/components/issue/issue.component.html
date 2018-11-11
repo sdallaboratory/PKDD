@@ -1,0 +1,70 @@
+<div class="wrapper" *ngIf="issue">
+  <div class="answers-title">
+    Заявка
+  </div>
+
+  <mat-card>
+    <mat-card-title>
+      {{issue.title}}
+    </mat-card-title>
+    <mat-card-content>
+      <div class="word-break-wrapper">
+        {{issue.question}}
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="isCurrentUserAdmin">
+      <button (click)="solveIssue()" mat-icon-button>
+        <mat-icon [ngStyle]="{'color': issue.isSolved ? 'green' : 'red'}" [matTooltip]="issue.isSolved ? 'Заявка была закрыта' : 'Заявка еще не была рассмотрена и закрыта'">
+          {{issue.isSolved ? 'check_circle' : 'highlight_off'}}
+        </mat-icon>
+      </button>
+    </mat-card-actions>
+    <mat-divider></mat-divider>
+
+    <mat-card-footer>
+      <span>Имя:</span><span class="footer-data">{{issue.user.name}}</span>
+      <span>Email:</span><span class="footer-data">{{issue.user.email}}</span>
+      <span>Роль:</span><span class="footer-data">{{issue.user.mainRole}}</span>
+      <span>Дата создания:</span><span class="footer-data">{{issue.timeTrack.created | date : 'dd/MM/yyyy'}}</span>
+    </mat-card-footer>
+
+  </mat-card>
+
+
+
+  <div class="answers-title">
+    {{issue.answers.length === 0 ? 'Ответов еще нет' : 'Ответы'}}
+  </div>
+
+  <pkdd-answer *ngFor="let answer of issue.answers" [asnwer]="answer">
+
+  </pkdd-answer>
+
+  <div *ngIf="issue.isSolved" class="answers-title">
+    Добавление новых ответов невозможно
+  </div>
+  <div *ngIf="!issue.isSolved">
+
+    <div class="answers-title">
+      Добавить новый ответ
+    </div>
+  </div>
+
+  <mat-card *ngIf="!issue.isSolved">
+    <mat-form-field *ngIf="newAnswer" appearance="outline" class="text">
+      <mat-label>Текст Ответа</mat-label>
+      <textarea required [disabled]="!newAnswer || issue.isSolved" matInput [(ngModel)]="newAnswer.answerText"
+        placeholder="Текст ответа"></textarea>
+      <mat-hint *ngIf="window.currentDeviceType === 'pc'" align="end">Потяните, чтобы увеличить поле ввода</mat-hint>
+    </mat-form-field>
+    <mat-card-actions>
+      <button [disabled]="newAnswer.answerText === '' || issue.isSolved" mat-icon-button (click)="addAnswer()">
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>

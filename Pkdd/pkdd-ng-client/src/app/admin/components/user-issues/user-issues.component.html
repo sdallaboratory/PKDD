@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="type-title">
+      Улучшения
+    </div>
+    <pkdd-user-issues-item *ngFor="let issue of improvment" [issue]="issue"></pkdd-user-issues-item>
+    <div class="type-title">
+      Ошибки
+    </div>
+    <pkdd-user-issues-item *ngFor="let issue of error" [issue]="issue"></pkdd-user-issues-item>
+    <div class="type-title">
+      Отзывы
+    </div>
+    <pkdd-user-issues-item *ngFor="let issue of comment" [issue]="issue"></pkdd-user-issues-item>
+</div>

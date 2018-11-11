@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+pkdd-user-issues-item {
+    width: 100%;
+    max-width: 1000px;
+    margin: 5px;
+}
+
+.type-title {
+    font-weight: 700;
+    font-size: 24px;
+    margin: 5px;
+    margin-bottom: 10px;
+}

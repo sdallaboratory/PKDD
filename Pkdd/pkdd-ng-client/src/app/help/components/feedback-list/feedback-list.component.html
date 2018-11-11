@@ -1,0 +1,38 @@
+<div class="wrapper">
+  <pkdd-feedback-form>
+  </pkdd-feedback-form>
+  <div class="question-title" *ngIf="issues?.length > 0">
+    Ранее оставленные заявки
+  </div>
+  <mat-expansion-panel #panel *ngFor="let issue of issues">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="word-break-wrapper" *ngIf="!panel.expanded">
+        {{(!issue.title || (issue.title === '') ? 'Заголовок' : issue.title) | truncate : 30}}
+      </mat-panel-title>
+      <mat-panel-title class="word-break-wrapper" *ngIf="panel.expanded">
+        {{(!issue.title || (issue.title === '') ? 'Заголовок' : issue.title)}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon [matTooltip]="issue.isSolved ? 'Заявка была закрыта' : 'Заявка еще не была рассмотрена и закрыта'"
+          [ngStyle]="{'color': issue.isSolved ? 'green' : 'red'}">{{issue.isSolved ? 'check_circle' : 'highlight_off'}}
+        </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="word-break-wrapper">
+      {{(!lastAnswer(issue) || (lastAnswer(issue).answerText === '') ? 'На данный момент на вашу заявку не ответили.
+      Дождитесь ответа администраторов' : lastAnswer(issue).answerText)}}
+    </div>
+    <mat-action-row>
+      <button mat-icon-button routerLink="{{user.id}}/{{issue.id}}">
+        <mat-icon>
+          exit_to_app
+        </mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteIssue(issue)">
+        <mat-icon>
+          delete_forever
+        </mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</div>

@@ -7,6 +7,8 @@ import { PkddPageComponent } from '../app-module/components/pkdd-page/pkdd-page.
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { PkddRoles } from '../models/auth/pkdd-roles.enum';
 import { UserCreateComponent } from './components/user-create/user-create.component';
+import { UserIssuesComponent } from './components/user-issues/user-issues.component';
+import { UserIssuesResolverService } from './resolvers/user-issues-resolver.service';
 
 const routes: Routes = [
   {
@@ -33,8 +35,15 @@ const routes: Routes = [
             path: '',
             pathMatch: 'full',
             redirectTo: 'user-list'
+          },
+          {
+            path: 'issues',
+            component: UserIssuesComponent,
+            resolve: {
+              issues: UserIssuesResolverService
+            },
+            canActivate: [AuthGuard.forRoles(PkddRoles.admin)]
           }
-
         ]
       },
     ]

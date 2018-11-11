@@ -196,8 +196,8 @@ export class EntitiesFactoryService {
     return new ContentBlock({
       id: 0,
       isDeleted: false,
-      title: 'Заголовок',
-      subtitle: 'Подзаголовок',
+      title: '',
+      subtitle: '',
       type: ContentType.Container,
       comment: 'Некоторый важный комментарий',
       order: order,

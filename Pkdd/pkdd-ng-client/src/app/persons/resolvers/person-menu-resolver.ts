@@ -30,6 +30,9 @@ export class PersonMenuResolver implements Resolve<MenuItem[]> {
                 new MenuItem('Результаты', `/persons/${id}/results`, 'assignment_turned_in', true),
             ] : []),
         ];
+        items.push(
+            new MenuItem('Возник вопрос? Нашли проблему?', '/help/feedback', 'feedback', true)
+        );
         this.menu.sideMenuItems = items;
         return items;
     }

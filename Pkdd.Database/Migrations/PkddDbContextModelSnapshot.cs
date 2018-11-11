@@ -117,6 +117,48 @@ namespace Pkdd.Database.Migrations
                     b.ToTable("MetaInfos");
                 });
 
+            modelBuilder.Entity("Pkdd.Models.Help.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AnswerText");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("IssueId");
+
+                    b.Property<int>("Order");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("FeedbackAnswers");
+                });
+
+            modelBuilder.Entity("Pkdd.Models.Help.Issue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSolved");
+
+                    b.Property<string>("Question");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Issues");
+                });
+
             modelBuilder.Entity("Pkdd.Models.Persons.BaseBioBlock", b =>
                 {
                     b.Property<int>("Id")
@@ -420,6 +462,105 @@ namespace Pkdd.Database.Migrations
                             b1.HasOne("Pkdd.Database.MetaInformation")
                                 .WithOne("TimeTrack")
                                 .HasForeignKey("Pkdd.Abstractions.TimeTrack", "MetaInformationId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+                });
+
+            modelBuilder.Entity("Pkdd.Models.Help.Answer", b =>
+                {
+                    b.HasOne("Pkdd.Models.Help.Issue")
+                        .WithMany("Answers")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
+                        {
+                            b1.Property<int>("AnswerId1")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("AnswerId");
+
+                            b1.Property<DateTime>("Created");
+
+                            b1.Property<DateTime>("Deleted");
+
+                            b1.Property<DateTime>("Updated");
+
+                            b1.ToTable("FeedbackAnswers");
+
+                            b1.HasOne("Pkdd.Models.Help.Answer")
+                                .WithOne("TimeTrack")
+                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "AnswerId1")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Pkdd.Models.Help.IssueUserInfo", "User", b1 =>
+                        {
+                            b1.Property<int>("AnswerId1")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("AnswerId");
+
+                            b1.Property<string>("Email");
+
+                            b1.Property<string>("MainRole");
+
+                            b1.Property<string>("Name");
+
+                            b1.Property<int>("UserId");
+
+                            b1.ToTable("FeedbackAnswers");
+
+                            b1.HasOne("Pkdd.Models.Help.Answer")
+                                .WithOne("User")
+                                .HasForeignKey("Pkdd.Models.Help.IssueUserInfo", "AnswerId1")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+                });
+
+            modelBuilder.Entity("Pkdd.Models.Help.Issue", b =>
+                {
+                    b.OwnsOne("Pkdd.Abstractions.TimeTrack", "TimeTrack", b1 =>
+                        {
+                            b1.Property<int>("IssueId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Created");
+
+                            b1.Property<DateTime>("Deleted");
+
+                            b1.Property<DateTime>("Updated");
+
+                            b1.ToTable("Issues");
+
+                            b1.HasOne("Pkdd.Models.Help.Issue")
+                                .WithOne("TimeTrack")
+                                .HasForeignKey("Pkdd.Abstractions.TimeTrack", "IssueId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Pkdd.Models.Help.IssueUserInfo", "User", b1 =>
+                        {
+                            b1.Property<int>("IssueId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Email");
+
+                            b1.Property<string>("MainRole");
+
+                            b1.Property<string>("Name");
+
+                            b1.Property<int>("UserId");
+
+                            b1.ToTable("Issues");
+
+                            b1.HasOne("Pkdd.Models.Help.Issue")
+                                .WithOne("User")
+                                .HasForeignKey("Pkdd.Models.Help.IssueUserInfo", "IssueId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

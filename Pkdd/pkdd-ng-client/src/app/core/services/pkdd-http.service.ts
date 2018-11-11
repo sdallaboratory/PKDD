@@ -25,6 +25,8 @@ export class PkddHttpService {
   }
 
   public post<T>(relativeUrl: string, body) {
+    console.log(body);
+    
     return promisify<T>(this.http.post<T>(this.addOrigin(relativeUrl), body, this.options));
   }
 

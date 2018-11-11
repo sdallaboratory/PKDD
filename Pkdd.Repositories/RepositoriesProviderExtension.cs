@@ -18,5 +18,11 @@ namespace Pkdd.Repositories
             services.AddTransient<IResultRepository, ResultRepository>();
             return services;
         }
+
+        public static IServiceCollection AddFeedbackRepository(this IServiceCollection services)
+        {
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
+            return services;
+        }
     }
 }
