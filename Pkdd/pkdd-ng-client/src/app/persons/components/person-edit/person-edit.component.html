@@ -30,7 +30,7 @@
             <mat-radio-group class="radio-group" *ngIf="person">
               <mat-radio-button value="male" [checked]="person.sex === male" (click)="setValue(male)">Мужской</mat-radio-button>
               <mat-radio-button value="female" [checked]="person.sex === female" (click)="setValue(female)">Женский</mat-radio-button>
-              <mat-radio-button value="undef" [checked]="person.sex === undef" (click)="setValue(undef)">Неопределенный</mat-radio-button>
+              <!-- <mat-radio-button value="undef" [checked]="person.sex === undef" (click)="setValue(undef)">Неопределенный</mat-radio-button> -->
             </mat-radio-group>
         </div>
       </mat-card-content>

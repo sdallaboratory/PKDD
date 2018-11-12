@@ -22,11 +22,11 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @ViewChild('chartCanvas')
   private readonly canvas: ElementRef;
-  private ctx;
+  private canvasContext;
   private chart: Chart;
 
   public ngAfterViewInit() {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.canvasContext = this.canvas.nativeElement.getContext('2d');
   }
 
   ngOnChanges() {
@@ -47,7 +47,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
     this.config.update = () => { chart.update(); console.log('updated'); };
     console.log(this.config);
-    const chart = new Chart(this.ctx, this.config);
+    const chart = new Chart(this.canvasContext, this.config);
     return chart;
   }
 }

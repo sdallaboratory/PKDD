@@ -54,14 +54,14 @@ namespace Pkdd.Models.Persons
             Content = content.Content;
             Comment = content.Comment;
             Order = content.Order;
-            // this.MarkUpdated();
+            this.MarkUpdated();
             return this;
         }
 
         [NotMapped]
         public override TimeTrack TimeTrack { get; set; }
 
-        private const string orderPattern = @"(\d*\/)+";
+        private const string orderPattern = @"(\d+\/)+";
 
         public bool CheckOrder(string order)
         {
