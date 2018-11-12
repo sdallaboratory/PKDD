@@ -1,3 +1,4 @@
-<p>
-  plot-item works!
-</p>
+<mat-icon *ngIf="plot.type == 'individual'">person</mat-icon>
+<mat-icon *ngIf="plot.type == 'total'">group</mat-icon>
+<button (click)="onDelete()"><pkdd-hover-pulse><mat-icon>clear</mat-icon></pkdd-hover-pulse></button>
+{{plot.label}}

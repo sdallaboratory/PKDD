@@ -1,7 +1,9 @@
 mat-card {
     display: flex;
     flex-direction: column;
-    height: 395px;
+    max-height: 395px;
+    min-height: 230px;
+    height: 50vh;
     width: 280px;
     background-repeat: no-repeat;
     background-size: cover;

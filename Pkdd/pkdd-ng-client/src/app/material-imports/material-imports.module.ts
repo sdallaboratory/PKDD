@@ -22,9 +22,10 @@ import {
   MatRadioModule,
   MatExpansionModule,
   MatSlideToggleModule,
+  MatButtonToggleModule,
+  MatSliderModule,
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
-  MatButtonToggleModule,
 } from '@angular/material';
 
 const imports = [
@@ -47,7 +48,8 @@ const imports = [
   MatRadioModule,
   MatExpansionModule,
   MatSlideToggleModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatSliderModule
 ];
 
 @NgModule({

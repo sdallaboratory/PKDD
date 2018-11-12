@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -7,13 +7,18 @@ import { Router } from '@angular/router';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss', './../../auth-styles.scss']
 })
-export class SignInComponent {
+export class SignInComponent implements AfterViewInit {
 
   constructor(
     private readonly auth: AuthService,
     private readonly router: Router,
   ) { }
 
+  ngAfterViewInit() {
+    // required to handle browser autofilled inputs
+      this.password = this.password;
+      this.email = this.email;
+  }
 
   public email: string;
 

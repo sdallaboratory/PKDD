@@ -8,17 +8,20 @@ export class TotalPlot extends MmpiPlot {
 
     public type: 'individual' | 'total' = 'total';
 
+    public readonly label: string;
+
     constructor(
         public readonly strategy: ReductionStrategies,
         public percent: number = 80
     ) {
         super();
-        this.dataset.label = strategy;
+        this.label = strategy;
+        this.dataset.label = this.label;
     }
 
     public getDataset(results: TestResult[]): ChartDataSets {
         super.getDataset(results);
-        // TODO: remove marginal results
+        // TODO: remove marginal results with treshhold
         const mmpiResults = results.filter(r => r.mmpiComplete).map(r => r.mmpi);
 
         switch (this.strategy) {

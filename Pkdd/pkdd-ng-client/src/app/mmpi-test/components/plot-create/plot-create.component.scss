@@ -1,5 +1,20 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: left;    
+    align-items: flex-start;
+}
+
+mat-form-field {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+mat-card {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+ng-color-box {
+    min-width: 100px;
+    min-height: 80px;
 }

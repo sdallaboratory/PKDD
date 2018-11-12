@@ -1,30 +1,48 @@
 <div class="wrapper" *ngIf="mmpiExperts">
+  <h4>Создание графика</h4>
   <p>
     Для отображения графика, задайте параметры и нажмите построить.
   </p>
   Тип оценки
   <mat-button-toggle-group [(ngModel)]="type">
     <mat-button-toggle value="total">
-      <mat-icon>group</mat-icon> Индивидуальная
+      <mat-icon>group</mat-icon> Коллективная
     </mat-button-toggle>
     <mat-button-toggle value="individual">
-      <mat-icon>person</mat-icon> Коллективная
+      <mat-icon>person</mat-icon> Личная
     </mat-button-toggle>
   </mat-button-toggle-group>
   <ng-container *ngIf="type == 'individual'">
 
-  <mat-form-field>
-    <mat-select placeholder="Выберите эксперта">
-      <mat-option *ngFor="let expert of mmpiExperts" [value]="expert">
-        {{expert.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</ng-container>
-  <ng-container *ngIf="type == 'total'">
-  
+    <mat-form-field [floatLabel]="'never'">
+      <mat-select placeholder="Выберите эксперта" [(ngModel)]="selectedExpert">
+        <mat-option *ngFor="let expert of mmpiExperts" [value]="expert">
+          {{expert.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </ng-container>
-  </div>
+  <ng-container *ngIf="type == 'total'">
+    <mat-form-field [floatLabel]="'never'">
+      <mat-select placeholder="Выберите стратегию сведения оценок" [(ngModel)]="selectedStrategy">
+        <mat-option *ngFor="let strategy of strategies" [value]="strategy">
+          {{strategy}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+      <mat-label>Процент сохранения разброса</mat-label>
+      <mat-slider [(ngModel)]="percent" thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="100"></mat-slider>
+
+  </ng-container>
+  <button mat-button [matMenuTriggerFor]="menu" [style.background]="color">Выбрать цвет</button>
+  <mat-menu #menu="matMenu">
+    <ng-color-box [(ngModel)]="color" (ngModelChange)="onColor()"></ng-color-box>
+  </mat-menu>
+
+  <button mat-raised-button (click)="onBuild()">
+    <mat-icon>insert_chart_outlined</mat-icon>Построить
+  </button>
+</div>
 <ng-container *ngIf="!mmpiExperts">
-  Невозможно создать график, так как ни один эксперт не проставил оценку  
+  Невозможно создать график, так как ни один эксперт не проставил оценку
 </ng-container>

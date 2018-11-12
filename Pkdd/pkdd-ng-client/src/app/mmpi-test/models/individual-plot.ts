@@ -8,15 +8,18 @@ export class IndividualPlot extends MmpiPlot {
 
     public type: 'individual' | 'total' = 'individual';
 
+    public readonly label: string;
+
     constructor(public readonly expert: PkddUser) {
         super();
         this.expert = expert;
-        this.dataset.label = expert.name;
+        this.label = expert.name;
+        this.dataset.label = this.label;
     }
 
     public getDataset(results: TestResult[]): ChartDataSets {
         const expertResult = results.find(r => r.userInfo.id === this.expert.id);
-        if (!expertResult || expertResult.mmpiComplete) {
+        if (!expertResult || !expertResult.mmpiComplete) {
             return null;
         }
         super.getDataset(results);

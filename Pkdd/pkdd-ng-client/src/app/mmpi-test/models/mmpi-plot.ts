@@ -10,6 +10,8 @@ export abstract class MmpiPlot {
 
     public abstract type: 'individual' | 'total';
 
+    public abstract label: string;
+
     protected dataset: ChartDataSets = {
         pointRadius: 4,
         fill: false,

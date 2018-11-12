@@ -47,6 +47,7 @@ export class AuthService {
   }
 
   public async signInAsync(email: string, password: string, remeber = false): Promise<PkddUser> {
+    // TODO: Check for user is already signed in
     const model = new SignInModel(email, password, remeber);
     this.user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
     return this.user;

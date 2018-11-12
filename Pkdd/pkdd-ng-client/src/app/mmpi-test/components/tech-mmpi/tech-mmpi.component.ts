@@ -21,14 +21,14 @@ import { MmpiPlot } from '../../models/mmpi-plot';
   selector: 'pkdd-tech-mmpi',
   templateUrl: './tech-mmpi.component.html',
   styleUrls: ['./tech-mmpi.component.scss'],
-  providers: [RealtimeResultService, RouteDataProviderService]
+  providers: [RealtimeResultService, RouteDataProviderService, TechMmpiService]
 })
 export class TechMmpiComponent implements OnInit, OnDestroy {
 
   public person: Person;
   public emitter: ResultEmitter;
   public chartConfig: PkddChartConfiguration;
-  private isLoaded: boolean = null;
+  private loaded: boolean = null;
   constructor(
     private readonly realtime: RealtimeResultService,
     // private readonly route: RouteDataProviderService
@@ -36,7 +36,7 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     public readonly window: WindowService,
     private readonly env: EnvironmentService,
     private readonly processor: ResultProcessorService,
-    private readonly plots: TechMmpiService
+    public readonly plots: TechMmpiService
   ) { }
 
   async ngOnInit() {
@@ -44,23 +44,18 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     this.person = (await this.route.data.pipe(first()).toPromise())['personModel'].person;
     this.emitter = this.realtime.getEmitter(this.person.id).start();
 
-    console.log(this.plots);
-    this.plots.add(new TotalPlot(ReductionStrategies.average));
-    this.plots.add(new TotalPlot(ReductionStrategies.median));
-    this.plots.add(new TotalPlot(ReductionStrategies.root));
-
     this.emitter.onChanged.subscribe(((results: TestResult[]) => {
-      if (!this.chartConfig && this.isLoaded == null) {
-        this.isLoaded = false;
+      if (!this.chartConfig && !this.loaded) {
+        this.loaded = true;
         this.initChartConfig();
-        this.isLoaded = true;
       }
-      this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
+      this.updateChart();
+      // this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
         // .toArray(this.processor.median(this.emitter.results.filter(r => r.mmpiComplete).map(r => r.mmpi)));
 
-      if (this.chartConfig.update) {
-        this.chartConfig.update();
-      }
+      // if (this.chartConfig.update) {
+      //   this.chartConfig.update();
+      // }
     }));
   }
 
@@ -95,6 +90,9 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
         ]
       },
       options: {
+        legend: {
+          display: false,
+        },
         maintainAspectRatio: false,
         layout: {
           padding: 15
@@ -121,8 +119,21 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     };
   }
 
-  public onPlotCreated(plot: MmpiPlot) {
-    this.plots.add(plot);
+  private updateChart() {
+    this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
+    console.log(this.chartConfig.data.datasets);
+    if (this.chartConfig.update) {
+      this.chartConfig.update();
+    }
   }
 
+  public onPlotCreated(plot: MmpiPlot) {
+    this.plots.add(plot);
+    this.updateChart();
+  }
+
+  public onPlotDeleted(plot: MmpiPlot) {
+    this.plots.remove(plot);
+    this.updateChart();
+  }
 }
