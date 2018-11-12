@@ -1,10 +1,13 @@
 <div class="wrapper">
   <h1>Результаты теста MMPI</h1>
   <pkdd-chart [config]="chartConfig"></pkdd-chart>
+  <mat-slide-toggle *ngIf="chartConfig?.data?.datasets[0]" [(ngModel)]="chartConfig.data.datasets[0].hidden"></mat-slide-toggle>
+  <pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
 </div>
 
-<pkdd-chart style="width: 500px; height: 200px;" [config]="chartConfig"></pkdd-chart>
+
+<!-- <pkdd-chart style="width: 500px; height: 200px;" [config]="chartConfig"></pkdd-chart>
 <div class="wrapper" [class.horizontal]="window.currentSize.width > 700">
   <div style="background: red; height: 200px"></div>
   <div style="background: green;"></div>
-</div>
+</div> -->

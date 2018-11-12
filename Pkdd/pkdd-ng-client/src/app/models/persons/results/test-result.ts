@@ -11,5 +11,5 @@ export class TestResult {
     public physiognomy: PhysiognomyResult;
     public physiognomyComplete: boolean;
     public comment: string;
-    public user: PkddUser;
+    public userInfo: PkddUser;
 }

@@ -12,6 +12,10 @@ import { EnvironmentService } from 'src/app/core/services/environment.service';
 import { TestResult } from 'src/app/models/persons/results/test-result';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
 import { ResultProcessorService } from '../../services/result-processor.service';
+import { TechMmpiService } from '../../services/tech-mmpi.service';
+import { TotalPlot } from '../../models/total-plot';
+import { ReductionStrategies } from '../../models/reduction-strategies';
+import { MmpiPlot } from '../../models/mmpi-plot';
 
 @Component({
   selector: 'pkdd-tech-mmpi',
@@ -22,16 +26,17 @@ import { ResultProcessorService } from '../../services/result-processor.service'
 export class TechMmpiComponent implements OnInit, OnDestroy {
 
   public person: Person;
-  private emitter: ResultEmitter;
+  public emitter: ResultEmitter;
   public chartConfig: PkddChartConfiguration;
-
+  private isLoaded: boolean = null;
   constructor(
     private readonly realtime: RealtimeResultService,
     // private readonly route: RouteDataProviderService
     private readonly route: ActivatedRoute,
     public readonly window: WindowService,
     private readonly env: EnvironmentService,
-    private readonly processor: ResultProcessorService
+    private readonly processor: ResultProcessorService,
+    private readonly plots: TechMmpiService
   ) { }
 
   async ngOnInit() {
@@ -39,20 +44,23 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     this.person = (await this.route.data.pipe(first()).toPromise())['personModel'].person;
     this.emitter = this.realtime.getEmitter(this.person.id).start();
 
-    this.emitter.onChanged.subscribe(((results: TestResult[]) => {
-      // if (!this.chartConfig) {
-      //   this.initChart();
-      // }
-      // for (let i = 0; i < MmpiResult.keys.length; i++) {
-      //   this.chartConfig.data.datasets[0].data[i] = MmpiResult.toArray(results[0].mmpi)[i];
-      // }
-      // console.log('updating', this.chartConfig);
+    console.log(this.plots);
+    this.plots.add(new TotalPlot(ReductionStrategies.average));
+    this.plots.add(new TotalPlot(ReductionStrategies.median));
+    this.plots.add(new TotalPlot(ReductionStrategies.root));
 
-      // if (this.chartConfig.update) {
-      //   this.chartConfig.update();
-      // }
-      console.log(MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))));
-      this.initChart();
+    this.emitter.onChanged.subscribe(((results: TestResult[]) => {
+      if (!this.chartConfig && this.isLoaded == null) {
+        this.isLoaded = false;
+        this.initChartConfig();
+        this.isLoaded = true;
+      }
+      this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
+        // .toArray(this.processor.median(this.emitter.results.filter(r => r.mmpiComplete).map(r => r.mmpi)));
+
+      if (this.chartConfig.update) {
+        this.chartConfig.update();
+      }
     }));
   }
 
@@ -60,31 +68,31 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     this.emitter.stop();
   }
 
-  initChart() {
+  initChartConfig() {
     this.chartConfig = {
       type: 'line',
       data: {
         labels: MmpiResult.keys,
         datasets: [
           {
-          label: 'Среднее арифметическое',
-          data: MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-          borderWidth: 6,
-          pointRadius: 4,
-          fill: false,
-          backgroundColor: 'purple',
-          borderColor: 'purple',
-        },
-        {
-          label: 'Среднее квадратическое',
-          data: MmpiResult.toArray(this.processor.root(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-          borderWidth: 6,
-          pointRadius: 4,
-          fill: false,
-          backgroundColor: 'gray',
-          borderColor: 'gray',
-        }
-      ]
+            label: 'Среднее арифметическое',
+            data: MmpiResult.toArray(this.processor.median(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
+            borderWidth: 6,
+            pointRadius: 4,
+            fill: false,
+            backgroundColor: 'purple',
+            borderColor: 'purple',
+          },
+          {
+            label: 'Среднее квадратическое',
+            data: MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
+            borderWidth: 6,
+            pointRadius: 4,
+            fill: false,
+            backgroundColor: 'gray',
+            borderColor: 'gray',
+          }
+        ]
       },
       options: {
         maintainAspectRatio: false,
@@ -109,9 +117,12 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
           ]
         },
         responsive: true,
-        animation: { duration: 0 }
       },
     };
+  }
+
+  public onPlotCreated(plot: MmpiPlot) {
+    this.plots.add(plot);
   }
 
 }

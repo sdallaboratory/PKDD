@@ -1,0 +1,30 @@
+<div class="wrapper" *ngIf="mmpiExperts">
+  <p>
+    Для отображения графика, задайте параметры и нажмите построить.
+  </p>
+  Тип оценки
+  <mat-button-toggle-group [(ngModel)]="type">
+    <mat-button-toggle value="total">
+      <mat-icon>group</mat-icon> Индивидуальная
+    </mat-button-toggle>
+    <mat-button-toggle value="individual">
+      <mat-icon>person</mat-icon> Коллективная
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <ng-container *ngIf="type == 'individual'">
+
+  <mat-form-field>
+    <mat-select placeholder="Выберите эксперта">
+      <mat-option *ngFor="let expert of mmpiExperts" [value]="expert">
+        {{expert.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
+  <ng-container *ngIf="type == 'total'">
+  
+  </ng-container>
+  </div>
+<ng-container *ngIf="!mmpiExperts">
+  Невозможно создать график, так как ни один эксперт не проставил оценку  
+</ng-container>

@@ -25,12 +25,10 @@ public async resolve(
         ] : []),
         ...(user.roles.includes(PkddRoles.admin) ? [
             new MenuItem('Пользователи', `/admin/user-list`, 'list', true),
-            new MenuItem('Фидбек', '/admin/issues', 'feedback', true)
+            new MenuItem('Фидбек и ответы', '/admin/issues', 'question_answer', true)
         ] : []),
+        new MenuItem('Возник вопрос?', '/help/feedback', 'feedback', true)
     ];
-    items.push(
-        new MenuItem('Возник вопрос? Нашли проблему?', '/help/feedback', 'feedback', true)
-    );
     this.menu.sideMenuItems = items;
     return items;
 }

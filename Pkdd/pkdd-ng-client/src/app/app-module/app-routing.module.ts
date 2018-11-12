@@ -25,8 +25,9 @@ const routes: Routes = [
           // { path: 'persons', component: PersonsListComponent, resolve: { menu: MenuResolver.noItems() } },
           {
             path: 'account', component: AccountPageComponent, resolve: {
-              menu: MenuResolver.forItems([new MenuItem('Профиль', 'asd', 'person', true),
-              new MenuItem('Настройки', 's', 'build', true)])
+              // menu: MenuResolver.forItems([new MenuItem('Профиль', 'asd', 'person', true),
+              // new MenuItem('Настройки', 's', 'build', true)])
+              menu: MenuResolver.noItems()
             }
           },
         ]

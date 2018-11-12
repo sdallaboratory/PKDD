@@ -34,7 +34,7 @@ export class ResultEmitter {
 
   public start(): ResultEmitter {
     this.onTimer();
-    this.timer = setInterval(() => this.onTimer(), 3000);
+    this.timer = setInterval(() => this.onTimer(), 10000);
     return this;
   }
 

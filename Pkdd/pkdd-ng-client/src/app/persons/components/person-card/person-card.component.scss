@@ -12,10 +12,6 @@ mat-card {
     transition-duration: 0.3s;
 }
 
-mat-card:hover, .add-card {
-    filter: grayscale(0%);
-}
-
 mat-card-title {
     background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75), rgba(255,255,255, 0) 100%);
     padding: 20px;

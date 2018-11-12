@@ -14,7 +14,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-
+    console.log('PKDD Tech MMPI is initialized');
   }
 
   @Input()
@@ -33,21 +33,20 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.chart) {
       this.chart.destroy();
     }
-    if (this.config) {
-      this.InitializeCanvas();
+    if (this.canvasContext && this.config) {
+      this.InitializeChart();
     }
   }
 
-  private InitializeCanvas() {
+  private InitializeChart(): void {
     if (this.config.dragData) {
       (<any>this.config.options).dragData = true;
     }
     if (this.config.onDragEnd) {
       (<any>this.config.options).onDragEnd = this.config.onDragEnd;
     }
-    this.config.update = () => { chart.update(); console.log('updated'); };
-    console.log(this.config);
-    const chart = new Chart(this.canvasContext, this.config);
-    return chart;
+    this.chart = new Chart(this.canvasContext, this.config);
+    this.config.update = () => this.chart.update();
   }
+
 }
