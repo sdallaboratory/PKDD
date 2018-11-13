@@ -78,4 +78,31 @@ export class ResultProcessorService {
     }
     return result;
   }
+
+  getRootDifference(a: MmpiResult, b: MmpiResult): number {
+    let difference = 0;
+    MmpiResult.keys.forEach(key => {
+      difference += Math.pow((a[key] - b[key]), 2);
+    });
+    return difference;
+  }
+
+  public getDiviations(results: MmpiResult[]) {
+    const average = this.average(results);
+    return results.map(r => this.getRootDifference(r, average));
+    // const cmp = (a: MmpiResult, b: MmpiResult) => this.getRootDifference(a, average) - this.getRootDifference(b, average);
+    // const deviations = results.sort(cmp);
+  }
+
+  public dropMarginals(results: MmpiResult[], percent: number) {
+    if (percent < 0 || percent > 100) {
+      throw new Error('percent value is oit of range from 0 to 100');
+    }
+
+    const deviations = this.getDiviations(results).map((d: number, i: number) => ({ result: results[i], deviation: d }));
+
+    deviations.sort((a, b) => a.deviation - b.deviation);
+
+    return deviations.filter((e, i) => i === 1 || i < results.length * percent / 100).map(pair => pair.result);
+  }
 }

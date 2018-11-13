@@ -121,7 +121,6 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
 
   private updateChart() {
     this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
-    console.log(this.chartConfig.data.datasets);
     if (this.chartConfig.update) {
       this.chartConfig.update();
     }

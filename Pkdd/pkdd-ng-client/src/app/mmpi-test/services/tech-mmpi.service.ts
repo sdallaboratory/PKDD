@@ -23,7 +23,6 @@ export class TechMmpiService {
     const datasets: ChartDataSets[] = [];
     this.plots.forEach(plot => {
       const dataset = plot.getDataset(results);
-      console.log(plot, dataset);
       if (dataset) {
         datasets.push(dataset);
       } else {

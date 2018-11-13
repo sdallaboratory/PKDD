@@ -22,3 +22,19 @@ ng-color-box {
     min-width: 100px;
     min-height: 80px;
 }
+
+button.build, button.cancel {
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+// mat-label {
+
+// }
+
+.buttons-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+}

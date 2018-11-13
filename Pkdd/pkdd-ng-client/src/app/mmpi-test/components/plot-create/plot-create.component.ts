@@ -48,9 +48,9 @@ export class PlotCreateComponent implements OnInit {
     '#009688',
     '#8BC34A',
     '#FFC107',
-    '#FF5722',
-    '#616161',
-    '#607D8B',
+    // '#FF5722',
+    // '#616161',
+    // '#607D8B',
     '#d50000'
   ];
 
@@ -80,5 +80,10 @@ export class PlotCreateComponent implements OnInit {
     plot.borderWidth = this.borderWidth;
     plot.color = this.selectedColor;
     this.created.emit(plot);
+    this.type = null;
+  }
+
+  public onCancel() {
+    this.type = null;
   }
 }

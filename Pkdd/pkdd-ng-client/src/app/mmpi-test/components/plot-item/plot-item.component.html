@@ -2,3 +2,6 @@
 <mat-icon *ngIf="plot.type == 'total'">group</mat-icon>
 <button [style.background]="plot.color" (click)="onDelete()"><pkdd-hover-pulse><mat-icon>clear</mat-icon></pkdd-hover-pulse></button>
 {{plot.label}}
+<div *ngIf="plot.type == 'individual'">
+    <span *ngFor="let expert of asTotal.usedExperts">{{expert.name}} , </span>
+</div>

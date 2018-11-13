@@ -3,9 +3,9 @@
   <pkdd-chart [config]="chartConfig"></pkdd-chart>
   <!-- <mat-slide-toggle *ngIf="chartConfig?.data?.datasets[0]" [(ngModel)]="chartConfig.data.datasets[0].hidden"></mat-slide-toggle> -->
   <pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
-    <mat-card>
+    <!-- <mat-card> -->
       <pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
-    </mat-card>
+    <!-- </mat-card> -->
 </div>
 
 
