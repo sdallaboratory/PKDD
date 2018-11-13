@@ -25,7 +25,7 @@ export class ResultEmitter {
   public results: TestResult[];
   private timer: any;
 
-  public readonly onChanged: EventEmitter<TestResult[]> = new EventEmitter();
+  public readonly changed: EventEmitter<TestResult[]> = new EventEmitter();
 
   constructor(
     public readonly personId: number,
@@ -34,14 +34,14 @@ export class ResultEmitter {
 
   public start(): ResultEmitter {
     this.onTimer();
-    this.timer = setInterval(() => this.onTimer(), 3000);
+    this.timer = setInterval(() => this.onTimer(), 10000);
     return this;
   }
 
   private async onTimer(): Promise<void> {
     try {
       this.results = await this.provider.getForPerson(this.personId);
-      this.onChanged.emit(this.results);
+      this.changed.emit(this.results);
     } catch { }
   }
 

@@ -15,8 +15,10 @@ body {
     background: lightgray; // overflow: hidden;
 }
 
-@media(max-width: 900px) {
-    font-size: 11px;
+@media(max-width: 600px) {
+    body {
+        font-size: 12px;
+    }
 }
 
 a {

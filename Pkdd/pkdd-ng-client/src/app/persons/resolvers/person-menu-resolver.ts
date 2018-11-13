@@ -29,10 +29,8 @@ export class PersonMenuResolver implements Resolve<MenuItem[]> {
                 new MenuItem('Редактирование', `/persons/${id}/edit`, 'edit', true),
                 new MenuItem('Результаты', `/persons/${id}/results`, 'assignment_turned_in', true),
             ] : []),
+            new MenuItem('Возник вопрос?', '/help/feedback', 'feedback', true)
         ];
-        items.push(
-            new MenuItem('Возник вопрос? Нашли проблему?', '/help/feedback', 'feedback', true)
-        );
         this.menu.sideMenuItems = items;
         return items;
     }

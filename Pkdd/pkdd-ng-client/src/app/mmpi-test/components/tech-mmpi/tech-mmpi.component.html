@@ -1,10 +1,12 @@
 <div class="wrapper">
   <h1>Результаты теста MMPI</h1>
+  <!-- <span *ngIf="!emitter?.results?.length">
+    Ни один эксперт ещё не успел оценить эту персону. При появлении оценки график обновится автоматически.
+  </span> -->
+  <!-- <span *ngIf="!plots?.plots?.length">
+    Для отображения оценки, создайте хотя бы один график в меню "Создание графика" снизу.
+  </span> -->
   <pkdd-chart [config]="chartConfig"></pkdd-chart>
-</div>
-
-<pkdd-chart style="width: 500px; height: 200px;" [config]="chartConfig"></pkdd-chart>
-<div class="wrapper" [class.horizontal]="window.currentSize.width > 700">
-  <div style="background: red; height: 200px"></div>
-  <div style="background: green;"></div>
+  <pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
+      <pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
 </div>

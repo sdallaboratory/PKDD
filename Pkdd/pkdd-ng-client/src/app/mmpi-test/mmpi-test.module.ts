@@ -8,6 +8,10 @@ import { PkddChartsModule } from '../pkdd-charts/pkdd-charts.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TechMmpiComponent } from './components/tech-mmpi/tech-mmpi.component';
+import { PlotCreateComponent } from './components/plot-create/plot-create.component';
+import { PlotItemComponent } from './components/plot-item/plot-item.component';
+import { PercentSliderComponent } from './components/percent-slider/percent-slider.component';
+
 
 @NgModule({
   imports: [
@@ -17,9 +21,9 @@ import { TechMmpiComponent } from './components/tech-mmpi/tech-mmpi.component';
     CoreModule,
     MaterialImportsModule,
     LayoutModule,
-    PkddChartsModule
+    PkddChartsModule,
   ],
-  declarations: [PersonMmpiComponent, TechMmpiComponent],
+  declarations: [PersonMmpiComponent, TechMmpiComponent, PlotCreateComponent, PlotItemComponent, PercentSliderComponent],
   exports: [TechMmpiComponent]
 })
 export class MmpiTestModule { }

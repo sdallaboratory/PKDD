@@ -15,3 +15,12 @@ pkdd-chart {
     min-height: 400px;
     margin: 10px 0;
 }
+
+.fields-group {
+    display: flex;
+    flex-direction: column;
+}
+
+button.save {
+    margin-top: 20px;
+}

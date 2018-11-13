@@ -13,6 +13,7 @@ import { UserCreateComponent } from './components/user-create/user-create.compon
 import { StrongestRolePipe } from './pipes/strongest-role.pipe';
 import { UserIssuesComponent } from './components/user-issues/user-issues.component';
 import { UserIssuesItemComponent } from './components/user-issues-item/user-issues-item.component';
+import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { UserIssuesItemComponent } from './components/user-issues-item/user-issu
     CoreModule,
     MaterialImportsModule,
     AuthModule,
+    LayoutModule
   ],
   declarations: [
     UsersListComponent,

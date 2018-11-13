@@ -21,6 +21,9 @@ import {
   DateAdapter,
   MatRadioModule,
   MatExpansionModule,
+  MatSlideToggleModule,
+  MatButtonToggleModule,
+  MatSliderModule,
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
 } from '@angular/material';
@@ -43,7 +46,10 @@ const imports = [
   MatDatepickerModule,
   MatMomentDateModule,
   MatRadioModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatSlideToggleModule,
+  MatButtonToggleModule,
+  MatSliderModule
 ];
 
 @NgModule({
@@ -54,10 +60,10 @@ const imports = [
     {
       provide: MAT_DATE_FORMATS, useValue: {
         display: {
-          dateInput: 'DD.MM.YYYY',
-          monthYearLabel: 'DD.MM.YYYY',
-          dateA11yLabel: 'DD.MM.YYYY',
-          monthYearA11yLabel: 'DD.MM.YYYY',
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'DD/MM/YYYY',
+          dateA11yLabel: 'DD/MM/YYYY',
+          monthYearA11yLabel: 'DD/MM/YYYY',
         },
       }
     },

@@ -1,1 +1,4 @@
+<div *ngIf="user" class="temporary-solution">
+    Вы авторизованы как <b>{{user.name}}</b>
+</div>
 <button mat-raised-button style="margin: 20px" (click)="signOut()">Выйти из аккаунта <mat-spinner *ngIf="load"></mat-spinner> </button>

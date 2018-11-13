@@ -20,13 +20,11 @@ export class PkddHttpService {
   }
 
   public get<T>(relativeUrl: string) {
-    console.log('url: ', this.addOrigin(relativeUrl));
     return promisify<T>(this.http.get<T>(this.addOrigin(relativeUrl), this.options));
   }
 
   public post<T>(relativeUrl: string, body) {
     console.log(body);
-    
     return promisify<T>(this.http.post<T>(this.addOrigin(relativeUrl), body, this.options));
   }
 
@@ -41,12 +39,5 @@ export class PkddHttpService {
   private addOrigin(relativeUrl): string {
     return this.env.config.backendOrigin + relativeUrl;
   }
-
-  // private promisify<T>(observable: Observable<T>) {
-  //   return observable.pipe(last(), map(value => {
-  //     console.log(value);
-  //     return value;
-  //   })).toPromise();
-  // }
 
 }

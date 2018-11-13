@@ -60,7 +60,7 @@
         delete_forever
       </mat-icon>
     </button>
-    <button mat-icon-button [disabled]="user.isConfirmed && user.isBaseUser" matTooltip="Подтвердить" (click)="confirm()">
+    <button mat-icon-button [disabled]="user.isConfirmed || user?.isBaseUser" matTooltip="Подтвердить" (click)="confirm()">
       <mat-icon>
         verified_user
       </mat-icon>

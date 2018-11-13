@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'pkdd-hover-pulse',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HoverPulseComponent implements OnInit {
 
+  @Output()
+  public click: EventEmitter<void> = new EventEmitter();
+
+  @ViewChild('wrapper')
+  public wrapper: ElementRef;
+
+
+
   constructor() { }
 
   ngOnInit() {
+    this.wrapper.nativeElement.onClick = () => {
+      this.click.emit();
+    };
   }
 
 }

@@ -1,7 +1,9 @@
 mat-card {
     display: flex;
     flex-direction: column;
-    height: 395px;
+    max-height: 395px;
+    min-height: 230px;
+    height: 50vh;
     width: 280px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -10,10 +12,6 @@ mat-card {
     transition-duration: 0.3s;
     filter: grayscale(50%);
     transition-duration: 0.3s;
-}
-
-mat-card:hover, .add-card {
-    filter: grayscale(0%);
 }
 
 mat-card-title {

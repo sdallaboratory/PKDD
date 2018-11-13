@@ -12,7 +12,7 @@
     <mat-label>Email</mat-label>
     <input matInput type="text" placeholder="например, example@email.com" required [(ngModel)]="email">
   </mat-form-field>
-  <mat-form-field class="password-field">
+  <mat-form-field  [hintLabel]="'не менее 8 букв и цифр'" class="password-field">
     <mat-label>Пароль</mat-label>
     <input matInput [type]="hide ? 'password' : 'text'" placeholder="например, Abc123Moscow!" required [(ngModel)]="password">
     <mat-icon class="suffix" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>

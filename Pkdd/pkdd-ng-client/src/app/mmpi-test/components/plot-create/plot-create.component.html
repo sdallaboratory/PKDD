@@ -1,0 +1,61 @@
+<div class="wrapper" *ngIf="mmpiExperts">
+  <h4>Создание графика</h4>
+  <p>
+    Для отображения графика, задайте параметры и нажмите построить.
+  </p>
+  <mat-label>Тип оценки</mat-label>
+  <mat-button-toggle-group [(ngModel)]="type">
+    <mat-button-toggle value="total">
+      <mat-icon>group</mat-icon> Сводная
+    </mat-button-toggle>
+    <mat-button-toggle value="individual">
+      <mat-icon>person</mat-icon> Личная
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <ng-container *ngIf="type == 'individual'">
+    <mat-form-field>
+      <mat-select placeholder="Эксперт" [(ngModel)]="selectedExpert" (openedChange)="onExpertSelectOpenedChanged($event)">
+        <mat-option *ngFor="let expert of mmpiExperts" [value]="expert">
+          {{expert.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
+  <ng-container *ngIf="type == 'total'">
+    <mat-form-field>
+      <mat-select placeholder="Стратегия сведения оценок" [(ngModel)]="selectedStrategy" >
+        <mat-option *ngFor="let strategy of strategies" [value]="strategy">
+          {{strategy}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-label>Процент сохранения разброса</mat-label>
+    <mat-slider [(ngModel)]="percent" thumbLabel [displayWith]="formatPercent" tickInterval="1" min="1" max="100"></mat-slider>
+  </ng-container>
+
+  <ng-container *ngIf="type">
+    <mat-label>Толщина линии</mat-label>
+    <mat-slider [(ngModel)]="borderWidth" thumbLabel [displayWith]="formatPx" tickInterval="1" min="1" max="10"></mat-slider>
+    <mat-label>Цвет графика</mat-label>
+    <mat-button-toggle-group [(ngModel)]="selectedColor">
+      <mat-button-toggle class="color-toggle" *ngFor="let color of colors" [value]="color" [style.background]="color">
+        <ng-container *ngIf="color == selectedColor">
+          <mat-icon [style.color]="color" style="filter: invert(100%)" class="color">done_outline</mat-icon>&nbsp;
+        </ng-container>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    <div class="buttons-row">
+      <button class="cancel" mat-button (click)="onCancel()">
+        <mat-icon>clear</mat-icon> Отменить
+      </button>
+      <button class="build" mat-raised-button [disabled]="!isValid" (click)="onBuild()">
+        <mat-icon>show_chart</mat-icon> Построить
+      </button>
+    </div>
+  </ng-container>
+
+</div>
+<ng-container *ngIf="!mmpiExperts">
+  Невозможно создать график, так как ни один эксперт не проставил оценку
+</ng-container>

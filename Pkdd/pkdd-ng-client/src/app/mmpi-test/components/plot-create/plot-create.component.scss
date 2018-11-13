@@ -1,0 +1,40 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+mat-form-field {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+mat-slider {
+    width: 100%;
+}
+
+mat-card {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+ng-color-box {
+    min-width: 100px;
+    min-height: 80px;
+}
+
+button.build, button.cancel {
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.buttons-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.color-toggle {
+    display: flex;
+}
