@@ -1,7 +1,31 @@
-<mat-icon *ngIf="plot.type == 'individual'">person</mat-icon>
-<mat-icon *ngIf="plot.type == 'total'">group</mat-icon>
-<button [style.background]="plot.color" (click)="onDelete()"><pkdd-hover-pulse><mat-icon>clear</mat-icon></pkdd-hover-pulse></button>
-{{plot.label}}
-<div *ngIf="plot.type == 'total'">
-    <span *ngFor="let expert of asTotal.usedExperts">{{expert.name}},</span>
+<div class="wrapper">
+    <div class="column">
+        <pkdd-hover-pulse (click)="onDelete()">
+            <mat-icon>clear</mat-icon>
+        </pkdd-hover-pulse>
+        <mat-icon *ngIf="plot.type == 'individual'" [style.color]="plot.color">person</mat-icon>
+        <mat-icon *ngIf="plot.type == 'total'" [style.color]="plot.color">group</mat-icon>
+        <div class="line" [style.background]="plot.color" [style.width]="plot.borderWidth + 'px'"></div>
+    </div>
+    <div class="content">
+        <h4>{{plot.label}}</h4>
+        <ng-container *ngIf="plot.type == 'total'">
+            <mat-label>Процент сохранения разброса</mat-label>
+            <!-- TODO: define separate component for slidr  -->
+            <mat-slider [(ngModel)]="asTotal.percent" thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+            <mat-label>Экспертных оценок использовано: <b>{{asTotal.usedExperts?.length || 0}}</b></mat-label>
+            <br>
+            <ul>
+                <li *ngFor="let expert of asTotal.usedExperts">{{expert.name}}
+            </ul>
+        </ng-container>
+        <ng-container *ngIf="plot.type == 'individual'">
+            <div>
+                {{asIndividual.expert.email}}
+                <!-- TODO: Implement position output instead of email -->
+                <!-- {{asIndividual.expert.position || 'Туточки выведена какая-то должность'}} -->
+            </div>
+        </ng-container>
+        <mat-slide-toggle [(ngModel)]="plot.hidden">Скрыть</mat-slide-toggle>
+    </div>
 </div>

@@ -103,6 +103,6 @@ export class ResultProcessorService {
 
     deviations.sort((a, b) => a.deviation - b.deviation);
 
-    return deviations.filter((e, i) => i === 1 || i < results.length * percent / 100).map(pair => pair.result);
+    return deviations.filter((e, i) => i === 0 || i < results.length * percent / 100).map(pair => pair.result);
   }
 }

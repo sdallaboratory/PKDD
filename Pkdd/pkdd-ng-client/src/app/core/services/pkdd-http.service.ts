@@ -20,7 +20,6 @@ export class PkddHttpService {
   }
 
   public get<T>(relativeUrl: string) {
-    console.log('url: ', this.addOrigin(relativeUrl));
     return promisify<T>(this.http.get<T>(this.addOrigin(relativeUrl), this.options));
   }
 

@@ -13,13 +13,25 @@ export class TotalPlot extends MmpiPlot {
 
     public usedExperts: PkddUser[];
 
+
+    private _percent: number;
+    public get percent(): number {
+        return this._percent;
+    }
+    public set percent(v: number) {
+        this._percent = v;
+        this.settingsChanged.emit();
+    }
+
+
     constructor(
         public readonly strategy: ReductionStrategies,
-        public percent: number = 80
+        percent: number = 80
     ) {
         super();
         this.label = strategy;
         this.dataset.label = this.label;
+        this.percent = percent;
     }
 
     public getDataset(results: TestResult[]): ChartDataSets {
@@ -30,7 +42,6 @@ export class TotalPlot extends MmpiPlot {
         const percentedResults = this.processor.dropMarginals(mmpiResults, this.percent);
 
         this.usedExperts = results.filter(r => percentedResults.includes(r.mmpi)).map(r => r.userInfo);
-        console.log(this.usedExperts);
 
         switch (this.strategy) {
             case ReductionStrategies.average:

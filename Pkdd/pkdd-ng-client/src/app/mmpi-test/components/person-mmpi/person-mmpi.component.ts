@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RouteDataProviderService } from '../../../core/services/route-data-provider.service';
 import { TestResult } from '../../../models/persons/results/test-result';
 import { ResultsProviderService } from 'src/app/test/services/results-provider.service';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { ChartConfiguration, ChartData } from 'chart.js';
 import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { EnvironmentService } from 'src/app/core/services/environment.service';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
@@ -21,7 +19,14 @@ export class PersonMmpiComponent implements OnInit {
   public chartConfig: PkddChartConfiguration;
 
   public get scales() {
+    if (!this.result) {
+      return null;
+    }
     return MmpiResult.toNameValuePairs(this.result.mmpi);
+  }
+
+  public get keys() {
+    return MmpiResult.keys;
   }
 
   constructor(
@@ -84,7 +89,7 @@ export class PersonMmpiComponent implements OnInit {
         responsive: true,
       },
       dragData: true,
-      onDragEnd:  () => this.updateValues()
+      onDragEnd: () => this.updateValues()
     };
 
   }
@@ -96,6 +101,7 @@ export class PersonMmpiComponent implements OnInit {
     });
     MmpiResult.keys.forEach((key, i) => {
       this.result.mmpi[key] = data[i];
+      this.ensureValid(key);
     });
   }
 
@@ -104,6 +110,19 @@ export class PersonMmpiComponent implements OnInit {
       this.result.mmpiComplete = true;
       this.result = await this.provider.send(this.result);
     } catch { }
+  }
+
+  onValueCahnged(key: string) {
+    this.ensureValid(key);
+    this.chartConfig.data.datasets[0].data = MmpiResult.toArray(this.result.mmpi);
+    if (this.chartConfig.update) {
+      this.chartConfig.update();
+    }
+  }
+
+  ensureValid(key: string) {
+    const value = this.result.mmpi[key];
+    this.result.mmpi[key] = Math.round(Math.min(this.env.config.mmpiResultMaxValue, Math.max(0, value)));
   }
 
 }

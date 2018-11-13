@@ -13,4 +13,6 @@ export class PkddUser {
         public isDeleted: boolean,
         public isBaseUser: boolean
     ) { }
+
+    public position = '<Какая-то должность эксперта>';
 }

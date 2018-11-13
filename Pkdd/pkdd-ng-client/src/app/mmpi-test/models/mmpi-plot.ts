@@ -19,13 +19,13 @@ export abstract class MmpiPlot {
 
     public settingsChanged: EventEmitter<void> = new EventEmitter();
 
-    private _hidden: boolean;
+    private _hidden = false;
     public get hidden(): boolean {
         return this._hidden;
     }
     public set hidden(v: boolean) {
-        this.settingsChanged.emit();
         this._hidden = v;
+        this.settingsChanged.emit();
     }
 
     private _color: string;
@@ -33,8 +33,8 @@ export abstract class MmpiPlot {
         return this._color;
     }
     public set color(v: string) {
-        this.settingsChanged.emit();
         this._color = v;
+        this.settingsChanged.emit();
     }
 
     private _borderWidth = 6;
@@ -42,11 +42,12 @@ export abstract class MmpiPlot {
         return this._borderWidth;
     }
     public set borderWidth(v: number) {
-        this.settingsChanged.emit();
         this._borderWidth = v;
+        this.settingsChanged.emit();
     }
 
     public getDataset(results: TestResult[]): ChartDataSets {
+        this.dataset.hidden = this.hidden;
         this.dataset.borderWidth = this.borderWidth;
         this.dataset.borderColor = this.color;
         this.dataset.backgroundColor = this.color;

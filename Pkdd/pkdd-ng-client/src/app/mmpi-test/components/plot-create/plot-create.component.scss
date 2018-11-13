@@ -28,13 +28,13 @@ button.build, button.cancel {
     margin-left: 15px;
 }
 
-// mat-label {
-
-// }
-
 .buttons-row {
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    justify-content: flex-end;
     width: 100%;
+}
+
+.color-toggle {
+    display: flex;
 }

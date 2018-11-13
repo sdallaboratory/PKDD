@@ -5,6 +5,7 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 15px;
+    padding-bottom: 50vh;
 }
 
 .wrapper.horizontal {
@@ -26,4 +27,8 @@ pkdd-chart {
 
 pkdd-plot-item {
     margin: 15px 0;
+}
+
+pkdd-plot-create {
+    margin-top: 20px;
 }

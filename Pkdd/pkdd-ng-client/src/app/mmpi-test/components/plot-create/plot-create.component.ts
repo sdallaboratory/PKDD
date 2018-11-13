@@ -19,15 +19,29 @@ export class PlotCreateComponent implements OnInit {
   @Input()
   public readonly emitter: ResultEmitter;
 
-
   public type: 'individual' | 'total';
 
   public selectedExpert: PkddUser;
 
+
+  public colors = [
+    '#000000',
+    '#9C27B0',
+    '#3F51B5',
+    '#03A9F4',
+    '#009688',
+    '#8BC34A',
+    '#FFC107',
+    // '#FF5722',
+    // '#616161',
+    // '#607D8B',
+    '#d50000'
+  ];
+
   // TODO: set adequate initial value
   public selectedStrategy: ReductionStrategies = ReductionStrategies.average;
 
-  public selectedColor: string;
+  public selectedColor = this.colors[0];
 
   public borderWidth = 3;
 
@@ -41,33 +55,21 @@ export class PlotCreateComponent implements OnInit {
     return Object.values(ReductionStrategies);
   }
 
-  public colors = [
-    '#9C27B0',
-    '#3F51B5',
-    '#03A9F4',
-    '#009688',
-    '#8BC34A',
-    '#FFC107',
-    // '#FF5722',
-    // '#616161',
-    // '#607D8B',
-    '#d50000'
-  ];
-
-  // TODO: delete this shit and getdata directly from emitter. It should intantiate its results array only once.
   private results;
 
   constructor() { }
 
   public get mmpiExperts(): PkddUser[] {
-    if (!this.results && this.emitter) {
+    if ((!this.results || !this.results.length) && this.emitter) {
       this.results = this.emitter.results;
     }
-    // return this.emitter && this.emitter.results.filter(r => r.mmpiComplete).map(r => r.userInfo);
     return this.results && this.results.filter(r => r.mmpiComplete).map(r => r.userInfo);
   }
 
   ngOnInit() {
+    // TODO: Maybe redisign logic of creating initial plot
+    this.type = 'total';
+    this.onBuild();
   }
 
   public onBuild() {
@@ -85,5 +87,21 @@ export class PlotCreateComponent implements OnInit {
 
   public onCancel() {
     this.type = null;
+  }
+
+  public get isValid() {
+    const preCheck = this.selectedColor && this.borderWidth;
+    if (this.type === 'individual') {
+      return preCheck && this.selectedExpert;
+    } else if (this.type === 'total') {
+      return preCheck && this.selectedStrategy && this.percent;
+    }
+  }
+
+  public onExpertSelectOpenedChanged(opened: boolean = true) {
+    if (opened) {
+      console.log(opened);
+      this.results = this.emitter.results;
+    }
   }
 }

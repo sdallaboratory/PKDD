@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { TechMmpiComponent } from './components/tech-mmpi/tech-mmpi.component';
 import { PlotCreateComponent } from './components/plot-create/plot-create.component';
 import { PlotItemComponent } from './components/plot-item/plot-item.component';
+import { PercentSliderComponent } from './components/percent-slider/percent-slider.component';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { PlotItemComponent } from './components/plot-item/plot-item.component';
     LayoutModule,
     PkddChartsModule,
   ],
-  declarations: [PersonMmpiComponent, TechMmpiComponent, PlotCreateComponent, PlotItemComponent],
+  declarations: [PersonMmpiComponent, TechMmpiComponent, PlotCreateComponent, PlotItemComponent, PercentSliderComponent],
   exports: [TechMmpiComponent]
 })
 export class MmpiTestModule { }

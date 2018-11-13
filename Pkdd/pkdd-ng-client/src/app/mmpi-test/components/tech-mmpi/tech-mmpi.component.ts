@@ -30,8 +30,8 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
   public chartConfig: PkddChartConfiguration;
   private loaded: boolean = null;
   constructor(
-    private readonly realtime: RealtimeResultService,
     // private readonly route: RouteDataProviderService
+    private readonly realtime: RealtimeResultService,
     private readonly route: ActivatedRoute,
     public readonly window: WindowService,
     private readonly env: EnvironmentService,
@@ -43,20 +43,16 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     // this.person = (await this.route.get<PersonResolverModel>('personModel')).person;
     this.person = (await this.route.data.pipe(first()).toPromise())['personModel'].person;
     this.emitter = this.realtime.getEmitter(this.person.id).start();
+    this.emitter.changed.subscribe(this.changedHandler);
+    this.plots.settingsChanged.subscribe(this.changedHandler);
+  }
 
-    this.emitter.onChanged.subscribe(((results: TestResult[]) => {
-      if (!this.chartConfig && !this.loaded) {
-        this.loaded = true;
-        this.initChartConfig();
-      }
-      this.updateChart();
-      // this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
-        // .toArray(this.processor.median(this.emitter.results.filter(r => r.mmpiComplete).map(r => r.mmpi)));
-
-      // if (this.chartConfig.update) {
-      //   this.chartConfig.update();
-      // }
-    }));
+  private readonly changedHandler = (results: TestResult[]) => {
+    if (!this.chartConfig && !this.loaded) {
+      this.loaded = true;
+      this.initChartConfig();
+    }
+    this.updateChart();
   }
 
   public ngOnDestroy() {
@@ -120,6 +116,9 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
   }
 
   private updateChart() {
+    if (!this.chartConfig) {
+      return;
+    }
     this.chartConfig.data.datasets = this.plots.getDatasets(this.emitter.results);
     if (this.chartConfig.update) {
       this.chartConfig.update();
