@@ -7,7 +7,7 @@
     <mat-card-title>
       {{issue.title}}
     </mat-card-title>
-    <mat-card-content>
+    <mat-card-content *ngIf="issue">
       <div class="word-break-wrapper">
         {{issue.question}}
       </div>

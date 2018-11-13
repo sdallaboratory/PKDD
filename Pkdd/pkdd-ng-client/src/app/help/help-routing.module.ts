@@ -63,7 +63,7 @@ const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'description'
+            redirectTo: 'about'
           }
         ]
       }
