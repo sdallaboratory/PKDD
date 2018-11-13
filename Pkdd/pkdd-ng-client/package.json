@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
+    "@bytelabsco/ngx-color-selector": "^0.1.1",
     "@ng-bootstrap/ng-bootstrap": "^3.3.1",
     "angular-bootstrap-md": "^6.2.5",
     "bootstrap": "^4.1.3",

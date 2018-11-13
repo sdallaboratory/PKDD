@@ -23,25 +23,41 @@ export class PlotCreateComponent implements OnInit {
   public type: 'individual' | 'total';
 
   public selectedExpert: PkddUser;
-  // private plot: IndividualPlot | TotalPlot;
 
   // TODO: set adequate initial value
   public selectedStrategy: ReductionStrategies = ReductionStrategies.average;
 
-  public color: string;
+  public selectedColor: string;
+
+  public borderWidth = 3;
 
   public percent = 80;
 
-  public formatLabel = (value: number) => value + '%';
+  public formatPercent = (value: number) => value + '%';
+
+  public formatPx = (value: number) => value + 'px';
 
   public get strategies(): ReductionStrategies[] {
     return Object.values(ReductionStrategies);
   }
 
-  constructor() { }
+  public colors = [
+    '#9C27B0',
+    '#3F51B5',
+    '#03A9F4',
+    '#009688',
+    '#8BC34A',
+    '#FFC107',
+    '#FF5722',
+    '#616161',
+    '#607D8B',
+    '#d50000'
+  ];
 
   // TODO: delete this shit and getdata directly from emitter. It should intantiate its results array only once.
   private results;
+
+  constructor() { }
 
   public get mmpiExperts(): PkddUser[] {
     if (!this.results && this.emitter) {
@@ -55,16 +71,14 @@ export class PlotCreateComponent implements OnInit {
   }
 
   public onBuild() {
+    let plot: MmpiPlot;
     if (this.type === 'individual') {
-      const plot = new IndividualPlot(this.selectedExpert);
-      this.created.emit(plot);
+      plot = new IndividualPlot(this.selectedExpert);
     } else if (this.type === 'total') {
-      const plot = new TotalPlot(this.selectedStrategy);
-      this.created.emit(plot);
+      plot = new TotalPlot(this.selectedStrategy, this.percent);
     }
-  }
-  onColor() {
-    console.log(this.color);
-    
+    plot.borderWidth = this.borderWidth;
+    plot.color = this.selectedColor;
+    this.created.emit(plot);
   }
 }

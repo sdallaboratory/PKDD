@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { TechMmpiComponent } from './components/tech-mmpi/tech-mmpi.component';
 import { PlotCreateComponent } from './components/plot-create/plot-create.component';
 import { PlotItemComponent } from './components/plot-item/plot-item.component';
-import { NgColorModule } from 'ng-color';
+
 
 @NgModule({
   imports: [
@@ -21,7 +21,6 @@ import { NgColorModule } from 'ng-color';
     MaterialImportsModule,
     LayoutModule,
     PkddChartsModule,
-    NgColorModule,
   ],
   declarations: [PersonMmpiComponent, TechMmpiComponent, PlotCreateComponent, PlotItemComponent],
   exports: [TechMmpiComponent]
