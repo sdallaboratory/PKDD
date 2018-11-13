@@ -23,15 +23,14 @@ export class ContentBlockComponent implements OnInit {
   public edit: boolean;
 
   public get needDrawHeader() {
-    return this.edit
-      || (this.contentBlock.title !== ''
-        || this.contentBlock.subtitle !== '');
+    return this.isContainer && (this.edit || this.contentBlock.title !== '');
+    // || this.contentBlock.subtitle !== '');
   }
 
   public readonly contentTypes = types;
 
   public get isContainer() {
-    return this.contentBlock.type === ContentType.Container;
+    return this.contentBlock && this.contentBlock.type === ContentType.Container;
   }
 
   public get level() {
@@ -92,9 +91,9 @@ export class ContentBlockComponent implements OnInit {
 
   private getTypeAndContent(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
     const contentType = type === 'text' ? ContentType.Text : type === 'dateText' ? ContentType.DateText :
-    type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
+      type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
     const content = this.contentFromType(contentType);
-    return {type: contentType, content: content};
+    return { type: contentType, content: content };
   }
 
   public countFontSize(isSublitle = false) {

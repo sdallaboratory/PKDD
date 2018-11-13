@@ -28,7 +28,7 @@ export class PersonCardComponent implements OnInit {
     }
   }
 
-  public backgroundImage() {
+  public get backgroundImage() {
     if (this.person.photoUrl === '') {
       return `url(http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif)`;
     }

@@ -1,8 +1,12 @@
-<div class="wrapper" *ngIf="!(!edit && content.content === '')">
-    <mat-form-field *ngIf="edit">
-        <textarea matInput [(ngModel)]="content.content" [matTextareaAutosize]="true"></textarea>
+<ng-container *ngIf="edit || content.content !== ''">
+    <mat-form-field>
+        <textarea #field *ngIf="edit" matInput [(ngModel)]="content.content" [matTextareaAutosize]="true" maxlength="1000"
+            placeholder="Введите ваш текст..."></textarea>
+        <mat-hint>{{content?.content?.length || 0}} / 1000</mat-hint>
+        <mat-error *ngIf="content?.content?.length === 1000">Достигнут лимит символов в текстовом поле</mat-error>
     </mat-form-field>
     <div *ngIf="!edit && content.content !== ''" class="text text-break-wrapper">
         {{content.content}}
     </div>
-</div>
+</ng-container>
+<!-- </div> -->
