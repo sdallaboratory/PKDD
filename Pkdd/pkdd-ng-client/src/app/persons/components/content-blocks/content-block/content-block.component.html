@@ -43,15 +43,17 @@
         <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
       </div>
       <div class="actions" *ngIf="edit">
-        <button mat-icon-button (click)="onBlockDelete()">
-          <mat-icon>delete_forever</mat-icon>
-        </button>
-        <button [disabled]="!isContainer || !isLevelLessOrEqual(2)" mat-icon-button [matMenuTriggerFor]="appMenu">
+        <pkdd-hover-pulse *ngIf="isContainer && level <= 3" mat-icon-button [matMenuTriggerFor]="appMenu">
           <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onBlockSave()">
-          <mat-icon>save</mat-icon>
-        </button>
+        </pkdd-hover-pulse>
+        <ng-container *ngIf="level <= 2">
+          <button mat-icon-button (click)="onBlockSave()">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onBlockDelete()">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </ng-container>
         <mat-menu #appMenu="matMenu">
           <button mat-menu-item (click)="onBlockAdd('text')">
             <mat-icon>text_fields</mat-icon>Текст
@@ -64,6 +66,9 @@
           </button>
           <button mat-menu-item (click)="onBlockAdd('video')">
             <mat-icon>movie</mat-icon>Видео
+          </button>
+          <button *ngIf="level <= 2" mat-menu-item (click)="onBlockAdd('container')">
+            <mat-icon>inbox</mat-icon>Контейнер
           </button>
           <!-- <button mat-menu-item (click)="onBlockAdd('public')"><mat-icon></mat-icon>Публикация</button> -->
         </mat-menu>

@@ -50,7 +50,7 @@ export class ContentBlockComponent implements OnInit {
     return this.level <= level;
   }
 
-  public async onBlockAdd(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
+  public async onBlockAdd(type: 'text' | 'dateText' | 'photo' | 'video' | 'public' | 'container') {
     const newBlock = this.factory.createNewContentBlock(
       `${this.contentBlock.order}${this.contentBlock.subBlocks.length}/`,
       this.contentBlock.baseBlockId, this.contentBlock.id);
@@ -71,27 +71,22 @@ export class ContentBlockComponent implements OnInit {
   public contentFromType(type: ContentType) {
     if (type === ContentType.Text) {
       return new ContentText();
-    }
-    if (type === ContentType.DateText) {
+    } else if (type === ContentType.DateText) {
       return new DateText();
-    }
-    if (type === ContentType.Photo) {
+    } else if (type === ContentType.Photo) {
       return new Photo();
-    }
-    if (type === ContentType.Video) {
+    } else if (type === ContentType.Video) {
       return new Video();
-    }
-    if (type === ContentType.Publications) {
+    } else if (type === ContentType.Publications) {
       return new Publication();
-    }
-    if (type === ContentType.Container) {
-      return null;
+    } else if (type === ContentType.Container) {
     }
   }
 
-  private getTypeAndContent(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
-    const contentType = type === 'text' ? ContentType.Text : type === 'dateText' ? ContentType.DateText :
-      type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
+  private getTypeAndContent(type: 'text' | 'dateText' | 'photo' | 'video' | 'public' | 'container') {
+    const contentType = type === 'container' ? ContentType.Container :
+      type === 'text' ? ContentType.Text : type === 'dateText' ? ContentType.DateText :
+        type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
     const content = this.contentFromType(contentType);
     return { type: contentType, content: content };
   }

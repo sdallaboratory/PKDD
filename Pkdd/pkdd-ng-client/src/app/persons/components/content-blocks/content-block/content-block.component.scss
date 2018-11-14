@@ -2,6 +2,11 @@
       display: flex;
       flex-direction: row;
       justify-content: stretch;
+      transition: .5s
+  }
+
+  .wrapper:hover {
+      background: rgba(220, 220, 220, 0.3);
   }
 
   .content {
@@ -19,22 +24,16 @@
   }
 
   .vertical-line {
-    flex: 1 1 100%;
-    max-width: 3px;
-    width: 3px;
-    background: rgba(0, 0, 0, 0.1);
+      flex: 1 1 100%;
+      max-width: 3px;
+      width: 3px;
+      background: rgba(0, 0, 0, 0.1);
   }
 
-  .title-input,
-  .subtitle-input {
-      width: 80%;
+  .actions {
+    display: flex;
   }
 
-  .subtitle,
-  .subtitle-input {
-      color: #494949;
-  }
-
-  mat-select {
-      margin: 3px;
+  .title-input {
+    width: 100%;
   }
