@@ -21,8 +21,12 @@
 
     </mat-expansion-panel>
 
+    <button class="save" mat-button (click)="onDelete()">
+      Удалить оценку
+    </button>
+
     <button class="save" mat-raised-button (click)="onSave()">
-      Сохранить результаты
+      {{result.mmpiComplete ? 'Обновить оценку' : 'Сохранить оценку'}} 
     </button>
   </div>
 </div>
