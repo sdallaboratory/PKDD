@@ -126,7 +126,7 @@ export class PersonMmpiComponent implements OnInit {
   }
 
   public async onDelete() {
-    const confirmed = this.confirmer.confirm('Ваша оценка будет удалена из базы данных. Продолжить?');
+    const confirmed = await this.confirmer.confirm('Ваша оценка будет удалена из базы данных. Продолжить?');
     if (confirmed) {
       this.result.mmpiComplete = false;
       this.result = await this.provider.send(this.result);
