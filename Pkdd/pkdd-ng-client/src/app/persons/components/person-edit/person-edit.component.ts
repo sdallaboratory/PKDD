@@ -8,6 +8,7 @@ import { first } from 'rxjs/operators';
 import { ServerDataStorageService } from '../../../core/services/server-data-storage.service';
 import { EntitiesFactoryService } from '../../../core/services/entities-factory.service';
 import { Sexes } from '../../../models/entities/enums/sexes';
+import { WindowService } from 'src/app/core/services/window.service';
 
 @Component({
   selector: 'pkdd-person-edit',
@@ -24,9 +25,10 @@ export class PersonEditComponent implements OnInit {
   public undef = Sexes.Undefined;
 
   constructor(
-    private factory: EntitiesFactoryService,
-    private route: ActivatedRoute,
-    private storage: ServerDataStorageService
+    private readonly factory: EntitiesFactoryService,
+    private readonly route: ActivatedRoute,
+    private readonly storage: ServerDataStorageService,
+    public readonly window: WindowService
   ) { }
 
   async ngOnInit() {
@@ -44,8 +46,19 @@ export class PersonEditComponent implements OnInit {
     await this.storage.updatePerson(this.person);
   }
 
+  public saveAll() {
+    this.savePerson();
+    this.contentBlocks.forEach(block => {
+      this.storage.updateContentBlock(this.person.bioBlock.id, block);
+    });
+  }
+
   public setValue(type: Sexes) {
     this.person.sex = type;
+  }
+
+  public togglePublished() {
+    this.person.isPublished = !this.person.isPublished;
   }
 
 }

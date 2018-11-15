@@ -2,17 +2,20 @@ import { IEntity } from './interfaces/iEntity';
 import { Sexes } from './enums/sexes';
 import { TimeTrack } from '../common/time-track';
 import { BaseBioBlockBackend, BaseBioBlock } from './base-bio-block';
+import { Priority } from './enums/priority';
 
 abstract class AbstractPerson implements IEntity {
-    id: number;
-    isDeleted: boolean;
-    timeTrack: TimeTrack;
-    name: string;
-    sex: Sexes;
-    birthday: Date;
-    position: string;
-    photoUrl: string;
-    isPublished: boolean;
+
+    public id: number;
+    public isDeleted: boolean;
+    public timeTrack: TimeTrack;
+    public name: string;
+    public sex: Sexes;
+    public birthday: Date;
+    public position: string;
+    public photoUrl: string;
+    public isPublished: boolean;
+    public priority: Priority;
 
     constructor(person: AbstractPerson) {
         this.id = person.id;
@@ -24,6 +27,7 @@ abstract class AbstractPerson implements IEntity {
         this.position = person.position;
         this.photoUrl = person.photoUrl;
         this.isPublished = person.isPublished;
+        this.priority = person.priority;
     }
 }
 

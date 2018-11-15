@@ -28,4 +28,8 @@ export class VideoBlockComponent implements OnInit {
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.content.content.url.replace('watch?v=', 'embed/'));
   }
 
+  public get isValid() {
+    return this.content && this.content.content.url && this.content.content.url.includes('youtube');
+  }
+
 }

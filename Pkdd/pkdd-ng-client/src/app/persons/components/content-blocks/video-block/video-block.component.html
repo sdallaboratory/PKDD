@@ -1,27 +1,19 @@
 <div class="wrapper">
-  <div *ngIf="!edit">
-      <div class="embed-responsive embed-responsive-16by9 player">
-          <iframe class="embed-responsive-item" allowfullscreen [src]="url"></iframe>
-        </div>
-        <div class="description">
-          {{content.content.description}}
-        </div>
+
+  <ng-container *ngIf='edit'>
+    <mat-form-field>
+      <mat-label>Ссылка на видео</mat-label>
+      <input matInput [(ngModel)]="content.content.url" placeholder="вставьте ссылку сюда..." (ngModelChange)="onUrlChanged()">
+      <mat-hint *ngIf="content.content.url && !isValid">Введена некорректная ссылка</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="content.content.description" placeholder="Описание">
+    </mat-form-field>
+  </ng-container>
+  <div *ngIf="isValid" class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" [src]="url"></iframe>
   </div>
-  <div *ngIf='edit' class="edit-wrapper">
-    <div class="player-wrapper">
-
-      <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" [src]="url"></iframe>
-      </div>
-
-    </div>
-    <div class="edit">
-      <mat-form-field>
-        <input matInput [(ngModel)]="content.content.url" placeholder="Ссылка" (ngModelChange)="onUrlChanged()">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [(ngModel)]="content.content.description" placeholder="Описание">
-      </mat-form-field>
-    </div>
+  <div class="description" *ngIf="!edit">
+    {{content.content.description}}
   </div>
 </div>

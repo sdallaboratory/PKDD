@@ -1,52 +1,58 @@
-<div class="person-wrapper">
+<div class="person-wrapper" *ngIf="person">
 
   <div class="base-info">
-    <mat-card>
-      <mat-card-title>
-        {{person?.name}}
-      </mat-card-title>
-      <mat-card-content>
-        <div class="inputs">
+    <mat-form-field [style.fontSize]="window.currentDeviceType == 'pc' ? '2em' : '1.5em'" class="person-name">
+      <input matInput [(ngModel)]="person.name" placeholder="Фамилия Имя Отчество">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="person.position" placeholder="Должность или род деятельности">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>
+          Ссылка на основное фото
+      </mat-label>
+      <input matInput [(ngModel)]="person.photoUrl" placeholder="Вставьте ссылку сюда...">
+    </mat-form-field>
+    <img [src]="person.photoUrl" class="person-photo">
+    <mat-form-field class="narrow">
+      <mat-label>Дата рождения</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="person.birthday">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    </mat-form-field>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-label>Пол</mat-label>
+    <mat-button-toggle-group class="narrow" [(ngModel)]="person.sex">
 
-          <mat-form-field *ngIf="person">
-            <input matInput [(ngModel)]="person.name" placeholder="ФИО">
-          </mat-form-field>
-          <mat-form-field class="position" *ngIf="person">
-            <input matInput [(ngModel)]="person.position" placeholder="Должность">
-          </mat-form-field>
-          <mat-form-field class="url" *ngIf="person">
-            <input matInput [(ngModel)]="person.photoUrl" placeholder="Ссылка на фото">
-          </mat-form-field>
-          <mat-form-field *ngIf="person">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="person.birthday">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          </mat-form-field>
-          <mat-datepicker #picker></mat-datepicker>
-          <div *ngIf="person" class="checkbox">
-            <mat-checkbox [(ngModel)]="person.isPublished">
-              Опубликован?
-            </mat-checkbox>
-          </div>
-            <mat-radio-group class="radio-group" *ngIf="person">
-              <mat-radio-button value="male" [checked]="person.sex === male" (click)="setValue(male)">Мужской</mat-radio-button>
-              <mat-radio-button value="female" [checked]="person.sex === female" (click)="setValue(female)">Женский</mat-radio-button>
-              <!-- <mat-radio-button value="undef" [checked]="person.sex === undef" (click)="setValue(undef)">Неопределенный</mat-radio-button> -->
-            </mat-radio-group>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-icon-button (click)="savePerson()">
-          <mat-icon>
-            save
-          </mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
+      <!-- TODO: Implement string enum values -->
+
+      <mat-button-toggle value="Male">
+        Мужской
+      </mat-button-toggle>
+      <mat-button-toggle value="Female">
+        Женский
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <!-- <button mat-raised-button (click)="savePerson()">
+      <mat-icon>save</mat-icon> Сохранить
+    </button> -->
+
   </div>
 
   <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="true">
-
   </pkdd-content-block>
-  <pkdd-add-card (click)="onBlockAdd()"></pkdd-add-card>
+  <pkdd-add-card (click)="onBlockAdd()" class="add-block" [text]="'Добавить новый раздел'"></pkdd-add-card>
+  <div class="buttons">
 
+    <button *ngIf="person.isPublished" mat-button (click)="togglePublished()">
+      <mat-icon>undo
+      </mat-icon> Unpublish
+    </button>
+    <button mat-button (click)="saveAll()">
+      <mat-icon>save</mat-icon> Сохранить
+    </button>
+    <button *ngIf="!person.isPublished" mat-raised-button (click)="togglePublished()">
+      <mat-icon>send</mat-icon> Опубликовать
+    </button>
+  </div>
 </div>

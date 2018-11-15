@@ -11,6 +11,7 @@ import { Photo } from '../../models/entities/content-entities/photo';
 import { TimeTrack } from '../../models/common/time-track';
 import { Sexes } from '../../models/entities/enums/sexes';
 import { ContentType } from '../../models/entities/enums/content-type';
+import { Priority } from 'src/app/models/entities/enums/priority';
 
 @Injectable({
   providedIn: 'root'
@@ -182,6 +183,7 @@ export class EntitiesFactoryService {
       position: 'Неопределена',
       photoUrl: '',
       isPublished: false,
+      priority: Priority.usual
     };
     const baseBioBlock = new BaseBioBlock({
       id: 0,

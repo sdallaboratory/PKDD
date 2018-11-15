@@ -1,59 +1,41 @@
 .person-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    // background: white;
+    max-width: 800px;
+    padding-bottom: 33vh;
+    margin: auto;
 }
 
-.base-info,
-pkdd-add-card,
-pkdd-content-block {
-  margin: 15px;
-  width: 95%;
-  max-width: 800px;
+pkdd-add-card {
+    margin: 10px;
 }
 
 .base-info {
-  margin-top: 15px;
-  box-sizing: border-box;
-  border: 3px solid #f8fa7d;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
 
-mat-card-title {
-  display: flex;
-  justify-content: center;
+.person-name {
+    font-size: 2em;
 }
 
-mat-form-field {
-  margin: 5px;
+.person-photo {
+    width: 100%;
+    margin-top: -15px;
+    margin-bottom: 15px;
 }
 
-mat-radio-button {
-  margin: 3px;
+.narrow {
+    align-self: flex-start;
 }
 
-.position {
-    width: 70%;
-    min-width: 180px;
-}
-
-.radio-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
-  margin: 5px;
-}
-
-.inputs {
-  display: flex;
-  flex-direction: column;
-  // flex-wrap: wrap
-}
-
-.url {
-  width: 100%;
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    button {
+        margin: 10px;
+    }
 }

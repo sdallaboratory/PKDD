@@ -21,9 +21,11 @@ export class ContentComponent implements OnInit {
     public get isText() {
         return this.type === ContentType.Text;
     }
+
     public get isDateText() {
         return this.type === ContentType.DateText;
     }
+
     public get isVideo() {
         return this.type === ContentType.Video;
     }

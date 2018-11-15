@@ -26,12 +26,14 @@ import { ContentComponent } from './components/content-blocks/content/content.co
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SexTypePipe } from './pipes/sex-type.pipe';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthModule,
     MaterialImportsModule,
+    CoreModule,
     PersonsRoutingModule,
     MmpiTestModule,
     LayoutModule,

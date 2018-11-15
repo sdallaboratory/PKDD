@@ -1,69 +1,84 @@
-<div [class.wrapper]="isLevelLessOrEqual(2)" class="block" [class.mat-elevation-z1]="isLevelLessOrEqual(2)">
+<div class="wrapper" [class.edit-wrapper]="edit" [class.edit-wrapper-pc]="edit && window.currentDeviceType === 'pc'">
+  <div class="column" *ngIf="level > 2 && edit">
+    <pkdd-hover-pulse (click)="onBlockDelete()">
+      <mat-icon>clear</mat-icon>
+    </pkdd-hover-pulse>
+    <ng-container [ngSwitch]="contentBlock.type">
+      <mat-icon *ngSwitchCase="0">inbox</mat-icon>
+      <mat-icon *ngSwitchCase="1">text_fields</mat-icon>
+      <mat-icon *ngSwitchCase="2">date_range</mat-icon>
+      <mat-icon *ngSwitchCase="3">filter</mat-icon>
+      <mat-icon *ngSwitchCase="4">movie</mat-icon>
+    </ng-container>
+    <div class="vertical-line"></div>
+  </div>
+  <div class="content">
 
-  <header *ngIf="needDrawHeader" [ngStyle]="{'background': countYellow()}">
+    <!-- <header *ngIf="needDrawHeader"> -->
+    <ng-container *ngIf="isContainer">
+      <mat-form-field [floatLabel]="'never'" [style.fontSize]=" (1 + 2 / level) + 'em'" class="title-input" *ngIf="edit">
+        <input matInput [(ngModel)]="contentBlock.title" placeholder="Заголовок">
+      </mat-form-field>
 
-    <div *ngIf="edit">
-
-      <div class="title" [ngStyle]="{'font-size.px': countFontSize()}">
-        <mat-form-field class="title-input">
-          <input matInput [(ngModel)]="contentBlock.title" placeholder="Заголовок">
-        </mat-form-field>
+      <div (click)="onToggleCollapsed()" class="title-wrapper" *ngIf="!edit && contentBlock.title !== ''"
+        [style.fontSize]=" (1 + 2 / level) + 'em'">
+        <div class="title">{{contentBlock.title}}</div>
+        <mat-icon *ngIf="window.currentDeviceType === 'mobile'">{{ isCollapsedOnMobile ? 'arrow_drop_down' :
+          'arrow_drop_up'}}</mat-icon>
       </div>
-      <div class="subtitle" [ngStyle]="{'font-size.px': countFontSize(true)}">
-        <mat-form-field class="subtitle-input">
-          <input matInput [(ngModel)]="contentBlock.subtitle" placeholder="Подзаголовок">
-        </mat-form-field>
+    </ng-container>
+
+    <!-- </header> -->
+
+    <section *ngIf="edit || window.currentDeviceType !== 'mobile' || !isCollapsedOnMobile">
+      <div *ngIf="isContainer">
+        <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="edit"></pkdd-content-block>
       </div>
-
-    </div>
-
-    <div *ngIf="!edit">
-
-      <div class="title" *ngIf="contentBlock.title !== ''" [ngStyle]="{'font-size.px': countFontSize()}">
-        {{contentBlock.title}}
+      <div *ngIf="!isContainer">
+        <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
       </div>
-      <div class="subtitle" *ngIf="contentBlock.subtitle !== ''" [ngStyle]="{'font-size.px': countFontSize(true)}">
-        {{contentBlock.subtitle}}
+      <div class="actions" *ngIf="edit">
+        <button mat-icon-button *ngIf="isContainer && level <= 3" mat-icon-button [matMenuTriggerFor]="appMenu">
+          <mat-icon>add</mat-icon>
+        </button>
+        <ng-container *ngIf="level <= 2">
+          <button mat-icon-button (click)="onBlockSave()">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onBlockDelete()">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </ng-container>
+        <mat-menu #appMenu="matMenu">
+          <button mat-menu-item (click)="onBlockAdd('text')">
+            <mat-icon>text_fields</mat-icon>Текст
+          </button>
+          <button mat-menu-item (click)="onBlockAdd('dateText')">
+            <mat-icon>date_range</mat-icon>Событие
+          </button>
+          <button mat-menu-item (click)="onBlockAdd('photo')">
+            <mat-icon>filter</mat-icon>Фото
+          </button>
+          <button mat-menu-item (click)="onBlockAdd('video')">
+            <mat-icon>movie</mat-icon>Видео
+          </button>
+
+          <!-- TODO: Add quotes and publications items -->
+
+          <!-- <button mat-menu-item (click)="onBlockAdd('quote')">
+            <mat-icon>format_quote</mat-icon>Контейнер
+          </button> -->
+
+          <!-- <button mat-menu-item (click)="onBlockAdd('public')">
+            <mat-icon>book</mat-icon>Публикация
+          </button> -->
+
+          <button *ngIf="level <= 2" mat-menu-item (click)="onBlockAdd('container')">
+            <mat-icon>inbox</mat-icon>Контейнер
+          </button>
+        </mat-menu>
       </div>
-
-    </div>
-
-  </header>
-
-  <section>
-
-
-    <div *ngIf="isContainer">
-      <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="edit"></pkdd-content-block>
-    </div>
-    <div *ngIf="!isContainer">
-      <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
-    </div>
-
-    <div class="actions" *ngIf="edit">
-
-      <button mat-icon-button (click)="onBlockDelete()">
-        <mat-icon>
-          delete_forever
-        </mat-icon>
-      </button>
-      <button [disabled]="!isLevelLessOrEqual(2)" mat-icon-button [matMenuTriggerFor]="appMenu">
-        <mat-icon>add</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onBlockSave()">
-        <mat-icon>save</mat-icon>
-      </button>
-      <mat-menu #appMenu="matMenu">
-          <button mat-menu-item (click)="onBlockAdd('text')">Простой текст</button>
-          <button mat-menu-item (click)="onBlockAdd('dateText')">Текст и период</button>
-          <button mat-menu-item (click)="onBlockAdd('photo')">Фото</button>
-          <button mat-menu-item (click)="onBlockAdd('video')">Видео</button>
-          <!-- <button mat-menu-item (click)="onBlockAdd('public')">Публикация</button> -->
-      </mat-menu>
-
-    </div>
-
-  </section>
+    </section>
+  </div>
 
 </div>
-  

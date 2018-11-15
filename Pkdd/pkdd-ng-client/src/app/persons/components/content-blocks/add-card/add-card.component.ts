@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'pkdd-add-card',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-card.component.scss']
 })
 export class AddCardComponent implements OnInit {
+
+  @Input()
+  public readonly text: string = 'Добавить';
 
   constructor() { }
 

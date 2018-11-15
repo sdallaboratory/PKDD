@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pkdd.Abstractions.Entity;
 using Pkdd.Models.Persons.Enums;
 using System;

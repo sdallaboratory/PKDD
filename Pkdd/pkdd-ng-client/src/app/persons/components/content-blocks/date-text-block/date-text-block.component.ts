@@ -19,8 +19,8 @@ export class DateTextBlockComponent implements OnInit {
   ngOnInit() {
   }
 
-  public isEmptyContent() {
-    return this.content.text.content === '' || this.content.period.firstDate === null;
+  public get ValidContent() {
+    return this.content && !this.content.text; // || this.content.date.firstDate === null;
   }
 
 }

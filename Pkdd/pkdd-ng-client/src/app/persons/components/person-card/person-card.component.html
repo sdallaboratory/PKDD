@@ -1,6 +1,8 @@
-<mat-card [style.backgroundImage]="backgroundImage()">
+<!-- <mat-card [style.backgroundImage]="backgroundImage"> -->
+  <div class="wrapper" [style.backgroundImage]="backgroundImage">
+
   <mat-card-title>
-    {{person.name}}
+    {{person.name | truncate : 70 : true}}
   </mat-card-title>
   <mat-card-content>
     <!-- <img src="http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif" alt="person"> -->
@@ -14,7 +16,7 @@
     </pkdd-hover-pulse>
     <pkdd-hover-pulse class="action">
       <a *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны" [routerLink]="'/persons/' + person.id + '/mmpi'">
-        <mat-icon [inline]="false">assignment</mat-icon>
+        <mat-icon [inline]="false">assessment</mat-icon>
       </a>
     </pkdd-hover-pulse>
     <pkdd-hover-pulse class="action">
@@ -33,5 +35,7 @@
       </div>
     </pkdd-hover-pulse>
   </mat-card-actions>
+</div>
+
   <!-- <div>{{person.bir}}</div> -->
-</mat-card>
+<!-- </mat-card> -->

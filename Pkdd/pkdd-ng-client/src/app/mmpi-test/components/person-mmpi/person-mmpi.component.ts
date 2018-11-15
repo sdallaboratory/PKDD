@@ -5,6 +5,7 @@ import { ResultsProviderService } from 'src/app/test/services/results-provider.s
 import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { EnvironmentService } from 'src/app/core/services/environment.service';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
+import { ConfirmService } from 'src/app/core/services/confirm.service';
 
 @Component({
   selector: 'pkdd-person-mmpi',
@@ -32,7 +33,8 @@ export class PersonMmpiComponent implements OnInit {
   constructor(
     private readonly data: RouteDataProviderService,
     private readonly provider: ResultsProviderService,
-    private readonly env: EnvironmentService
+    private readonly env: EnvironmentService,
+    private readonly confirmer: ConfirmService
   ) { }
 
   async ngOnInit() {
@@ -106,10 +108,8 @@ export class PersonMmpiComponent implements OnInit {
   }
 
   public async onSave() {
-    try {
-      this.result.mmpiComplete = true;
-      this.result = await this.provider.send(this.result);
-    } catch { }
+    this.result.mmpiComplete = true;
+    this.result = await this.provider.send(this.result);
   }
 
   onValueCahnged(key: string) {
@@ -125,4 +125,12 @@ export class PersonMmpiComponent implements OnInit {
     this.result.mmpi[key] = Math.round(Math.min(this.env.config.mmpiResultMaxValue, Math.max(0, value)));
   }
 
+  public async onDelete() {
+    const confirmed = await this.confirmer.confirm('Ваша оценка будет удалена из базы данных. Продолжить?');
+    if (confirmed) {
+      this.result.mmpiComplete = false;
+      this.result = await this.provider.send(this.result);
+    }
+
+  }
 }

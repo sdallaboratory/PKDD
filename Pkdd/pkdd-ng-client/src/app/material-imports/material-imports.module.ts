@@ -49,7 +49,7 @@ const imports = [
   MatExpansionModule,
   MatSlideToggleModule,
   MatButtonToggleModule,
-  MatSliderModule
+  MatSliderModule,
 ];
 
 @NgModule({

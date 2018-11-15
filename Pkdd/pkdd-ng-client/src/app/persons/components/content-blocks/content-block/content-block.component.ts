@@ -8,6 +8,8 @@ import { DateText } from '../../../../models/entities/content-entities/date-text
 import { Photo } from '../../../../models/entities/content-entities/photo';
 import { Video } from '../../../../models/entities/content-entities/video';
 import { Publication } from '../../../../models/entities/content-entities/publication';
+import { WindowService } from 'src/app/core/services/window.service';
+import { ConfirmService } from 'src/app/core/services/confirm.service';
 
 @Component({
   selector: 'pkdd-content-block',
@@ -22,36 +24,31 @@ export class ContentBlockComponent implements OnInit {
   @Input()
   public edit: boolean;
 
-  public get needDrawHeader() {
-    return this.edit
-      || (this.contentBlock.title !== ''
-        || this.contentBlock.subtitle !== '');
-  }
 
   public readonly contentTypes = types;
 
   public get isContainer() {
-    return this.contentBlock.type === ContentType.Container;
+    return this.contentBlock && this.contentBlock.type === ContentType.Container;
   }
 
   public get level() {
-    return this.contentBlock.order.split('/').length;
+    return this.contentBlock && this.contentBlock.order.split('/').length;
   }
+
+  public isCollapsedOnMobile = false;
 
   constructor(
     private readonly storage: ServerDataStorageService,
     private readonly factory: EntitiesFactoryService,
-    private cd: ChangeDetectorRef
+    public readonly window: WindowService,
+    private readonly confirmer: ConfirmService,
   ) { }
 
   ngOnInit() {
+    this.isCollapsedOnMobile = this.level && this.level <= 2;
   }
 
-  public isLevelLessOrEqual(level: number) {
-    return this.level <= level;
-  }
-
-  public async onBlockAdd(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
+  public async onBlockAdd(type: 'text' | 'dateText' | 'photo' | 'video' | 'public' | 'container') {
     const newBlock = this.factory.createNewContentBlock(
       `${this.contentBlock.order}${this.contentBlock.subBlocks.length}/`,
       this.contentBlock.baseBlockId, this.contentBlock.id);
@@ -62,7 +59,10 @@ export class ContentBlockComponent implements OnInit {
   }
 
   public async onBlockDelete() {
-    await this.storage.deleteContentBlock(this.contentBlock.baseBlockId, this.contentBlock);
+    const confirmed = await this.confirmer.confirm('Вы уверены, что хотите удалить блок со всем его содержимым?');
+    if (confirmed) {
+      await this.storage.deleteContentBlock(this.contentBlock.baseBlockId, this.contentBlock);
+    }
   }
 
   public async onBlockSave() {
@@ -72,48 +72,28 @@ export class ContentBlockComponent implements OnInit {
   public contentFromType(type: ContentType) {
     if (type === ContentType.Text) {
       return new ContentText();
-    }
-    if (type === ContentType.DateText) {
+    } else if (type === ContentType.DateText) {
       return new DateText();
-    }
-    if (type === ContentType.Photo) {
+    } else if (type === ContentType.Photo) {
       return new Photo();
-    }
-    if (type === ContentType.Video) {
+    } else if (type === ContentType.Video) {
       return new Video();
-    }
-    if (type === ContentType.Publications) {
+    } else if (type === ContentType.Publications) {
       return new Publication();
-    }
-    if (type === ContentType.Container) {
-      return null;
+    } else if (type === ContentType.Container) {
     }
   }
 
-  private getTypeAndContent(type: 'text' | 'dateText' | 'photo' | 'video' | 'public') {
-    const contentType = type === 'text' ? ContentType.Text : type === 'dateText' ? ContentType.DateText :
-    type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
+  private getTypeAndContent(type: 'text' | 'dateText' | 'photo' | 'video' | 'public' | 'container') {
+    const contentType = type === 'container' ? ContentType.Container :
+      type === 'text' ? ContentType.Text : type === 'dateText' ? ContentType.DateText :
+        type === 'photo' ? ContentType.Photo : type === 'video' ? ContentType.Video : ContentType.Publications;
     const content = this.contentFromType(contentType);
-    return {type: contentType, content: content};
+    return { type: contentType, content: content };
   }
 
-  public countFontSize(isSublitle = false) {
-    const baseSize = 24;
-    const shrinkSpeed = (this.level / 2);
-    const newSize = Math.floor(24 * (isSublitle ? 1.1 : 1.3) / shrinkSpeed);
-    return newSize;
+  public onToggleCollapsed() {
+    console.log('toggled');
+    this.isCollapsedOnMobile = !this.isCollapsedOnMobile;
   }
-
-  public countYellow() {
-    const level = this.level;
-    if (level === 1) {
-      return 100;
-    }
-    const red = 255;
-    const green = 255;
-    const blue = 100 + 30 * level;
-    return '#' + `${red.toString(16)}` +
-      `${green.toString(16)}` + `${blue.toString(16)}`;
-  }
-
 }

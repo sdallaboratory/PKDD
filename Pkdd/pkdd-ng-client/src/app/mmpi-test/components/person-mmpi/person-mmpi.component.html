@@ -7,22 +7,32 @@
     <pkdd-chart [config]="chartConfig"></pkdd-chart>
 
     <!-- TODO: Implement input via usual text fields -->
+    <ng-container *ngIf="result">
 
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        Ввести числами
-      </mat-expansion-panel-header>
-      <div class="fields-group">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Ввести числами
+        </mat-expansion-panel-header>
+        <div class="fields-group">
 
-        <mat-form-field *ngFor="let key of keys">
-          <input type="number" [placeholder]="key" matInput [(ngModel)]="result?.mmpi[key]" (change)="onValueCahnged(key)">
-        </mat-form-field>
-      </div>
+          <mat-form-field *ngFor="let key of keys">
+            <input type="number" [placeholder]="key" matInput [(ngModel)]="result?.mmpi[key]" (change)="onValueCahnged(key)">
+          </mat-form-field>
+        </div>
 
-    </mat-expansion-panel>
+      </mat-expansion-panel>
 
-    <button class="save" mat-raised-button (click)="onSave()">
-      Сохранить результаты
-    </button>
+      <!-- TODO: implement logic for button-row -->
+
+      <!-- <div class="button-row"> -->
+      <button class="save" mat-raised-button (click)="onSave()">
+        {{result.mmpiComplete ? 'Обновить оценку' : 'Сохранить оценку'}}
+      </button>
+      <button class="save" *ngIf="result?.mmpiComplete" mat-button (click)="onDelete()">
+        Удалить оценку
+      </button>
+      <!-- </div> -->
+    </ng-container>
+
   </div>
 </div>
