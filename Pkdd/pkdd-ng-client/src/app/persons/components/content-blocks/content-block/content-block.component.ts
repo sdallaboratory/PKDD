@@ -8,6 +8,8 @@ import { DateText } from '../../../../models/entities/content-entities/date-text
 import { Photo } from '../../../../models/entities/content-entities/photo';
 import { Video } from '../../../../models/entities/content-entities/video';
 import { Publication } from '../../../../models/entities/content-entities/publication';
+import { WindowService } from 'src/app/core/services/window.service';
+import { ConfirmService } from 'src/app/core/services/confirm.service';
 
 @Component({
   selector: 'pkdd-content-block',
@@ -22,10 +24,6 @@ export class ContentBlockComponent implements OnInit {
   @Input()
   public edit: boolean;
 
-  public get needDrawHeader() {
-    return this.isContainer && (this.edit || this.contentBlock.title !== '');
-    // || this.contentBlock.subtitle !== '');
-  }
 
   public readonly contentTypes = types;
 
@@ -34,20 +32,20 @@ export class ContentBlockComponent implements OnInit {
   }
 
   public get level() {
-    return this.contentBlock.order.split('/').length;
+    return this.contentBlock && this.contentBlock.order.split('/').length;
   }
+
+  public isCollapsedOnMobile = false;
 
   constructor(
     private readonly storage: ServerDataStorageService,
     private readonly factory: EntitiesFactoryService,
-    private cd: ChangeDetectorRef
+    public readonly window: WindowService,
+    private readonly confirmer: ConfirmService,
   ) { }
 
   ngOnInit() {
-  }
-
-  public isLevelLessOrEqual(level: number) {
-    return this.level <= level;
+    this.isCollapsedOnMobile = this.level && this.level <= 2;
   }
 
   public async onBlockAdd(type: 'text' | 'dateText' | 'photo' | 'video' | 'public' | 'container') {
@@ -61,7 +59,10 @@ export class ContentBlockComponent implements OnInit {
   }
 
   public async onBlockDelete() {
-    await this.storage.deleteContentBlock(this.contentBlock.baseBlockId, this.contentBlock);
+    const confirmed = await this.confirmer.confirm('Вы уверены, что хотите удалить блок со всем его содержимым?');
+    if (confirmed) {
+      await this.storage.deleteContentBlock(this.contentBlock.baseBlockId, this.contentBlock);
+    }
   }
 
   public async onBlockSave() {
@@ -91,23 +92,8 @@ export class ContentBlockComponent implements OnInit {
     return { type: contentType, content: content };
   }
 
-  public countFontSize(isSublitle = false) {
-    const baseSize = 24;
-    const shrinkSpeed = (this.level / 2);
-    const newSize = Math.floor(24 * (isSublitle ? 1.1 : 1.3) / shrinkSpeed);
-    return newSize;
+  public onToggleCollapsed() {
+    console.log('toggled');
+    this.isCollapsedOnMobile = !this.isCollapsedOnMobile;
   }
-
-  public countYellow() {
-    const level = this.level;
-    if (level === 1) {
-      return 100;
-    }
-    const red = 255;
-    const green = 255;
-    const blue = 100 + 30 * level;
-    return '#' + `${red.toString(16)}` +
-      `${green.toString(16)}` + `${blue.toString(16)}`;
-  }
-
 }

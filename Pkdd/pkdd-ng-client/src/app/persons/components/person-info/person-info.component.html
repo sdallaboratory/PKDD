@@ -1,31 +1,27 @@
-<div class="person-wrapper">
-
-  <div class="base-info">
-    <header>
-      {{person?.name}}
-    </header>
-    <section>
-        <img class="mx-auto d-block w-75 h-25 main-photo" src="{{mainImage()}}">
-      <div *ngIf="person?.position !== ''">
-        <span class="title">Должность: </span>
-        <span class="text">{{person?.position}}</span>
-      </div>
-      <div *ngIf="person?.birthday" >
-        <span class="title">Дата рождения: </span>
-        <span class="text">{{person?.birthday | date : 'dd/MM/yyyy' }}</span>
-      </div>
-      <div *ngIf="person.sex">
-        <span class="title">
-          Пол: 
-        </span>
-        <span class="text">
-          {{person?.sex | sexType}}
-        </span>
-      </div>
-    </section>
+<div class="person-wrapper" *ngIf="person">
+  <header>
+    {{person.name}}
+  </header>
+  <!-- <div *ngIf="person.position !== ''"> -->
+    <!-- <span class="title">Должность: </span> -->
+    <span class="position" *ngIf="person.position !== ''">{{person.position}}</span>
+  <!-- </div> -->
+  <img *ngIf="person.photoUrl && person.photoUrl !== ''" [src]="person.photoUrl">
+  <!-- <img class="mx-auto d-block w-75 h-25 main-photo" src="{{mainImage}}"> -->
+  <div *ngIf="person.birthday">
+    <mat-icon>cake</mat-icon><span class="title">Дата рождения: </span>
+    <span class="text">{{person.birthday | date : 'dd.MM.yyyy' }}</span>
   </div>
+  <div *ngIf="person.sex">
+    <span class="title">
+      Пол:
+    </span>
+    <span class="text">
+      {{person.sex | sexType}}
+    </span>
+  </div>
+  <!-- </section> -->
+  <!-- </div> -->
 
-  <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="false">
-
-  </pkdd-content-block>
+  <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="false"></pkdd-content-block>
 </div>

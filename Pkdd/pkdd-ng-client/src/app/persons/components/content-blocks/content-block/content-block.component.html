@@ -1,5 +1,5 @@
-<div class="wrapper">
-  <div class="column" *ngIf="!isLevelLessOrEqual(2) && edit">
+<div class="wrapper" [class.edit-wrapper]="edit" [class.edit-wrapper-pc]="edit && window.currentDeviceType === 'pc'">
+  <div class="column" *ngIf="level > 2 && edit">
     <pkdd-hover-pulse (click)="onBlockDelete()">
       <mat-icon>clear</mat-icon>
     </pkdd-hover-pulse>
@@ -14,28 +14,23 @@
   </div>
   <div class="content">
 
-    <header *ngIf="needDrawHeader">
-      <!-- <div class="title" [ngStyle]="{'font-size.px': countFontSize()}"> -->
+    <!-- <header *ngIf="needDrawHeader"> -->
+    <ng-container *ngIf="isContainer">
       <mat-form-field [floatLabel]="'never'" [style.fontSize]=" (1 + 2 / level) + 'em'" class="title-input" *ngIf="edit">
         <input matInput [(ngModel)]="contentBlock.title" placeholder="Заголовок">
       </mat-form-field>
-      <!-- </div> -->
-      <!-- <div class="subtitle" [ngStyle]="{'font-size.px': countFontSize(true)}">
-        <mat-form-field class="subtitle-input">
-          <input matInput [(ngModel)]="contentBlock.subtitle" placeholder="Подзаголовок">
-        </mat-form-field>
-      </div> -->
-      <div *ngIf="!edit">
-        <div class="title" *ngIf="contentBlock.title !== ''" [ngStyle]="{'font-size.px': countFontSize()}">
-          {{contentBlock.title}}
-        </div>
-        <!-- <div class="subtitle" *ngIf="contentBlock.subtitle !== ''" [ngStyle]="{'font-size.px': countFontSize(true)}">
-          {{contentBlock.subtitle}}
-        </div> -->
-      </div>
-    </header>
 
-    <section>
+      <div (click)="onToggleCollapsed()" class="title-wrapper" *ngIf="!edit && contentBlock.title !== ''"
+        [style.fontSize]=" (1 + 2 / level) + 'em'">
+        <div class="title">{{contentBlock.title}}</div>
+        <mat-icon *ngIf="window.currentDeviceType === 'mobile'">{{ isCollapsedOnMobile ? 'arrow_drop_down' :
+          'arrow_drop_up'}}</mat-icon>
+      </div>
+    </ng-container>
+
+    <!-- </header> -->
+
+    <section *ngIf="edit || window.currentDeviceType !== 'mobile' || !isCollapsedOnMobile">
       <div *ngIf="isContainer">
         <pkdd-content-block *ngFor="let block of contentBlock.subBlocks" [contentBlock]="block" [edit]="edit"></pkdd-content-block>
       </div>
@@ -43,9 +38,9 @@
         <pkdd-content [edit]="edit" [type]="contentBlock.type" [content]="contentBlock.content"> </pkdd-content>
       </div>
       <div class="actions" *ngIf="edit">
-        <pkdd-hover-pulse *ngIf="isContainer && level <= 3" mat-icon-button [matMenuTriggerFor]="appMenu">
+        <button mat-icon-button *ngIf="isContainer && level <= 3" mat-icon-button [matMenuTriggerFor]="appMenu">
           <mat-icon>add</mat-icon>
-        </pkdd-hover-pulse>
+        </button>
         <ng-container *ngIf="level <= 2">
           <button mat-icon-button (click)="onBlockSave()">
             <mat-icon>save</mat-icon>
@@ -67,10 +62,20 @@
           <button mat-menu-item (click)="onBlockAdd('video')">
             <mat-icon>movie</mat-icon>Видео
           </button>
+
+          <!-- TODO: Add quotes and publications items -->
+
+          <!-- <button mat-menu-item (click)="onBlockAdd('quote')">
+            <mat-icon>format_quote</mat-icon>Контейнер
+          </button> -->
+
+          <!-- <button mat-menu-item (click)="onBlockAdd('public')">
+            <mat-icon>book</mat-icon>Публикация
+          </button> -->
+
           <button *ngIf="level <= 2" mat-menu-item (click)="onBlockAdd('container')">
             <mat-icon>inbox</mat-icon>Контейнер
           </button>
-          <!-- <button mat-menu-item (click)="onBlockAdd('public')"><mat-icon></mat-icon>Публикация</button> -->
         </mat-menu>
       </div>
     </section>

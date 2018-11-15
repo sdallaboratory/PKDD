@@ -59,7 +59,7 @@ namespace Pkdd.Models.Persons
         }
 
         [NotMapped]
-        public override TimeTrack TimeTrack { get; set; }
+        public override TimeTrack TimeTrack { get; set; } = new TimeTrack();
 
         private const string orderPattern = @"(\d+\/)+";
 

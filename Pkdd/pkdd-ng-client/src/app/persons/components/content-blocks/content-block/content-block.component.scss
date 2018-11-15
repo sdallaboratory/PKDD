@@ -2,11 +2,16 @@
       display: flex;
       flex-direction: row;
       justify-content: stretch;
-      transition: .5s
+      transition: .5s; //   padding: 10px;
+      padding: 10px 0;
   }
 
-  .wrapper:hover {
+  .edit-wrapper-pc:hover {
       background: rgba(220, 220, 220, 0.3);
+  }
+
+  .edit-wrapper {
+      padding: 10px;
   }
 
   .content {
@@ -31,9 +36,18 @@
   }
 
   .actions {
-    display: flex;
+      display: flex;
   }
 
   .title-input {
-    width: 100%;
+      width: 100%;
+  }
+
+  .title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      title {
+          flex: 1 1 100%;
+      }
   }

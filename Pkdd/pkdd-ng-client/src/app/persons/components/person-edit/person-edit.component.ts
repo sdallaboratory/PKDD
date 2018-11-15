@@ -46,8 +46,19 @@ export class PersonEditComponent implements OnInit {
     await this.storage.updatePerson(this.person);
   }
 
+  public saveAll() {
+    this.savePerson();
+    this.contentBlocks.forEach(block => {
+      this.storage.updateContentBlock(this.person.bioBlock.id, block);
+    });
+  }
+
   public setValue(type: Sexes) {
     this.person.sex = type;
+  }
+
+  public togglePublished() {
+    this.person.isPublished = !this.person.isPublished;
   }
 
 }

@@ -1,42 +1,41 @@
 .person-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: white;
+    display: flex;
+    flex-direction: column;
+    // background: white;
+    max-width: 800px;
+    padding-bottom: 33vh;
+    margin: auto;
 }
 
-.base-info,
-pkdd-add-card,
-pkdd-content-block {
-  // margin: 15px;
-  // width: 95%;
-  width: 100%;
-  padding: 15px;
-  max-width: 800px;
+pkdd-add-card {
+    margin: 10px;
 }
 
 .base-info {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
 
 .person-name {
-  font-size: 2em;
+    font-size: 2em;
 }
 
 .person-photo {
-  width: 100%;
-  margin-top: -15px;
-  margin-bottom: 15px;
+    width: 100%;
+    margin-top: -15px;
+    margin-bottom: 15px;
 }
 
 .narrow {
-  align-self: flex-start;
+    align-self: flex-start;
 }
 
 .buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    button {
+        margin: 10px;
+    }
 }

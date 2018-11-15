@@ -5,10 +5,13 @@
       <input matInput [(ngModel)]="person.name" placeholder="Фамилия Имя Отчество">
     </mat-form-field>
     <mat-form-field>
-      <input matInput [(ngModel)]="person.position" placeholder="Должность">
+      <input matInput [(ngModel)]="person.position" placeholder="Должность или род деятельности">
     </mat-form-field>
     <mat-form-field>
-      <input matInput [(ngModel)]="person.photoUrl" placeholder="Ссылка на фото">
+      <mat-label>
+          Ссылка на основное фото
+      </mat-label>
+      <input matInput [(ngModel)]="person.photoUrl" placeholder="Вставьте ссылку сюда...">
     </mat-form-field>
     <img [src]="person.photoUrl" class="person-photo">
     <mat-form-field class="narrow">
@@ -17,32 +20,39 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     </mat-form-field>
     <mat-datepicker #picker></mat-datepicker>
-    <!-- <div class="checkbox">
-      <mat-checkbox [(ngModel)]="person.isPublished">
-        Опубликован?
-      </mat-checkbox>
-    </div> -->
     <mat-label>Пол</mat-label>
     <mat-button-toggle-group class="narrow" [(ngModel)]="person.sex">
-      <mat-button-toggle value="male">
+
+      <!-- TODO: Implement string enum values -->
+
+      <mat-button-toggle value="Male">
         Мужской
       </mat-button-toggle>
-      <mat-button-toggle value="female">
+      <mat-button-toggle value="Female">
         Женский
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <!-- <mat-radio-group class="radio-group">
-      <mat-radio-button value="male" [checked]="person.sex === male" (click)="setValue(male)">Мужской</mat-radio-button>
-      <mat-radio-button value="female" [checked]="person.sex === female" (click)="setValue(female)">Женский</mat-radio-button>
-    </mat-radio-group> -->
-    <button mat-raised-button (click)="savePerson()">
+
+    <!-- <button mat-raised-button (click)="savePerson()">
       <mat-icon>save</mat-icon> Сохранить
-    </button>
+    </button> -->
+
   </div>
 
   <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="true">
-
   </pkdd-content-block>
-  <pkdd-add-card (click)="onBlockAdd()"></pkdd-add-card>
+  <pkdd-add-card (click)="onBlockAdd()" class="add-block" [text]="'Добавить новый раздел'"></pkdd-add-card>
+  <div class="buttons">
 
+    <button *ngIf="person.isPublished" mat-button (click)="togglePublished()">
+      <mat-icon>undo
+      </mat-icon> Unpublish
+    </button>
+    <button mat-button (click)="saveAll()">
+      <mat-icon>save</mat-icon> Сохранить
+    </button>
+    <button *ngIf="!person.isPublished" mat-raised-button (click)="togglePublished()">
+      <mat-icon>send</mat-icon> Опубликовать
+    </button>
+  </div>
 </div>

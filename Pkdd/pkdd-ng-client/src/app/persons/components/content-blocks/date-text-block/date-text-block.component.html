@@ -1,39 +1,46 @@
-<div class="table-wrapper" *ngIf="!(!edit && !isEmptyContent)">
-  <div class="date-column">
-    <div *ngIf="edit" class="date-wrapper">
-      <mat-form-field class="date-input">
-        <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="firstDate" [(ngModel)]="content.period.firstDate">
-        <mat-datepicker-toggle matSuffix [for]="firstDate"></mat-datepicker-toggle>
-      </mat-form-field>
-      <mat-datepicker #firstDate></mat-datepicker>
-      <mat-form-field class="date-input">
-        <input matInput placeholder="MM/DD/YYYY" class="date-input" [matDatepicker]="secondDate" [(ngModel)]="content.period.secondDate">
-        <mat-datepicker-toggle matSuffix [for]="secondDate"></mat-datepicker-toggle>
-      </mat-form-field>
-      <mat-datepicker #secondDate></mat-datepicker>
-    </div>
-    <div *ngIf="!edit" class="date-wrapper">
-      <span class="text">
-        {{content.period.firstDate | date : 'dd/MM/yyyy'}}
-      </span>
-      <span class="text">
-        -
-      </span>
-      <span class="text">
-        {{content.period.secondDate | date : 'dd/MM/yyyy'}}
-      </span>
-    </div>
-
-  </div>
-  <div class="text-column">
-    <div *ngIf="edit" class="text-wrapper">
-      <mat-form-field class="text-wrapper">
-        <textarea matInput [(ngModel)]="content.text.content" [matTextareaAutosize]="true">
+<!-- <div class="table-wrapper" *ngIf="!(!edit && !isEmptyContent)"> -->
+<!-- <div class="date-column"> -->
+<div *ngIf="edit" class="date-row">
+  <mat-form-field class="date-input">
+    <mat-label>{{content.period.isRange ? 'Начальная дата' : 'Дата события'}}</mat-label>
+    <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="firstDate" [(ngModel)]="content.period.firstDate">
+    <mat-datepicker-toggle matSuffix [for]="firstDate"></mat-datepicker-toggle>
+  </mat-form-field>
+  <mat-datepicker #firstDate></mat-datepicker>
+  <ng-container *ngIf="content.period.isRange">
+    <mat-form-field class="date-input">
+      <mat-label>Конечная дата</mat-label>
+      <input matInput placeholder="MM/DD/YYYY" class="date-input" [matDatepicker]="secondDate" [(ngModel)]="content.period.secondDate">
+      <mat-datepicker-toggle matSuffix [for]="secondDate"></mat-datepicker-toggle>
+    </mat-form-field>
+    <mat-datepicker #secondDate></mat-datepicker>
+  </ng-container>
+  <mat-slide-toggle [(ngModel)]="content.period.isRange">Диапазон</mat-slide-toggle>
+</div>
+<mat-form-field class="date-input" class="text-wrapper" *ngIf="edit">
+  <mat-label>Текст события</mat-label>
+  <textarea matInput [(ngModel)]="content.text" [matTextareaAutosize]="true" maxlength="1000" placeholder="Введите текст события...">
         </textarea>
-      </mat-form-field>
+  <mat-hint *ngIf="(content?.text?.length || 0) >= 1000">Достигнут лимит символов</mat-hint>
+  <mat-hint *ngIf="(content?.text?.length || 0) < 1000">{{content?.text?.length || 0}} / 1000</mat-hint>
+  <!-- <mat-error>Достигнут лимит символов в текстовом поле</mat-error> -->
+</mat-form-field>
+
+<div *ngIf="!edit" class="wrapper">
+  <div class="column">
+    <div class="circle"></div>
+    <div class="line"></div>
+  </div>
+  <div class="content">
+    <div class="date-row date-row-decorated">
+      {{content.period.firstDate | date : 'dd.MM.yyyy'}}
+      <ng-container *ngIf="content.period.isRange">
+        -
+        {{content.period.secondDate | date : 'dd.MM.yyyy'}}
+      </ng-container>
     </div>
-    <div *ngIf="!edit" class="text text-break-wrapper">
-      {{content.text.content}}
+    <div class="text text-break-wrapper">
+      {{content.text}}
     </div>
   </div>
 </div>

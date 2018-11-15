@@ -22,7 +22,7 @@ export class PersonCardComponent implements OnInit {
   }
 
   public async onDelete() {
-    const shouldDelete = await this.confirmer.confirm('Удалить её навсегдааа...');
+    const shouldDelete = await this.confirmer.confirm(`Вы уверены, что хотите навсегда удалить персону "${this.person.name}?"`);
     if (shouldDelete) {
       this.storage.deletePerson(this.person.id);
     }

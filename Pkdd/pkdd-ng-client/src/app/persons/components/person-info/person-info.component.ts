@@ -24,14 +24,4 @@ export class PersonInfoComponent implements OnInit {
     this.contentBlocks = data.contentBlocks;
   }
 
-  public mainImage() {
-    if (!this.person) {
-      return '';
-    }
-    if (this.person.photoUrl === '') {
-      return `http://honefoss-vaktselskap.no/wp-content/uploads/2012/07/4ibKz78KT.gif`;
-    }
-    return `${this.person.photoUrl}`;
-  }
-
 }

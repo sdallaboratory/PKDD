@@ -1,81 +1,79 @@
 .wrapper {
     display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
 }
 
-mat-nav-list {
-    width: 100%;
-}
-
-@media(max-width: 600px) {
-    img {
-        max-height: 300px;
-    }
-}
-
-@media(max-width: 400px) {
-    img {
-        max-height: 180px;
-    }
-}
-
-img {
-    height: 500px;
-}
-
-mat-list-item {
-    width: 100%;
-    min-height: 50px;
-    overflow: hidden;
-}
-
-mat-list-item:last-child {
-    margin-bottom: 5px;
-}
-
-.list-item {
+.photo-grid {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
-.title {
-    font-weight: bold;
+.photo-grid-item {
+    background-image: url(https://ucarecdn.com/2c4f81e4-d18c-4aec-aa63-3994c554f1ea/);
+    flex: 0 0 33%;
+    min-width: 110px;
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; // filter: grayscale(50%);
+    filter: opacity(50%);
+    transition: .3s;
 }
 
-.value {
-    max-width: 100%;
-    height: 100%;
+.photo-grid-item:hover {
+    filter: opacity(75%)
 }
 
-.carousel {
-    width: 100%;
-    height: 100%;
-}
-
-.photo-creation {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.edit {
-    display: flex;
-    flex-direction: column;
-}
-
-.actions {
+.photo-header {
     display: flex;
     flex-direction: row;
-    border-bottom: 0.3px solid black;
+    align-items: flex-start;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 100%);
+    padding-bottom: 20px;
 }
 
-.preview {
-    display: flex;
-    justify-content: center;
+.photo-header-description {
+    overflow-wrap: break-word;
+    padding: 5px;
+    font-size: 0.8em;
+    flex: 1 1 100%;
 }
 
-.preview > img {
-    height: 40%;
-    width: 40%;
+.selected {
+    filter: none !important;
+}
+
+.photo {
+    width: 100%;
+}
+
+mdb-carousel {
+    height: 60vh; // max-height: 600px;
+}
+
+mdb-carousel-item {
+    // height: 100%;
+    background: lightgray;
+}
+
+.carousel-content {
+    height: 60vh;
+    max-height: 600px;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.description {
+    padding: 10px;
+    text-align: center;
+    font-size: .9em;
 }
