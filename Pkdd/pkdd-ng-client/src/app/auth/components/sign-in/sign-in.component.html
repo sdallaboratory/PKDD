@@ -5,7 +5,8 @@
   <div *ngIf="error && error.length" class="error">{{error}}</div>
   <mat-form-field>
     <mat-label>Email</mat-label>
-    <input matInput type="email" placeholder="example@email.com" [(ngModel)]="email">
+    <input matInput type="email" [(ngModel)]="email">
+    <mat-error>ошибка</mat-error>
   </mat-form-field>
   <mat-form-field class="password-field">
     <mat-label>Пароль</mat-label>
