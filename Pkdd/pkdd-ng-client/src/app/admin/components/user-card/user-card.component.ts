@@ -20,7 +20,7 @@ export class UserCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  public async addOrRemoveRole(role: PkddRoles) {
+  public async addOrRemoveRole(role) {
     if (!this.user.isBaseUser) {
       const roles = this.user.roles;
       const isInRole = roles.includes(role);
@@ -51,7 +51,7 @@ export class UserCardComponent implements OnInit {
     this.repos.deleteUser(this.user.id);
   }
 
-  public isInRole(role: PkddRoles) {
+  public isInRole(role: PkddRoles | string) {
     return this.user ? this.user.roles.some(r => r === role) : false;
   }
 }
