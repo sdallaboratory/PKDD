@@ -12,15 +12,8 @@ export class PersonsResolverService implements Resolve<Person[]> {
 
   constructor(
     private readonly menu: MenuService,
-    private readonly хттп: PkddHttpService,
     private readonly storage: ServerDataStorageService
   ) { }
-
-  // public async resolve() {
-  //   const persons = await this.хттп.get<Person[]>('/api/persons');
-  //   this.menu.sideMenuItems = null;
-  //   return persons;
-  // }
 
   public async resolve() {
     const persons = await this.storage.getPersons();

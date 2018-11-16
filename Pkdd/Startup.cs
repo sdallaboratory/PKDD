@@ -11,6 +11,7 @@ using Pkdd.Users;
 using Pkdd.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Pkdd
 {
@@ -45,13 +46,15 @@ namespace Pkdd
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
-            }).AddEntityFrameworkStores<PkddDbContext>();
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-            //    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-            //})
-            ;
+            }).AddEntityFrameworkStores<PkddDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
+            {
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+            });
+
             services.AddPersonRepository();
             services.AddResultRepository();
             services.AddFeedbackRepository();
