@@ -23,5 +23,10 @@ namespace Pkdd.Controllers
             await _seeder.SeedAsync();
             return PkddOk(new HealthCheckInfo(), "HealthCheckInfo");
         }
+
+        public async Task<string> Ping()
+        {
+            return "ok";
+        }
     }
 }

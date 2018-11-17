@@ -16,7 +16,8 @@
   </mat-form-field>
   <div class="row">
     <mat-checkbox [(ngModel)]="remember">Запомнить меня</mat-checkbox>
-    <button mat-raised-button (click)="signIn()" [disabled]="!password?.length || !email?.length">Войти</button>
+    <!-- TODO: set disabled cases for button -->
+    <button mat-raised-button (click)="signIn()" >Войти</button>
   </div>
   <div class="flex-splitter"></div>
   <div class="row bottom">
