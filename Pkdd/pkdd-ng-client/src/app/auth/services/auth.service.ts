@@ -25,16 +25,18 @@ export class AuthService {
   }
 
   public async getUserAsync(): Promise<PkddUser> {
-    if (this.user === undefined) {
+    if (this.user) {
+      return this.user;
+    }
+    if (this.gettingUser) {
       await this.gettingUser;
+      return this.user;
     }
-    if (this.user === null) {
-      await this.getUserFromServerAsync();
-    }
-    return this.user;
+    this.gettingUser = this.loadUserFromServerAsync();
+    return await this.getUserAsync();
   }
 
-  public async isAuthedAsync() {
+  public async isAuthedAsync(): Promise<boolean> {
     return await this.getUserAsync() !== null;
   }
 
@@ -43,13 +45,16 @@ export class AuthService {
     private readonly router: Router,
     private readonly env: EnvironmentService
   ) {
-    this.gettingUser = this.getUserFromServerAsync();
+    this.getUserAsync();
   }
 
   public async signInAsync(email: string, password: string, remeber = false): Promise<PkddUser> {
-    // TODO: Check for user is already signed in
+    if (this.user) {
+      return this.user;
+    }
     const model = new SignInModel(email, password, remeber);
-    this.user = await this.http.post<PkddUser>('/api/auth/sign-in', model);
+    const signedInUser = await this.http.post<PkddUser>('/api/auth/sign-in', model);
+    this.setUser(signedInUser);
     return this.user;
   }
 
@@ -70,7 +75,7 @@ export class AuthService {
     await this.http.post('/api/auth/restore-password', model);
   }
 
-  private async getUserFromServerAsync() {
+  private async loadUserFromServerAsync() {
     try {
       this.setUser(await this.http.get<PkddUser>('/api/auth/get-user'));
     } catch {

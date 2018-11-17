@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WindowService } from '../../../core/services/window.service';
 import { MenuService } from '../../../core/services/menu.service';
+import { RoutingTrackerService } from '../../services/routing-tracker.service';
 
 @Component({
   selector: 'pkdd-pkdd-page',
@@ -11,7 +12,10 @@ export class PkddPageComponent {
 
   constructor(
     public readonly menu: MenuService,
-    public readonly win: WindowService
-  ) { }
+    public readonly window: WindowService,
+    private readonly tracker: RoutingTrackerService
+  ) {
+    console.log(tracker);
+  }
 
 }
