@@ -31,11 +31,11 @@ export class UserCreateComponent implements OnInit {
     this.user = this.createNewUserModel();
   }
 
-  public isInRole(role: PkddRoles) {
+  public isInRole(role) {
     return this.user ? this.user.roles.some(r => r === role) : false;
   }
 
-  public async onRoleAction(role: PkddRoles) {
+  public async onRoleAction(role) {
     const roles = this.user.roles;
     const isInRole = roles.includes(role);
     if (isInRole) {

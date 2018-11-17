@@ -15,20 +15,26 @@ import { PersonsResolverService } from './resolvers/persons-resolver.service';
 import { PersonMmpiComponent } from '../mmpi-test/components/person-mmpi/person-mmpi.component';
 import { ResultsResolverService } from '../mmpi-test/resolvers/results-resolver.service';
 import { PersonResolverService } from './resolvers/person-resolver.service';
+import { RoleGuard } from '../auth/guards/role.guard';
+import { PkddRoles } from '../models/auth/pkdd-roles.enum';
+import { PkddRouteData } from '../models/common/pkdd-route-data';
 
 const personsRoutes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: '/persons'
   }, {
-    // path: '', component: PkddPageComponent, children: [{
-    path: '', component: PkddPageComponent, canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard], children: [{
+    path: '',
+    component: PkddPageComponent,
+    canActivate: [AuthGuard],
+    children: [{
       path: 'persons',
       component: PersonsPageComponent,
-      canActivate: [AuthGuard],
-      canActivateChild: [AuthGuard],
       children: [
-        { path: '', component: PersonsListComponent, resolve: { persons: PersonsResolverService } },
+        {
+          path: '',
+          component: PersonsListComponent,
+          resolve: { persons: PersonsResolverService }
+        },
         {
           path: ':id',
           component: PersonDetailsPageComponent,
@@ -36,20 +42,42 @@ const personsRoutes: Routes = [
             menu: PersonMenuResolver,
             personModel: PersonResolverService
           },
+          data: {
+            sideMenuItems: {
+              common: []
+            }
+          } as PkddRouteData,
+          canActivateChild: [RoleGuard],
           children: [
-            { path: '', component: PersonInfoComponent },
-            { path: 'mmpi', component: PersonMmpiComponent, resolve: { results: ResultsResolverService } },
+            {
+              path: '',
+              component: PersonInfoComponent
+            },
+            {
+              path: 'mmpi', component: PersonMmpiComponent,
+              resolve: { results: ResultsResolverService },
+              data: { roles: [PkddRoles.expert] }
+            },
             {
               path: 'edit',
               component: PersonEditComponent,
-              resolve: { personModel: PersonResolverService }
+              resolve: { personModel: PersonResolverService },
+              data: { roles: [PkddRoles.tech] }
             },
-            { path: 'luscher', component: PersonLuscherComponent },
-            { path: 'physiognomy', component: PersonPhysiognomyComponent },
+            {
+              path: 'luscher', component: PersonLuscherComponent,
+              data: { roles: [PkddRoles.expert] }
+            },
+            {
+              path: 'physiognomy',
+              component: PersonPhysiognomyComponent,
+              data: { roles: [PkddRoles.expert] }
+            },
             {
               path: 'results',
               component: PersonResultsComponent,
-              resolve: { personModel: PersonResolverService }
+              resolve: { personModel: PersonResolverService },
+              data: { roles: [PkddRoles.tech] }
             },
           ]
         }

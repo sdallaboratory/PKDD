@@ -20,7 +20,7 @@ export class UserCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  public async addOrRemoveRole(role: PkddRoles) {
+  public async addOrRemoveRole(role) {
     if (!this.user.isBaseUser) {
       const roles = this.user.roles;
       const isInRole = roles.includes(role);
@@ -33,7 +33,7 @@ export class UserCardComponent implements OnInit {
     }
   }
 
-  public async banOrUnban() {
+  public async ToggleBanned() {
     const result = await this.repos.banOrUnbanUser(this.user.id, this.user.isBanned);
     if (result) {
       this.user.isBanned = !this.user.isBanned;
@@ -51,7 +51,7 @@ export class UserCardComponent implements OnInit {
     this.repos.deleteUser(this.user.id);
   }
 
-  public isInRole(role: PkddRoles) {
+  public isInRole(role: PkddRoles | string) {
     return this.user ? this.user.roles.some(r => r === role) : false;
   }
 }

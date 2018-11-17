@@ -3,8 +3,9 @@
   <div class="horizontal-flex">
     <pkdd-side-menu *ngIf="menu.sideMenuItems?.length && win.currentDeviceType === 'pc'" class="pc-side-menu"></pkdd-side-menu>
     <mat-sidenav-container>
-      <mat-sidenav *ngIf="menu.sideMenuItems?.length && win.currentDeviceType !== 'pc'" class="mobile-side-menu" [opened]="menu.sideMenuOpened" disableClose>
-        <pkdd-side-menu ></pkdd-side-menu>
+      <mat-sidenav *ngIf="menu.sideMenuItems?.length && win.currentDeviceType !== 'pc'" class="mobile-side-menu"
+        [opened]="menu.sideMenuOpened" disableClose>
+        <pkdd-side-menu></pkdd-side-menu>
       </mat-sidenav>
       <mat-sidenav-content>
         <div>

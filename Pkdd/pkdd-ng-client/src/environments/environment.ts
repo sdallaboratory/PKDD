@@ -17,7 +17,9 @@ export const environment: Configuration = {
   developers: 'Батин, Соловьев & Гончаров',
   productName: 'ПКДД',
   // backendOrigin: 'http://пкдд.рф/',
-  backendOrigin: 'https://localhost:44328/',
+  // backendOrigin: 'https://localhost:44328/',
+  // backendOrigin: 'https://localhost:3000/',
+  backendOrigin: 'https://192.168.0.110:44328/',
   mmpiResultMaxValue: 120,
 };
 
@@ -27,4 +29,5 @@ export const environment: Configuration = {
  * below file. Don't forget to comment it out in production mode
  * because it will have a performance impact when errors are thrown
  */
+
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
