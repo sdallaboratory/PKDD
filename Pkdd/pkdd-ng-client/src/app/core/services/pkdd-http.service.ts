@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 import { promisify } from 'src/app/core/utils/promisify';
+import { BackendCheckerService } from './backend-checker.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class PkddHttpService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly env: EnvironmentService
+    private readonly env: EnvironmentService,
+    private readonly backend: BackendCheckerService
   ) {
     if (!env.config.production) {
       this.options = { withCredentials: true, headers: { 'crossDomain': 'true' } };
@@ -37,7 +39,7 @@ export class PkddHttpService {
   }
 
   private async addOrigin(relativeUrl): Promise<string> {
-    const backendOrigin = await this.env.getBackendOrigin();
+    const backendOrigin = await this.backend.getBackendOrigin();
     return backendOrigin + relativeUrl;
   }
 

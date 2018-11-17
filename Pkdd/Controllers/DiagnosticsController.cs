@@ -24,7 +24,8 @@ namespace Pkdd.Controllers
             return PkddOk(new HealthCheckInfo(), "HealthCheckInfo");
         }
 
-        public async Task<string> Ping()
+        [HttpGet("ping")]
+        public string Ping()
         {
             return "ok";
         }

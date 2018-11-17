@@ -19,7 +19,7 @@ export const environment: Configuration = {
   // backendOrigin: 'http://пкдд.рф/',
   // backendOrigin: 'https://localhost:44328/',
   // backendOrigin: 'https://localhost:3000/',
-  backendOrigins: ['https://192.168.0.110:44328/'],
+  backendOrigins: ['https://localhost:3000/', 'https://localhost:44328/', 'https://192.168.0.110:44328/'],
   mmpiResultMaxValue: 120,
 };
 
