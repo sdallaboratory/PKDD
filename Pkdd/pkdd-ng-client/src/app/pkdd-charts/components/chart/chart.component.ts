@@ -45,6 +45,9 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.config.onDragEnd) {
       (<any>this.config.options).onDragEnd = this.config.onDragEnd;
     }
+    if (this.config.onDragEnd) {
+      (<any>this.config.options).onDragStart = this.config.onDragStart;
+    }
     this.chart = new Chart(this.canvasContext, this.config);
     this.config.update = () => this.chart.update();
   }

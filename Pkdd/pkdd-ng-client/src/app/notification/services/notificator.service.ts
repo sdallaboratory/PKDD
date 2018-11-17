@@ -41,7 +41,7 @@ export class NotificatorService {
     this.notificate({ message, action: 'Ошибка 😬', type: 'fail' });
   }
 
-  public async trackPromise<T>(promise: Promise<T>, info: PromiseTrackInfo = {}) {
+  public async trackPromise<T>(promise: Promise<T>, info: PromiseTrackInfo) {
     if (info.showProgress) {
       this.promises.push(promise);
     }
