@@ -12,7 +12,7 @@ export interface Configuration {
 
     productName: string;
 
-    backendOrigin: string;
+    backendOrigins: string[];
 
     mmpiResultMaxValue: number;
 }

@@ -19,25 +19,26 @@ export class PkddHttpService {
     }
   }
 
-  public get<T>(relativeUrl: string) {
-    return promisify<T>(this.http.get<T>(this.addOrigin(relativeUrl), this.options));
+  public async get<T>(relativeUrl: string) {
+    return await promisify<T>(this.http.get<T>(await this.addOrigin(relativeUrl), this.options));
   }
 
-  public post<T>(relativeUrl: string, body) {
+  public async post<T>(relativeUrl: string, body) {
     console.log(body);
-    return promisify<T>(this.http.post<T>(this.addOrigin(relativeUrl), body, this.options));
+    return await promisify<T>(this.http.post<T>(await this.addOrigin(relativeUrl), body, this.options));
   }
 
-  public put<T>(relativeUrl: string, body) {
-    return promisify<T>(this.http.put<T>(this.addOrigin(relativeUrl), body, this.options));
+  public async put<T>(relativeUrl: string, body) {
+    return await promisify<T>(this.http.put<T>(await this.addOrigin(relativeUrl), body, this.options));
   }
 
-  public delete<T>(relativeUrl: string) {
-    return promisify<T>(this.http.delete<T>(this.addOrigin(relativeUrl), this.options));
+  public async delete<T>(relativeUrl: string) {
+    return await promisify<T>(this.http.delete<T>(await this.addOrigin(relativeUrl), this.options));
   }
 
-  private addOrigin(relativeUrl): string {
-    return this.env.config.backendOrigin + relativeUrl;
+  private async addOrigin(relativeUrl): Promise<string> {
+    const backendOrigin = await this.env.getBackendOrigin();
+    return backendOrigin + relativeUrl;
   }
 
 }
