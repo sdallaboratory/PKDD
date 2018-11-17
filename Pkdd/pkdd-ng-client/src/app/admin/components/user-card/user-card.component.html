@@ -50,7 +50,7 @@
     </mat-chip-list>
   </div>
   <mat-card-actions>
-    <button mat-icon-button [disabled]="user.isBaseUser" [matTooltip]="user.isBanned ? 'Разбанить' : 'Забанить'" (click)="banOrUnban()">
+    <button mat-icon-button [disabled]="user.isBaseUser" [matTooltip]="user.isBanned ? 'Разбанить' : 'Забанить'" (click)="ToggleBanned()">
       <mat-icon>
         {{!user.isBanned ? 'block' : 'done'}}
       </mat-icon>

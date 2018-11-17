@@ -32,6 +32,7 @@ export class PersonEditComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    // TODO: Use route.snapshot.data instead of observable data.
     const data = (await this.route.data.pipe(first()).toPromise())['personModel'];
     this.person = data.person;
     this.contentBlocks = data.contentBlocks;
@@ -53,12 +54,10 @@ export class PersonEditComponent implements OnInit {
     });
   }
 
-  public setValue(type: Sexes) {
-    this.person.sex = type;
-  }
-
   public togglePublished() {
     this.person.isPublished = !this.person.isPublished;
+    this.saveAll();
+    // TODO: handle errors
   }
 
 }

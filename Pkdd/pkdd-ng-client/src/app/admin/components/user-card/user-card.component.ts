@@ -33,7 +33,7 @@ export class UserCardComponent implements OnInit {
     }
   }
 
-  public async banOrUnban() {
+  public async ToggleBanned() {
     const result = await this.repos.banOrUnbanUser(this.user.id, this.user.isBanned);
     if (result) {
       this.user.isBanned = !this.user.isBanned;
