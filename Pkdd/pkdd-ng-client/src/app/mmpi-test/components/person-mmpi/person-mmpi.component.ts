@@ -91,6 +91,15 @@ export class PersonMmpiComponent implements OnInit {
         responsive: true,
       },
       dragData: true,
+      onDragStart: (e) => {
+        console.log(e);
+        e.stopPropagation();
+        document.ontouchmove = (event) => {
+          console.log(event);
+          event.stopPropagation();
+          event.preventDefault();
+        };
+      },
       onDragEnd: () => this.updateValues()
     };
 

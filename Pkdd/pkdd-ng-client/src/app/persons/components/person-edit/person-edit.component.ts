@@ -9,6 +9,7 @@ import { ServerDataStorageService } from '../../../core/services/server-data-sto
 import { EntitiesFactoryService } from '../../../core/services/entities-factory.service';
 import { Sexes } from '../../../models/entities/enums/sexes';
 import { WindowService } from 'src/app/core/services/window.service';
+import { NotificatorService } from 'src/app/notification/services/notificator.service';
 
 @Component({
   selector: 'pkdd-person-edit',
@@ -28,7 +29,8 @@ export class PersonEditComponent implements OnInit {
     private readonly factory: EntitiesFactoryService,
     private readonly route: ActivatedRoute,
     private readonly storage: ServerDataStorageService,
-    public readonly window: WindowService
+    public readonly window: WindowService,
+    private readonly notificator: NotificatorService
   ) { }
 
   async ngOnInit() {
@@ -48,9 +50,12 @@ export class PersonEditComponent implements OnInit {
   }
 
   public saveAll() {
-    this.savePerson();
-    this.contentBlocks.forEach(block => {
-      this.storage.updateContentBlock(this.person.bioBlock.id, block);
+    const promises = this.contentBlocks.map(block =>
+      this.storage.updateContentBlock(this.person.bioBlock.id, block)
+    );
+    this.notificator.trackPromise(Promise.all([this.savePerson(), ...promises]), {
+      successMessage: 'Обновления успешно сохранены',
+      failMessage: 'При сохранении персоны произошла ошибка'
     });
   }
 
