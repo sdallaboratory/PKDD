@@ -17,6 +17,8 @@ import { AccountModule } from '../account/account.module';
 import { AdminModule } from '../admin/admin.module';
 import { LayoutModule } from '../layout/layout.module';
 import { HelpModule } from '../help/help.module';
+import { NotificationModule } from '../notification/notification.module';
+import { RoutingTrackerService } from './services/routing-tracker.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { HelpModule } from '../help/help.module';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialImportsModule,
+    NotificationModule,
     AuthModule,
     PersonsModule,
     AccountModule,
@@ -39,6 +42,7 @@ import { HelpModule } from '../help/help.module';
     AppRoutingModule,
     LayoutModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [RoutingTrackerService]
 })
 export class AppModule { }

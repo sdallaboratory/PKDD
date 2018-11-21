@@ -5,10 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminMenuResolverService } from './resolvers/admin-menu-resolver.service';
 import { PkddPageComponent } from '../app-module/components/pkdd-page/pkdd-page.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { PkddRoles } from '../models/auth/pkdd-roles.enum';
-import { UserCreateComponent } from './components/user-create/user-create.component';
 import { UserIssuesComponent } from './components/user-issues/user-issues.component';
 import { UserIssuesResolverService } from './resolvers/user-issues-resolver.service';
+import { RoleGuard } from '../auth/guards/role.guard';
+import { PkddRoles } from '../models/auth/pkdd-roles.enum';
 
 const routes: Routes = [
   {
@@ -18,8 +18,10 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        data: {
+          roles: [PkddRoles.admin]
+        },
+        canActivate: [AuthGuard, RoleGuard],
         path: 'admin',
         component: AdminPageComponent,
         resolve: {
@@ -29,7 +31,6 @@ const routes: Routes = [
           {
             path: 'user-list',
             component: UsersListComponent,
-            canActivate: [AuthGuard.forRoles(PkddRoles.admin)]
           },
           {
             path: '',
@@ -42,7 +43,6 @@ const routes: Routes = [
             resolve: {
               issues: UserIssuesResolverService
             },
-            canActivate: [AuthGuard.forRoles(PkddRoles.admin)]
           }
         ]
       },

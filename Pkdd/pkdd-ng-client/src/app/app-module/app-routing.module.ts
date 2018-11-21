@@ -8,7 +8,7 @@ import { AccountPageComponent } from '../account/components/account-page/account
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { AdminPageComponent } from '../admin/components/admin-page/admin-page.component';
 import { PkddRoles } from '../models/auth/pkdd-roles.enum';
-import { MenuResolver } from '../core/resolvers/menu.resolver';
+import { NoMenuResolver } from '../core/resolvers/no-menu.resolver';
 import { MenuItem } from '../models/core/menu-item';
 
 const routes: Routes = [
@@ -27,7 +27,8 @@ const routes: Routes = [
             path: 'account', component: AccountPageComponent, resolve: {
               // menu: MenuResolver.forItems([new MenuItem('Профиль', 'asd', 'person', true),
               // new MenuItem('Настройки', 's', 'build', true)])
-              menu: MenuResolver.noItems()
+              // menu: MenuResolver.noItems()
+              menu: NoMenuResolver
             }
           },
         ]

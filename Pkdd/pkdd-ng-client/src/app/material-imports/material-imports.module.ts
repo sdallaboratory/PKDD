@@ -26,6 +26,8 @@ import {
   MatSliderModule,
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
+  MatProgressBarModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 const imports = [
@@ -38,6 +40,7 @@ const imports = [
   MatInputModule,
   MatCheckboxModule,
   MatProgressSpinnerModule,
+  MatProgressBarModule,
   MatTooltipModule,
   MatChipsModule,
   MatSelectModule,
@@ -50,6 +53,7 @@ const imports = [
   MatSlideToggleModule,
   MatButtonToggleModule,
   MatSliderModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
