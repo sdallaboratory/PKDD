@@ -1,3 +1,5 @@
+import { MmpiResultNames, LocaleName } from './mmpi-result-names';
+
 export class MmpiResult {
     constructor(
         public hypochondriasis: number = 0,
@@ -13,11 +15,12 @@ export class MmpiResult {
     ) { }
 
     public static get keys(): string[] {
-        return Object.keys(new MmpiResult());
+        return Object.values(MmpiResultNames.getNames('conf'));
     }
 
     public static toNameValuePairs(mmpiResult: MmpiResult): { name: string, value: number }[] {
-        return mmpiResult && Object.keys(mmpiResult).map(key => ({ name: key, value: mmpiResult[key] }));
+        const names: LocaleName = MmpiResultNames.getNames('conf');
+        return mmpiResult && Object.keys(mmpiResult).map(key => ({ name: names[key], value: mmpiResult[key] }));
     }
 
     public static toArray(mmpiResult: MmpiResult): number[] {
