@@ -18,6 +18,10 @@ export class MmpiResult {
         return Object.values(MmpiResultNames.getNames('conf'));
     }
 
+    public static getBasicKeys(): string[] {
+        return MmpiResultNames.getBaseKeys();
+    }
+
     public static toNameValuePairs(mmpiResult: MmpiResult): { name: string, value: number }[] {
         const names: LocaleName = MmpiResultNames.getNames('conf');
         return mmpiResult && Object.keys(mmpiResult).map(key => ({ name: names[key], value: mmpiResult[key] }));
@@ -29,7 +33,7 @@ export class MmpiResult {
 
     public static fromArray(values: number[]): MmpiResult {
         const mmpiResult = new MmpiResult();
-        MmpiResult.keys.forEach((name, i) => mmpiResult[name] = values[i]);
+        MmpiResult.keys.forEach((name, i) => mmpiResult[MmpiResultNames.getInBaseLocale(name, 'conf')] = values[i]);
         return mmpiResult;
     }
 }

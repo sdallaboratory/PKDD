@@ -23,7 +23,7 @@ namespace Pkdd.Repositories
             try
             {
                 Issue issue = await context.Issues.FirstOrDefaultAsync(iss => iss.Id == issueId);
-                if (issue == null)
+                if (issue == null)  
                     throw new Exception();
                 answer.IssueId = issueId;
                 var entity = await context.FeedbackAnswers.AddAsync(answer);

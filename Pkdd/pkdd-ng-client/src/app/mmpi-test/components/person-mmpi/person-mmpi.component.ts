@@ -110,7 +110,7 @@ export class PersonMmpiComponent implements OnInit {
     data.forEach((val, i) => {
       data[i] = +val.toFixed(0);
     });
-    MmpiResult.keys.forEach((key, i) => {
+    MmpiResult.getBasicKeys().forEach((key, i) => {
       this.result.mmpi[key] = data[i];
       this.ensureValid(key);
     });

@@ -11,6 +11,21 @@ export class MmpiResultNames {
                 return new EnLocaleName();
         }
     }
+
+    public static getInBaseLocale(name: string, locale: 'ru' | 'en' | 'conf') {
+        switch (locale) {
+            case 'ru':
+                return null;
+            case 'en':
+                return Object.entries(new EnLocaleName()).find(n => n[1] === name)[0];
+            case 'conf':
+                return Object.entries(new ConferenceLocaleName()).find(n => n[1] === name)[0];
+        }
+    }
+
+    public static getBaseKeys() {
+        return Object.keys(new EnLocaleName());
+    }
 }
 
 export interface LocaleName {
