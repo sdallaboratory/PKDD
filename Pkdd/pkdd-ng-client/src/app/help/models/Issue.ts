@@ -4,6 +4,12 @@ import { IEntity } from 'src/app/models/entities/interfaces/iEntity';
 import { TimeTrack } from 'src/app/models/common/time-track';
 import { PkddUser } from 'src/app/models/auth/pkdd-user';
 
+export enum IssueType {
+    Improvement = 0,
+    Error = 1,
+    Comment = 2,
+    Question = 3
+}
 export class Issue implements IEntity {
     id: number;
     isDeleted = false;
@@ -20,8 +26,4 @@ export class Issue implements IEntity {
     }
 }
 
-export enum IssueType {
-    Improvement,
-    Error,
-    Comment
-}
+

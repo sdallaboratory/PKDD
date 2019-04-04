@@ -28,6 +28,7 @@
     "angular-bootstrap-md": "^6.2.5",
     "bootstrap": "^4.1.3",
     "chart.js": "^2.7.2",
+    "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-dragdata": "^0.1.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",

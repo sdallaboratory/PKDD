@@ -26,7 +26,6 @@ export class PkddHttpService {
   }
 
   public async post<T>(relativeUrl: string, body) {
-    console.log(body);
     return await promisify<T>(this.http.post<T>(await this.addOrigin(relativeUrl), body, this.options));
   }
 

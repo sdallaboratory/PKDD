@@ -16,9 +16,7 @@ export class RoutingTrackerService {
     private readonly router: Router,
     private readonly notificator: NotificatorService,
     private readonly menu: MenuService
-    ) {
-    console.log('Routing tracker was created');
-
+  ) {
     this.navigationStart = router.events.pipe(
       filter(event => event instanceof NavigationStart)
     ) as Observable<NavigationStart>;
@@ -30,9 +28,8 @@ export class RoutingTrackerService {
     this.navigationStart.subscribe(event => this.trackRouting(event));
   }
 
-  private trackRouting(event) {
+  private trackRouting(event: NavigationStart) {
     this.menu.sideMenuOpened = false;
-    console.log('start tracking routing', event);
     const promise = new Promise<void>((resolve, reject) => {
       const subscription = this.navigationEnd.pipe(first()).subscribe(null, () => resolve(), () => resolve());
     });

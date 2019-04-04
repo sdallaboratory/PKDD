@@ -14,8 +14,6 @@ export class PkddPageComponent {
     public readonly menu: MenuService,
     public readonly window: WindowService,
     private readonly tracker: RoutingTrackerService
-  ) {
-    console.log(tracker);
-  }
+  ) { }
 
 }

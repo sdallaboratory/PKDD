@@ -6,6 +6,7 @@ import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { EnvironmentService } from 'src/app/core/services/environment.service';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
 import { ConfirmService } from 'src/app/core/services/confirm.service';
+import { NotificatorService } from 'src/app/notification/services/notificator.service';
 
 @Component({
   selector: 'pkdd-person-mmpi',
@@ -34,7 +35,8 @@ export class PersonMmpiComponent implements OnInit {
     private readonly data: RouteDataProviderService,
     private readonly provider: ResultsProviderService,
     private readonly env: EnvironmentService,
-    private readonly confirmer: ConfirmService
+    private readonly confirmer: ConfirmService,
+    private readonly notificator: NotificatorService,
   ) { }
 
   async ngOnInit() {
@@ -44,7 +46,7 @@ export class PersonMmpiComponent implements OnInit {
   }
 
   initChart() {
-    this.chartConfig = {
+    this.chartConfig = <PkddChartConfiguration>{
       type: 'line',
       data: {
         labels: MmpiResult.keys,
@@ -89,6 +91,20 @@ export class PersonMmpiComponent implements OnInit {
           dragData: true,
         },
         responsive: true,
+        annotation: {
+          annotations: [{
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 5,
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 4,
+            label: {
+              enabled: false,
+              content: 'Test label'
+            }
+          }]
+        }
       },
       dragData: true,
       onDragStart: (e) => {
@@ -119,6 +135,7 @@ export class PersonMmpiComponent implements OnInit {
   public async onSave() {
     this.result.mmpiComplete = true;
     this.result = await this.provider.send(this.result);
+    this.notificator.success('Ваша оценка успешно сохранена');
   }
 
   onValueCahnged(key: string) {
