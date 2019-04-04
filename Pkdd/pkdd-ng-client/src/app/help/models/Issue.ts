@@ -19,7 +19,7 @@ export class Issue implements IEntity {
     isSolved = false;
     question = '';
     title = '';
-    type: IssueType = IssueType.Improvement;
+    type: IssueType = IssueType.Question;
     constructor(user: PkddUser) {
         this.user = new IssueUserInfo(user);
         this.id = 0;
