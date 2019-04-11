@@ -1,6 +1,6 @@
 <div class="wrapper" *ngIf="content">
   <ng-container *ngIf="!edit && content.content?.length === 1">
-    <img [src]="content.content[0].url">
+    <img class="one-photo" [src]="content.content[0].url">
     <div class="description">{{content.content[0].description}}</div>
   </ng-container>
   <mdb-carousel *ngIf="!edit && content.content?.length > 1" [isControls]="true" [animation]="'slide'">

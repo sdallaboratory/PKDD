@@ -1,11 +1,12 @@
 <div *ngIf="user" class="temporary-solution">
-    <h2>Персональные данные</h2>
-    <mat-icon inline="true">person</mat-icon> ФИО: <b>{{user.name}}</b>
+    <h2>
+        {{user.name}}
+    </h2>
     <p>
-        <mat-icon inline="true">email</mat-icon> Email:<b> {{user.email}}</b>
+        <mat-icon>email</mat-icon> <b> {{user.email}}</b>
     </p>
     <p>
-        <mat-icon inline="true">card_membership</mat-icon> Ваши роли в системе:
+        <mat-icon>card_membership</mat-icon> Ваши роли в системе:
     </p>
     <ul>
         <li *ngFor="let role of user.roles">

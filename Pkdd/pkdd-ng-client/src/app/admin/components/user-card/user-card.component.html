@@ -1,58 +1,29 @@
-<mat-card [class.not-confirmed]="!user.isConfirmed">
+<mat-card [class.not-confirmed]="!user.isConfirmed" [style.background]="user | userColor">
   <mat-card-title>
-    {{user.roles | strongestRole}}
+    {{user.name}}
   </mat-card-title>
-    <div class="info">
-      <div class="text-block">
-        <span class="title">
-          Имя:
-        </span>
-        <span>
-          {{user.name}}
-        </span>
-      </div>
-      <div class="text-block">
-        <span class="title">
-          Email:
-        </span>
-        <span>
-          {{user.email}}
-        </span>
-      </div>
-      <div class="text-block">
-        <span class="title">
-          Подтвержден:
-        </span>
-        <span>
-          {{user.isConfirmed ? 'Да' : 'Нет'}}
-        </span>
-      </div>
-      <div class="text-block">
-        <span class="title">
-          Забанен:
-        </span>
-        <span>
-          {{user.isBanned ? 'Да' : 'Нет'}}
-        </span>
-      </div>
-    </div>
+  <div class="text-block">
+    <mat-icon>email</mat-icon> {{user.email}}
+  </div>
+  <div class="flex-space"></div>
   <div class="chips-wrapper">
-    <mat-chip-list [multiple]="true">
-      <mat-chip [disabled]="user.isBaseUser" [color]="'warn'" [selected]="isInRole('admin')" (click)="addOrRemoveRole('admin')">
+    <mat-chip-list [multiple]="true" [disabled]="user.isBaseUser">
+      <mat-chip [color]="'warn'" [selected]="isInRole('admin')" (click)="addOrRemoveRole('admin')">
         Админ
       </mat-chip>
-      <mat-chip [disabled]="user.isBaseUser" [color]="'accent'" [selected]="isInRole('tech')" (click)="addOrRemoveRole('tech')">
+      <mat-chip [color]="'accent'" [selected]="isInRole('tech')" (click)="addOrRemoveRole('tech')">
         Технолог
       </mat-chip>
-      <mat-chip [disabled]="user.isBaseUser" [color]="'primary'" [selected]="isInRole('expert')" (click)="addOrRemoveRole('expert')">
+      <mat-chip [color]="'primary'" [selected]="isInRole('expert')" (click)="addOrRemoveRole('expert')">
         Эксперт
       </mat-chip>
     </mat-chip-list>
   </div>
   <mat-card-actions>
-    <button mat-icon-button [disabled]="user.isBaseUser" [matTooltip]="user.isBanned ? 'Разбанить' : 'Забанить'" (click)="ToggleBanned()">
+    <button mat-icon-button [disabled]="user.isBaseUser" [matTooltip]="user.isBanned ? 'Разбанить' : 'Забанить'"
+      (click)="ToggleBanned()">
       <mat-icon>
-        {{!user.isBanned ? 'block' : 'done'}}
+        {{user.isBanned ? 'thumb_up_alt' : 'thumb_down_alt'}}
       </mat-icon>
     </button>
     <button mat-icon-button [disabled]="user.isBaseUser" matTooltip="Удалить" (click)="delete()">
@@ -60,7 +31,8 @@
         delete_forever
       </mat-icon>
     </button>
-    <button mat-icon-button [disabled]="user.isConfirmed || user?.isBaseUser" matTooltip="Подтвердить" (click)="confirm()">
+    <button mat-icon-button [disabled]="user.isConfirmed || user?.isBaseUser" matTooltip="Подтвердить"
+      (click)="confirm()">
       <mat-icon>
         verified_user
       </mat-icon>

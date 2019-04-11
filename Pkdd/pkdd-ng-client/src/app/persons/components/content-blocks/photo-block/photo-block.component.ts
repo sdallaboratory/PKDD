@@ -12,12 +12,12 @@ import { ConfirmService } from 'src/app/core/services/confirm.service';
 export class PhotoBlockComponent {
 
   @Input()
-  public content: Photo;
+  public content!: Photo;
 
   @Input()
-  public edit: boolean;
+  public edit!: boolean;
 
-  public selectedPhoto: IMedia;
+  public selectedPhoto: IMedia | null = null;
 
   constructor(
     private readonly confirmer: ConfirmService

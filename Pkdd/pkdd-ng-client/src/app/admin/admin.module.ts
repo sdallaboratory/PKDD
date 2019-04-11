@@ -14,6 +14,8 @@ import { StrongestRolePipe } from './pipes/strongest-role.pipe';
 import { UserIssuesComponent } from './components/user-issues/user-issues.component';
 import { UserIssuesItemComponent } from './components/user-issues-item/user-issues-item.component';
 import { LayoutModule } from '../layout/layout.module';
+import { UserColorPipe } from './pipes/user-color.pipe';
+import { SearchModule } from '../search/search.module';
 
 @NgModule({
   imports: [
@@ -23,6 +25,7 @@ import { LayoutModule } from '../layout/layout.module';
     CoreModule,
     MaterialImportsModule,
     AuthModule,
+    SearchModule,
     LayoutModule
   ],
   declarations: [
@@ -32,7 +35,8 @@ import { LayoutModule } from '../layout/layout.module';
     UserCreateComponent,
     StrongestRolePipe,
     UserIssuesComponent,
-    UserIssuesItemComponent
+    UserIssuesItemComponent,
+    UserColorPipe
   ]
 })
 export class AdminModule { }

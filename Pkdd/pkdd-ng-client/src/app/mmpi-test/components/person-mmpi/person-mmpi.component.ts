@@ -93,15 +93,16 @@ export class PersonMmpiComponent implements OnInit {
         responsive: true,
         annotation: {
           annotations: [{
+            drawTime: 'beforeDatasetsDraw',
             type: 'line',
             mode: 'horizontal',
             scaleID: 'y-axis-0',
-            value: 5,
-            borderColor: 'rgb(75, 192, 192)',
-            borderWidth: 4,
+            value: 50,
+            borderColor: 'black',
+            borderWidth: 1,
             label: {
-              enabled: false,
-              content: 'Test label'
+              enabled: true,
+              content: '50'
             }
           }]
         }
@@ -122,6 +123,9 @@ export class PersonMmpiComponent implements OnInit {
   }
 
   private updateValues() {
+    if (!this.chartConfig.data || !this.chartConfig.data.datasets) {
+      return;
+    }
     const data = this.chartConfig.data.datasets[0].data as number[];
     data.forEach((val, i) => {
       data[i] = +val.toFixed(0);

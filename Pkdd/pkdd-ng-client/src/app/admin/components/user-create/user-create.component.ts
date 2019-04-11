@@ -1,9 +1,10 @@
 import { PkddUser } from './../../../models/auth/pkdd-user';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TimeTrack } from '../../../models/common/time-track';
 import { UserCreateModel } from '../../models/user-create-model';
 import { PkddRoles } from '../../../models/auth/pkdd-roles.enum';
 import { UserRepositoryService } from '../../services/user-repository.service';
+import { NotificatorService } from 'src/app/notification/services/notificator.service';
 
 @Component({
   selector: 'pkdd-user-create',
@@ -13,29 +14,33 @@ import { UserRepositoryService } from '../../services/user-repository.service';
 export class UserCreateComponent implements OnInit {
 
   @Input()
-  user: UserCreateModel;
+  user!: UserCreateModel;
+
+  @Output()
+  public readonly userCreated: EventEmitter<PkddUser> = new EventEmitter();
 
   public get isValid() {
     return this.user.email !== ''
-    && this.user.name !== null
-    && this.user.password !== ''
-    && this.user.password.length >= 8
-    && this.user.roles.length > 0;
+      && this.user.name !== null
+      && this.user.password !== ''
+      && this.user.password.length >= 8
+      && this.user.roles.length > 0;
   }
 
   constructor(
-    private readonly repos: UserRepositoryService
+    private readonly repos: UserRepositoryService,
+    private readonly notificator: NotificatorService,
   ) { }
 
   ngOnInit() {
     this.user = this.createNewUserModel();
   }
 
-  public isInRole(role) {
+  public isInRole(role: PkddRoles) {
     return this.user ? this.user.roles.some(r => r === role) : false;
   }
 
-  public async onRoleAction(role) {
+  public async onRoleAction(role: PkddRoles) {
     const roles = this.user.roles;
     const isInRole = roles.includes(role);
     if (isInRole) {
@@ -46,9 +51,16 @@ export class UserCreateComponent implements OnInit {
   }
 
   public async onAdd() {
-    const newUser = await this.repos.addUser(this.user);
+    const userPromise = this.repos.addUser(this.user);
+    this.notificator.trackPromise(userPromise, {
+      showProgress: true,
+      successMessage: 'Пользователь успешно создан.',
+      failMessage: 'Не удалось создать пользователя. Попробуйте ещё раз.'
+    });
+    const newUser = await userPromise;
     if (newUser) {
       this.user = this.createNewUserModel();
+      this.userCreated.emit(newUser);
     }
   }
 

@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pkdd.Database;
 using Pkdd.Models.Users;
 using Pkdd.Models.Users.Roles;
-using Pkdd.Users;
 using Pkdd.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+using Pkdd.Users;
 using System;
 
 namespace Pkdd
@@ -65,6 +65,10 @@ namespace Pkdd
             services.AddLogging();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "pkdd-ng-client/dist";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,10 +86,24 @@ namespace Pkdd
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseMvc(routes => routes.MapRoute(
-                    name: "Default",
-                    template: "{*AngularRoute}",
-                    defaults: new { controller = "Home", action = "Index" }));
+            app.UseMvc();
+                //routes => routes.MapRoute(
+                //    name: "Default",
+                //    template: "{*AngularRoute}",
+                //    defaults: new { controller = "Home", action = "Index" }));
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "pkdd-ng-client";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
+            
         }
     }
 }

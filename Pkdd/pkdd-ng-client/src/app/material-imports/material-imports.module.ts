@@ -28,6 +28,7 @@ import {
   MAT_DATE_FORMATS,
   MatProgressBarModule,
   MatSnackBarModule,
+  MatBadgeModule
 } from '@angular/material';
 
 const imports = [
@@ -53,7 +54,8 @@ const imports = [
   MatSlideToggleModule,
   MatButtonToggleModule,
   MatSliderModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatBadgeModule
 ];
 
 @NgModule({
