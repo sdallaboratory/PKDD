@@ -1,4 +1,19 @@
 <div *ngIf="user" class="temporary-solution">
-    Вы авторизованы как <b>{{user.name}}</b>
+    <h2>
+        {{user.name}}
+    </h2>
+    <p>
+        <mat-icon>email</mat-icon> <b> {{user.email}}</b>
+    </p>
+    <p>
+        <mat-icon>card_membership</mat-icon> Ваши роли в системе:
+    </p>
+    <ul>
+        <li *ngFor="let role of user.roles">
+            {{role}}
+        </li>
+    </ul>
+    <button mat-raised-button style="margin: 20px" (click)="signOut()">
+        <mat-icon>exit_to_app</mat-icon> Выйти из аккаунта <mat-spinner *ngIf="load"></mat-spinner>
+    </button>
 </div>
-<button mat-raised-button style="margin: 20px" (click)="signOut()">Выйти из аккаунта <mat-spinner *ngIf="load"></mat-spinner> </button>

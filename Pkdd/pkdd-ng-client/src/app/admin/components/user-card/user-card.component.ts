@@ -11,7 +11,7 @@ import { UserRepositoryService } from '../../services/user-repository.service';
 export class UserCardComponent implements OnInit {
 
   @Input()
-  public user: PkddUser;
+  public user!: PkddUser;
 
   constructor(
     private readonly repos: UserRepositoryService
@@ -20,7 +20,7 @@ export class UserCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  public async addOrRemoveRole(role) {
+  public async addOrRemoveRole(role: PkddRoles) {
     if (!this.user.isBaseUser) {
       const roles = this.user.roles;
       const isInRole = roles.includes(role);

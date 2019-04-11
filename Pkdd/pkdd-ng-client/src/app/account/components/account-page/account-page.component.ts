@@ -17,7 +17,7 @@ export class AccountPageComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.user  = await this.auth.getUserAsync();
+      this.user = await this.auth.getUserAsync();
     } catch { }
   }
 

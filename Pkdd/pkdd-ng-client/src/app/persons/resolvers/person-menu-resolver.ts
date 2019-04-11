@@ -21,9 +21,9 @@ export class PersonMenuResolver implements Resolve<MenuItem[]> {
         const items = [
             new MenuItem('Информация', `/persons/${id}`, 'info', true),
             ...(user.roles.includes(PkddRoles.expert) ? [
-                new MenuItem('Тест MMPI', `/persons/${id}/mmpi`, 'assessment', true),
-                new MenuItem('Цветовой тест', `/persons/${id}/luscher`, 'palette', true),
-                new MenuItem('Физиогномика', `/persons/${id}/physiognomy`, 'face', true),
+                new MenuItem('Шкалирование', `/persons/${id}/mmpi`, 'assessment', true),
+                // new MenuItem('Цветовой тест', `/persons/${id}/luscher`, 'palette', true),
+                // new MenuItem('Физиогномика', `/persons/${id}/physiognomy`, 'face', true),
             ] : []),
             ...(user.roles.includes(PkddRoles.tech) ? [
                 new MenuItem('Редактирование', `/persons/${id}/edit`, 'edit', true),

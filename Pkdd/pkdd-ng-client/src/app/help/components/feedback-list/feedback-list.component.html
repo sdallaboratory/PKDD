@@ -2,7 +2,7 @@
   <pkdd-feedback-form>
   </pkdd-feedback-form>
   <div class="question-title" *ngIf="issues?.length > 0">
-    Ранее оставленные заявки
+    Ранее оставленные обращения
   </div>
   <mat-expansion-panel #panel *ngFor="let issue of issues">
     <mat-expansion-panel-header>
@@ -13,14 +13,13 @@
         {{(!issue.title || (issue.title === '') ? 'Заголовок' : issue.title)}}
       </mat-panel-title>
       <mat-panel-description>
-        <mat-icon [matTooltip]="issue.isSolved ? 'Заявка была закрыта' : 'Заявка еще не была рассмотрена и закрыта'"
-          [ngStyle]="{'color': issue.isSolved ? 'green' : 'red'}">{{issue.isSolved ? 'check_circle' : 'highlight_off'}}
+        <mat-icon [matTooltip]="issue.isSolved ? 'Заявка была закрыта' : 'Ваше обращение в процессе рассмотрения'"
+          [ngStyle]="{'color': issue.isSolved ? 'green' : 'initial'}">{{issue.isSolved ? 'done' : 'watch_later'}}
         </mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="word-break-wrapper">
-      {{(!lastAnswer(issue) || (lastAnswer(issue).answerText === '') ? 'На данный момент на вашу заявку не ответили.
-      Дождитесь ответа администраторов' : lastAnswer(issue).answerText)}}
+      {{(!lastAnswer(issue) || (lastAnswer(issue).answerText === '') ? 'На данный момент на вашу заявку не ответили. Дождитесь ответа администраторов' : lastAnswer(issue).answerText)}}
     </div>
     <mat-action-row>
       <button mat-icon-button routerLink="{{user.id}}/{{issue.id}}">

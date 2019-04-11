@@ -1,0 +1,7 @@
+<mat-form-field appearance="fill">
+  <input matInput type="text" (input)="onInput($event)" [(ngModel)]="query" placeholder="Поиск...">
+  <button mat-icon-button matSuffix *ngIf="query != ''" (click)="onClear()">
+    <mat-icon matSuffix>clear</mat-icon>
+  </button>
+  <mat-icon matSuffix *ngIf="query == ''">search</mat-icon>
+</mat-form-field>

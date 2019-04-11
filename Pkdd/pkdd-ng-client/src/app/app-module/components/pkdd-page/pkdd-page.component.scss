@@ -9,7 +9,7 @@
 }
 
 .horizontal-flex {
-    flex: 0 1  100%;
+    flex: 0 1 100%;
     flex: auto;
     display: flex;
     flex-direction: row;
@@ -17,12 +17,13 @@
 }
 
 mat-sidenav-container {
-    overflow-y: auto;
+    overflow: hidden;
     flex: auto;
 }
 
 mat-sidenav-content {
     background: white;
+    overflow-x: hidden !important;
 }
 
 pkdd-top-menu {

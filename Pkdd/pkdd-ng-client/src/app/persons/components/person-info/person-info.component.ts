@@ -11,8 +11,8 @@ import { first } from 'rxjs/operators';
 })
 export class PersonInfoComponent implements OnInit {
 
-  public person: Person;
-  public contentBlocks: ContentBlock[];
+  public person!: Person;
+  public contentBlocks!: ContentBlock[];
 
   constructor(
     private route: ActivatedRoute,

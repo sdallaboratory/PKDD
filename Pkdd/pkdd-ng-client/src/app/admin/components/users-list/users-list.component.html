@@ -1,6 +1,14 @@
-<div class="wrapper">
-  <div class="list-wrapper">
-    <pkdd-user-create></pkdd-user-create>
-    <pkdd-user-card class="flex-card" *ngFor="let user of users" [user]="user"></pkdd-user-card>
-  </div>
-</div>
+<pkdd-search (queryChange)="onQueryChange($event)"></pkdd-search>
+<ng-container *ngIf="query == ''">
+    <h1>Создание пользователя</h1>
+    <pkdd-user-create (userCreated)="update()"></pkdd-user-create>
+</ng-container>
+<h1 *ngIf="isLoading">Загрузка списка пользователей...</h1>
+<ng-container *ngFor="let category of usersCategories">
+    <ng-container *ngIf="category.users.length">
+        <h1>{{category.name}} ({{category.users.length}})</h1>
+        <div class="users-section">
+            <pkdd-user-card *ngFor="let user of category.users" [user]="user"></pkdd-user-card>
+        </div>
+    </ng-container>
+</ng-container>

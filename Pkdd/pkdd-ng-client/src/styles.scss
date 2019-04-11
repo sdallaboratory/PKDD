@@ -2,6 +2,7 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
+
 html,
 body {
     width: 100%;
@@ -10,7 +11,6 @@ body {
     padding: 0;
     font-size: 14px;
     min-width: 320px;
-    // min-height: 500px;
     font-family: Helvetica, Arial, sans-serif;
     background: lightgray;
     overflow: hidden;
@@ -23,7 +23,7 @@ body {
 }
 
 a {
-    color: black;
+    color: rgb(0, 0, 0);
     text-decoration: none !important;
 }
 
@@ -42,4 +42,8 @@ a {
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
+}
+
+mat-icon {
+    vertical-align: middle;
 }

@@ -1,40 +1,42 @@
-<mat-card>
+<mat-card *ngIf="issue">
   <mat-card-title>
     Форма обратной свзязи
   </mat-card-title>
 
 
-  <mat-form-field class="type" *ngIf="issue">
+  <mat-form-field class="type">
     <mat-label>
-      Тип заявки
+      Тип обращения
     </mat-label>
-    <mat-select [disabled]="!issue" [(ngModel)]="issue.type">
-      <mat-option [value]="0">
-        Внести предложения
+    <mat-select [(ngModel)]="issue.type">
+      <mat-option [value]="3">
+        Задать вопрос
       </mat-option>
       <mat-option [value]="1">
         Сообщить об ошибке
+      </mat-option>
+      <mat-option [value]="0">
+        Внести предложения
       </mat-option>
       <mat-option [value]="2">
         Оставить отзыв
       </mat-option>
     </mat-select>
-    <!-- <mat-hint align="end">
-      Выберите из списка
-    </mat-hint> -->
   </mat-form-field>
-  <mat-form-field class="topic" *ngIf="issue">
+  <mat-form-field class="topic">
     <input required matInput [(ngModel)]="issue.title" placeholder="Тема">
   </mat-form-field>
   <mat-form-field *ngIf="issue" appearance="outline" class="text">
-    <mat-label>Текст заявки</mat-label>
-    <textarea required [disabled]="!issue" matInput [(ngModel)]="issue.question" placeholder="Текст заявки"></textarea>
+    <mat-label>Текст обращения</mat-label>
+    <textarea required [disabled]="!issue" matInput [(ngModel)]="issue.question"
+      placeholder="Введите текст обращения..."></textarea>
     <mat-hint *ngIf="window.currentDeviceType === 'pc'" align="end">Потяните, чтобы увеличить поле ввода</mat-hint>
   </mat-form-field>
   <mat-card-actions>
-    <button [disabled]="issue.question === '' || issue.title === ''" mat-icon-button (click)="onIssueAdd()">
+    <button [disabled]="issue.question === '' || issue.title === ''" mat-button (click)="onIssueAdd()">
+      Отправить обращение
       <mat-icon>
-        add
+        send
       </mat-icon>
     </button>
   </mat-card-actions>

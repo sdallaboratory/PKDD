@@ -6,8 +6,9 @@ namespace Pkdd.Models.Help
 {
     public enum IssueType
     {
-        Improvement,
-        Error,
-        Comment
+        Improvement = 0,
+        Error = 1,
+        Comment = 2,
+        Question = 3
     }
 }

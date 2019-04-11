@@ -1,7 +1,7 @@
 <div class="wrapper">
-  <h1>Тест MMPI</h1>
+  <h1>Шкалирование</h1>
   Изучите <a routerLink="..">информацию о персоне</a>, а затем при помощи перетягивания установите на соответсвующие
-  значения маркеры по каждой из 10 шкал MMPI. Если вам не удаётся перетянуть маркер, воспользуйтесь числовыми полями
+  значения маркеры по каждой из 10 шкал. Если вам не удаётся перетянуть маркер, воспользуйтесь числовыми полями
   для ввода под графиком.
   <div class="columns-container">
     <pkdd-chart [config]="chartConfig"></pkdd-chart>
@@ -16,7 +16,8 @@
         <div class="fields-group">
 
           <mat-form-field *ngFor="let key of keys">
-            <input type="number" [placeholder]="key" matInput [(ngModel)]="result?.mmpi[key]" (change)="onValueCahnged(key)">
+            <input type="number" [placeholder]="key" matInput [(ngModel)]="result?.mmpi[key]"
+              (change)="onValueCahnged(key)">
           </mat-form-field>
         </div>
 
