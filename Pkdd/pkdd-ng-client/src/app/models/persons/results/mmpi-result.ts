@@ -15,7 +15,7 @@ export class MmpiResult {
     ) { }
 
     public static get keys(): (keyof MmpiResult)[] {
-        return Object.keys(new MmpiResult()) as [];
+        return Object.keys(new MmpiResult()) as keyof MmpiResult[];
     }
 
     public static toNameValuePairs(mmpiResult: MmpiResult): { name: keyof MmpiResult, value: number }[] {
