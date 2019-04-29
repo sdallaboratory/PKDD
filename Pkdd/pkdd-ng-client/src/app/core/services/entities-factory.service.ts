@@ -180,10 +180,11 @@ export class EntitiesFactoryService {
       name: `Новая персона ${id}`,
       sex: Sexes.Undefined,
       birthday: new Date(),
-      position: 'Неопределена',
+      position: '',
       photoUrl: '',
       isPublished: false,
-      priority: Priority.usual
+      priority: Priority.usual,
+      resultsCount: 0,
     };
     const baseBioBlock = new BaseBioBlock({
       id: 0,

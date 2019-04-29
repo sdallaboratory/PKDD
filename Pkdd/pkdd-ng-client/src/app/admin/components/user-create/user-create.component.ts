@@ -65,7 +65,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   private createNewUserModel() {
-    return new UserCreateModel('', 0, '', '', [], false, false, new TimeTrack(new Date(), new Date(), new Date()), false);
+    return new UserCreateModel('', 0, '', '', [], false, false, new TimeTrack(new Date(), new Date(), new Date()), false, 0);
   }
 
 }

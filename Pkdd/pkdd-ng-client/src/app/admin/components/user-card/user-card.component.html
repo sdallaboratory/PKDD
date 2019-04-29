@@ -5,6 +5,9 @@
   <div class="text-block">
     <mat-icon>email</mat-icon> {{user.email}}
   </div>
+  <div class="text-block" *ngIf="user.resultsCount">
+    <mat-icon>assessment</mat-icon> {{user.resultsCount}} (оценки)
+  </div>
   <div class="flex-space"></div>
   <div class="chips-wrapper">
     <mat-chip-list [multiple]="true" [disabled]="user.isBaseUser">

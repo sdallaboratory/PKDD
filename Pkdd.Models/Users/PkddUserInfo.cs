@@ -20,6 +20,8 @@ namespace Pkdd.Models.Users
         public bool IsBaseUser { get; set; }
 
         public List<string> Roles { get; set; }
+
+        public int ResultsCount { get; set; }
     }
-    
+
 }

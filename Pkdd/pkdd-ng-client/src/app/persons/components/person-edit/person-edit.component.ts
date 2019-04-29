@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PersonResolverModel } from './../../resolvers/resolvers-models/person-resolver-model';
 import { ContentBlock } from './../../../models/entities/content-block';
 import { Component, OnInit } from '@angular/core';
@@ -10,6 +10,7 @@ import { EntitiesFactoryService } from '../../../core/services/entities-factory.
 import { Sexes } from '../../../models/entities/enums/sexes';
 import { WindowService } from 'src/app/core/services/window.service';
 import { NotificatorService } from 'src/app/notification/services/notificator.service';
+import { ConfirmService } from 'src/app/core/services/confirm.service';
 
 @Component({
   selector: 'pkdd-person-edit',
@@ -30,7 +31,9 @@ export class PersonEditComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly storage: ServerDataStorageService,
     public readonly window: WindowService,
-    private readonly notificator: NotificatorService
+    private readonly notificator: NotificatorService,
+    private readonly router: Router,
+    private readonly confirm: ConfirmService
   ) { }
 
   async ngOnInit() {
@@ -65,4 +68,16 @@ export class PersonEditComponent implements OnInit {
     // TODO: handle errors
   }
 
+  public async delete() {
+    if (! await this.confirm.confirm(`Вы уверены, что хотите безвовзратно удалить персону ${this.person.name}`)) {
+      return;
+    }
+    const deleting = this.storage.deletePerson(this.person.id);
+    await this.notificator.trackPromise(deleting, {
+      showProgress: true,
+      failMessage: 'При удалении персоны произошла ошибка',
+      successMessage: `Персона ${this.person.name} успешно удалена.`
+    });
+    await this.router.navigateByUrl('/persons');
+  }
 }

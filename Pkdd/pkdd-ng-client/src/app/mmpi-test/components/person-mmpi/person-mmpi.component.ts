@@ -7,6 +7,8 @@ import { EnvironmentService } from 'src/app/core/services/environment.service';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
 import { ConfirmService } from 'src/app/core/services/confirm.service';
 import { NotificatorService } from 'src/app/notification/services/notificator.service';
+import { MmpiScalePipe } from 'src/app/core/pipes/mmpi-scale.pipe';
+import { TruncatePipe } from 'src/app/core/pipes/truncate.pipe';
 
 @Component({
   selector: 'pkdd-person-mmpi',
@@ -37,6 +39,8 @@ export class PersonMmpiComponent implements OnInit {
     private readonly env: EnvironmentService,
     private readonly confirmer: ConfirmService,
     private readonly notificator: NotificatorService,
+    private readonly scaleName: MmpiScalePipe,
+    private readonly truncate: TruncatePipe
   ) { }
 
   async ngOnInit() {
@@ -49,9 +53,10 @@ export class PersonMmpiComponent implements OnInit {
     this.chartConfig = <PkddChartConfiguration>{
       type: 'line',
       data: {
-        labels: MmpiResult.keys,
+        labels: MmpiResult.keys.map(k => this.scaleName.transform(k))
+          .map(k => this.truncate.transform(k, 13, false)),
         datasets: [{
-          data: MmpiResult.toArray(this.result.mmpi), // this.scales.map(scale => scale.value),
+          data: MmpiResult.toArray(this.result.mmpi),
           borderWidth: 6,
           pointRadius: 8,
           pointHoverRadius: 20,
@@ -59,7 +64,7 @@ export class PersonMmpiComponent implements OnInit {
           backgroundColor: 'purple',
           borderColor: 'purple',
           pointHoverBackgroundColor: 'yellow',
-          pointHoverBorderWidth: 1
+          pointHoverBorderWidth: 3
         }]
       },
       options: {
@@ -91,33 +96,40 @@ export class PersonMmpiComponent implements OnInit {
           dragData: true,
         },
         responsive: true,
-        annotation: {
-          annotations: [{
-            drawTime: 'beforeDatasetsDraw',
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: 50,
-            borderColor: 'black',
-            borderWidth: 1,
-            label: {
-              enabled: true,
-              content: '50'
-            }
-          }]
-        }
+        // annotation: {
+        //   annotations: [{
+        //     drawTime: 'beforeDatasetsDraw',
+        //     type: 'line',
+        //     mode: 'horizontal',
+        //     scaleID: 'y-axis-0',
+        //     value: 50,
+        //     borderColor: 'black',
+        //     borderWidth: 1,
+        //     label: {
+        //       enabled: true,
+        //       content: '50'
+        //     }
+        //   }]
+        // }
       },
       dragData: true,
+      dragDataRound: 0,
       onDragStart: (e) => {
-        console.log(e);
+        document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'hidden';
+        console.log('Dragging is started');
         e.stopPropagation();
-        document.ontouchmove = (event) => {
+        document.querySelector<HTMLDivElement>('.mat-drawer-content').ontouchmove = (event) => {
           console.log(event);
           event.stopPropagation();
           event.preventDefault();
         };
       },
-      onDragEnd: () => this.updateValues()
+      onDragEnd: () => {
+        console.log('Dragging is ended');
+        document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'auto';
+        this.updateValues();
+      },
+      onDrag: () => { }
     };
 
   }
@@ -130,7 +142,7 @@ export class PersonMmpiComponent implements OnInit {
     data.forEach((val, i) => {
       data[i] = +val.toFixed(0);
     });
-    MmpiResult.getBasicKeys().forEach((key, i) => {
+    MmpiResult.keys.forEach((key, i) => {
       this.result.mmpi[key] = data[i];
       this.ensureValid(key);
     });

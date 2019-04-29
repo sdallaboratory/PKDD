@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SexTypePipe } from './pipes/sex-type.pipe';
 import { CoreModule } from '../core/core.module';
+import { SearchModule } from '../search/search.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { CoreModule } from '../core/core.module';
     FormsModule,
     BrowserModule,
     MDBBootstrapModule,
+    SearchModule,
   ],
   declarations: [
     PersonsListComponent,
@@ -60,6 +62,6 @@ import { CoreModule } from '../core/core.module';
     AddCardComponent,
     ContentComponent,
     SexTypePipe,
-    ],
+  ],
 })
 export class PersonsModule { }

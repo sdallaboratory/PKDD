@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pkdd.Database;
 using Pkdd.Models.Users;
 
 namespace Pkdd.Users
@@ -10,15 +11,22 @@ namespace Pkdd.Users
     class PkddUsersRepository : IPkddUserRepository
     {
         private readonly IPkddUserManager users;
+        private readonly PkddDbContext context;
 
-        public PkddUsersRepository(IPkddUserManager users)
+        public PkddUsersRepository(IPkddUserManager users, PkddDbContext context)
         {
             this.users = users;
+            this.context = context;
         }
 
         public async Task<List<PkddUserInfo>> GetAllAsync()
         {
             List<PkddUserInfo> resultUsers = await ToPkddUsersInfoAsync(await users.FindAllAsync());
+            var results = context.TestResults.ToList();
+            foreach (var user in resultUsers)
+            {
+                user.ResultsCount = results.Where(tr => tr.PkddUserId == user.Id).Count();
+            }
             return resultUsers;
         }
 

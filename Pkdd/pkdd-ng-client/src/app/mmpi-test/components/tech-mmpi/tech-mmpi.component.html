@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <h1>Результаты теста MMPI</h1>
+  <h1>Результаты шкалирования</h1>
   <!-- <span *ngIf="!emitter?.results?.length">
     Ни один эксперт ещё не успел оценить эту персону. При появлении оценки график обновится автоматически.
   </span> -->
@@ -8,5 +8,5 @@
   </span> -->
   <pkdd-chart [config]="chartConfig"></pkdd-chart>
   <pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
-      <pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
+  <pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
 </div>

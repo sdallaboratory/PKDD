@@ -2,6 +2,7 @@
 using Pkdd.Abstractions;
 using Pkdd.Abstractions.Entity;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pkdd.Models.Users
 {
@@ -21,12 +22,12 @@ namespace Pkdd.Models.Users
 
         // TODO: Remove duplicated property
         public string FullName { get; set; }
-
+        
         public DateTime Birthdate { get; set; }
 
         public void FillUserName()
         {
-            UserName = Email + DateTime.Now.Millisecond;
+            UserName = Email;
         }
 
         public PkddUser Update(PkddUser source)
