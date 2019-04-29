@@ -60,6 +60,7 @@ namespace Pkdd.Users
         public async Task BanAsync(PkddUser user)
         {
             user.IsBanned = true;
+            await _userManager.ResetAuthenticatorKeyAsync(user);
             await UpdateAsync(user);
         }
 
