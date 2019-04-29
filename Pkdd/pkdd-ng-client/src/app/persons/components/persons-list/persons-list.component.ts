@@ -5,6 +5,7 @@ import { Person } from '../../../models/entities/person';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ServerDataStorageService } from '../../../core/services/server-data-storage.service';
 import { RouteDataProviderService } from '../../../core/services/route-data-provider.service';
+import { SearchService } from 'src/app/search/services/search.service';
 
 @Component({
   selector: 'pkdd-persons-list',
@@ -14,23 +15,37 @@ import { RouteDataProviderService } from '../../../core/services/route-data-prov
 })
 export class PersonsListComponent implements OnInit {
 
-  public persons: Person[];
-  public blocks: ContentBlock[];
+  public query = '';
+
+  public persons: Person[] = [];
+  public filteredPersons: Person[] = [];
+  public blocks: ContentBlock[] = [];
 
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly storage: ServerDataStorageService,
-    private readonly data: RouteDataProviderService
+    private readonly data: RouteDataProviderService,
+    private readonly search: SearchService
   ) { }
 
   async ngOnInit() {
     this.persons = await this.data.get<Person[]>('persons');
+    this.update();
   }
 
   public async onAdd() {
     const person = await this.storage.addPerson();
     this.router.navigate([`persons/${person.id}/edit`]);
+  }
+
+  public update() {
+    this.filteredPersons = this.search.search(this.persons, this.query);
+  }
+
+  public async onQueryChange(newQuery: string) {
+    this.query = newQuery;
+    await this.update();
   }
 
 }

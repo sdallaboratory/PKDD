@@ -7,6 +7,7 @@ import { CopyrightComponent } from './components/copyright/copyright.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MenuNoItems } from './resolvers/menu-no-items';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { MmpiScalePipe } from './pipes/mmpi-scale.pipe';
 
 @NgModule({
   imports: [
@@ -17,15 +18,19 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     EnvironmentService,
     MenuService,
     WindowService,
-    MenuNoItems
+    MenuNoItems,
+    MmpiScalePipe,
+    TruncatePipe,
   ],
   declarations: [
     CopyrightComponent,
-    TruncatePipe
+    TruncatePipe,
+    MmpiScalePipe,
   ],
   exports: [
     CopyrightComponent,
-    TruncatePipe
+    TruncatePipe,
+    MmpiScalePipe,
   ]
 })
 export class CoreModule { }

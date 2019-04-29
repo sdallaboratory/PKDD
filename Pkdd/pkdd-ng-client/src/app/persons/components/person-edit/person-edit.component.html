@@ -9,7 +9,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>
-          Ссылка на основное фото
+        Ссылка на основное фото
       </mat-label>
       <input matInput [(ngModel)]="person.photoUrl" placeholder="Вставьте ссылку сюда...">
     </mat-form-field>
@@ -53,6 +53,11 @@
     </button>
     <button *ngIf="!person.isPublished" mat-raised-button (click)="togglePublished()">
       <mat-icon>send</mat-icon> Опубликовать
+    </button>
+  </div>
+  <div class="buttons">
+    <button mat-button (click)="delete()">
+      <mat-icon>delete_forever</mat-icon> Удалить
     </button>
   </div>
 </div>

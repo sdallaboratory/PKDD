@@ -80,10 +80,17 @@ namespace Pkdd.Repositories
 
         public async Task<List<Person>> GetAllPersons()
         {
-            // TODO: Remove unnecessary variable
             try
             {
-                return await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync() ?? new List<Person>();
+                var persons = _dbContext.Persons.Include(p => p.BioBlock)
+                    .OrderByDescending(p => p.TimeTrack.Created)
+                    .OrderByDescending(p => p.Priority)
+                    .ToList() ?? new List<Person>();
+                foreach (var person in persons)
+                {
+                    person.ResultsCount = _dbContext.TestResults.Where(tr => tr.PersonId == person.Id).Count();
+                }
+                return persons;
             }
             catch (Exception ex)
             {
@@ -92,11 +99,15 @@ namespace Pkdd.Repositories
         }
 
         // TODO: Puts here user instance and return persons from his scope.
-        public Task<List<Person>> GetPersonsForExpert()
+        public async Task<List<Person>> GetPersonsForExpert()
         {
             try
             {
-                return _dbContext.Persons.Where(person => person.IsPublished).Include(p => p.BioBlock).ToListAsync();
+                return _dbContext.Persons.Include(p => p.BioBlock)
+                    .OrderByDescending(p => p.TimeTrack.Created)
+                    .OrderByDescending(p => p.Priority)
+                    .Where(p => p.IsPublished && !p.IsDeleted).ToList()
+                    .ToList() ?? new List<Person>();
             }
             catch (Exception ex)
             {

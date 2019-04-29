@@ -16,6 +16,7 @@ import { TechMmpiService } from '../../services/tech-mmpi.service';
 import { TotalPlot } from '../../models/total-plot';
 import { ReductionStrategies } from '../../models/reduction-strategies';
 import { MmpiPlot } from '../../models/mmpi-plot';
+import { MmpiScalePipe } from 'src/app/core/pipes/mmpi-scale.pipe';
 
 @Component({
   selector: 'pkdd-tech-mmpi',
@@ -36,7 +37,8 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     public readonly window: WindowService,
     private readonly env: EnvironmentService,
     private readonly processor: ResultProcessorService,
-    public readonly plots: TechMmpiService
+    public readonly plots: TechMmpiService,
+    private readonly scaleName: MmpiScalePipe,
   ) { }
 
   async ngOnInit() {
@@ -63,7 +65,7 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     this.chartConfig = {
       type: 'line',
       data: {
-        labels: MmpiResult.keys,
+        labels: MmpiResult.keys.map(k => this.scaleName.transform(k)),
         datasets: [
           {
             label: 'Среднее арифметическое',
@@ -105,14 +107,31 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
           xAxes: [
             {
               ticks: {
-                autoSkip: false
+                autoSkip: false,
+                maxRotation: 75,
+                minRotation: 75
               }
             }
           ]
         },
         responsive: true,
+        annotation: {
+          annotations: [{
+            drawTime: 'beforeDatasetsDraw',
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 50,
+            borderColor: 'black',
+            borderWidth: 1,
+            label: {
+              enabled: true,
+              content: '50'
+            }
+          }]
+        }
       },
-    };
+    } as PkddChartConfiguration;
   }
 
   private updateChart() {

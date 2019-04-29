@@ -1,7 +1,8 @@
-<div class="wrapper">
-  <mat-card class="add-card">
+<mat-card class="add-card">
+  <mat-card-content>
+
     <mat-card-title>
-      Новый пользователь
+      Создание пользователя
     </mat-card-title>
     <!-- <mat-card-content> -->
     <mat-form-field>
@@ -25,10 +26,10 @@
         Эксперт
       </mat-chip>
     </mat-chip-list>
-    <mat-card-actions>
-      <button mat-button (click)="onAdd()">
-        <mat-icon>person_add</mat-icon> Создать
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="onAdd()">
+      <mat-icon>person_add</mat-icon> Создать
+    </button>
+  </mat-card-actions>
+</mat-card>

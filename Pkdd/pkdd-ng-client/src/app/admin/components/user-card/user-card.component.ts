@@ -47,8 +47,8 @@ export class UserCardComponent implements OnInit {
     }
   }
 
-  public delete() {
-    this.repos.deleteUser(this.user.id);
+  public async delete() {
+    await this.repos.deleteUser(this.user.id)
   }
 
   public isInRole(role: PkddRoles | string) {

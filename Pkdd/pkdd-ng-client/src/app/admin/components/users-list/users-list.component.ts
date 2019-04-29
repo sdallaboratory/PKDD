@@ -65,7 +65,6 @@ export class UsersListComponent implements OnInit {
 
   public async onQueryChange(newQuery: string) {
     this.query = newQuery;
-    console.log(this.query, this.search);
     await this.update();
   }
 
