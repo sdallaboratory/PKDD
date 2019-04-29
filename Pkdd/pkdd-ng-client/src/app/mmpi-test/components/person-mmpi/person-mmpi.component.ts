@@ -96,36 +96,33 @@ export class PersonMmpiComponent implements OnInit {
           dragData: true,
         },
         responsive: true,
-        // annotation: {
-        //   annotations: [{
-        //     drawTime: 'beforeDatasetsDraw',
-        //     type: 'line',
-        //     mode: 'horizontal',
-        //     scaleID: 'y-axis-0',
-        //     value: 50,
-        //     borderColor: 'black',
-        //     borderWidth: 1,
-        //     label: {
-        //       enabled: true,
-        //       content: '50'
-        //     }
-        //   }]
-        // }
+        annotation: {
+          annotations: [{
+            drawTime: 'beforeDatasetsDraw',
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 50,
+            borderColor: 'black',
+            borderWidth: 1,
+            label: {
+              enabled: true,
+              content: '50'
+            }
+          }]
+        }
       },
       dragData: true,
       dragDataRound: 0,
       onDragStart: (e) => {
         document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'hidden';
-        console.log('Dragging is started');
         e.stopPropagation();
         document.querySelector<HTMLDivElement>('.mat-drawer-content').ontouchmove = (event) => {
-          console.log(event);
           event.stopPropagation();
           event.preventDefault();
         };
       },
       onDragEnd: () => {
-        console.log('Dragging is ended');
         document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'auto';
         this.updateValues();
       },

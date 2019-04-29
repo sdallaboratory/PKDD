@@ -1,5 +1,6 @@
 <mat-form-field *ngIf="edit" [floatLabel]="'never'">
-    <textarea #field matInput [(ngModel)]="content.content" [matTextareaAutosize]="true" maxlength="1000" placeholder="Введите ваш текст..."></textarea>
+    <textarea #field matInput [(ngModel)]="content.content" [matTextareaAutosize]="true" maxlength="1000"
+        placeholder="Введите ваш текст..." cdkTextareaAutosize cdkAutosizeMinRows="3"></textarea>
     <mat-hint>{{content?.content?.length || 0}} / 1000</mat-hint>
     <mat-error *ngIf="(content?.content?.length || 0) >= 1000">Достигнут лимит символов в текстовом поле</mat-error>
 </mat-form-field>

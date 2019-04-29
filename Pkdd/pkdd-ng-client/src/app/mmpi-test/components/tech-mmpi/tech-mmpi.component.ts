@@ -107,12 +107,14 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
           xAxes: [
             {
               ticks: {
-                autoSkip: false
+                autoSkip: false,
+                maxRotation: 75,
+                minRotation: 75
               }
             }
           ]
         },
-        responsive: false,
+        responsive: true,
         annotation: {
           annotations: [{
             drawTime: 'beforeDatasetsDraw',

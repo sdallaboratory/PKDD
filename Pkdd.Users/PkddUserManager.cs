@@ -142,7 +142,7 @@ namespace Pkdd.Users
         {
             try
             {
-                return await _context.Users.ToListAsync();
+                return await _context.Users.Where(u => !u.IsDeleted).ToListAsync();
             }
             catch (Exception)
             {
