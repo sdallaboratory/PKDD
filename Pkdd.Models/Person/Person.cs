@@ -44,6 +44,7 @@ namespace Pkdd.Models.Persons
             Position = entity.Position;
             IsPublished = entity.IsPublished;
             PhotoUrl = entity.PhotoUrl;
+            Views = entity.Views;
             this.MarkUpdated();
             return this;
         }
