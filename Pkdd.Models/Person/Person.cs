@@ -34,6 +34,8 @@ namespace Pkdd.Models.Persons
         [NotMapped]
         public int ResultsCount { get; set; }
 
+        public int Views { get; set; }
+
         public override Person Update(Person entity)
         {
             Name = entity.Name;

@@ -15,6 +15,7 @@ export const environment: Configuration = {
   ],
   version: 'v.0.0',
   developers: 'Батин, Соловьев & Гончаров',
+  owners: 'МГТУ им Н.Э. Баумана и РАНХиГС',
   productName: 'ПКДД',
   backendOrigins: [''],
   mmpiResultMaxValue: 120,

@@ -5,4 +5,5 @@ export class TimeTrack {
         public updated: Date,
         public deleted: Date
     ) { }
+
 }

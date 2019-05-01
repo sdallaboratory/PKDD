@@ -65,7 +65,6 @@ export class PersonEditComponent implements OnInit {
   public togglePublished() {
     this.person.isPublished = !this.person.isPublished;
     this.saveAll();
-    // TODO: handle errors
   }
 
   public async delete() {

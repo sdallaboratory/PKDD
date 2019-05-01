@@ -1,44 +1,48 @@
-<mat-card [style.backgroundImage]="backgroundImage">
-  <!-- <div class="wrapper" [style.backgroundImage]="backgroundImage"> -->
+<mat-card>
+  <div class="info">
+    {{ person.timeTrack.created | date : 'dd.MM.yy HH:mm' }}
+    <div class="flex-splitter"></div>
+    <mat-icon [inline]="true" #views>visibility</mat-icon> &nbsp; {{ person.views }}
+  </div>
 
-  <mat-card-title>
-    {{person.name | truncate : 70 : true}}
-    <span *ngIf="!person.isPublished" style="color: red;">(Не опубликован)</span>
-  </mat-card-title>
-  <!-- <mat-card-content>
-  </mat-card-content> -->
-  <div class="flex-splitter"></div>
-  <mat-card-actions>
-    <div class="action">
-      <a matTooltip="Перейти в профиль персоны для просмотра информации" [routerLink]="'/persons/' + person.id">
+  <div class="flex-splitter photo-bg" [style.backgroundImage]="backgroundImage">
+    <h2 class="title">
+      {{person.name | truncate : 70 : true}}
+      <span *ngIf="!person.isPublished" style="color: red;">(Не опубликован)</span>
+    </h2>
+  </div>
+  <div class="actions">
+    <a matTooltip="Перейти в профиль персоны для просмотра информации" [routerLink]="'/persons/' + person.id"
+      class="action">
+      <button mat-icon-button>
         <mat-icon>info_outlined</mat-icon>
-      </a>
-    </div>
-    <div class="action">
-      <a *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны"
-        [routerLink]="'/persons/' + person.id + '/mmpi'">
+      </button>
+    </a>
+    <a *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны" class="action"
+      [routerLink]="'/persons/' + person.id + '/mmpi'">
+      <button mat-icon-button>
         <mat-icon>assessment</mat-icon>
-      </a>
-    </div>
-    <div class="action">
-      <a *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами"
-        [routerLink]="'/persons/' + person.id + '/results'" [matBadge]="person.resultsCount"
-        [matBadgeHidden]="!person.resultsCount">
-        <mat-icon>assignment_turned_in</mat-icon>
-      </a>
-    </div>
-    <div class="action">
-      <a *pkddForRoles="'tech'" matTooltip="Перейти в интерфейс редактирования профиля персоны"
-        [routerLink]="'/persons/' + person.id + '/edit'">
+      </button>
+    </a>
+    <a *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами" class="action"
+      [routerLink]="'/persons/' + person.id + '/results'">
+      <button mat-icon-button>
+        <mat-icon [matBadge]="person.resultsCount" [matBadgeHidden]=" !person.resultsCount ">assignment_turned_in
+        </mat-icon>
+      </button>
+    </a>
+    <a *pkddForRoles="'tech'" matTooltip="Перейти в интерфейс редактирования профиля персоны" class="action"
+      [routerLink]="'/persons/' + person.id + '/edit'">
+      <button mat-icon-button>
         <mat-icon>edit</mat-icon>
-      </a>
-    </div>
-    <!-- <div class="action">
-      <div (click)="onDelete()" class="action" *pkddForRoles="'tech'" matTooltip="Удалить персону из системы">
+      </button>
+    </a>
+    <!-- <button mat-icon-button >
+      <div (click)="onDelete()"  *pkddForRoles="'tech'" matTooltip="Удалить персону из системы">
         <mat-icon>delete_forever</mat-icon>
       </div>
     </div> -->
-  </mat-card-actions>
+  </div>
 </mat-card>
 <!-- </div> -->
 

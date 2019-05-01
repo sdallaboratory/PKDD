@@ -17,6 +17,7 @@ abstract class AbstractPerson implements IEntity {
     public isPublished: boolean;
     public priority: Priority;
     public resultsCount: number;
+    public views: number;
 
     constructor(person: AbstractPerson) {
         this.id = person.id;
@@ -30,6 +31,7 @@ abstract class AbstractPerson implements IEntity {
         this.isPublished = person.isPublished;
         this.priority = person.priority;
         this.resultsCount = person.resultsCount;
+        this.views = person.views;
     }
 }
 
