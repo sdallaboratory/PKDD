@@ -10,6 +10,8 @@ export interface Configuration {
 
     developers: string;
 
+    owners: string;
+
     productName: string;
 
     backendOrigins: string[];

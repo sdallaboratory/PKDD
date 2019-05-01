@@ -10,6 +10,7 @@ import { MaterialImportsModule } from '../material-imports/material-imports.modu
 import { CoreModule } from '../core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ForRolesDirective } from './directives/for-roles.directive';
+import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ForRolesDirective } from './directives/for-roles.directive';
     MaterialImportsModule,
     AuthRoutingModule,
     HttpClientModule,
+    LayoutModule
   ],
   declarations: [
     AuthPageComponent,

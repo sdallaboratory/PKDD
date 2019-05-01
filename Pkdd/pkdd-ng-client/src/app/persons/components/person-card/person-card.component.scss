@@ -2,43 +2,32 @@ mat-card,
 .wrapper {
     display: flex;
     flex-direction: column;
-    max-height: 395px;
+    height: 50vh;
     min-height: 270px;
-    height: 60vh;
+    max-height: 395px;
     width: 280px;
+    padding: 0;
+}
+
+.photo-bg {
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
-    padding: 0;
-    transition-duration: 0.3s;
-    transition-duration: 0.3s;
+
 }
 
-mat-card-title {
-    background: linear-gradient(180deg, rgba(230, 230, 230, 0.9), rgba(230, 230, 230, 0.75), rgba(230, 230, 230, 0) 100%);
-    padding: 20px;
-    padding-bottom: 60px;
-    padding-bottom: 60px;
+.title {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 100%);
+    padding: 10px 20px 50px 20px;
 }
 
-mat-card-actions {
-    margin: 0px !important;
-    padding: 20px !important;
-    padding-top: 60px !important;
-    background: linear-gradient(0deg, rgba(230, 230, 230, 0.9), rgba(230, 230, 230, 0.68), rgba(230, 230, 230, 0) 100%);
+.info {
+    padding: 10px 20px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap !important;
-    justify-content: flex-end;
-    align-items: flex-end;
-    width: 100%;
 }
 
-.action {
-    flex: 0 1 50px;
-    cursor: pointer;
-}
-
-mat-icon {
-    font-size: 35px;
+.actions {
+    background: white;
+    padding: 10px;
+    // display: flex;
 }

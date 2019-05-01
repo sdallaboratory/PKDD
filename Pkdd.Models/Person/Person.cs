@@ -34,6 +34,8 @@ namespace Pkdd.Models.Persons
         [NotMapped]
         public int ResultsCount { get; set; }
 
+        public int Views { get; set; }
+
         public override Person Update(Person entity)
         {
             Name = entity.Name;
@@ -42,6 +44,7 @@ namespace Pkdd.Models.Persons
             Position = entity.Position;
             IsPublished = entity.IsPublished;
             PhotoUrl = entity.PhotoUrl;
+            Views = entity.Views;
             this.MarkUpdated();
             return this;
         }

@@ -25,7 +25,12 @@ export class EntitiesFactoryService {
       throw new Error('Empty person');
     }
     const newPersons = [];
-    persons.forEach(p => {
+    persons.map(p => {
+      p.timeTrack.deleted = new Date(p.timeTrack.deleted);
+      p.timeTrack.updated = new Date(p.timeTrack.updated);
+      p.timeTrack.created = new Date(p.timeTrack.created);
+      return p;
+    }).forEach(p => {
       newPersons.push(this.createPerson(p));
     });
     return newPersons;
@@ -185,6 +190,7 @@ export class EntitiesFactoryService {
       isPublished: false,
       priority: Priority.usual,
       resultsCount: 0,
+      views: 0,
     };
     const baseBioBlock = new BaseBioBlock({
       id: 0,

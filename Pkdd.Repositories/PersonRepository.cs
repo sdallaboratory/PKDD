@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Pkdd.Database;
+using Pkdd.Models.Persons;
+using Pkdd.Repositories.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Pkdd.Database;
-using Pkdd.Models.Persons;
-using Pkdd.Models.Persons.Enums;
-using Pkdd.Repositories.Exceptions;
 
 namespace Pkdd.Repositories
 {
@@ -162,20 +159,19 @@ namespace Pkdd.Repositories
 
         public async Task<Person> GetPerson(int id)
         {
-            Person person = null;
             try
             {
-                person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync();
-                if (person == null)
-                {
-                    throw new NotFoundException("Сущность не найдена");
-                }
+                var person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync()
+                    ?? throw new NotFoundException("Сущность не найдена");
+                person.Views++;
+                // TODO: А зачем тут собсн ожидание??))
+                await _dbContext.SaveChangesAsync();
+                return person;
             }
             catch (Exception ex)
             {
                 throw MakeException(ex);
             }
-            return person;
         }
 
         public async Task RemoveContentBlock(int id)

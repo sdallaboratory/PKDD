@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EnvironmentService } from '../../services/environment.service';
+import { EnvironmentService } from 'src/app/core/services/environment.service';
 
 @Component({
   selector: 'pkdd-copyright',
