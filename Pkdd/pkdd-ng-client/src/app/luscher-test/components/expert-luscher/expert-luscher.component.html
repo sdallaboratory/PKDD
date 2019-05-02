@@ -1,0 +1,20 @@
+<div class="wrapper" *ngIf="result">
+
+  <h2>Цветовой тест</h2>
+
+
+  <div *ngIf="result.luscherComplete; else test">
+    <p>
+      Вы уже прошли цветовой тест Люшера. При необходимости внести изменения в результат, удалите свою оценку и пройдите
+      тест заново.
+    </p>
+    <pkdd-tech-luscher></pkdd-tech-luscher>
+    <div>
+      <button mat-raised-button (click)="onDelete()">
+        <mat-icon>delete_forever</mat-icon> Удалить оценку
+      </button></div>
+  </div>
+  <ng-template #test>
+    <pkdd-luscher-test (complete)="onComplete($event)"></pkdd-luscher-test>
+  </ng-template>
+</div>

@@ -27,6 +27,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   public ngAfterViewInit() {
     this.canvasContext = this.canvas.nativeElement.getContext('2d');
+    this.ngOnChanges();
   }
 
   ngOnChanges() {
@@ -45,11 +46,13 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.config.onDragEnd) {
       (<any>this.config.options).onDragEnd = this.config.onDragEnd;
     }
-    if (this.config.onDragEnd) {
+    if (this.config.onDragStart) {
       (<any>this.config.options).onDragStart = this.config.onDragStart;
     }
     this.chart = new Chart(this.canvasContext, this.config);
+    console.log('built');
     this.config.update = () => this.chart.update();
+
   }
 
 }

@@ -13,11 +13,12 @@ import { PersonResultsComponent } from './components/person-results/person-resul
 import { PersonMenuResolver } from './resolvers/person-menu-resolver';
 import { PersonsResolverService } from './resolvers/persons-resolver.service';
 import { PersonMmpiComponent } from '../mmpi-test/components/person-mmpi/person-mmpi.component';
-import { ResultsResolverService } from '../mmpi-test/resolvers/results-resolver.service';
+import { ResultsResolverService } from '../test/resolvers/results-resolver.service';
 import { PersonResolverService } from './resolvers/person-resolver.service';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { PkddRoles } from '../models/auth/pkdd-roles.enum';
 import { PkddRouteData } from '../models/common/pkdd-route-data';
+import { ExpertLuscherComponent } from '../luscher-test/components/expert-luscher/expert-luscher.component';
 
 const personsRoutes: Routes = [
   {
@@ -65,7 +66,8 @@ const personsRoutes: Routes = [
               data: { roles: [PkddRoles.tech] }
             },
             {
-              path: 'luscher', component: PersonLuscherComponent,
+              path: 'luscher', component: ExpertLuscherComponent,
+              resolve: { results: ResultsResolverService },
               data: { roles: [PkddRoles.expert] }
             },
             {

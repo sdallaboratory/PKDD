@@ -28,6 +28,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SexTypePipe } from './pipes/sex-type.pipe';
 import { CoreModule } from '../core/core.module';
 import { SearchModule } from '../search/search.module';
+import { LuscherTestModule } from '../luscher-test/luscher-test.module';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { SearchModule } from '../search/search.module';
     CoreModule,
     PersonsRoutingModule,
     MmpiTestModule,
+    LuscherTestModule,
     LayoutModule,
     FormsModule,
     BrowserModule,
