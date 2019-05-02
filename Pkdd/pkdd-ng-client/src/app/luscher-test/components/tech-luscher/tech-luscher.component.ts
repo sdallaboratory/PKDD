@@ -1,18 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { TestResult } from 'src/app/models/persons/results/test-result';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
 import { LuscherColorPipe } from 'src/app/core/pipes/luscher-color.pipe';
-import { colors } from '../../data/colors';
+import { colors, colorsNames } from '../../data/colors';
 import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { MmpiScalePipe } from 'src/app/core/pipes/mmpi-scale.pipe';
 import { EnvironmentService } from 'src/app/core/services/environment.service';
+import { LuscherResultProcessorService } from '../../services/luscher-result-processor.service';
 
 @Component({
   selector: 'pkdd-tech-luscher',
   templateUrl: './tech-luscher.component.html',
   styleUrls: ['./tech-luscher.component.scss']
 })
-export class TechLuscherComponent implements OnInit {
+export class TechLuscherComponent implements OnInit, OnChanges {
 
   @Input()
   public results: TestResult[];
@@ -21,57 +22,53 @@ export class TechLuscherComponent implements OnInit {
 
   constructor(
     private readonly color: LuscherColorPipe,
-    private readonly scaleName: MmpiScalePipe,
-    private readonly env: EnvironmentService
+    private readonly processor: LuscherResultProcessorService,
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.initChartConfig();
-
-    console.log(this.chartConfig);
   }
 
-  // ngOnChange() {
-  //   this.chartConfig.data.datasets.push({
-  //     label: 'Dataset 1',
-  //     backgroundColor: 'red',
-  //     borderWidth: 1,
-  //     data: [
-  //       0, 1, 2, 3, 4, 5, 6, 7
-  //     ],
-  //   });
-  // }
+  public ngOnChanges() {
+    if (!this.results || !this.chartConfig) {
+      return;
+    }
+    if (!this.chartConfig.data.datasets[0]) {
+      this.chartConfig.data.datasets[0] = this.makeAverageData();
+    } else {
+      const newAverage = this.makeAverageData().data;
+      newAverage.forEach((val, i) => {
+        this.chartConfig.data.datasets[0].data[i] = val;
+      });
+    }
+    if (this.chartConfig.update) {
+      this.chartConfig.update();
+    }
+  }
 
-  initChartConfig() {
+  private makeAverageData() {
+    const average = this.processor.getAverage(this.results.filter(r => r.luscherComplete).map(r => r.luscher));
+    return {
+      backgroundColor: Object.values(colors),
+      data: colorsNames.map(c => average[c]).map(v => v * 100)
+    };
+  }
+
+  private initChartConfig() {
+
     this.chartConfig = {
-      type: 'line',
+      type: 'bar',
       data: {
-        labels: MmpiResult.keys.map(k => this.scaleName.transform(k)),
-        datasets: [
-          {
-            label: 'Среднее арифметическое',
-            data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], //  MmpiResult.toArray(this.processor.median(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-            borderWidth: 6,
-            pointRadius: 4,
-            fill: false,
-            backgroundColor: 'purple',
-            borderColor: 'purple',
-          },
-          {
-            label: 'Среднее квадратическое',
-            data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-            borderWidth: 6,
-            pointRadius: 4,
-            fill: false,
-            backgroundColor: 'gray',
-            borderColor: 'gray',
-          }
-        ]
+        labels: colorsNames.map(c => this.color.transform(c)),
+        datasets: this.results ? [this.makeAverageData()] : [],
       },
       options: {
-        legend: {
-          display: false,
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Значения цветовых профилей (в процентах %)'
         },
+        responsive: true,
         maintainAspectRatio: false,
         layout: {
           padding: 15
@@ -81,7 +78,7 @@ export class TechLuscherComponent implements OnInit {
             {
               ticks: {
                 min: 0,
-                max: this.env.config.mmpiResultMaxValue
+                max: 100
               }
             }
           ],
@@ -95,7 +92,6 @@ export class TechLuscherComponent implements OnInit {
             }
           ]
         },
-        responsive: true,
         annotation: {
           annotations: [{
             drawTime: 'beforeDatasetsDraw',
@@ -111,8 +107,8 @@ export class TechLuscherComponent implements OnInit {
             }
           }]
         }
-      },
-    } as PkddChartConfiguration;
+      } as PkddChartConfiguration
+    };
   }
 
 }

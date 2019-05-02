@@ -44,6 +44,7 @@ import { LuscherTestModule } from '../luscher-test/luscher-test.module';
     BrowserModule,
     MDBBootstrapModule,
     SearchModule,
+    LuscherTestModule,
   ],
   declarations: [
     PersonsListComponent,

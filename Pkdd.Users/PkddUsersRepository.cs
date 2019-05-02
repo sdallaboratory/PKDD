@@ -25,7 +25,7 @@ namespace Pkdd.Users
             var results = context.TestResults.ToList();
             foreach (var user in resultUsers)
             {
-                user.ResultsCount = results.Where(tr => tr.PkddUserId == user.Id).Count();
+                user.ResultsCount = results.Where(tr => tr.PkddUserId == user.Id).Where(tr => tr.CompleteAny).Count();
             }
             return resultUsers;
         }

@@ -25,4 +25,15 @@
   </div> -->
 
   <pkdd-content-block *ngFor="let block of contentBlocks" [contentBlock]="block" [edit]="false"></pkdd-content-block>
+
+  <p *pkddForRoles="'expert'">
+    После того, как вы изучили предоставленную инфоромацию, вы можете перейти к тестам.
+    <br><br>
+    <a routerLink="mmpi">
+      <button mat-raised-button>Перейти к шкалированию</button>
+    </a>
+    <a routerLink="luscher">
+      <button mat-raised-button>Перейти к цветовому тесту</button>
+    </a>
+  </p>
 </div>

@@ -115,15 +115,15 @@ export class PersonMmpiComponent implements OnInit {
       dragData: true,
       dragDataRound: 0,
       onDragStart: (e) => {
-        document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'hidden';
-        e.stopPropagation();
-        document.querySelector<HTMLDivElement>('.mat-drawer-content').ontouchmove = (event) => {
-          event.stopPropagation();
-          event.preventDefault();
-        };
+        // document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'hidden';
+        // e.stopPropagation();
+        // document.querySelector<HTMLDivElement>('.mat-drawer-content').ontouchmove = (event) => {
+        //   event.stopPropagation();
+        //   event.preventDefault();
+        // };
       },
       onDragEnd: () => {
-        document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'auto';
+        // document.querySelector<HTMLDivElement>('.mat-drawer-content').style.overflow = 'auto';
         this.updateValues();
       },
       onDrag: () => { }

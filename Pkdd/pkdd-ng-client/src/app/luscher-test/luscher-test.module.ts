@@ -7,6 +7,7 @@ import { MaterialImportsModule } from '../material-imports/material-imports.modu
 import { LuscherTestComponent } from './components/luscher-test/luscher-test.component';
 import { TechLuscherComponent } from './components/tech-luscher/tech-luscher.component';
 import { PkddChartsModule } from '../pkdd-charts/pkdd-charts.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -14,8 +15,10 @@ import { PkddChartsModule } from '../pkdd-charts/pkdd-charts.module';
     CoreModule,
     FormsModule,
     MaterialImportsModule,
-    PkddChartsModule
+    PkddChartsModule,
+    RouterModule,
   ],
-  declarations: [ExpertLuscherComponent, LuscherTestComponent, TechLuscherComponent]
+  declarations: [ExpertLuscherComponent, LuscherTestComponent, TechLuscherComponent],
+  exports: [ExpertLuscherComponent, LuscherTestComponent, TechLuscherComponent]
 })
 export class LuscherTestModule { }

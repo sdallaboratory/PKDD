@@ -18,10 +18,16 @@
         <mat-icon>info_outlined</mat-icon>
       </button>
     </a>
-    <a *pkddForRoles="'expert'" matTooltip="Перейти к оценке персоны" class="action"
+    <a *pkddForRoles="'expert'" matTooltip="Перейти к шкалированию" class="action"
       [routerLink]="'/persons/' + person.id + '/mmpi'">
       <button mat-icon-button>
         <mat-icon>assessment</mat-icon>
+      </button>
+    </a>
+    <a *pkddForRoles="'expert'" matTooltip="Перейти к цветовому тесту" class="action"
+      [routerLink]="'/persons/' + person.id + '/luscher'">
+      <button mat-icon-button>
+        <mat-icon>color_lens</mat-icon>
       </button>
     </a>
     <a *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами" class="action"
