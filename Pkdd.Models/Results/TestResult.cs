@@ -49,5 +49,8 @@ namespace Pkdd.Models.Results
             this.MarkUpdated();
             return this;
         }
+
+        [NotMapped]
+        public bool CompleteAny => LuscherComplete || MmpiComplete || PhysiognomyComplete;
     }
 }

@@ -1,11 +1,9 @@
-.wrapper {
+:host {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 15px;
-    padding-bottom: 50vh;
+    
+    // padding-bottom: 50vh;
 }
 
 .wrapper.horizontal {

@@ -1,0 +1,23 @@
+<ng-container *ngIf="index < testSequence.length; else complete">
+
+  <mat-progress-bar [mode]="'determinate'" [value]="(index / testSequence.length) * 100"></mat-progress-bar>
+  Сравнение {{index + 1}} из {{testSequence.length}}
+  <p>
+    <br>
+    Выберите цвет, который на ваш взгляд больше подходит оцениваемой персоне:
+  </p>
+  <div class="colors">
+    <div *ngFor="let color of testSequence[index]">
+      <h4>
+        {{color | luscherColor}}
+      </h4>
+      <mat-card class="color" (click)="onColorClick(color)" [style.background]="colors[color]">
+      </mat-card>
+    </div>
+  </div>
+</ng-container>
+<ng-template #complete>
+  <p>
+    Цветовой тест пройден.
+  </p>
+</ng-template>

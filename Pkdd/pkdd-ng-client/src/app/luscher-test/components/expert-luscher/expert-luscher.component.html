@@ -1,0 +1,39 @@
+<div class="wrapper" *ngIf="result">
+
+  <h2>Цветовой тест</h2>
+
+
+  <div *ngIf="result.luscherComplete; else test">
+    <p>
+      Вы уже прошли цветовой тест Люшера. При необходимости внести изменения в результаты, удалите свою оценку и
+      пройдите
+      тест заново.
+    </p>
+    <p>
+      Вы ещё не успели пройти шкалирование для этой персоны. <br><br>
+      <a routerLink="../mmpi">
+        <button mat-raised-button>Перейти к Шкалированию</button>
+      </a>
+    </p>
+    <p>
+      На этом графике вы видите вашу оценку цветового профиля персоны по результатам прохождения теста.
+    </p>
+    <pkdd-tech-luscher [results]="[result]"></pkdd-tech-luscher>
+    <div>
+      <button mat-raised-button (click)="onDelete()">
+        <mat-icon>delete_forever</mat-icon> Удалить оценку
+      </button></div>
+  </div>
+  <ng-template #test>
+
+    <p>
+      Изучите <a routerLink="..">информацию о персоне</a>, а затем пройдите цветовой тест. Вам будет предложено 28 пар
+      цветов. Для каждой пары вам нужно выбрать цвет, наиболее подходящий данной персоне.
+      <br><br>
+      <a routerLink=".."><button mat-raised-button>Изучить информацию</button></a>
+      <br>
+      <br>
+    </p>
+    <pkdd-luscher-test (complete)="onComplete($event)"></pkdd-luscher-test>
+  </ng-template>
+</div>

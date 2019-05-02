@@ -1,1 +1,15 @@
-<pkdd-tech-mmpi></pkdd-tech-mmpi>
+<div class="wrapper">
+
+    <h1>Результаты шкалирования</h1>
+    <pkdd-tech-mmpi></pkdd-tech-mmpi>
+    <h1>Результаты цветового теста</h1>
+    <pkdd-tech-luscher [results]="this.results"></pkdd-tech-luscher>
+    <ng-container *ngIf="luscherExperts as experts">
+        <p>
+            Экспертных оценок использовано: {{experts.length}}
+        </p>
+        <ul>
+            <li *ngFor="let expert of experts">{{expert.userInfo.name}}</li>
+        </ul>
+    </ng-container>
+</div>

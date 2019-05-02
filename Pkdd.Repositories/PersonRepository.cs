@@ -85,7 +85,7 @@ namespace Pkdd.Repositories
                     .ToList() ?? new List<Person>();
                 foreach (var person in persons)
                 {
-                    person.ResultsCount = _dbContext.TestResults.Where(tr => tr.PersonId == person.Id).Count();
+                    person.ResultsCount = _dbContext.TestResults.Where(tr => tr.PersonId == person.Id).Where(tr => tr.CompleteAny).Count();
                 }
                 return persons;
             }

@@ -22,7 +22,7 @@ export class PersonMenuResolver implements Resolve<MenuItem[]> {
             new MenuItem('Информация', `/persons/${id}`, 'info', true),
             ...(user.roles.includes(PkddRoles.expert) ? [
                 new MenuItem('Шкалирование', `/persons/${id}/mmpi`, 'assessment', true),
-                // new MenuItem('Цветовой тест', `/persons/${id}/luscher`, 'palette', true),
+                new MenuItem('Цветовой тест', `/persons/${id}/luscher`, 'palette', true),
                 // new MenuItem('Физиогномика', `/persons/${id}/physiognomy`, 'face', true),
             ] : []),
             ...(user.roles.includes(PkddRoles.tech) ? [

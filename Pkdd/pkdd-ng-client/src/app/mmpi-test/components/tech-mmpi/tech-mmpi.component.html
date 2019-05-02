@@ -1,12 +1,9 @@
-<div class="wrapper">
-  <h1>Результаты шкалирования</h1>
-  <!-- <span *ngIf="!emitter?.results?.length">
-    Ни один эксперт ещё не успел оценить эту персону. При появлении оценки график обновится автоматически.
-  </span> -->
-  <!-- <span *ngIf="!plots?.plots?.length">
-    Для отображения оценки, создайте хотя бы один график в меню "Создание графика" снизу.
-  </span> -->
-  <pkdd-chart [config]="chartConfig"></pkdd-chart>
-  <pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
-  <pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
-</div>
+<p *ngIf="!emitter?.results?.length">
+  Ни один эксперт ещё не успел оценить эту персону. При появлении оценок график будет обновляться автоматически.
+</p>
+<pkdd-chart [config]="chartConfig"></pkdd-chart>
+<pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
+<p *ngIf="!plots?.plots?.length">
+  Для отображения оценки, создайте хотя бы один график.
+</p>
+<pkdd-plot-create [emitter]="emitter" (created)="onPlotCreated($event)"></pkdd-plot-create>
