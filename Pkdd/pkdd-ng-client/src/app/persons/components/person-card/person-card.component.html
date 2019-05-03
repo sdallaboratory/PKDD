@@ -12,39 +12,40 @@
     </h2>
   </div>
   <div class="actions">
-    <a matTooltip="Перейти в профиль персоны для просмотра информации" [routerLink]="'/persons/' + person.id"
-      class="action">
+    <a matTooltipShowDelay="1000" matTooltip="Перейти в профиль персоны для просмотра информации"
+      [routerLink]="'/persons/' + person.id" class="action">
       <button mat-icon-button>
         <mat-icon>info_outlined</mat-icon>
       </button>
     </a>
-    <a *pkddForRoles="'expert'" matTooltip="Перейти к шкалированию" class="action"
+    <a *pkddForRoles="'expert'" matTooltipShowDelay="1000" matTooltip="Перейти к шкалированию" class="action"
       [routerLink]="'/persons/' + person.id + '/mmpi'">
       <button mat-icon-button>
         <mat-icon>assessment</mat-icon>
       </button>
     </a>
-    <a *pkddForRoles="'expert'" matTooltip="Перейти к цветовому тесту" class="action"
+    <a *pkddForRoles="'expert'" matTooltipShowDelay="1000" matTooltip="Перейти к цветовому тесту" class="action"
       [routerLink]="'/persons/' + person.id + '/luscher'">
       <button mat-icon-button>
         <mat-icon>color_lens</mat-icon>
       </button>
     </a>
-    <a *pkddForRoles="'tech'" matTooltip="Перейти к просмотру результатов оценки персоны экспертами" class="action"
+    <a *pkddForRoles="'tech'" matTooltipShowDelay="1000"
+      matTooltip="Перейти к просмотру результатов оценки персоны экспертами" class="action"
       [routerLink]="'/persons/' + person.id + '/results'">
       <button mat-icon-button>
         <mat-icon [matBadge]="person.resultsCount" [matBadgeHidden]=" !person.resultsCount ">assignment_turned_in
         </mat-icon>
       </button>
     </a>
-    <a *pkddForRoles="'tech'" matTooltip="Перейти в интерфейс редактирования профиля персоны" class="action"
-      [routerLink]="'/persons/' + person.id + '/edit'">
+    <a *pkddForRoles="'tech'" matTooltipShowDelay="1000" matTooltip="Перейти в интерфейс редактирования профиля персоны"
+      class="action" [routerLink]="'/persons/' + person.id + '/edit'">
       <button mat-icon-button>
         <mat-icon>edit</mat-icon>
       </button>
     </a>
     <!-- <button mat-icon-button >
-      <div (click)="onDelete()"  *pkddForRoles="'tech'" matTooltip="Удалить персону из системы">
+      <div (click)="onDelete()"  *pkddForRoles="'tech'" matTooltipShowDelay="1000" matTooltip="Удалить персону из системы">
         <mat-icon>delete_forever</mat-icon>
       </div>
     </div> -->
