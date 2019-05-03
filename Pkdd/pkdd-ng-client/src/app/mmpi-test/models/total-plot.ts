@@ -53,6 +53,15 @@ export class TotalPlot extends MmpiPlot {
             case ReductionStrategies.root:
                 this.dataset.data = MmpiResult.toArray(this.processor.root(percentedResults));
                 break;
+            case ReductionStrategies.min:
+                this.dataset.data = MmpiResult.toArray(this.processor.min(percentedResults));
+                break;
+            case ReductionStrategies.max:
+                this.dataset.data = MmpiResult.toArray(this.processor.max(percentedResults));
+                break;
+            case ReductionStrategies.harmonic:
+                this.dataset.data = MmpiResult.toArray(this.processor.harmonic(percentedResults));
+                break;
         }
         return this.dataset;
     }

@@ -68,8 +68,29 @@ export class PlotCreateComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Maybe redisign logic of creating initial plot
+    this.buildInitialPlots();
+
+  }
+
+  private buildInitialPlots() {
     this.type = 'total';
     this.onBuild();
+    this.buildMaxPlot();
+    this.buildMinPlot();
+  }
+
+  private buildMaxPlot() {
+    const plot = new TotalPlot(ReductionStrategies.max, 80);
+    plot.borderWidth = 1;
+    plot.color = this.colors[3];
+    this.created.emit(plot);
+  }
+
+  private buildMinPlot() {
+    const plot = new TotalPlot(ReductionStrategies.min, 80);
+    plot.borderWidth = 1;
+    plot.color = this.colors[4];
+    this.created.emit(plot);
   }
 
   public onBuild() {

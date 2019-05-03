@@ -1,4 +1,4 @@
-.wrapper {
+:host {
     display: flex;
     flex-direction: row;
     min-height: 80px;
@@ -19,4 +19,10 @@
 .content {
     display: flex;
     flex-direction: column;
+}
+
+.experts-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 10px;
 }

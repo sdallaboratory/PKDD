@@ -2,7 +2,10 @@
   Ни один эксперт ещё не успел оценить эту персону. При появлении оценок график будет обновляться автоматически.
 </p>
 <pkdd-chart [config]="chartConfig"></pkdd-chart>
-<pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
+<div class="plots-list" *ngIf="plots?.plots?.length">
+
+  <pkdd-plot-item *ngFor="let plot of plots.plots" [plot]="plot" (deleted)="onPlotDeleted(plot)"></pkdd-plot-item>
+</div>
 <p *ngIf="!plots?.plots?.length">
   Для отображения оценки, создайте хотя бы один график.
 </p>
