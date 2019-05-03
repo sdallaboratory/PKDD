@@ -39,6 +39,51 @@ export class ResultProcessorService {
     return MmpiResult.fromArray(medianArray);
   }
 
+  public min(results: MmpiResult[]): MmpiResult {
+    if (!results || !results.length) {
+      return null;
+    }
+
+    const transposed = this.getColumns(results);
+
+    const minArray = transposed.map(column => this.getMin(column));
+    return MmpiResult.fromArray(minArray);
+  }
+
+  public max(results: MmpiResult[]): MmpiResult {
+    if (!results || !results.length) {
+      return null;
+    }
+
+    const transposed = this.getColumns(results);
+
+    const minArray = transposed.map(column => this.getMax(column));
+    return MmpiResult.fromArray(minArray);
+  }
+
+  public harmonic(results: MmpiResult[]): MmpiResult {
+    if (!results || !results.length) {
+      return null;
+    }
+
+    const transposed = this.getColumns(results);
+
+    const minArray = transposed.map(column => this.getHarmonic(column));
+    return MmpiResult.fromArray(minArray);
+  }
+
+  getMin(array: number[]) {
+    return array.reduce((acc, cur) => cur < acc ? cur : acc, Infinity)
+  }
+
+  getMax(array: number[]) {
+    return array.reduce((acc, cur) => cur > acc ? cur : acc, 0);
+  }
+
+  getHarmonic(array: number[]) {
+    return array.length / this.sum(array.map(elem => 1 / elem));
+  }
+
   getMedian(array: number[]): number {
     const sortedArray = this.sort(array);
     if (sortedArray.length % 2 === 0) {
@@ -53,11 +98,7 @@ export class ResultProcessorService {
   }
 
   private sum(values: number[]): number {
-    let result = 0;
-    values.forEach(value => {
-      result += value;
-    });
-    return result;
+    return values.reduce((acc, cur) => acc += cur, 0);
   }
 
   private getColumns(results: MmpiResult[]): number[][] {
@@ -66,17 +107,18 @@ export class ResultProcessorService {
     return transposed;
   }
 
-  transpose(sourceArray: number[][]): number[][] {
-    const result = [];
-    for (let i = 0; i < sourceArray.length; i++) {
-      for (let j = 0; j < sourceArray[i].length; j++) {
-        if (!result[j]) {
-          result[j] = [];
-        }
-        result[j].push(sourceArray[i][j]);
-      }
-    }
-    return result;
+  transpose(array: number[][]): number[][] {
+    return array[0].map((col, i) => array.map(row => row[i]));
+    // const result = [];
+    // for (let i = 0; i < array.length; i++) {
+    //   for (let j = 0; j < array[i].length; j++) {
+    //     if (!result[j]) {
+    //       result[j] = [];
+    //     }
+    //     result[j].push(array[i][j]);
+    //   }
+    // }
+    // return result;
   }
 
   getRootDifference(a: MmpiResult, b: MmpiResult): number {

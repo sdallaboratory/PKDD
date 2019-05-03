@@ -7,7 +7,10 @@
       воспользуйтесь числовыми полями
       для ввода под графиком.
       <br><br>
-      <a routerLink=".."><button mat-raised-button>Изучить информацию</button></a>
+      <a routerLink=".."><button mat-raised-button>
+          <mat-icon>info_outlined</mat-icon>
+          Изучить информацию
+        </button></a>
     </p>
   </ng-container>
   <ng-template #complete>
@@ -18,6 +21,7 @@
     <p *ngIf="!result.luscherComplete">
       Вы ещё не успели пройти цветовой тест для данной персоны.
       <br><br>
+      <mat-icon>color_lens</mat-icon>
       <a routerLink=".."><button mat-raised-button>Перейти к цветовому тесту</button></a>
     </p>
   </ng-template>
@@ -29,7 +33,7 @@
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          Ввести числами
+          <mat-icon>format_list_numbered_rtl</mat-icon> Ввести числами
         </mat-expansion-panel-header>
         <div class="fields-group">
           <mat-form-field *ngFor="let key of keys">

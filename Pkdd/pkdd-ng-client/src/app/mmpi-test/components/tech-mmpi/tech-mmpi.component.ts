@@ -67,24 +67,24 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
       data: {
         labels: MmpiResult.keys.map(k => this.scaleName.transform(k)),
         datasets: [
-          {
-            label: 'Среднее арифметическое',
-            data: MmpiResult.toArray(this.processor.median(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-            borderWidth: 6,
-            pointRadius: 4,
-            fill: false,
-            backgroundColor: 'purple',
-            borderColor: 'purple',
-          },
-          {
-            label: 'Среднее квадратическое',
-            data: MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-            borderWidth: 6,
-            pointRadius: 4,
-            fill: false,
-            backgroundColor: 'gray',
-            borderColor: 'gray',
-          }
+          // {
+          //   label: 'Среднее арифметическое',
+          //   data: MmpiResult.toArray(this.processor.median(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
+          //   borderWidth: 6,
+          //   pointRadius: 4,
+          //   fill: false,
+          //   backgroundColor: 'purple',
+          //   borderColor: 'purple',
+          // },
+          // {
+          //   label: 'Среднее квадратическое',
+          //   data: MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
+          //   borderWidth: 6,
+          //   pointRadius: 4,
+          //   fill: false,
+          //   backgroundColor: 'gray',
+          //   borderColor: 'gray',
+          // }
         ]
       },
       options: {

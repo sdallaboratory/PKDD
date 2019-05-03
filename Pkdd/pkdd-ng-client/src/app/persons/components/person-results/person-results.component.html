@@ -1,8 +1,9 @@
 <div class="wrapper">
-
-    <h1>Результаты шкалирования</h1>
+    <h1>{{person.name}}</h1>
+    <p>{{person.position}}</p>
+    <h2>Результаты шкалирования</h2>
     <pkdd-tech-mmpi></pkdd-tech-mmpi>
-    <h1>Результаты цветового теста</h1>
+    <h2>Результаты цветового теста</h2>
     <pkdd-tech-luscher [results]="this.results"></pkdd-tech-luscher>
     <ng-container *ngIf="luscherExperts as experts">
         <p>

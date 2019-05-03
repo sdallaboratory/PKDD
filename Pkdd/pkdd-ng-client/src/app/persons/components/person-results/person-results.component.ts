@@ -18,12 +18,12 @@ import { Person } from 'src/app/models/entities/person';
 })
 export class PersonResultsComponent implements OnInit, OnDestroy {
 
-  private person: Person;
+  public person: Person;
 
   public results: TestResult[];
 
   public get luscherExperts() {
-    return this.results.filter(r => r.luscherComplete);
+    return this.results && this.results.filter(r => r.luscherComplete);
   }
 
   public emitter: ResultEmitter;
