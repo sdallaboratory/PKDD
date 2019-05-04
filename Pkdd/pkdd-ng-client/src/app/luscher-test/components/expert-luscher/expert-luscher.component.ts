@@ -15,7 +15,7 @@ import { Person } from 'src/app/models/entities/person';
 export class ExpertLuscherComponent implements OnInit {
 
   public result!: TestResult;
-  public person: Person;
+  public person!: Person;
 
   constructor(
     private readonly data: RouteDataProviderService,
