@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { MmpiPlot } from '../models/mmpi-plot';
+import { MmpiPlot } from '../mmpi-plot';
 import { TestResult } from 'src/app/models/persons/results/test-result';
 import { ChartDataSets } from 'chart.js';
 import { remove } from 'src/app/core/utils/remove';
@@ -18,7 +18,9 @@ export class TechMmpiService {
 
   public readonly plots: MmpiPlot[] = [];
 
-  constructor() { }
+  constructor() {
+
+  }
 
   public remove(plot: MmpiPlot) {
     plot.settingsChanged.unsubscribe();

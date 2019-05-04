@@ -9,6 +9,8 @@ import { ConfirmService } from 'src/app/core/services/confirm.service';
 import { NotificatorService } from 'src/app/notification/services/notificator.service';
 import { MmpiScalePipe } from 'src/app/core/pipes/mmpi-scale.pipe';
 import { TruncatePipe } from 'src/app/core/pipes/truncate.pipe';
+import { ActivatedRoute } from '@angular/router';
+import { Person } from 'src/app/models/entities/person';
 
 @Component({
   selector: 'pkdd-person-mmpi',
@@ -17,6 +19,8 @@ import { TruncatePipe } from 'src/app/core/pipes/truncate.pipe';
   providers: [RouteDataProviderService]
 })
 export class PersonMmpiComponent implements OnInit {
+
+  public person: Person;
 
   public result: TestResult;
 
@@ -40,12 +44,13 @@ export class PersonMmpiComponent implements OnInit {
     private readonly confirmer: ConfirmService,
     private readonly notificator: NotificatorService,
     private readonly scaleName: MmpiScalePipe,
-    private readonly truncate: TruncatePipe
+    private readonly truncate: TruncatePipe,
+    private readonly route: ActivatedRoute,
   ) { }
 
-  async ngOnInit() {
-    this.result = await this.data.get<TestResult>('results');
-    console.log(this.result);
+  ngOnInit() {
+    this.person = this.route.snapshot.data['personModel'].person;
+    this.result = this.route.snapshot.data['results'];
     this.initChart();
   }
 

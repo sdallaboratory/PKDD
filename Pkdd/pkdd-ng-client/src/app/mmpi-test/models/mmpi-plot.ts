@@ -1,6 +1,6 @@
 import { ChartDataSets } from 'chart.js';
 import { TestResult } from 'src/app/models/persons/results/test-result';
-import { ResultProcessorService } from '../services/result-processor.service';
+import { ResultProcessorService } from './services/result-processor.service';
 import { EventEmitter } from '@angular/core';
 
 export abstract class MmpiPlot {

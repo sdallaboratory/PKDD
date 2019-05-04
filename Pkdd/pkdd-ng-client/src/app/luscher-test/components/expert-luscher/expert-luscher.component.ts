@@ -3,6 +3,8 @@ import { ResultsProviderService } from 'src/app/test/services/results-provider.s
 import { RouteDataProviderService } from 'src/app/core/services/route-data-provider.service';
 import { TestResult } from 'src/app/models/persons/results/test-result';
 import { LuscherResult } from 'src/app/models/persons/results/luscher-result';
+import { ActivatedRoute } from '@angular/router';
+import { Person } from 'src/app/models/entities/person';
 
 @Component({
   selector: 'pkdd-expert-luscher',
@@ -13,15 +15,17 @@ import { LuscherResult } from 'src/app/models/persons/results/luscher-result';
 export class ExpertLuscherComponent implements OnInit {
 
   public result!: TestResult;
+  public person: Person;
 
   constructor(
     private readonly data: RouteDataProviderService,
     private readonly provider: ResultsProviderService,
+    private readonly route: ActivatedRoute,
   ) { }
 
-  async ngOnInit() {
-    this.result = await this.data.get<TestResult>('results');
-    console.log(this.result);
+  ngOnInit() {
+    this.person = this.route.snapshot.data['personModel'].person;
+    this.result = this.route.snapshot.data['results']; // await this.data.get<TestResult>('results');
   }
 
   public async onDelete() {

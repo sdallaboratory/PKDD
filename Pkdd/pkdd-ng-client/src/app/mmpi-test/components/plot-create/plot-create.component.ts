@@ -32,9 +32,6 @@ export class PlotCreateComponent implements OnInit {
     '#009688',
     '#8BC34A',
     '#FFC107',
-    // '#FF5722',
-    // '#616161',
-    // '#607D8B',
     '#d50000'
   ];
 

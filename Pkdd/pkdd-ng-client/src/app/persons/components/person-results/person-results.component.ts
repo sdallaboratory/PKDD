@@ -13,7 +13,7 @@ import { Person } from 'src/app/models/entities/person';
   styleUrls: ['./person-results.component.scss'],
   providers: [
     RealtimeResultService,
-    RouteDataProviderService
+    // RouteDataProviderService
   ]
 })
 export class PersonResultsComponent implements OnInit, OnDestroy {
@@ -34,10 +34,12 @@ export class PersonResultsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.person = (this.route.snapshot.data)['personModel'].person;
-    this.emitter = this.realtime.getEmitter(this.person.id).start();
+    this.person = this.route.snapshot.data['personModel'].person;
+    console.log(this.route.snapshot.data);
+    this.emitter = this.realtime.getEmitter(this.person.id);
     // TODO: Убрать эту мерзкую грязь. Юзать BehaviorSubject
     this.emitter.changed.subscribe(r => this.results = r);
+    this.emitter.start();
   }
 
   ngOnDestroy() {

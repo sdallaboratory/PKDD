@@ -56,7 +56,7 @@ const personsRoutes: Routes = [
             },
             {
               path: 'mmpi', component: PersonMmpiComponent,
-              resolve: { results: ResultsResolverService },
+              resolve: { results: ResultsResolverService, personModel: PersonResolverService },
               data: { roles: [PkddRoles.expert] }
             },
             {
@@ -67,7 +67,7 @@ const personsRoutes: Routes = [
             },
             {
               path: 'luscher', component: ExpertLuscherComponent,
-              resolve: { results: ResultsResolverService },
+              resolve: { results: ResultsResolverService, personModel: PersonResolverService },
               data: { roles: [PkddRoles.expert] }
             },
             {
