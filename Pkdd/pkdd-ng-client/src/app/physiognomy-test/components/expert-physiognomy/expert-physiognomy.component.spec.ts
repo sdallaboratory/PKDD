@@ -8,9 +8,9 @@ describe('ExpertPhysiognomyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExpertPhysiognomyComponent ]
+      declarations: [ExpertPhysiognomyComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

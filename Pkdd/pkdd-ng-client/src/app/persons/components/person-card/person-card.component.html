@@ -30,6 +30,12 @@
         <mat-icon>color_lens</mat-icon>
       </button>
     </a>
+    <a *pkddForRoles="'expert'" matTooltipShowDelay="1000" matTooltip="Перейти к физиогномическому тесту" class="action"
+      routerLink="/persons/{{person.id}}/physiognomy">
+      <button mat-icon-button>
+        <mat-icon>face</mat-icon>
+      </button>
+    </a>
     <a *pkddForRoles="'tech'" matTooltipShowDelay="1000"
       matTooltip="Перейти к просмотру результатов оценки персоны экспертами" class="action"
       [routerLink]="'/persons/' + person.id + '/results'">

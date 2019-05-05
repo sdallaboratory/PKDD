@@ -30,9 +30,9 @@ export class TechMmpiService {
   public getDatasets(results: TestResult[]): ChartDataSets[] {
     const datasets: ChartDataSets[] = [];
     this.plots.forEach(plot => {
-      const dataset = plot.getDataset(results);
+      const dataset = plot.getDatasets(results);
       if (dataset) {
-        datasets.push(dataset);
+        datasets.push(...dataset);
       } else {
         // TODO: Maybe redisign the logic of deleting outdated plots.
         this.remove(plot);

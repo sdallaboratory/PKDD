@@ -1,0 +1,8 @@
+<div class="wrapper" *ngIf="results">
+  <div class="group" *ngFor="let group of topGroups">
+    <h3>
+      {{group | group}}
+    </h3>
+    <img src="/assets/physiognomy/{{group}}.png" alt="">
+  </div>
+</div>

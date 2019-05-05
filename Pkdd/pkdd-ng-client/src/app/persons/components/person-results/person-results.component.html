@@ -4,8 +4,18 @@
     <h2>Результаты шкалирования</h2>
     <pkdd-tech-mmpi></pkdd-tech-mmpi>
     <h2>Результаты цветового теста</h2>
-    <pkdd-tech-luscher [results]="this.results"></pkdd-tech-luscher>
+    <pkdd-tech-luscher [results]="results"></pkdd-tech-luscher>
     <ng-container *ngIf="luscherExperts as experts">
+        <p>
+            Экспертных оценок использовано: {{experts.length}}
+        </p>
+        <ul>
+            <li *ngFor="let expert of experts">{{expert.userInfo.name}}</li>
+        </ul>
+    </ng-container>
+    <h2>Результаты физиогномического тестаw</h2>
+    <pkdd-tech-physiognomy [results]="results"></pkdd-tech-physiognomy>
+    <ng-container *ngIf="physiognomyExperts as experts">
         <p>
             Экспертных оценок использовано: {{experts.length}}
         </p>

@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { PhysiognomyResult, emptyPhysiognomyResult, Group } from 'src/app/models/persons/results/physiognomy-result';
 import { Person } from 'src/app/models/entities/person';
+import { WindowService } from 'src/app/core/services/window.service';
 
 @Component({
   selector: 'pkdd-physiognomy-test',
@@ -19,7 +20,9 @@ export class PhysiognomyTestComponent implements OnInit {
   public sequence: Group[][] = [];
 
   public index = 0;
-  constructor() { }
+  constructor(
+    public readonly window: WindowService,
+  ) { }
 
   ngOnInit() {
     this.generateSequence();
@@ -37,5 +40,24 @@ export class PhysiognomyTestComponent implements OnInit {
 
     } while (pairs.some(p => p[0] === p[1]));
     this.sequence = pairs;
+  }
+
+  public addPoints(group: Group, count: number) {
+    this.currentResult[group] += count;
+  }
+
+  public next() {
+    this.index++;
+    if (!this.sequence[this.index]) {
+      const sum = Object.values(this.currentResult).reduce((acc, cur) => acc += cur);
+      for (const key in this.currentResult) {
+        if (this.currentResult.hasOwnProperty(key)) {
+          this.currentResult[key] /= sum;
+        }
+      }
+      this.complete.emit({
+        ...this.currentResult
+      });
+    }
   }
 }

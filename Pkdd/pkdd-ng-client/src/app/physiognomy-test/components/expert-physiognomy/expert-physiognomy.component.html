@@ -2,7 +2,7 @@
   <h1>{{person.name}}</h1>
   <p>{{person.position}}</p>
 
-  <h2>Цветовой тест</h2>
+  <h2>Физиогномический тест</h2>
 
 
   <div *ngIf="result.physiognomyComplete; else test">
@@ -11,7 +11,7 @@
       пройдите
       тест заново.
     </p>
-    <p>
+    <p *ngIf="!result.mmpiComplete">
       Вы ещё не успели пройти шкалирование для этой персоны. <br><br>
       <a routerLink="../mmpi">
         <button mat-raised-button>
@@ -22,25 +22,12 @@
     </p>
     <p>
       Здесь вы видите результат вашей оценки физигномических качеств данной персоны. </p>
-    <!-- <pkdd-tech-luscher [results]="[result]"></pkdd-tech-luscher> -->
-    <div>
-      <button mat-raised-button (click)="onDelete()">
-        <mat-icon>delete_forever</mat-icon> Удалить оценку
-      </button></div>
+    <pkdd-tech-physiognomy [results]="[result]"></pkdd-tech-physiognomy>
+    <button mat-raised-button (click)="onDelete()">
+      <mat-icon>delete_forever</mat-icon> Удалить оценку
+    </button>
   </div>
   <ng-template #test>
-
-    <!-- <p>
-      Изучите <a routerLink="..">информацию о персоне</a>, а затем пройдите физиогномический тест. Вам будет предложено некоторое количество парных сравнений
-      личности. Для каждой пары вам нужно выбрать цвет, наиболее подходящий данной персоне.
-      <br><br>
-      <a routerLink=".."><button mat-raised-button>
-          <mat-icon>info_outlined</mat-icon>
-          Изучить информацию
-        </button></a>
-      <br>
-      <br>
-    </p> -->
     <pkdd-physiognomy-test [person]="person" (complete)="onComplete($event)"></pkdd-physiognomy-test>
   </ng-template>
 </div>

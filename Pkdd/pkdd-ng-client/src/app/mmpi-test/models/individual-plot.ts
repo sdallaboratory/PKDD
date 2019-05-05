@@ -17,14 +17,14 @@ export class IndividualPlot extends MmpiPlot {
         this.dataset.label = this.label;
     }
 
-    public getDataset(results: TestResult[]): ChartDataSets {
+    public getDatasets(results: TestResult[]): ChartDataSets[] {
         const expertResult = results.find(r => r.userInfo.id === this.expert.id);
         if (!expertResult || !expertResult.mmpiComplete) {
             return null;
         }
-        super.getDataset(results);
+        super.getDatasets(results);
         this.dataset.data = MmpiResult.toArray(expertResult.mmpi);
-        return this.dataset;
+        return [this.dataset];
     }
 
 }

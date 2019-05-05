@@ -8,6 +8,7 @@ import { PkddChartsModule } from '../pkdd-charts/pkdd-charts.module';
 import { RouterModule } from '@angular/router';
 import { LayoutModule } from '../layout/layout.module';
 import { PhysiognomyTestComponent } from './components/physiognomy-test/physiognomy-test.component';
+import { TechPhysiognomyComponent } from './components/tech-physiognomy/tech-physiognomy.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { PhysiognomyTestComponent } from './components/physiognomy-test/physiogn
     PkddChartsModule,
     RouterModule,
   ],
-  declarations: [ExpertPhysiognomyComponent, PhysiognomyTestComponent],
-  exports: [ExpertPhysiognomyComponent]
+  declarations: [ExpertPhysiognomyComponent, PhysiognomyTestComponent, TechPhysiognomyComponent],
+  exports: [ExpertPhysiognomyComponent, PhysiognomyTestComponent, TechPhysiognomyComponent]
 })
 export class PhysiognomyTestModule { }

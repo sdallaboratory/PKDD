@@ -26,13 +26,14 @@ export class PlotCreateComponent implements OnInit {
 
   public colors = [
     '#000000',
-    '#9C27B0',
-    '#3F51B5',
-    '#03A9F4',
-    '#009688',
-    '#8BC34A',
-    '#FFC107',
-    '#d50000'
+    '#00000022',
+    '#9C27B0CC',
+    '#3F51B5CC',
+    '#03A9F4CC',
+    '#009688CC',
+    '#8BC34ACC',
+    '#FFC107CC',
+    '#d50000CC',
   ];
 
   // TODO: set adequate initial value
@@ -64,29 +65,42 @@ export class PlotCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO: Maybe redisign logic of creating initial plot
+    // TODO: Bring out  logic of creating initial plot from the component
     this.buildInitialPlots();
-
   }
 
   private buildInitialPlots() {
-    this.type = 'total';
-    this.onBuild();
+    this.buildAveragePlot();
     this.buildMaxPlot();
     this.buildMinPlot();
+    this.buildAllPlot();
+  }
+
+  private buildAveragePlot() {
+    const plot = new TotalPlot(ReductionStrategies.average, 80);
+    plot.borderWidth = 3;
+    plot.color = this.colors[0];
+    this.created.emit(plot);
   }
 
   private buildMaxPlot() {
     const plot = new TotalPlot(ReductionStrategies.max, 80);
-    plot.borderWidth = 1;
-    plot.color = this.colors[3];
+    plot.borderWidth = 2;
+    plot.color = this.colors[4];
     this.created.emit(plot);
   }
 
   private buildMinPlot() {
     const plot = new TotalPlot(ReductionStrategies.min, 80);
+    plot.borderWidth = 2;
+    plot.color = this.colors[5];
+    this.created.emit(plot);
+  }
+
+  private buildAllPlot() {
+    const plot = new TotalPlot(ReductionStrategies.all, 80);
     plot.borderWidth = 1;
-    plot.color = this.colors[4];
+    plot.color = this.colors[1];
     this.created.emit(plot);
   }
 

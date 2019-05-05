@@ -8,9 +8,9 @@ describe('PhysiognomyTestComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhysiognomyTestComponent ]
+      declarations: [PhysiognomyTestComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

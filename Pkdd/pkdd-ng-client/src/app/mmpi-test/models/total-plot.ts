@@ -13,6 +13,9 @@ export class TotalPlot extends MmpiPlot {
 
     public usedExperts: PkddUser[];
 
+    // TODO: Use Map data structure instead;
+    private extraDatasets: ChartDataSets[] = [];
+
 
     private _percent: number;
     public get percent(): number {
@@ -34,8 +37,9 @@ export class TotalPlot extends MmpiPlot {
         this.percent = percent;
     }
 
-    public getDataset(results: TestResult[]): ChartDataSets {
-        super.getDataset(results);
+
+    public getDatasets(results: TestResult[]): ChartDataSets[] {
+        super.getDatasets(results);
 
         const mmpiResults = results.filter(r => r.mmpiComplete).map(r => r.mmpi);
 
@@ -62,8 +66,30 @@ export class TotalPlot extends MmpiPlot {
             case ReductionStrategies.harmonic:
                 this.dataset.data = MmpiResult.toArray(this.processor.harmonic(percentedResults));
                 break;
+            case ReductionStrategies.all:
+                this.fillExtraDatasets(percentedResults); // TODO: bring out this shit to a new inheretad class.
+                return this.extraDatasets;
         }
-        return this.dataset;
+        return [this.dataset];
+    }
+
+    private fillExtraDatasets(results: MmpiResult[]) {
+        for (let i = 0; i < results.length; i++) {
+            if (!this.extraDatasets[i]) {
+                this.extraDatasets[i] = {
+                    pointRadius: 0,
+                    fill: false,
+                    hidden: this.dataset.hidden,
+                    borderWidth: this.dataset.borderWidth,
+                    borderColor: this.dataset.borderColor,
+                    backgroundColor: this.dataset.backgroundColor,
+                    pointHitRadius: 0,
+                    hideInLegendAndTooltip: true,
+                };
+            }
+            this.extraDatasets[i].data = MmpiResult.toArray(results[i]);
+        }
+        this.extraDatasets.length = results.length;
     }
 
 }

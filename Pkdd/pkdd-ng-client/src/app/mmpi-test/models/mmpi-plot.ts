@@ -46,11 +46,11 @@ export abstract class MmpiPlot {
         this.settingsChanged.emit();
     }
 
-    public getDataset(results: TestResult[]): ChartDataSets {
+    public getDatasets(results: TestResult[]): ChartDataSets[] {
         this.dataset.hidden = this.hidden;
         this.dataset.borderWidth = this.borderWidth;
         this.dataset.borderColor = this.color;
         this.dataset.backgroundColor = this.color;
-        return this.dataset;
+        return [this.dataset];
     }
 }

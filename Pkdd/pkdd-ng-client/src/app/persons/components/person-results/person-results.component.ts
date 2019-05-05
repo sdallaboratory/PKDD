@@ -26,6 +26,10 @@ export class PersonResultsComponent implements OnInit, OnDestroy {
     return this.results && this.results.filter(r => r.luscherComplete);
   }
 
+  public get physiognomyExperts() {
+    return this.results && this.results.filter(r => r.physiognomyComplete);
+  }
+
   public emitter: ResultEmitter;
 
   constructor(
