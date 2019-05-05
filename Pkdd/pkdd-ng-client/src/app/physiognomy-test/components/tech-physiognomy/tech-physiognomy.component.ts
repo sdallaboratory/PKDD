@@ -19,6 +19,9 @@ export class TechPhysiognomyComponent implements OnChanges {
   ) { }
 
   public ngOnChanges() {
+    if (!this.results) {
+      return
+    }
     const physiognomyResults = this.results.filter(r => r.physiognomyComplete).map(r => r.physiognomy);
     const average = this.processor.average(physiognomyResults);
     this.topGroups = this.processor.topGroups(average);
