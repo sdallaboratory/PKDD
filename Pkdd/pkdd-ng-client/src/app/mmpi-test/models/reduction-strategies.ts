@@ -5,4 +5,5 @@ export enum ReductionStrategies {
     harmonic = 'Среднее гармоническое',
     max = 'Максимум',
     min = 'Минимум',
+    all = 'Отобразить все'
 }

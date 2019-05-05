@@ -19,6 +19,7 @@ import { RoleGuard } from '../auth/guards/role.guard';
 import { PkddRoles } from '../models/auth/pkdd-roles.enum';
 import { PkddRouteData } from '../models/common/pkdd-route-data';
 import { ExpertLuscherComponent } from '../luscher-test/components/expert-luscher/expert-luscher.component';
+import { ExpertPhysiognomyComponent } from '../physiognomy-test/components/expert-physiognomy/expert-physiognomy.component';
 
 const personsRoutes: Routes = [
   {
@@ -56,7 +57,7 @@ const personsRoutes: Routes = [
             },
             {
               path: 'mmpi', component: PersonMmpiComponent,
-              resolve: { results: ResultsResolverService },
+              resolve: { results: ResultsResolverService, personModel: PersonResolverService },
               data: { roles: [PkddRoles.expert] }
             },
             {
@@ -67,12 +68,13 @@ const personsRoutes: Routes = [
             },
             {
               path: 'luscher', component: ExpertLuscherComponent,
-              resolve: { results: ResultsResolverService },
+              resolve: { results: ResultsResolverService, personModel: PersonResolverService },
               data: { roles: [PkddRoles.expert] }
             },
             {
               path: 'physiognomy',
-              component: PersonPhysiognomyComponent,
+              component: ExpertPhysiognomyComponent,
+              resolve: { results: ResultsResolverService, personModel: PersonResolverService },
               data: { roles: [PkddRoles.expert] }
             },
             {

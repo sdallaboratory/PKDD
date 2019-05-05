@@ -17,7 +17,6 @@ export class PersonsResolverService implements Resolve<Person[]> {
 
   public async resolve() {
     const persons = await this.storage.getPersons();
-    console.log(persons);
 
     // persons.sort((a, b) => a.timeTrack.created.getTime() - b.timeTrack.created.getTime());
     this.menu.sideMenuItems = null;

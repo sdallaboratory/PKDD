@@ -1,0 +1,48 @@
+<div class="wrapper" *ngIf="result">
+  <h1>{{person.name}}</h1>
+  <p>{{person.position}}</p>
+
+  <h2>Физиогномический тест</h2>
+  <p style="color: red;">
+    Тест находится на стадии разработки
+  </p>
+  <p>
+    Вы можете сообщить о замеченных проблемах и внести свои предложения по усовершенствованию в разделе обратной связи.
+    <br>
+    <br>
+    <a routerLink="/help/feedback">
+      <button mat-raised-button>
+        <mat-icon>feedback</mat-icon> Оставить пожелание
+      </button>
+    </a>
+    <br>
+    <br>
+  </p>
+
+
+  <div *ngIf="result.physiognomyComplete; else test">
+    <p>
+      Вы уже прошли физиогномический тест. При необходимости внести изменения в результаты, удалите свою оценку и
+      пройдите
+      тест заново.
+    </p>
+    <p *ngIf="!result.mmpiComplete">
+      Вы ещё не успели пройти шкалирование для этой персоны. <br><br>
+      <a routerLink="../mmpi">
+        <button mat-raised-button>
+          <mat-icon>assessment</mat-icon>
+          Перейти к Шкалированию
+        </button>
+      </a>
+    </p>
+    <p>
+      Здесь вы видите результат вашей оценки физигномических качеств данной персоны. </p>
+    <pkdd-tech-physiognomy [results]="[result]"></pkdd-tech-physiognomy>
+    <button mat-raised-button (click)="onDelete()">
+      <mat-icon>delete_forever</mat-icon> Удалить оценку
+    </button>
+  </div>
+  <ng-template #test>
+    <pkdd-physiognomy-test [person]="person" (complete)="onComplete($event)"></pkdd-physiognomy-test>
+  </ng-template>
+</div>

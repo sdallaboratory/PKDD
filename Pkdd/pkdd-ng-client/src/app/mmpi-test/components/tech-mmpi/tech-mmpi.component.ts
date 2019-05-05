@@ -11,8 +11,8 @@ import { MmpiResult } from 'src/app/models/persons/results/mmpi-result';
 import { EnvironmentService } from 'src/app/core/services/environment.service';
 import { TestResult } from 'src/app/models/persons/results/test-result';
 import { PkddChartConfiguration } from 'src/app/pkdd-charts/models/config';
-import { ResultProcessorService } from '../../services/result-processor.service';
-import { TechMmpiService } from '../../services/tech-mmpi.service';
+import { ResultProcessorService } from '../../models/services/result-processor.service';
+import { TechMmpiService } from '../../models/services/tech-mmpi.service';
 import { TotalPlot } from '../../models/total-plot';
 import { ReductionStrategies } from '../../models/reduction-strategies';
 import { MmpiPlot } from '../../models/mmpi-plot';
@@ -22,7 +22,7 @@ import { MmpiScalePipe } from 'src/app/core/pipes/mmpi-scale.pipe';
   selector: 'pkdd-tech-mmpi',
   templateUrl: './tech-mmpi.component.html',
   styleUrls: ['./tech-mmpi.component.scss'],
-  providers: [RealtimeResultService, RouteDataProviderService, TechMmpiService]
+  providers: [RealtimeResultService, TechMmpiService]
 })
 export class TechMmpiComponent implements OnInit, OnDestroy {
 
@@ -41,11 +41,14 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
     private readonly scaleName: MmpiScalePipe,
   ) { }
 
-  async ngOnInit() {
+
+
+  ngOnInit() {
     // this.person = (await this.route.get<PersonResolverModel>('personModel')).person;
-    this.person = (await this.route.data.pipe(first()).toPromise())['personModel'].person;
-    this.emitter = this.realtime.getEmitter(this.person.id).start();
+    this.person = this.route.snapshot.data['personModel'].person;
+    this.emitter = this.realtime.getEmitter(this.person.id);
     this.emitter.changed.subscribe(this.changedHandler);
+    this.emitter.start();
     this.plots.settingsChanged.subscribe(this.changedHandler);
   }
 
@@ -66,26 +69,7 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
       type: 'line',
       data: {
         labels: MmpiResult.keys.map(k => this.scaleName.transform(k)),
-        datasets: [
-          // {
-          //   label: 'Среднее арифметическое',
-          //   data: MmpiResult.toArray(this.processor.median(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-          //   borderWidth: 6,
-          //   pointRadius: 4,
-          //   fill: false,
-          //   backgroundColor: 'purple',
-          //   borderColor: 'purple',
-          // },
-          // {
-          //   label: 'Среднее квадратическое',
-          //   data: MmpiResult.toArray(this.processor.average(this.emitter.results./*filter(r => r.mmpiComplete).*/map(r => r.mmpi))),
-          //   borderWidth: 6,
-          //   pointRadius: 4,
-          //   fill: false,
-          //   backgroundColor: 'gray',
-          //   borderColor: 'gray',
-          // }
-        ]
+        datasets: []
       },
       options: {
         legend: {

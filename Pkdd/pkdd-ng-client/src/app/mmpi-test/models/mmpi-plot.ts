@@ -1,6 +1,6 @@
 import { ChartDataSets } from 'chart.js';
 import { TestResult } from 'src/app/models/persons/results/test-result';
-import { ResultProcessorService } from '../services/result-processor.service';
+import { ResultProcessorService } from './services/result-processor.service';
 import { EventEmitter } from '@angular/core';
 
 export abstract class MmpiPlot {
@@ -14,6 +14,7 @@ export abstract class MmpiPlot {
 
     protected dataset: ChartDataSets = {
         pointRadius: 4,
+        pointHoverRadius: 7,
         fill: false,
     };
 
@@ -46,11 +47,13 @@ export abstract class MmpiPlot {
         this.settingsChanged.emit();
     }
 
-    public getDataset(results: TestResult[]): ChartDataSets {
+    public getDatasets(results: TestResult[]): ChartDataSets[] {
         this.dataset.hidden = this.hidden;
         this.dataset.borderWidth = this.borderWidth;
         this.dataset.borderColor = this.color;
         this.dataset.backgroundColor = this.color;
-        return this.dataset;
+        this.dataset.pointBackgroundColor = this.color;
+        this.dataset.pointBorderColor = this.color;
+        return [this.dataset];
     }
 }

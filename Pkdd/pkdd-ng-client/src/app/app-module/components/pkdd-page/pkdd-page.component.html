@@ -2,7 +2,8 @@
   <pkdd-top-menu></pkdd-top-menu>
   <pkdd-progress-bar [style.height]="window.currentSize.height / 500 + 0.5 + 'px'"></pkdd-progress-bar>
   <div class="horizontal-flex">
-    <pkdd-side-menu *ngIf="menu.sideMenuItems?.length && window.currentDeviceType === 'pc'" class="pc-side-menu"></pkdd-side-menu>
+    <pkdd-side-menu *ngIf="menu.sideMenuItems?.length && window.currentDeviceType === 'pc'" class="pc-side-menu">
+    </pkdd-side-menu>
     <mat-sidenav-container>
       <mat-sidenav *ngIf="menu.sideMenuItems?.length && window.currentDeviceType !== 'pc'" class="mobile-side-menu"
         [opened]="menu.sideMenuOpened" disableClose>

@@ -1,4 +1,6 @@
 <div class="wrapper">
+  <h1>{{person.name}}</h1>
+  <p>{{person.position}}</p>
   <h2>Шкалирование</h2>
   <ng-container *ngIf="!result.mmpiComplete; else complete">
     <p>
@@ -21,8 +23,10 @@
     <p *ngIf="!result.luscherComplete">
       Вы ещё не успели пройти цветовой тест для данной персоны.
       <br><br>
-      <mat-icon>color_lens</mat-icon>
-      <a routerLink=".."><button mat-raised-button>Перейти к цветовому тесту</button></a>
+      <a routerLink=".."><button mat-raised-button>
+          <mat-icon>color_lens</mat-icon>
+          Перейти к цветовому тесту
+        </button></a>
     </p>
   </ng-template>
   <div class="columns-container">
@@ -48,9 +52,11 @@
 
       <!-- <div class="button-row"> -->
       <button class="save" mat-raised-button (click)="onSave()">
+        <mat-icon>save</mat-icon>
         {{result.mmpiComplete ? 'Обновить оценку' : 'Сохранить оценку'}}
       </button>
       <button class="save" *ngIf="result?.mmpiComplete" mat-button (click)="onDelete()">
+        <mat-icon>delete_forever</mat-icon>
         Удалить оценку
       </button>
       <!-- </div> -->

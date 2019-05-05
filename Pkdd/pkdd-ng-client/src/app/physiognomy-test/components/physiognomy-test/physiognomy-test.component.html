@@ -1,0 +1,61 @@
+<ng-container *ngIf="sequence[index] as pair; else complete">
+
+  <mat-progress-bar [mode]="'determinate'" [value]="(index / sequence.length) * 100"></mat-progress-bar>
+  <p>
+    Сравнение {{index + 1}} из {{sequence.length}} <br>
+  </p>
+  <p>
+    Сравните лицо политической персоны с образами представителей типических групп. Укажите какой группе в большей
+    степени соответсвует лицо оцениваемой персоны.
+  </p>
+  <ng-container *ngIf="window.currentDeviceType == 'pc'; else mobile">
+    <div class="imgs">
+      <img src="/assets/physiognomy/{{sequence[index][0]}}.png" class="group-photo">
+      <img [src]="person.photoUrl" class="person-photo">
+      <img src="/assets/physiognomy/{{sequence[index][1]}}.png" class="group-photo">
+    </div>
+    <div class="actions">
+      <button mat-raised-button (click)="addPoints(pair[0], 3); next()">
+        <mat-icon> fast_rewind </mat-icon> &nbsp; К этой
+      </button>
+      <button mat-raised-button (click)="addPoints(pair[0], 1); next()">
+        <mat-icon> arrow_left </mat-icon>Скорее, к этой
+      </button>
+      <button mat-raised-button (click)="next()">Ни к той, ни к другой </button>
+      <button mat-raised-button (click)="addPoints(pair[1], 1); next()">
+        Скорее, к этой<mat-icon> arrow_right </mat-icon>
+      </button>
+      <button mat-raised-button (click)="addPoints(pair[1], 3); next()">
+        К этой &nbsp;<mat-icon> fast_forward </mat-icon>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #mobile>
+    <img [src]="person.photoUrl" class="full-person-photo">
+    <div class="imgs">
+      <img src="/assets/physiognomy/{{sequence[index][0]}}.png" class="group-photo">
+      <img src="/assets/physiognomy/{{sequence[index][1]}}.png" class="group-photo">
+    </div>
+    <div class="actions">
+      <button mat-fab (click)="addPoints(pair[0], 3); next()">
+        <mat-icon> fast_rewind </mat-icon>
+      </button>
+      <button mat-fab (click)="addPoints(pair[0], 1); next()">
+        <mat-icon> arrow_left </mat-icon>
+      </button>
+      <button mat-fab (click)="next()">
+        <mat-icon> close </mat-icon>
+      </button>
+      <button mat-fab (click)="addPoints(pair[1], 1); next()">
+        <mat-icon> arrow_right </mat-icon>
+      </button>
+      <button mat-fab (click)="addPoints(pair[1], 3); next()">
+        <mat-icon> fast_forward </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+</ng-container>
+<ng-template #complete>
+  <p>Физиогномический тест пройден.</p>
+</ng-template>

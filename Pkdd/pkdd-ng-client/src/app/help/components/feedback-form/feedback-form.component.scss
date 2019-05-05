@@ -1,18 +1,33 @@
-.text,
-textarea {
-    width: 100%;
-    min-height: 60px;
+:host {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    max-width: 800px;
 }
 
+// .text,
+// textarea {
+//     width: 100%;
+//     min-height: 60px;
+// }
+
 .type {
-    margin-right: 5px;
+    flex: 0 0 150px;
 }
 
 .topic {
-    width: 60%;
+    flex: auto;
 }
 
-mat-card-actions {
+// .topic {
+//     width: 60%;
+// }
+
+// mat-card-actions {
+//     display: flex;
+//     justify-content: flex-end;
+// }
+
+.row-fields {
     display: flex;
-    justify-content: flex-end;
 }

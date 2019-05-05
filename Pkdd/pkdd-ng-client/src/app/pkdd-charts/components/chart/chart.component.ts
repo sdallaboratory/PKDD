@@ -49,7 +49,6 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       (<any>this.config.options).onDragStart = this.config.onDragStart;
     }
     this.chart = new Chart(this.canvasContext, this.config);
-    console.log('Chart is build with config: ', this.config);
     this.config.update = () => this.chart.update();
   }
 

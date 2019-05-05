@@ -36,11 +36,10 @@ export class PersonEditComponent implements OnInit {
     private readonly confirm: ConfirmService
   ) { }
 
-  async ngOnInit() {
-    // TODO: Use route.snapshot.data instead of observable data.
-    const data = (await this.route.data.pipe(first()).toPromise())['personModel'];
-    this.person = data.person;
-    this.contentBlocks = data.contentBlocks;
+  ngOnInit() {
+    const personModel = this.route.snapshot.data['personModel'];
+    this.person = personModel.person;
+    this.contentBlocks = personModel.contentBlocks;
   }
 
   public async onBlockAdd() {

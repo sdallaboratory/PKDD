@@ -19,7 +19,6 @@ export class RoleGuard implements CanActivate, CanActivateChild {
 
   public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     const roles = (<PkddRouteData>route.data).roles;
-    console.log('Role guard works. Route roles are: ', roles, route.url);
 
     const verified = await this.guard.canActivate(route, state) && (!roles || !roles.length || await this.checkPermissions(roles));
     if (!verified) {
