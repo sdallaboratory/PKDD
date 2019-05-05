@@ -82,9 +82,10 @@ export class TotalPlot extends MmpiPlot {
                     hidden: this.dataset.hidden,
                     borderWidth: this.dataset.borderWidth,
                     borderColor: this.dataset.borderColor,
-                    backgroundColor: this.dataset.backgroundColor,
-                    pointHitRadius: 0,
-                    hideInLegendAndTooltip: true,
+                    pointBorderWidth: 0,
+                    pointBackgroundColor: 'transparent',
+                    pointBorderColor: 'transparent',
+                    // backgroundColor: this.dataset.backgroundColor,
                 };
             }
             this.extraDatasets[i].data = MmpiResult.toArray(results[i]);

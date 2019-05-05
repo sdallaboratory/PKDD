@@ -14,6 +14,7 @@ export abstract class MmpiPlot {
 
     protected dataset: ChartDataSets = {
         pointRadius: 4,
+        pointHoverRadius: 7,
         fill: false,
     };
 
@@ -51,6 +52,8 @@ export abstract class MmpiPlot {
         this.dataset.borderWidth = this.borderWidth;
         this.dataset.borderColor = this.color;
         this.dataset.backgroundColor = this.color;
+        this.dataset.pointBackgroundColor = this.color;
+        this.dataset.pointBorderColor = this.color;
         return [this.dataset];
     }
 }

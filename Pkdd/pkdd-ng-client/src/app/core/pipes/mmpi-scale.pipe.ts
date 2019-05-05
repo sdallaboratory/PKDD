@@ -10,9 +10,10 @@ export class MmpiScalePipe implements PipeTransform {
     hypochondriasis: 'Поиск причин неудач вовне',
     depression: 'Самокритика',
     hysteria: 'Демонстративность',
-    psychopathia: 'Решитильность',
+    psychopathia: 'Решительность',
+
     masculinity: 'Чувствительность натуры',
-    paranoia: 'Найстойчивость',
+    paranoia: 'Настойчивость',
     psychasthenia: 'Футурологическая тревога',
     schizophrenia: 'Индивидуализированность',
     hypomania: 'Оптимизм',

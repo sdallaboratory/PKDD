@@ -70,10 +70,10 @@ export class PlotCreateComponent implements OnInit {
   }
 
   private buildInitialPlots() {
-    this.buildAveragePlot();
+    this.buildAllPlot();
     this.buildMaxPlot();
     this.buildMinPlot();
-    this.buildAllPlot();
+    this.buildAveragePlot();
   }
 
   private buildAveragePlot() {
