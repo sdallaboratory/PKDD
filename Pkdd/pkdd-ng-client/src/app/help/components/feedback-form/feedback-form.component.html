@@ -1,9 +1,8 @@
-<!-- <div *ngIf="issue"> -->
-<mat-card-title>
+<h2>
   Форма обратной свзязи
-</mat-card-title>
+</h2>
 
-<div class="row-fields">
+<ng-container *ngIf="issue; else loading">
 
   <mat-form-field class="type">
     <mat-label>
@@ -27,21 +26,25 @@
   <mat-form-field class="topic">
     <input required matInput [(ngModel)]="issue.title" placeholder="Тема">
   </mat-form-field>
-</div>
 
+  <mat-form-field *ngIf="issue" class="text" [appearance]="'fill'">
+    <mat-label>Текст обращения</mat-label>
+    <textarea required [disabled]="!issue" matInput [(ngModel)]="issue.question"
+      placeholder="Введите текст обращения..." cdkTextareaAutosize cdkAutosizeMinRows="5"></textarea>
+  </mat-form-field>
 
-<mat-form-field *ngIf="issue" class="text">
-  <mat-label>Текст обращения</mat-label>
-  <textarea required [disabled]="!issue" matInput [(ngModel)]="issue.question" placeholder="Введите текст обращения..."
-    cdkTextareaAutosize cdkAutosizeMinRows="5"></textarea>
-  <mat-hint *ngIf="window.currentDeviceType === 'pc'" align="end">Потяните, чтобы увеличить поле ввода</mat-hint>
-</mat-form-field>
-<mat-card-actions>
-  <button [disabled]="issue.question === '' || issue.title === ''" mat-button (click)="onIssueAdd()">
-    Отправить обращение
-    <mat-icon>
-      send
-    </mat-icon>
-  </button>
-</mat-card-actions>
-<!-- </div> -->
+  <mat-card-actions>
+    <button [disabled]="issue.question === '' || issue.title === ''" mat-button (click)="onIssueAdd()">
+      Отправить обращение
+      <mat-icon>
+        send
+      </mat-icon>
+    </button>
+  </mat-card-actions>
+</ng-container>
+
+<ng-template #loading>
+  <p>
+    Загрузка формы...
+  </p>
+</ng-template>
