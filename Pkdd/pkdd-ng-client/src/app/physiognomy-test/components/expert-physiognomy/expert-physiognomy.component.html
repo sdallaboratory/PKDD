@@ -3,6 +3,21 @@
   <p>{{person.position}}</p>
 
   <h2>Физиогномический тест</h2>
+  <p style="color: red;">
+    Тест находится на стадии разработки
+  </p>
+  <p>
+    Вы можете сообщить о замеченных проблемах и внести свои предложения по усовершенствованию в разделе обратной связи.
+    <br>
+    <br>
+    <a routerLink="/help/feedback">
+      <button mat-raised-button>
+        <mat-icon>feedback</mat-icon> Оставить пожелание
+      </button>
+    </a>
+    <br>
+    <br>
+  </p>
 
 
   <div *ngIf="result.physiognomyComplete; else test">
