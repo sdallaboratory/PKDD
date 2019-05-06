@@ -36,7 +36,8 @@ import { SearchModule } from '../search/search.module';
     StrongestRolePipe,
     UserIssuesComponent,
     UserIssuesItemComponent,
-    UserColorPipe
+    UserColorPipe,
+    UserCreateComponent
   ]
 })
 export class AdminModule { }

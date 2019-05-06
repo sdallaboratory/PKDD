@@ -20,9 +20,9 @@ export class UserCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  public async addOrRemoveRole(role: PkddRoles) {
+  public async addOrRemoveRole(role: string) {
     if (!this.user.isBaseUser) {
-      const roles = this.user.roles;
+      const roles = this.user.roles.map(r => r.toString());
       const isInRole = roles.includes(role);
       const result = await this.repos.addOrRemoveRole(this.user.id, isInRole, role);
       if (result && isInRole) {

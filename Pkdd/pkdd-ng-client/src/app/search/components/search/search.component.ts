@@ -17,13 +17,13 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  public onInput() {
+  public onInput(e) {
     this.queryChange.emit(this.query);
   }
 
   public onClear() {
     this.query = '';
-    this.onInput();
+    this.onInput(null);
   }
 
 }

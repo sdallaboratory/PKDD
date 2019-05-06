@@ -47,7 +47,7 @@ export class UserRepositoryService {
     }
   }
 
-  public async addOrRemoveRole(id: number, isInRole: boolean, role: PkddRoles) {
+  public async addOrRemoveRole(id: number, isInRole: boolean, role: string) {
     if (isNullOrUndefined(this.users) || this.users.length === 0) {
       return false;
     }

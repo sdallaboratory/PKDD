@@ -36,12 +36,12 @@ export class UserCreateComponent implements OnInit {
     this.user = this.createNewUserModel();
   }
 
-  public isInRole(role: PkddRoles) {
+  public isInRole(role: string) {
     return this.user ? this.user.roles.some(r => r === role) : false;
   }
 
-  public async onRoleAction(role: PkddRoles) {
-    const roles = this.user.roles;
+  public async onRoleAction(role: string) {
+    const roles = this.user.roles.map(v => v.toString());
     const isInRole = roles.includes(role);
     if (isInRole) {
       roles.splice(roles.indexOf(role), 1);
