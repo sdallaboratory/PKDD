@@ -28,7 +28,7 @@
     <ng-container *ngIf="selectedPhoto">
       <mat-form-field>
         <mat-label>Ссылка на фото</mat-label>
-        <input matInput placeholder="Вставьте ссылку сюда..." [(ngModel)]="selectedPhoto.url">
+        <input type="url" matInput placeholder="Вставьте ссылку сюда..." [(ngModel)]="selectedPhoto.url">
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Описание" [(ngModel)]="selectedPhoto.description">

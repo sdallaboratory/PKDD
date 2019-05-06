@@ -1,8 +1,34 @@
 <div class="wrapper">
-  <h1>Шкалирование</h1>
-  Изучите <a routerLink="..">информацию о персоне</a>, а затем при помощи перетягивания установите на соответсвующие
-  значения маркеры по каждой из 10 шкал. Если вам не удаётся перетянуть маркер, воспользуйтесь числовыми полями
-  для ввода под графиком.
+  <h1>{{person.name}}</h1>
+  <p>{{person.position}}</p>
+  <h2>Шкалирование</h2>
+  <ng-container *ngIf="!result.mmpiComplete; else complete">
+    <p>
+      Изучите <a routerLink="..">информацию о персоне</a>, а затем при помощи перетягивания установите на соответсвующие
+      значения маркеры по каждой из 10 шкал. Если на вашем устройстве графический ввод работает некорректно,
+      воспользуйтесь числовыми полями
+      для ввода под графиком.
+      <br><br>
+      <a routerLink=".."><button mat-raised-button>
+          <mat-icon>info_outlined</mat-icon>
+          Изучить информацию
+        </button></a>
+    </p>
+  </ng-container>
+  <ng-template #complete>
+    <p>
+      Вы уже дали свою оценку для этой персоны. При необходимости внести правки, измените значения шкал, а затем
+      сохраните оценку.
+    </p>
+    <p *ngIf="!result.luscherComplete">
+      Вы ещё не успели пройти цветовой тест для данной персоны.
+      <br><br>
+      <a routerLink=".."><button mat-raised-button>
+          <mat-icon>color_lens</mat-icon>
+          Перейти к цветовому тесту
+        </button></a>
+    </p>
+  </ng-template>
   <div class="columns-container">
     <pkdd-chart [config]="chartConfig"></pkdd-chart>
 
@@ -11,12 +37,11 @@
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          Ввести числами
+          <mat-icon>format_list_numbered_rtl</mat-icon> &nbsp; Ввести числами
         </mat-expansion-panel-header>
         <div class="fields-group">
-
           <mat-form-field *ngFor="let key of keys">
-            <input type="number" [placeholder]="key" matInput [(ngModel)]="result?.mmpi[key]"
+            <input type="number" [placeholder]="key | mmpiScale" matInput [(ngModel)]="result?.mmpi[key]"
               (change)="onValueCahnged(key)">
           </mat-form-field>
         </div>
@@ -27,9 +52,11 @@
 
       <!-- <div class="button-row"> -->
       <button class="save" mat-raised-button (click)="onSave()">
+        <mat-icon>save</mat-icon>
         {{result.mmpiComplete ? 'Обновить оценку' : 'Сохранить оценку'}}
       </button>
       <button class="save" *ngIf="result?.mmpiComplete" mat-button (click)="onDelete()">
+        <mat-icon>delete_forever</mat-icon>
         Удалить оценку
       </button>
       <!-- </div> -->

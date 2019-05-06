@@ -1,15 +1,14 @@
-.text,
-textarea {
-    width: 100%;
-    min-height: 60px;
+:host {
+    display: flex;
+    flex-direction: column;
 }
 
 .type {
-    margin-right: 5px;
+    flex: none;
 }
 
 .topic {
-    width: 60%;
+    flex: auto;
 }
 
 mat-card-actions {

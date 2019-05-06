@@ -38,8 +38,8 @@ const routes: Routes = [
             resolve: {
               issues: IssueListResolverService
             },
-           },
-           {
+          },
+          {
             canActivate: [AuthGuard, FeedbackGuard],
             canActivateChild: [AuthGuard],
             path: 'feedback/:userId/:feedbackId',
@@ -47,7 +47,7 @@ const routes: Routes = [
             resolve: {
               issue: IssuesResolverService
             },
-           },
+          },
           {
             path: 'about',
             component: ProjectDescriptionComponent,
@@ -63,7 +63,7 @@ const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'about'
+            redirectTo: 'feedback'
           }
         ]
       }
@@ -77,4 +77,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class HelpRoutingModule {
- }
+}

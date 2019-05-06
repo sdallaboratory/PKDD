@@ -15,7 +15,7 @@ namespace Pkdd.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -235,6 +235,8 @@ namespace Pkdd.Database.Migrations
                     b.Property<int>("Priority");
 
                     b.Property<int>("Sex");
+
+                    b.Property<int>("Views");
 
                     b.HasKey("Id");
 
@@ -645,6 +647,22 @@ namespace Pkdd.Database.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<double>("Black");
+
+                            b1.Property<double>("Blue");
+
+                            b1.Property<double>("Brown");
+
+                            b1.Property<double>("Green");
+
+                            b1.Property<double>("Grey");
+
+                            b1.Property<double>("Pink");
+
+                            b1.Property<double>("Red");
+
+                            b1.Property<double>("Yellow");
+
                             b1.ToTable("TestResults");
 
                             b1.HasOne("Pkdd.Models.Results.TestResult")
@@ -692,6 +710,30 @@ namespace Pkdd.Database.Migrations
                             b1.Property<int>("TestResultId")
                                 .ValueGeneratedOnAdd()
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<double>("Group1");
+
+                            b1.Property<double>("Group10");
+
+                            b1.Property<double>("Group11");
+
+                            b1.Property<double>("Group12");
+
+                            b1.Property<double>("Group2");
+
+                            b1.Property<double>("Group3");
+
+                            b1.Property<double>("Group4");
+
+                            b1.Property<double>("Group5");
+
+                            b1.Property<double>("Group6");
+
+                            b1.Property<double>("Group7");
+
+                            b1.Property<double>("Group8");
+
+                            b1.Property<double>("Group9");
 
                             b1.ToTable("TestResults");
 

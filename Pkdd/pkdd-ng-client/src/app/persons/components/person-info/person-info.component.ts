@@ -19,9 +19,9 @@ export class PersonInfoComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    const data = (await this.route.data.pipe(first()).toPromise())['personModel'];
-    this.person = data.person;
-    this.contentBlocks = data.contentBlocks;
+    const personModel = this.route.snapshot.data['personModel'];
+    this.person = personModel.person;
+    this.contentBlocks = personModel.contentBlocks;
   }
 
 }

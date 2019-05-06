@@ -1,6 +1,5 @@
 <pkdd-search (queryChange)="onQueryChange($event)"></pkdd-search>
-<ng-container *ngIf="query == ''">
-    <h1>Создание пользователя</h1>
+<ng-container class="user-create-wrapper" *ngIf="query == ''">
     <pkdd-user-create (userCreated)="update()"></pkdd-user-create>
 </ng-container>
 <h1 *ngIf="isLoading">Загрузка списка пользователей...</h1>

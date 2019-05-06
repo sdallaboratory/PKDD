@@ -38,7 +38,7 @@ namespace Pkdd
             WebHost.CreateDefaultBuilder(args)
             .UseKestrel()
             .UseContentRoot(Directory.GetCurrentDirectory())
-            .UseUrls("https://localhost:5001", "https://192.168.0.110:5001")
+            //.UseUrls("https://localhost:5001", "https://192.168.0.110:5001")
             .UseIISIntegration()
             .UseStartup<Startup>();
     }

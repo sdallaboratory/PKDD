@@ -4,6 +4,7 @@ using Pkdd.Abstractions.Entity;
 using Pkdd.Models.Persons.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pkdd.Models.Persons
 {
@@ -24,14 +25,16 @@ namespace Pkdd.Models.Persons
 
         public Priority Priority { get; set; }
 
-        [JsonProperty("photoUrl")]
         public string PhotoUrl { get; set; }
 
-        [JsonProperty("isPublished")]
         public bool IsPublished { get; set; }
 
-        [JsonProperty("bioBlock")]
         public BaseBioBlock BioBlock { get; set; }
+
+        [NotMapped]
+        public int ResultsCount { get; set; }
+
+        public int Views { get; set; }
 
         public override Person Update(Person entity)
         {
@@ -41,6 +44,7 @@ namespace Pkdd.Models.Persons
             Position = entity.Position;
             IsPublished = entity.IsPublished;
             PhotoUrl = entity.PhotoUrl;
+            Views = entity.Views;
             this.MarkUpdated();
             return this;
         }

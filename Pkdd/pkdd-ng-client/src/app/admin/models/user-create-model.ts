@@ -10,8 +10,9 @@ export class UserCreateModel extends PkddUser {
         isConf,
         isBanned,
         timeTrack,
-        isDeleted
+        isDeleted,
+        resultsCount
     ) {
-        super(id, email, name, roles, isConf, isBanned, timeTrack, isDeleted, false);
+        super(id, email, name, roles, isConf, isBanned, timeTrack, isDeleted, false, resultsCount);
     }
 }

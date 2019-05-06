@@ -1,13 +1,17 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
 .cards-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    padding-top: 10px;
-    // padding-bottom: 33vh;
 }
 
-pkdd-person-card, .add-card {
+pkdd-person-card,
+.add-card {
     margin: 15px;
     width: 280px;
     box-sizing: border-box;

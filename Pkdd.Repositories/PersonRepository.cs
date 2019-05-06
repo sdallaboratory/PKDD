@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Pkdd.Database;
+using Pkdd.Models.Persons;
+using Pkdd.Repositories.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Pkdd.Database;
-using Pkdd.Models.Persons;
-using Pkdd.Models.Persons.Enums;
-using Pkdd.Repositories.Exceptions;
 
 namespace Pkdd.Repositories
 {
@@ -80,10 +77,17 @@ namespace Pkdd.Repositories
 
         public async Task<List<Person>> GetAllPersons()
         {
-            // TODO: Remove unnecessary variable
             try
             {
-                return await _dbContext.Persons.Include(p => p.BioBlock).ToListAsync() ?? new List<Person>();
+                var persons = _dbContext.Persons.Include(p => p.BioBlock)
+                    .OrderByDescending(p => p.TimeTrack.Created)
+                    .OrderByDescending(p => p.Priority)
+                    .ToList() ?? new List<Person>();
+                foreach (var person in persons)
+                {
+                    person.ResultsCount = _dbContext.TestResults.Where(tr => tr.PersonId == person.Id).Where(tr => tr.CompleteAny).Count();
+                }
+                return persons;
             }
             catch (Exception ex)
             {
@@ -92,11 +96,15 @@ namespace Pkdd.Repositories
         }
 
         // TODO: Puts here user instance and return persons from his scope.
-        public Task<List<Person>> GetPersonsForExpert()
+        public async Task<List<Person>> GetPersonsForExpert()
         {
             try
             {
-                return _dbContext.Persons.Where(person => person.IsPublished).Include(p => p.BioBlock).ToListAsync();
+                return _dbContext.Persons.Include(p => p.BioBlock)
+                    .OrderByDescending(p => p.TimeTrack.Created)
+                    .OrderByDescending(p => p.Priority)
+                    .Where(p => p.IsPublished && !p.IsDeleted).ToList()
+                    .ToList() ?? new List<Person>();
             }
             catch (Exception ex)
             {
@@ -151,20 +159,19 @@ namespace Pkdd.Repositories
 
         public async Task<Person> GetPerson(int id)
         {
-            Person person = null;
             try
             {
-                person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync();
-                if (person == null)
-                {
-                    throw new NotFoundException("Сущность не найдена");
-                }
+                var person = await _dbContext.Persons.Where(p => p.Id == id).Include(p => p.BioBlock).FirstOrDefaultAsync()
+                    ?? throw new NotFoundException("Сущность не найдена");
+                person.Views++;
+                // TODO: А зачем тут собсн ожидание??))
+                await _dbContext.SaveChangesAsync();
+                return person;
             }
             catch (Exception ex)
             {
                 throw MakeException(ex);
             }
-            return person;
         }
 
         public async Task RemoveContentBlock(int id)

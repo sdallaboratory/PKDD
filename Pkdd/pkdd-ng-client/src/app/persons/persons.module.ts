@@ -27,6 +27,9 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SexTypePipe } from './pipes/sex-type.pipe';
 import { CoreModule } from '../core/core.module';
+import { SearchModule } from '../search/search.module';
+import { LuscherTestModule } from '../luscher-test/luscher-test.module';
+import { PhysiognomyTestModule } from '../physiognomy-test/physiognomy-test.module';
 
 @NgModule({
   imports: [
@@ -34,12 +37,17 @@ import { CoreModule } from '../core/core.module';
     AuthModule,
     MaterialImportsModule,
     CoreModule,
-    PersonsRoutingModule,
     MmpiTestModule,
+    LuscherTestModule,
     LayoutModule,
     FormsModule,
     BrowserModule,
     MDBBootstrapModule,
+    SearchModule,
+    LuscherTestModule,
+    PhysiognomyTestModule,
+
+    PersonsRoutingModule,
   ],
   declarations: [
     PersonsListComponent,
@@ -60,6 +68,6 @@ import { CoreModule } from '../core/core.module';
     AddCardComponent,
     ContentComponent,
     SexTypePipe,
-    ],
+  ],
 })
 export class PersonsModule { }

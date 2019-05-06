@@ -22,12 +22,12 @@ export class BackendCheckerService {
     const promises = this.env.config.backendOrigins.map(o => this.checkOrigin(o));
     try {
       this.backendOrigin = await firstResolved(promises);
+      // console.log(`${this.backendOrigin} is used as a  backend origin.`);
     } catch { }
   }
 
   public async checkOrigin(backendOrigin: string): Promise<string> {
     const response = await this.http.get<any>(backendOrigin + 'api/diagnostics/healthcheck').pipe(first()).toPromise();
-    console.log(response);
     if (response.statusMessage === 'Ok') {
       return backendOrigin;
     } else {

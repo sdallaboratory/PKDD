@@ -3,6 +3,8 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 
+
+
 html,
 body {
     width: 100%;
@@ -14,6 +16,10 @@ body {
     font-family: Helvetica, Arial, sans-serif;
     background: lightgray;
     overflow: hidden;
+
+    * {
+        outline: none !important;
+    }
 }
 
 @media(max-width: 600px) {

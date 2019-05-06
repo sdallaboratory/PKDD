@@ -2,12 +2,10 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    // flex-direction: row;
-    // flex-wrap: wrap;
-    // justify-content: center;
 }
 
-h1 {
+h1,
+h2 {
     text-align: center;
 }
 
@@ -15,23 +13,21 @@ h1 {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    // justify-content: center;
 }
 
-pkdd-user-card,
-pkdd-user-create {
+// pkdd-user-create 
+pkdd-user-card {
     margin: 15px;
     width: 310px;
 }
 
 pkdd-user-create {
-    height: 330px;
+    margin: 15px;
+    max-width: 500px;
 }
 
-// mat-card {
-//   box-sizing: border-box;
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-size: 20%;
-//   cursor: pointer;
+// .user-create-wrapper {
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
 // }

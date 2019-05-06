@@ -1,0 +1,10 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+pkdd-chart {
+    height: 80vh;
+    max-height: 700px;
+    margin: 10px 0;
+}

@@ -14,17 +14,12 @@ export class MmpiResult {
         public sociality: number = 0,
     ) { }
 
-    public static get keys(): string[] {
-        return Object.values(MmpiResultNames.getNames('conf'));
+    public static get keys(): (keyof MmpiResult)[] {
+        return Object.keys(new MmpiResult()) as (keyof MmpiResult)[];
     }
 
-    public static getBasicKeys(): string[] {
-        return MmpiResultNames.getBaseKeys();
-    }
-
-    public static toNameValuePairs(mmpiResult: MmpiResult): { name: string, value: number }[] {
-        const names: LocaleName = MmpiResultNames.getNames('conf');
-        return mmpiResult && Object.keys(mmpiResult).map(key => ({ name: names[key], value: mmpiResult[key] }));
+    public static toNameValuePairs(mmpiResult: MmpiResult): { name: keyof MmpiResult, value: number }[] {
+        return mmpiResult && MmpiResult.keys.map(key => ({ name: key, value: mmpiResult[key] }));
     }
 
     public static toArray(mmpiResult: MmpiResult): number[] {
@@ -33,7 +28,7 @@ export class MmpiResult {
 
     public static fromArray(values: number[]): MmpiResult {
         const mmpiResult = new MmpiResult();
-        MmpiResult.keys.forEach((name, i) => mmpiResult[MmpiResultNames.getInBaseLocale(name, 'conf')] = values[i]);
+        MmpiResult.keys.forEach((name, i) => mmpiResult[name] = values[i]);
         return mmpiResult;
     }
 }

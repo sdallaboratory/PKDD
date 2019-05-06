@@ -3,7 +3,8 @@
   <ng-container *ngIf='edit'>
     <mat-form-field>
       <mat-label>Ссылка на видео</mat-label>
-      <input matInput [(ngModel)]="content.content.url" placeholder="вставьте ссылку сюда..." (ngModelChange)="onUrlChanged()">
+      <input type="url" matInput [(ngModel)]="content.content.url" placeholder="вставьте ссылку сюда..."
+        (ngModelChange)="onUrlChanged()">
       <mat-hint *ngIf="content.content.url && !isValid">Введена некорректная ссылка</mat-hint>
     </mat-form-field>
     <mat-form-field>

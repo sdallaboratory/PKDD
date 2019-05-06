@@ -19,6 +19,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { HelpModule } from '../help/help.module';
 import { NotificationModule } from '../notification/notification.module';
 import { RoutingTrackerService } from './services/routing-tracker.service';
+import { UsersModule } from '../users/users.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { RoutingTrackerService } from './services/routing-tracker.service';
     AccountModule,
     AdminModule,
     HelpModule,
+    UsersModule,
     AppRoutingModule,
     LayoutModule,
   ],

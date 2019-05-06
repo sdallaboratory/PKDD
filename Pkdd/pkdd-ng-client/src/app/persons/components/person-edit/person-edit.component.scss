@@ -22,7 +22,8 @@ pkdd-add-card {
 }
 
 .person-photo {
-    width: 100%;
+    align-self: flex-start;
+    max-height: 400px;
     margin-top: -15px;
     margin-bottom: 15px;
 }
@@ -35,6 +36,7 @@ pkdd-add-card {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+
     button {
         margin: 10px;
     }
