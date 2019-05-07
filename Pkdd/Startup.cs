@@ -21,6 +21,8 @@ namespace Pkdd
         {
             Configuration = configuration;
             Environment = env;
+
+            Console.WriteLine($"\n{Environment.ApplicationName} is started in hosting environment: {Environment.EnvironmentName}\n\n");
         }
 
         public IConfiguration Configuration { get; }
@@ -90,6 +92,7 @@ namespace Pkdd
             {
                 if (Environment.IsDevelopment())
                 {
+                    Console.WriteLine("Connecting to development Angular CLI server...");
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
