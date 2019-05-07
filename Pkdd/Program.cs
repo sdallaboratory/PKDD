@@ -9,10 +9,10 @@ namespace Pkdd
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-            SeedDatabase(host);
+            await SeedDatabase(host);
             host.Run();
         }
 
