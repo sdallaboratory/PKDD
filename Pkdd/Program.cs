@@ -27,9 +27,8 @@ namespace Pkdd
                     await seeder.SeedAsync();
                 }
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
-                var a = 2;
                 throw;
             }
         }

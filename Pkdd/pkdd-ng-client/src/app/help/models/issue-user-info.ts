@@ -9,8 +9,8 @@ export class IssueUserInfo {
         this.userId = user.id;
         this.name = user.name;
         this.email = user.email;
-        user.roles.includes(PkddRoles.admin) ? this.mainRole = 'admin' :
-        user.roles.includes(PkddRoles.tech) ? this.mainRole = 'tech' :
-        user.roles.includes(PkddRoles.expert) ? this.mainRole = 'expert' : this.mainRole = 'undefined';
+        user.roles.includes('admin') ? this.mainRole = 'admin' :
+            user.roles.includes('tech') ? this.mainRole = 'tech' :
+                user.roles.includes('expert') ? this.mainRole = 'expert' : this.mainRole = 'undefined';
     }
 }

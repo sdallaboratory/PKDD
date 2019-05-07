@@ -18,7 +18,7 @@ export class FeedbackGuard implements CanActivate {
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const userId = next.params.userId;
     const currentUser = await this.user.getUserAsync();
-    const condition = userId === currentUser.id || currentUser.roles.includes(PkddRoles.admin);
+    const condition = userId === currentUser.id || currentUser.roles.includes('admin');
     if (!condition) {
       this.router.navigate(['help/feedback']);
     }

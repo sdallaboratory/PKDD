@@ -50,11 +50,11 @@ export class UsersListComponent implements OnInit {
       },
       {
         name: 'Администраторы',
-        users: filteredUsers.filter(u => u.roles.includes(PkddRoles.admin))
+        users: filteredUsers.filter(u => u.roles.includes('admin'))
       },
       {
         name: 'Эксперты и технологи',
-        users: filteredUsers.filter(u => u.isConfirmed && !u.isBanned && !u.roles.includes(PkddRoles.admin))
+        users: filteredUsers.filter(u => u.isConfirmed && !u.isBanned && !u.roles.includes('admin'))
       },
       {
         name: 'Забаненные пользователи',

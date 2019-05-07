@@ -15,7 +15,7 @@ export class UserColorPipe implements PipeTransform {
       return 'lightcoral';
     } else if (!user.isConfirmed) {
       return 'yellow';
-    } else if (user.roles.includes(PkddRoles.admin)) {
+    } else if (user.roles.includes('admin')) {
       return 'lightgreen';
     }
   }

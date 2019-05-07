@@ -23,7 +23,7 @@ export class IssueComponent implements OnInit {
   public currentUser: PkddUser;
 
   public get isCurrentUserAdmin() {
-    return this.currentUser.roles.includes(PkddRoles.admin);
+    return this.currentUser.roles.includes('admin');
   }
 
   constructor(

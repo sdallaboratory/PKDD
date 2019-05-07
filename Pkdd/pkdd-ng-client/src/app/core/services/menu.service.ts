@@ -24,7 +24,7 @@ export class MenuService {
       new MenuItem('Персоны', '/persons', 'people', true),
       new MenuItem('Аккаунт', '/account', 'settings', true),
       new MenuItem('Помощь', '/help', 'help_outline', true),
-      ...(user.roles.includes(PkddRoles.admin) ? [
+      ...(user.roles.includes('admin') ? [
         new MenuItem('Администрирование', '/admin', 'verified_user', true)
       ] : [])
     ];

@@ -20,16 +20,15 @@ export class PersonMenuResolver implements Resolve<MenuItem[]> {
         const id = route.paramMap.get('id');
         const items = [
             new MenuItem('Информация', `/persons/${id}`, 'info', true),
-            ...(user.roles.includes(PkddRoles.expert) ? [
+            ...(user.roles.includes('expert') ? [
                 new MenuItem('Шкалирование', `/persons/${id}/mmpi`, 'assessment', true),
                 new MenuItem('Цветовой тест', `/persons/${id}/luscher`, 'palette', true),
                 new MenuItem('Физиогномика', `/persons/${id}/physiognomy`, 'face', true),
             ] : []),
-            ...(user.roles.includes(PkddRoles.tech) ? [
+            ...(user.roles.includes('tech') ? [
                 new MenuItem('Редактирование', `/persons/${id}/edit`, 'edit', true),
                 new MenuItem('Результаты', `/persons/${id}/results`, 'assignment_turned_in', true),
             ] : []),
-            // new MenuItem('Возник вопрос?', '/help/feedback', 'feedback', true)
         ];
         this.menu.sideMenuItems = items;
         return items;

@@ -58,30 +58,30 @@ const personsRoutes: Routes = [
             {
               path: 'mmpi', component: PersonMmpiComponent,
               resolve: { results: ResultsResolverService, personModel: PersonResolverService },
-              data: { roles: [PkddRoles.expert] }
+              data: { roles: ['expert'] }
             },
             {
               path: 'edit',
               component: PersonEditComponent,
               resolve: { personModel: PersonResolverService },
-              data: { roles: [PkddRoles.tech] }
+              data: { roles: ['tech'] }
             },
             {
               path: 'luscher', component: ExpertLuscherComponent,
               resolve: { results: ResultsResolverService, personModel: PersonResolverService },
-              data: { roles: [PkddRoles.expert] }
+              data: { roles: ['expert'] }
             },
             {
               path: 'physiognomy',
               component: ExpertPhysiognomyComponent,
               resolve: { results: ResultsResolverService, personModel: PersonResolverService },
-              data: { roles: [PkddRoles.expert] }
+              data: { roles: ['expert'] }
             },
             {
               path: 'results',
               component: PersonResultsComponent,
               resolve: { personModel: PersonResolverService },
-              data: { roles: [PkddRoles.tech] }
+              data: { roles: ['tech'] }
             },
           ]
         }
