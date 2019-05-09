@@ -21,9 +21,9 @@ export class AdminMenuResolverService implements Resolve<MenuItem[]> {
         const user = await this.auth.getUserAsync();
         const id = route.paramMap.get('id');
         const items = [
-            ...(user.roles.includes(PkddRoles.tech) ? [
+            ...(user.roles.includes('tech') ? [
             ] : []),
-            ...(user.roles.includes(PkddRoles.admin) ? [
+            ...(user.roles.includes('admin') ? [
                 new MenuItem('Пользователи', `/admin/user-list`, 'list', true),
                 new MenuItem('Фидбек и ответы', '/admin/issues', 'question_answer', true)
             ] : []),

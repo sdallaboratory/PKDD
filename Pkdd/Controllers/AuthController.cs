@@ -84,7 +84,7 @@ namespace Pkdd.Controllers
                 return PkddOk(userInfo);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return PkddError("Вы не авторизованы.");
             }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,12 +17,16 @@ namespace Pkdd
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
+
+            Console.WriteLine($"\n{Environment.ApplicationName} is started in hosting environment: {Environment.EnvironmentName}\n\n");
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -58,52 +62,48 @@ namespace Pkdd
             services.AddPersonRepository();
             services.AddResultRepository();
             services.AddFeedbackRepository();
-            services.AddTransient<DbSeeder, DbSeeder>();
+            services.AddTransient<DbSeeder>();
 
             services.AddPkddUsers();
 
             services.AddLogging();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "pkdd-ng-client/dist";
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("AllowAny");
             }
             else
             {
                 app.UseHsts();
             }
-            app.UseCors("AllowAny");
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
-                //routes => routes.MapRoute(
-                //    name: "Default",
-                //    template: "{*AngularRoute}",
-                //    defaults: new { controller = "Home", action = "Index" }));
+
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "pkdd-ng-client";
-
-                if (env.IsDevelopment())
+                if (Environment.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    Console.WriteLine("Connecting to development Angular CLI server...");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
-            
+
+            //spa.Options.SourcePath = "pkdd-ng-client";
+            //if (env.IsDevelopment())
+            //{
+            //    spa.UseAngularCliServer(npmScript: "start");
+            //}
         }
+
     }
 }
+

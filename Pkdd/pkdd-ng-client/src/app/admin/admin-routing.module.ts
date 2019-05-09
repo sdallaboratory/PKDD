@@ -19,7 +19,7 @@ const routes: Routes = [
     children: [
       {
         data: {
-          roles: [PkddRoles.admin]
+          roles: ['admin']
         },
         canActivate: [AuthGuard, RoleGuard],
         path: 'admin',

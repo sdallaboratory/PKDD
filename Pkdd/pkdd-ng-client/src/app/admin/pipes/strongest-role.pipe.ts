@@ -8,13 +8,13 @@ import { PkddRoles } from '../../models/auth/pkdd-roles.enum';
 export class StrongestRolePipe implements PipeTransform {
 
   transform(role: PkddRoles[], args?: any): any {
-    if (role.includes(PkddRoles.admin)) {
+    if (role.includes('admin')) {
       return 'Администратор';
     }
-    if (role.includes(PkddRoles.tech)) {
+    if (role.includes('tech')) {
       return 'Технолог';
     }
-    if (role.includes(PkddRoles.expert)) {
+    if (role.includes('expert')) {
       return 'Эксперт';
     }
     return 'Пользователь';

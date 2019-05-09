@@ -12,7 +12,7 @@ namespace Pkdd
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-            SeedDatabase(host);
+            SeedDatabase(host).Wait();
             host.Run();
         }
 
@@ -27,9 +27,8 @@ namespace Pkdd
                     await seeder.SeedAsync();
                 }
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
-                var a = 2;
                 throw;
             }
         }
