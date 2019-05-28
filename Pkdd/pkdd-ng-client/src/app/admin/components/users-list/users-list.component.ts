@@ -53,7 +53,7 @@ export class UsersListComponent implements OnInit {
         users: filteredUsers.filter(u => u.roles.includes('admin'))
       },
       {
-        name: 'Эксперты и технологи',
+        name: 'Эксперты и модераторы',
         users: filteredUsers.filter(u => u.isConfirmed && !u.isBanned && !u.roles.includes('admin'))
       },
       {

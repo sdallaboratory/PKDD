@@ -66,12 +66,18 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
 
   initChartConfig() {
     this.chartConfig = {
+      elements: {
+        line: {
+          tension: 0
+        }
+      },
       type: 'line',
       data: {
         labels: MmpiResult.keys.map(k => this.scaleName.transform(k)),
         datasets: []
       },
       options: {
+        bezierCurve: false,
         legend: {
           display: false,
         },

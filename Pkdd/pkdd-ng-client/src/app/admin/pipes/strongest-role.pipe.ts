@@ -7,17 +7,18 @@ import { PkddRoles } from '../../models/auth/pkdd-roles.enum';
 })
 export class StrongestRolePipe implements PipeTransform {
 
-  transform(role: PkddRoles[], args?: any): any {
+  transform(role: PkddRoles[]): PkddRoles {
     if (role.includes('admin')) {
-      return 'Администратор';
+      return 'admin';
     }
     if (role.includes('tech')) {
-      return 'Технолог';
+      return 'tech';
     }
     if (role.includes('expert')) {
-      return 'Эксперт';
+      return 'expert';
     }
-    return 'Пользователь';
+    // TODO: add visitor role
+    return;
   }
 
 }

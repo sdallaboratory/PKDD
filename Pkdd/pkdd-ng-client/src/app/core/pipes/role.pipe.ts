@@ -8,7 +8,7 @@ export class RolePipe implements PipeTransform {
 
   private readonly roles: { [key in PkddRoles]: string } = {
     admin: 'Администратор',
-    tech: 'Технолог',
+    tech: 'Модератор',
     expert: 'Эксперт',
   }
 

@@ -11,6 +11,8 @@ import { Sexes } from '../../../models/entities/enums/sexes';
 import { WindowService } from 'src/app/core/services/window.service';
 import { NotificatorService } from 'src/app/notification/services/notificator.service';
 import { ConfirmService } from 'src/app/core/services/confirm.service';
+import { TimeTrack } from 'src/app/models/common/time-track';
+import { BaseBioBlock } from 'src/app/models/entities/base-bio-block';
 
 @Component({
   selector: 'pkdd-person-edit',
@@ -77,5 +79,49 @@ export class PersonEditComponent implements OnInit {
       successMessage: `Персона ${this.person.name} успешно удалена.`
     });
     await this.router.navigateByUrl('/persons');
+  }
+
+  public async copy() {
+    const baseBioBlock = new BaseBioBlock({
+      id: 0,
+      personId: 0,
+      isDeleted: false,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date),
+    }, []);
+    const abstractPerson = {
+      ...this.person,
+      id: 0,
+      bioBlock: null,
+      name: `${this.person.name} (Копия)`,
+      timeTrack: new TimeTrack(new Date(), new Date(), new Date()),
+      views: 0,
+      isPublished: false,
+    };
+    const personToAdd = new Person(abstractPerson, baseBioBlock);
+    const clonedPerson = await this.storage.addPerson(personToAdd);
+    console.log(clonedPerson, clonedPerson.bioBlock);
+    const cloning = this.cloneBlocks(this.contentBlocks, clonedPerson);
+    await this.notificator.trackPromise(cloning, {
+      showProgress: true,
+      successMessage: `Песрона ${clonedPerson.name} была успешно скопирована.`
+    });
+    await this.router.navigateByUrl(`/`, { skipLocationChange: true });
+    await this.router.navigateByUrl(`/persons/${clonedPerson.id}/edit`);
+  }
+
+  private async cloneBlocks(blocks: ContentBlock[], person: Person) {
+    for (const block of blocks) {
+      const newBlock = this.factory.createNewContentBlock(`${blocks.length}/`, person.bioBlock.id);
+      newBlock.comment = block.comment;
+      newBlock.content = block.content;
+      newBlock.order = block.order;
+      newBlock.subtitle = block.subtitle;
+      newBlock.type = block.type;
+
+      await this.storage.addContentBlock(person.bioBlock.id, newBlock);
+      if (block.subBlocks.length) {
+        await this.cloneBlocks(block.subBlocks, person);
+      }
+    }
   }
 }

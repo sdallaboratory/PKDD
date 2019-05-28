@@ -13,12 +13,12 @@ export const environment: Configuration = {
     new CssBreakpoint(CssBreakpoints.tablet, 601, 900),
     new CssBreakpoint(CssBreakpoints.pc, 901, Infinity)
   ],
-  version: 'v.0.0',
+  version: 'beta v2.0',
   developers: 'Батин, Соловьев & Гончаров',
   owners: 'МГТУ им Н.Э. Баумана и РАНХиГС',
   productName: 'ПКДД',
   backendOrigins: [''],
-  mmpiResultMaxValue: 120,
+  mmpiResultMaxValue: 100,
 };
 
 /*

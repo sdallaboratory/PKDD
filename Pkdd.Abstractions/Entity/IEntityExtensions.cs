@@ -26,12 +26,5 @@ namespace Pkdd.Abstractions.Entity
             entity.TimeTrack.Updated = DateTime.Now;
             return entity;
         }
-
-        public static TEntity MarkRestored<TEntity>(this TEntity entity) where TEntity : IEntity<TEntity>
-        {
-            entity.IsDeleted = false;
-            entity.TimeTrack.Updated = DateTime.Now;
-            return entity;
-        }
     }
 }
