@@ -18,7 +18,7 @@ export const environment: Configuration = {
   owners: 'МГТУ им Н.Э. Баумана и РАНХиГС',
   productName: 'ПКДД',
   backendOrigins: [''],
-  mmpiResultMaxValue: 120,
+  mmpiResultMaxValue: 100,
 };
 
 /*

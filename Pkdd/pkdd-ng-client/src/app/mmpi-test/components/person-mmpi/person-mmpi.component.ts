@@ -69,7 +69,8 @@ export class PersonMmpiComponent implements OnInit {
           backgroundColor: 'purple',
           borderColor: 'purple',
           pointHoverBackgroundColor: 'yellow',
-          pointHoverBorderWidth: 3
+          pointHoverBorderWidth: 3,
+          lineTension: 0,
         }]
       },
       options: {

@@ -85,6 +85,7 @@ export class TotalPlot extends MmpiPlot {
                     pointBorderWidth: 0,
                     pointBackgroundColor: 'transparent',
                     pointBorderColor: 'transparent',
+                    lineTension: 0,
                     // backgroundColor: this.dataset.backgroundColor,
                 };
             }

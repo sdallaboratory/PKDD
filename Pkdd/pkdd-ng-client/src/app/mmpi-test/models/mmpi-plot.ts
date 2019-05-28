@@ -48,6 +48,7 @@ export abstract class MmpiPlot {
     }
 
     public getDatasets(results: TestResult[]): ChartDataSets[] {
+        this.dataset.lineTension = 0;
         this.dataset.hidden = this.hidden;
         this.dataset.borderWidth = this.borderWidth;
         this.dataset.borderColor = this.color;

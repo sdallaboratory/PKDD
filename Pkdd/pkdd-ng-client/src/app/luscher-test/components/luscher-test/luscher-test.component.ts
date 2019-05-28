@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { LuscherResult, ColorName } from 'src/app/models/persons/results/luscher-result';
 import { colors } from '../../data/colors';
+import { Person } from 'src/app/models/entities/person';
 
 @Component({
   selector: 'pkdd-luscher-test',
@@ -8,6 +9,9 @@ import { colors } from '../../data/colors';
   styleUrls: ['./luscher-test.component.scss']
 })
 export class LuscherTestComponent implements OnInit {
+
+  @Input()
+  public person: Person;
 
   @Output()
   public readonly complete = new EventEmitter<LuscherResult>();
