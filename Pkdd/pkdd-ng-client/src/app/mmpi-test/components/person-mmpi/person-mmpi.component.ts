@@ -73,6 +73,7 @@ export class PersonMmpiComponent implements OnInit {
         }]
       },
       options: {
+        bezierCurve: false,
         maintainAspectRatio: false,
         layout: {
           padding: 15

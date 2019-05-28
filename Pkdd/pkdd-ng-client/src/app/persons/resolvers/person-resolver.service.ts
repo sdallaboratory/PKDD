@@ -20,7 +20,6 @@ export class PersonResolverService implements Resolve<PersonResolverModel> {
     id = id === 0 ? +route.paramMap.get('id') : id;
     const person = await this._storage.getPerson(id);
     const blocks = await this._storage.getContentBlocks(person.bioBlock.id);
-    console.log('Person resolved', person);
     return { person: person, contentBlocks: blocks.entity };
   }
 }

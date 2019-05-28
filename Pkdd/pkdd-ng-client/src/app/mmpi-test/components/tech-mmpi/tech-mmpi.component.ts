@@ -72,6 +72,7 @@ export class TechMmpiComponent implements OnInit, OnDestroy {
         datasets: []
       },
       options: {
+        bezierCurve: false,
         legend: {
           display: false,
         },

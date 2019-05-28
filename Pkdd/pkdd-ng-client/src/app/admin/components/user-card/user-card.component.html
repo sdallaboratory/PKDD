@@ -12,13 +12,13 @@
   <div class="chips-wrapper">
     <mat-chip-list [multiple]="true" [disabled]="user.isBaseUser">
       <mat-chip [color]="'warn'" [selected]="isInRole('admin')" (click)="addOrRemoveRole('admin')">
-        Админ
+        {{ 'admin' | role }}
       </mat-chip>
       <mat-chip [color]="'accent'" [selected]="isInRole('tech')" (click)="addOrRemoveRole('tech')">
-        Технолог
+        {{ 'tech' | role }}
       </mat-chip>
       <mat-chip [color]="'primary'" [selected]="isInRole('expert')" (click)="addOrRemoveRole('expert')">
-        Эксперт
+        {{ 'expert' | role }}
       </mat-chip>
     </mat-chip-list>
   </div>

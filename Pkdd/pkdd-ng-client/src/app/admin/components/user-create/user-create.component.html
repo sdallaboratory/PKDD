@@ -14,13 +14,13 @@
   </mat-form-field>
   <mat-chip-list [multiple]="true">
     <mat-chip [color]="'warn'" [selected]="isInRole('admin')" (click)="onRoleAction('admin')">
-      Админ
+      {{ 'admin' | role }}
     </mat-chip>
     <mat-chip [color]="'accent'" [selected]="isInRole('tech')" (click)="onRoleAction('tech')">
-      Технолог
+      {{ 'tech' | role }}
     </mat-chip>
     <mat-chip [color]="'primary'" [selected]="isInRole('expert')" (click)="onRoleAction('expert')">
-      Эксперт
+      {{ 'expert' | role }}
     </mat-chip>
   </mat-chip-list>
   <mat-card-actions>
