@@ -94,14 +94,10 @@ namespace Pkdd
                 {
                     Console.WriteLine("Connecting to development Angular CLI server...");
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    //spa.Options.SourcePath = "pkdd-ng-client";
+                    // spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-
-            //spa.Options.SourcePath = "pkdd-ng-client";
-            //if (env.IsDevelopment())
-            //{
-            //    spa.UseAngularCliServer(npmScript: "start");
-            //}
         }
 
     }

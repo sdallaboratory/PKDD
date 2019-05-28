@@ -9,6 +9,7 @@ namespace Pkdd.Abstractions.Entity
         public static TEntity MarkCreated<TEntity>(this TEntity entity) where TEntity : IEntity<TEntity>
         {
             entity.TimeTrack.Created = DateTime.Now;
+            entity.TimeTrack.Updated = DateTime.Now;
             entity.IsDeleted = false;
             return entity;
         }
@@ -21,8 +22,8 @@ namespace Pkdd.Abstractions.Entity
 
         public static TEntity MarkDeleted<TEntity>(this TEntity entity) where TEntity : IEntity<TEntity>
         {
-            entity.TimeTrack.Deleted = DateTime.Now;
             entity.IsDeleted = true;
+            entity.TimeTrack.Updated = DateTime.Now;
             return entity;
         }
     }
