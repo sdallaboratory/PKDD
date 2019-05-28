@@ -80,10 +80,6 @@ namespace Pkdd.Repositories
 
         public async Task<List<Person>> GetAllPersons()
         {
-            var delPers = _dbContext.Persons.Where(p => p.Name.Contains("Новая "));
-            _dbContext.RemoveRange(delPers);
-            _dbContext.SaveChanges();
-
             try
             {
                 var persons = _dbContext.Persons.Include(p => p.BioBlock)
