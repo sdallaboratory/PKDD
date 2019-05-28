@@ -78,4 +78,13 @@ export class PersonEditComponent implements OnInit {
     });
     await this.router.navigateByUrl('/persons');
   }
+
+  public async copy() {
+    // TODO: Implement copying persons
+    const personToAdd = { ...this.person, id: 0 };
+    // personToAdd.forEach(element => {
+
+    // });
+    this.storage.addPerson()
+  }
 }
