@@ -61,17 +61,15 @@ export class ServerDataStorageService {
   }
 
   public async addPerson(person?: Person): Promise<Person> {
-    let result = null;
-    const newPerson = !isNullOrUndefined(person) ? person : this._factory.createNewPerson();
     try {
+      const newPerson = !isNullOrUndefined(person) ? person : this._factory.createNewPerson();
       const body = this._factory.createPersonBackend(newPerson);
-      result = this._factory.createPerson(await this.makeAction(ActionType.Post, EntityType.Person, body));
-      result.name = `Новая персона ${result.id}`;
+      const result = this._factory.createPerson(await this.makeAction(ActionType.Post, EntityType.Person, body));
       this._persons.push(result);
+      return result;
     } catch {
-
+      console.error('Person was not added.')
     }
-    return result;
   }
 
   public async deletePerson(personId: number) {

@@ -64,7 +64,10 @@ namespace Pkdd.Repositories
                 var entity = _dbContext.Persons.Add(person);
                 await _dbContext.SaveChangesAsync();
                 result = entity.Entity;
-                result.Name = $"Новая персона {result.Id}";
+                if(string.IsNullOrWhiteSpace(person.Name))
+                {
+                    result.Name = $"Новая персона {result.Id}";
+                }
                 _dbContext.Update(result);
                 await _dbContext.SaveChangesAsync();
                 return result;
@@ -77,12 +80,17 @@ namespace Pkdd.Repositories
 
         public async Task<List<Person>> GetAllPersons()
         {
+            var delPers = _dbContext.Persons.Where(p => p.Name.Contains("Новая "));
+            _dbContext.RemoveRange(delPers);
+            _dbContext.SaveChanges();
+
             try
             {
                 var persons = _dbContext.Persons.Include(p => p.BioBlock)
                     .OrderByDescending(p => p.TimeTrack.Created)
                     .OrderByDescending(p => p.Priority)
                     .ToList() ?? new List<Person>();
+
                 foreach (var person in persons)
                 {
                     person.ResultsCount = _dbContext.TestResults.Where(tr => tr.PersonId == person.Id).Where(tr => tr.CompleteAny).Count();

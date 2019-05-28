@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, RunGuardsAndResolvers } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { PersonsListComponent } from './components/persons-list/persons-list.component';
 import { PersonDetailsPageComponent } from './components/person-details-page/person-details-page.component';
