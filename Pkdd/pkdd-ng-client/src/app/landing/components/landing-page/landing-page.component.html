@@ -2,9 +2,14 @@
 
   <h1>ПКДД</h1>
   <h2>Программный комплекс дистантной диагностики</h2>
-  <p>
+  <p *ngIf="!user">
     <a routerLink="/auth/"><button mat-raised-button>Авторизация</button></a>
     <a routerLink="/auth/sign-up"><button mat-raised-button>Регистрация</button></a>
+  </p>
+  <p *ngIf="user">
+    <a routerLink="/persons"><button mat-raised-button>
+        Перейти к списку персон
+      </button></a>
   </p>
   <p>
 

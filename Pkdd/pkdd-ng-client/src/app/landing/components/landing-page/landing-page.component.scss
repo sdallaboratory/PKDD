@@ -1,8 +1,14 @@
 :host {
     display: flex;
     flex-direction: vertical;
-    margin: 20px;
+    padding: 20px;
+    overflow-y: auto;
+    justify-content: center;
+    height: 100%;
     .wrapper {
         max-width: 800px;
+        button {
+            margin: 10px 10px 10px 0;
+        }
     }
 }
