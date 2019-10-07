@@ -13,7 +13,7 @@ export class MenuItemComponent implements OnInit {
   public menuItem: MenuItem;
 
   @Input()
-  public mode: CssBreakpoints = CssBreakpoints.pc;
+  public mode: CssBreakpoints = 'pc';
 
   constructor() { }
 

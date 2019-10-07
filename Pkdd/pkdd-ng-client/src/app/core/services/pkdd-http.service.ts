@@ -17,7 +17,9 @@ export class PkddHttpService {
     private readonly backend: BackendCheckerService
   ) {
     if (!env.config.production) {
-      this.options = { withCredentials: true, headers: { 'crossDomain': 'true' } };
+      this.options = {
+        withCredentials: true, headers: {},
+      };
     }
   }
 

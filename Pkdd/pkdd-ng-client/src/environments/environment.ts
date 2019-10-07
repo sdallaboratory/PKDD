@@ -9,23 +9,14 @@ import { CssBreakpoints } from '../app/models/core/css-breakpoints.enum';
 export const environment: Configuration = {
   production: false,
   cssBreakpoints: [
-    new CssBreakpoint(CssBreakpoints.mobile, 0, 600),
-    new CssBreakpoint(CssBreakpoints.tablet, 601, 900),
-    new CssBreakpoint(CssBreakpoints.pc, 901, Infinity)
+    new CssBreakpoint('mobile', 0, 600),
+    new CssBreakpoint('tablet', 601, 900),
+    new CssBreakpoint('pc', 901, Infinity)
   ],
   version: 'beta v2.0',
   developers: 'Батин, Соловьев & Гончаров',
   owners: 'МГТУ им Н.Э. Баумана и РАНХиГС',
   productName: 'ПКДД',
-  backendOrigins: [''],
+  backendOrigins: ['', 'http://31.31.196.160/', 'http://пкдд.рф/', 'https://localhost:5001/'],
   mmpiResultMaxValue: 100,
 };
-
-/*
- * In development mode, for easier debugging, you can ignore zone related error
- * stack frames such as `zone.run`/`zoneDelegate.invokeTask` by importing the
- * below file. Don't forget to comment it out in production mode
- * because it will have a performance impact when errors are thrown
- */
-
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

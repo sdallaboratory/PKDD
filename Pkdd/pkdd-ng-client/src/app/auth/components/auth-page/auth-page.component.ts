@@ -17,7 +17,7 @@ export class AuthPageComponent implements OnInit {
   }
 
   public get isMobile(): boolean {
-    return this.win.currentDeviceType === CssBreakpoints.mobile;
+    return this.win.currentDeviceType === 'mobile';
   }
 
 }

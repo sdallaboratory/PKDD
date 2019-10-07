@@ -20,6 +20,7 @@ import { HelpModule } from '../help/help.module';
 import { NotificationModule } from '../notification/notification.module';
 import { RoutingTrackerService } from './services/routing-tracker.service';
 import { UsersModule } from '../users/users.module';
+import { LandingModule } from '../landing/landing.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UsersModule } from '../users/users.module';
     AdminModule,
     HelpModule,
     UsersModule,
+    LandingModule,
     AppRoutingModule,
     LayoutModule,
   ],
