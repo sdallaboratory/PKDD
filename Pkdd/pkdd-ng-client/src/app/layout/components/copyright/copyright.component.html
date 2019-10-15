@@ -1,7 +1,7 @@
 <div class="wrapper">
-  © {{env.config.productName}}
-  {{env.config.production ? 'prod' : 'dev'}}.<br>
-  Методология: РАНХиГС <br>
-  Веб-сервис: <a href="http://sdal.pw">SDAL (Соловьев, Гончаров, Батин)</a><br>
-  2017-{{currentYear}} {{env.config.version}}
+  © {{env.config.productName}} {{env.config.version}}
+  {{env.config.production ? '' : 'dev'}}<br>
+  Методология: <a href="http://igsu.ranepa.ru/"> ИГСУ РАНХиГС</a><br>
+  Приложение: <a href="http://sdal.pw">SDAL (на базе МГТУ)</a><br>
+  2017-{{currentYear}}
 </div>

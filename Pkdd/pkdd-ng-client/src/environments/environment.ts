@@ -13,7 +13,7 @@ export const environment: Configuration = {
     new CssBreakpoint('tablet', 601, 900),
     new CssBreakpoint('pc', 901, Infinity)
   ],
-  version: 'beta v2.0',
+  version: 'beta v2.1',
   developers: 'Батин, Соловьев & Гончаров',
   owners: 'МГТУ им Н.Э. Баумана и РАНХиГС',
   productName: 'ПКДД',

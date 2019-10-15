@@ -9,7 +9,7 @@ export const environment: Configuration = {
     new CssBreakpoint('tablet', 601, 900),
     new CssBreakpoint('pc', 901, Infinity)
   ],
-  version: 'beta v2.1',
+  version: 'beta v2.2',
   developers: 'SDAL (sdal.pw)',
   owners: 'МГТУ им Н.Э. Баумана и РАНХиГС',
   productName: 'ПКДД',
