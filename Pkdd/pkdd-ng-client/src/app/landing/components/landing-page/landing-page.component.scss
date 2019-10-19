@@ -8,9 +8,14 @@
         max-width: 1500px;
         display: flex;
         flex-direction: column;
+        background: white;
+
         img {
             // display: block;
             width: 100%;
+            &:not(:last-child) {
+                margin-bottom: 5vh;
+            }
         }
         button {
             margin: 10px 10px 10px 0;
