@@ -1,6 +1,5 @@
 :host {
     display: flex;
-    // padding: 20px;
     overflow-y: auto;
     justify-content: center;
     height: 100%;
@@ -8,14 +7,18 @@
         max-width: 1500px;
         display: flex;
         flex-direction: column;
-        background: white;
-
-        img {
-            // display: block;
-            width: 100%;
-            &:not(:last-child) {
+        div.slide {
+            background: white;
+            img {
+                width: 100%;
                 margin-bottom: 5vh;
             }
+            img:last-child {
+                margin: 0;
+            }
+        }
+        .actions {
+            padding: 20px;
         }
         button {
             margin: 10px 10px 10px 0;

@@ -2,17 +2,8 @@
 
   <h1>ПКДД</h1>
   <h2>Программный комплекс дистантной диагностики</h2>
-  <p *ngIf="!user">
-    <a routerLink="/auth/"><button mat-raised-button>Авторизация</button></a>
-    <a routerLink="/auth/sign-up"><button mat-raised-button>Регистрация</button></a>
-  </p>
-  <p *ngIf="user">
-    <a routerLink="/persons"><button mat-raised-button>
-        Перейти к списку персон
-      </button></a>
-  </p>
-  <p>
 
+  <p>
     ПКДД (программный комплекс дистантной диагностики) – инструмент специализированной сетевой экспертизы. В данный
     момент
     в
@@ -73,40 +64,63 @@
   </p>
 </div> -->
 <div class="wrapper">
-  <div>
+  <div class="actions">
+    <p *ngIf="!user">
+      <a routerLink="/auth/"><button mat-raised-button>Авторизация</button></a>
+      <a routerLink="/auth/sign-up"><button mat-raised-button>Регистрация</button></a>
+    </p>
+    <p *ngIf="user">
+      <a routerLink="/persons"><button mat-raised-button>
+          Перейти к списку персон
+        </button></a>
+    </p>
+  </div>
+  <div class="slide">
     <img src="/assets/slides/slide1.jpg" alt="">
   </div>
-  <div>
+
+  <div class="slide">
     <img src="/assets/slides/slide2.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide3.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide4.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide5.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide6.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide7.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide8.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide9.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide10.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide11.jpg" alt="">
   </div>
-  <div>
+  <div class="slide">
     <img src="/assets/slides/slide12.jpg" alt="">
+  </div>
+  <div class="actions">
+    <p *ngIf="!user">
+      <a routerLink="/auth/"><button mat-raised-button>Авторизация</button></a>
+      <a routerLink="/auth/sign-up"><button mat-raised-button>Регистрация</button></a>
+    </p>
+    <p *ngIf="user">
+      <a routerLink="/persons"><button mat-raised-button>
+          Перейти к списку персон
+        </button></a>
+    </p>
   </div>
 </div>
