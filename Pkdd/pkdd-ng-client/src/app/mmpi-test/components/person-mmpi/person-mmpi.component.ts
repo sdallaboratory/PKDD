@@ -20,6 +20,8 @@ import { Person } from 'src/app/models/entities/person';
 })
 export class PersonMmpiComponent implements OnInit {
 
+  public saving = false;
+
   public person: Person;
 
   public result: TestResult;
@@ -153,9 +155,14 @@ export class PersonMmpiComponent implements OnInit {
   }
 
   public async onSave() {
-    this.result.mmpiComplete = true;
-    this.result = await this.provider.send(this.result);
-    this.notificator.success('Ваша оценка успешно сохранена');
+    try {
+      this.saving = true;
+      this.result.mmpiComplete = true;
+      this.result = await this.provider.send(this.result);
+      this.notificator.success('Ваша оценка успешно сохранена');
+    } finally {
+      this.saving = false;
+    }
   }
 
   onValueCahnged(key: string) {

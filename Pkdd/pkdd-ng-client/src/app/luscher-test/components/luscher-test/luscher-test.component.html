@@ -7,7 +7,7 @@
     Выберите цвет, который на ваш взгляд больше подходит оцениваемой персоне:
   </p>
   <div>
-    <img *ngIf="person.photoUrl" [src]="person.photoUrl">
+    <img class="person-photo" *ngIf="person.photoUrl" [src]="person.photoUrl">
   </div>
   <div class="colors">
     <div *ngFor="let color of testSequence[index]">

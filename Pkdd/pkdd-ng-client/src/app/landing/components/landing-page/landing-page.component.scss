@@ -7,15 +7,16 @@
         max-width: 1500px;
         display: flex;
         flex-direction: column;
-        div.slide {
+        .slide {
             background: white;
+            padding-bottom: 5vh;
             img {
                 width: 100%;
-                margin-bottom: 5vh;
             }
-            img:last-child {
-                margin: 0;
-            }
+        }
+        .slide:last-child {
+            background: yellow;
+            padding: 0;
         }
         .actions {
             padding: 20px;
