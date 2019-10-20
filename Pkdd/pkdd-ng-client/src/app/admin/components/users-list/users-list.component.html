@@ -1,4 +1,4 @@
-<pkdd-search (queryChange)="onQueryChange($event)"></pkdd-search>
+<pkdd-search (queryChange)="queryChange.next($event)"></pkdd-search>
 <ng-container class="user-create-wrapper" *ngIf="query == ''">
     <pkdd-user-create (userCreated)="update()"></pkdd-user-create>
 </ng-container>

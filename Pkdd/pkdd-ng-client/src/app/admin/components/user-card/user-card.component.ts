@@ -20,17 +20,26 @@ export class UserCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  public async addOrRemoveRole(role: string) {
-    if (!this.user.isBaseUser) {
+  public roleUpdating = false;
+
+  public async addOrRemoveRole(role: PkddRoles) {
+    if (this.user.isBaseUser) {
+      return;
+    }
+    try {
+      this.roleUpdating = true;
       const roles = this.user.roles.map(r => r.toString());
       const isInRole = roles.includes(role);
       const result = await this.repos.addOrRemoveRole(this.user.id, isInRole, role);
       if (result && isInRole) {
-        roles.splice(roles.indexOf(role), 1);
+        this.user.roles.splice(roles.indexOf(role), 1);
       } else if (result && !isInRole) {
-        roles.push(role);
+        this.user.roles.push(role);
       }
+    } finally {
+      this.roleUpdating = false;
     }
+
   }
 
   public async ToggleBanned() {

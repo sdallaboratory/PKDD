@@ -3,8 +3,9 @@ import { PkddUser } from '../../../models/auth/pkdd-user';
 import { UserRepositoryService } from '../../services/user-repository.service';
 import { SearchService } from 'src/app/search/services/search.service';
 import { UserCategory } from '../../models/user-category';
-import { PkddRoles } from 'src/app/models/auth/pkdd-roles.enum';
 import { NotificatorService } from 'src/app/notification/services/notificator.service';
+import { debounceTime, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'pkdd-users-list',
@@ -35,6 +36,10 @@ export class UsersListComponent implements OnInit {
     this.notificator.trackPromise(usersPromise, { showProgress: true });
     this.users = await usersPromise;
     this.update();
+    this.queryChange.pipe(
+      debounceTime(300),
+      tap(() => console.log('12')),
+    ).subscribe(this.onQueryChange.bind(this));
     this.isLoading = false;
   }
 
@@ -62,6 +67,10 @@ export class UsersListComponent implements OnInit {
       },
     ];
   }
+
+  public queryChange = new Subject();
+
+
 
   public async onQueryChange(newQuery: string) {
     this.query = newQuery;
